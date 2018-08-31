@@ -13,7 +13,6 @@
         <div class="clearfix"></div>
     </div>
 </div> -->
-
 <div class="panel prof" style="box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);border-radius: 0;border-top-right-radius: 8px;border-bottom-right-radius: 8px;width: 290px;margin-bottom: 35px;border: none;">
     <img class="cover @if($user->sex == 1){{ 'female' }}@endif" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample87.jpg"/>
     <figcaption>
