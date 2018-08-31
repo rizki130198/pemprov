@@ -69,7 +69,7 @@ class User extends Authenticatable
 
     public function getPhoto($w = null, $h = null){
         if (!empty($this->profile_path)){
-            $path = 'public/uploads/profile_photos/'.$this->profile_path;
+            $path = 'storage/uploads/profile_photos/'.$this->profile_path;
         }else {
             $path = "images/profile-picture.png";
         }

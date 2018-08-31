@@ -10,10 +10,9 @@ $(function() {
     fetchPeopleList();
     setInterval(function(){
 
-        fetchPeopleList();
         fetchNewMessages();
 
-    }, 1000);
+    }, 10000);
     setInterval(function(){
 
         var id = $('.chat input[name=chat_friend_id]').val();
@@ -52,7 +51,6 @@ function fetchPeopleList(){
     $.ajax({
         url: BASE_URL + '/direct-messages/people-list',
         type: "POST",
-        timeout: 5000,
         contentType: false,
         cache: false,
         processData: false,
