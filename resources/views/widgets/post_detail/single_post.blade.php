@@ -10,12 +10,12 @@
             </ul>
         </div>
         @endif
-        <div class="panel-google-plus-tags">
+<!--         <div class="panel-google-plus-tags">
             <ul>
                 <li>#Millennials</li>
                 <li>#Generation</li>
             </ul>
-        </div>
+        </div> -->
         <div class="panel-heading" style="background:none;">
             <img class="img-circle pull-left" src="{{ $post->user->getPhoto(60,60) }}" alt="{{ $post->user->name }}" />
             <a href="{{ url('/'.$post->user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->user->name }}</h3></a>
@@ -155,28 +155,3 @@
         </div>
     </div>
 </div> -->
-<script type="text/javascript">
-    $(function () {
-     $('.panel-google-plus > .panel-footer > .input-placeholder, .panel-google-plus > .panel-google-plus-comment > .panel-google-plus-textarea > button[type="reset"]').on('click', function(event) {
-        var $panel = $(this).closest('.panel-google-plus');
-        $comment = $panel.find('.panel-google-plus-comment');
-
-        $comment.find('.btn:first-child').addClass('disabled');
-        $comment.find('textarea').val('');
-
-        $panel.toggleClass('panel-google-plus-show-comment');
-
-        if ($panel.hasClass('panel-google-plus-show-comment')) {
-            $comment.find('textarea').focus();
-        }
-    });
-     $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
-        var $comment = $(this).closest('.panel-google-plus-comment');
-
-        $comment.find('button[type="submit"]').addClass('disabled');
-        if ($(this).val().length >= 1) {
-            $comment.find('button[type="submit"]').removeClass('disabled');
-        }
-    });
- });
-</script>

@@ -42,10 +42,24 @@ Route::get('/post/{id}', 'PostsController@single');
 Route::get('/search', 'HomeController@search');
 
 
+//events
+Route::get('/events', 'EventController@index');
+Route::get('/events/create', 'EventController@save');
+Route::post('/events/delete', 'EventController@delete');
+Route::post('/events/comment', 'EventController@comment');
+Route::post('/events/comments/delete', 'EventController@deleteComment');
+Route::post('/events/like', 'EventController@like');
+Route::post('/events/likes', 'EventController@likes');
 // Groups
 Route::get('/groups', 'GroupController@index');
 Route::get('/group/{id}', 'GroupController@group');
 Route::get('/group/{id}/stats', 'GroupController@stats');
+Route::post('/group/new', 'GroupController@create');
+Route::post('/group/delete', 'GroupController@delete');
+Route::post('/group/like', 'GroupController@like');
+Route::post('/group/likes', 'GroupController@likes');
+Route::post('/group/comment', 'GroupController@comment');
+Route::post('/group/comments/delete', 'GroupController@deleteComment');
 
 
 // Follow

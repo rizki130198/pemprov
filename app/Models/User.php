@@ -62,6 +62,13 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Post', 'user_id', 'id');
     }
 
+    public function event(){
+        return $this->hasMany('App\Models\Event', 'user_id', 'id_users');
+    }
+    public function grupcomment(){
+        return $this->hasMany('App\Models\GrupComment', 'comment_grup_user_id', 'id');
+    }
+
     public function has($Model){
         if (count($this->$Model) > 0) return true;
         return false;
