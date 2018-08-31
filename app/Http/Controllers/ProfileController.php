@@ -75,6 +75,8 @@ class ProfileController extends Controller
         
         $my_profile = $this->my_profile;
 
+        $user_list = $user->messagePeopleList();
+
         $wall = [
             'new_post_group_id' => 0
         ];
@@ -84,7 +86,6 @@ class ProfileController extends Controller
         $hobbies = Hobby::all();
         $relationship = $user->relatives()->with('relative')->where('allow', 1)->get();
         $relationship2 = $user->relatives2()->with('main')->where('allow', 1)->get();
-
 
         return view('profile.index', compact('user', 'user_list', 'my_profile', 'wall', 'can_see', 'hobbies', 'relationship', 'relationship2'));
     }
