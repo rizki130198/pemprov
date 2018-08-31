@@ -25,91 +25,232 @@
     @yield('header')
 </head>
 <body>
-<div id="app">
-    <nav class="navbar navbar-default navbar-static-top navbar-around">
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 10px;" />
-                </a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    &nbsp;
-                </ul>
-
-                <div class="navbar-form navbar-left">
-                    <form id="custom-search-input" method="get" action="{{ url('/search') }}">
-                        <div class="input-group col-md-12">
-                            <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
-                            <span class="input-group-btn">
-                                <button class="btn btn-info btn-lg" type="button">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
-                            </span>
+    <div id="app">
+        <nav class="navbar navbar-default flex-nav navbar-static-top navbar-around" role="navigation">
+            <div class="side-nav" id="side-nav">
+                <div class="overlay"></div>
+                <!-- <div class="background-blur"></div> -->
+                <style type="text/css">
+                .faq ul.timeline li.timeline-inverted:target {
+                    display:block !important;
+                }
+            </style>
+            <div class="navigation" style="text-align: center;">
+                <div class="content-navigation" style="padding-left: 20px;padding-right: 20px;">
+                    <center><img src="{{ Auth::user()->getPhoto() }}" width="100px;" style="border-radius:50%;    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);padding: 7px;border: 2px solid #e8b563;margin-top: 47px;"></center>
+                    <p class="text-sign">SIGN IN</p>
+                    <ul class="timeline" style="z-index: 2;">
+                        <li>
+                            <div class="timeline-badge primary">
+                                <div class="tl-circ"></div>
+                            </div>
+                            <div class="timeline-panel">
+                                <a href="">
+                                    <div class="timeline-body">
+                                        <p style="color: #fff;">HOME</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <a data-toggle="collapse" href="#notifications"><div class="timeline-badge primary">
+                                <div class="tl-circ"></div>
+                            </a>
                         </div>
-                    </form>
-                </div>
-
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    @include('widgets.notifications')
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle parent" data-toggle="dropdown" role="button" aria-expanded="false">
-
-                            <img src="{{ Auth::user()->getPhoto() }}" alt="" />
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
-
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="{{ url('/'.Auth::user()->username) }}">
-                                    <i class="fa fa-user"></i> My Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('/settings') }}">
-                                    <i class="fa fa-cog"></i> Settings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-sign-out"></i> Logout
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
-                        </ul>
+                        <div class="timeline-panel">
+                            <div class="timeline-body">
+                                <p>Notifications</p>
+                                @if(count(sHelper::notifications()) > 0)
+                                <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count(sHelper::notifications()) }}</span>
+                                @endif
+                            </div>
+                        </div>
                     </li>
-                </ul>
-            </div>
+                    <li id="notifications" class="timeline-inverted panel-collapse collapse">
+                        <div class="timeline-panel">
+                            <div class="timeline-body">
+                                @if(count(sHelper::notifications()) == 0)
+                                <p>There is no notification.</p>
+                                @else
+
+                                @foreach(sHelper::notifications() as $notification)
+                                <a href="{{ $notification['url'] }}">
+                                    <i class="fa {{ $notification['icon'] }}"></i> {{ $notification['text'] }}
+                                </a>
+                                @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" href="#messages"><div class="timeline-badge primary">
+                            <div class="tl-circ"></div>
+                        </a>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-body">
+                            <p>Messages</p>
+                            @if (count($user_list) > 0)
+                            <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count($user_list) }}</span>
+                            @endif
+                        </div>
+                    </div>
+                </li>
+                <!-- <li id="messages" class="timeline-inverted panel-collapse collapse">
+                    <div class="timeline-panel">
+                        <div class="timeline-body">
+                            @if(count($user_list) == 0)
+                            <p><a href="{{ url('/direct-messages') }}" style="color: #fff;">See all messages</a></p>
+                            @endif
+                        </div>
+                    </div>
+                </li> -->
+                <li class="clearfix" style="float: none;"></li>
+            </ul>
+
+            @if(count($user_list) == 0)
+            <a href="{{ url('/direct-messages') }}">
+                <div id="messages" class="panel panel-default panel-collapse collapse">
+                    <div class="panel-body">
+                        See all messages
+                    </div>
+                </div>    
+            </a>
+            @else
+            @foreach($user_list as $friend)
+            <a href="{{ url('/direct-messages/show/'. $friend['user']->id) }}" class="friend">
+                <div id="messages" class="panel panel-default panel-collapse collapse" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="float: left;font:inherit;color: #111;">Messages</h3>
+                        <span style="float: right;color: #111;">{{ $friend['message']->created_at->diffForHumans() }}</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="img-circle" src="{{ $friend['user']->getPhoto(40, 40) }}">
+                                </a>
+                            </div>
+                            <div class="media-body" style="color: #111;font:inherit;">
+                                <h4 class="media-heading" style="float: left;"><strong>{{ $friend['user']->name }}</strong></h4>
+                                <br>
+                                <br>
+                                <p style="float: left;margin-top: -18px;">{{ str_limit($friend['message']->message, 20) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            @endforeach
+            @endif
+            <i class="fa fa-times-circle" data-toggle="collapse" data-target="#side-nav" style="font-size: 16px;margin-top:18%;"></i>
+            <p data-toggle="collapse" data-target="#side-nav" style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
         </div>
-    </nav>
+    </div>
+</div>
+<div class="container">
+    <div class="navbar-header">
+        <button type="button" style="padding: 14px 14px;" class="navbar-toggle toggle-side-nav" data-toggle="collapse" data-target="#side-nav">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <button type="button" class="navbar-toggle collapsed" style="padding-left: 12px;float:left;border: none;margin-top: 8px;" data-toggle="collapse" data-target="#search">
+            <span class="fa fa-search" style="color: #3d464d;border: none;cursor: pointer;font-size:25px;"></span>
+        </button>
 
-    <div class="main-content">
-        @yield('content')
+        <a class="navbar-brand" href="{{ url('/') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />
+        </a>
     </div>
 
-    <div class="container">
-        @include('widgets.footer')
-    </div>
+    <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <!-- Left Side Of Navbar -->
+        <ul class="nav navbar-nav">
+            &nbsp;
+        </ul>
+
+        <div class="navbar-form navbar-left">
+            <form id="custom-search-input" method="get" action="{{ url('/search') }}">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- Right Side Of Navbar -->
+        <ul class="nav navbar-nav navbar-right">
+            @include('widgets.notifications')
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle parent" data-toggle="dropdown" role="button" aria-expanded="false">
+
+                    <img src="{{ Auth::user()->getPhoto() }}" alt="" />
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="{{ url('/'.Auth::user()->username) }}">
+                            <i class="fa fa-user"></i> My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/settings') }}">
+                            <i class="fa fa-cog"></i> Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        <i class="fa fa-sign-out"></i> Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</div>
+<style type="text/css">
+@media(max-width: 768px){
+    .hide-search{
+        display: block !important; 
+    }
+}
+</style>
+<div class="collapse navbar-collapse hide-search" id="search" style="display: none !important;">
+    <form id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">
+        <div class="input-group col-md-12">
+            <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
+            <span class="input-group-btn">
+                <button class="btn btn-info btn-lg" type="button">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>
+</nav>
+
+<div class="main-content">
+    @yield('content')
+</div>
+
+<div class="container">
+    @include('widgets.footer')
+</div>
 </div>
 <div class="loading-page">
     <img src="{{ asset('images/rolling.gif') }}" alt="">
@@ -142,6 +283,22 @@
             autoFindLocation();
 
     @endif
+
+    $('.toggle-side-nav').on('click', function () {
+        var targetId = $(this).data('target'); 
+        var $sidenav;
+        var $overlay;
+
+        if (targetId) {
+            $sidenav = $(targetId);
+            $sidenav.addClass('open');
+
+            $sidenav.find('.overlay').on('click', function () {
+                $sidenav.removeClass('open');
+                $(this).off('click');
+            });
+        }
+    });
 </script>
 </body>
 </html>
