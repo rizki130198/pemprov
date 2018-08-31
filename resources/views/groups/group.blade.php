@@ -11,7 +11,7 @@
 
 
                 <div class="content-page-title">
-                    {{ $group->hobby->name }}
+                    {{ $group->nama_grup }}
                 </div>
 
 
@@ -21,7 +21,6 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-3 pull-right">
                         <div class="hidden-sm hidden-xs">
-                            @include('groups.widgets.count')
                             @include('groups.widgets.people_in')
                         </div>
                     </div>
@@ -43,6 +42,6 @@
 @section('footer')
     <script type="text/javascript">
         WALL_ACTIVE = true;
-        fetchPost(2,0,{{ $group->id }},10,-1,-1,'initialize');
+        fetchPost(2,0,{{ $group->id_grup }},10,-1,-1,'initialize');
     </script>
 @endsection

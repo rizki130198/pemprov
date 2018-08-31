@@ -136,12 +136,6 @@
 <script src="{{ asset('js/wall.js') }}"></script>
 <script src="{{ asset('js/notifications.js') }}"></script>
 @yield('footer')
-<script type="text/javascript">
-    @if(!Auth::user()->has('location'))
 
-            autoFindLocation();
-
-    @endif
-</script>
 </body>
 </html>

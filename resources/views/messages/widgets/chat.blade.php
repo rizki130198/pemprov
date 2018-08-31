@@ -36,12 +36,54 @@
     </div>
 </div>
 <div class="message-write">
-    <form id="form-message-write">
+    <form id="form-message-write" action="javascript:void(0);" method="post" accept-charset="utf-8"  >
         <input type="hidden" name="user_id" value="{{ $friend->id }}">
         @if ($can_send_message)
-            <input class="form-control" rows="1" placeholder="Your message.." onkeyup="sendMessage(event)" style="height: 56px;">
+            <input class="form-control" rows="1" id="pesan" placeholder="Your message.." autocomplete="off" style="height: 56px;">
         @else
-            <div class="alert alert-danter">You can't send new message anymore.</div>
+        <div class="alert alert-danter">You can't send new message anymore.</div>
         @endif
     </form>
 </div>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#form-message-write").submit(function (event) {
+
+        var id = $('#form-message-write input').val();
+        var message = $('#pesan').val();
+
+        if (message.trim() != '') {
+            var data = new FormData();
+            data.append('id', id);
+            data.append('message', message);
+
+
+            $.ajax({
+                url: BASE_URL + '/direct-messages/send',
+                type: "POST",
+                data: data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': CSRF},
+                success: function (response) {
+                    if (response.code == 200) {
+                        $('.dm .chat .message-list .alert').remove();
+                        $('#pesan').val("");
+                        $('.dm .chat .message-list').append(response.html);
+                        $(".dm .chat .message-list").animate({ scrollTop: $('.dm .chat .message-list').prop("scrollHeight")}, 1000);
+                    } else {
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html('Something went wrong!');
+                    }
+                },
+                error: function () {
+                    $('#errorMessageModal').modal('show');
+                    $('#errorMessageModal #errors').html('Something went wrong!');
+                }
+            });
+        }
+      return false;
+  });
+});
+</script>

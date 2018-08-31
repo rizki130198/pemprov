@@ -58,10 +58,39 @@ function removePostImage(){
     resetFile($(form_name + ' .image-input'));
 }
 
+function uploadPostfile(){
+    var form_name = '#form-new-post';
+    $(form_name+' .file-input').click();
+}
+
+function previewPostfile(input){
+    var form_name = '#form-new-post';
+    $(form_name + ' .loading-post').show();
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $(form_name + ' .file-area').attr('src', e.target.result);
+            $(form_name + ' .file-area').show();
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+    $(form_name + ' .loading-post').hide();
+}
+
+function removePostfile(){
+    var form_name = '#form-new-post';
+    $(form_name + ' .file-area img').attr('src', " ");
+    $(form_name + ' .file-area').hide();
+    resetFile($(form_name + ' .file-input'));
+}
+
 function cleanPostForm(){
     var form_name = '#form-new-post';
     $(form_name + ' textarea').val('');
     removePostImage();
+    removePostfile();
 }
 
 function newPost(){
@@ -72,9 +101,13 @@ function newPost(){
     var data = new FormData();
     data.append('data', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
-    var file_inputs = document.querySelectorAll('.image-input');
-    $(file_inputs).each(function(index, input) {
+    var image_inputs = document.querySelectorAll('.image-input');
+    $(image_inputs).each(function(index, input) {
         data.append('image', input.files[0]);
+    });
+    var file_inputs = document.querySelectorAll('.file-input');
+    $(file_inputs).each(function(index, input) {
+        data.append('file', input.files[0]);
     });
 
     $.ajax({
@@ -205,7 +238,7 @@ function deletePost(id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#panel-post-'+id).html("Post deleted!");
+                            $('#panel-post-'+id).html("&nbsp");
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');

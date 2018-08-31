@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Group;
+use App\Models\Grup;
 use App\Models\Hobby;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +21,10 @@ class GroupController extends Controller
 
 
     public function secure($id){
-        $group = Group::find($id);
+        $group = Grup::find($id);
 
         if ($group){
             $this->group = $group;
-
-            if (!Auth::user()->hasHobby($this->group->hobby_id)) return false;
-
             return true;
         }
         return false;
@@ -38,13 +36,10 @@ class GroupController extends Controller
         $user = Auth::user();
 
 
-        $groups = Group::join('user_hobbies', 'user_hobbies.hobby_id', '=', 'groups.hobby_id')
-            ->where('user_hobbies.user_id', $user->id)->select('groups.*');
+        $groups = Grup::join('user_groups', 'user_groups.id_groups', '=', 'grup.id_grup')
+            ->where('user_groups.id_user', $user->id)->select('grup.*');
 
-        $city = $user->location->city;
-
-
-        return view('groups.index', compact('user', 'groups', 'city'));
+        return view('groups.index', compact('user', 'groups'));
     }
 
 
@@ -58,12 +53,11 @@ class GroupController extends Controller
         $group = $this->group;
 
         $wall = [
-            'new_post_group_id' => $group->id
+            'new_post_group_id' => $group->id_group
         ];
 
-        $city = $user->location->city;
 
-        return view('groups.group', compact('user', 'group', 'wall', 'city'));
+        return view('groups.group', compact('user', 'group', 'wall'));
     }
 
 

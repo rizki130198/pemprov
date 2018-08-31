@@ -1,8 +1,7 @@
 <div class="panel panel-default suggested-people">
-    <div class="panel-heading">Suggested in {{ $city->name }}</div>
+    <div class="panel-heading">Suggested People</div>
     <ul class="list-group">
-        @php($i = 0)
-        @foreach(Auth::user()->suggestedPeople(10, $city->id, $group->hobby->id) as $user)
+        @foreach(Auth::user()->suggestedPeople(10) as $user)
             <li class="list-group-item">
                 <div class="col-xs-12 col-sm-3">
                     <a href="{{ url('/'.$user->username) }}">
@@ -19,12 +18,6 @@
                 </div>
                 <div class="clearfix"></div>
             </li>
-            @php($i++)
         @endforeach
-        @if($i == 0)
-            <li class="list-group-item">
-                There is only you in {{ $city->name }}
-            </li>
-        @endif
     </ul>
 </div>
