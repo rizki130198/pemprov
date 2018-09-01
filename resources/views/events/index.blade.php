@@ -12,10 +12,11 @@
         <div class="col-md-9">
             <div class="content-page-title">
                 <i class="fa fa-users"></i> event
-
-            <div class="pull-right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buat Event</button>
-            </div>
+                @if(Auth::user()->role=='admin')
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buat Event</button>
+                </div>
+                @endif
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -85,10 +86,10 @@
             <p>{{ $dataevent->keterangan }}</p>
 
             <hr class="fix-hr">
-            <div class="comments-title">
+            <div class="comments-title-event">
                 @include('events.widgets.comments_title')
             </div>
-            <div class="post-comments">
+            <div class="post-comments-event">
                 @foreach($dataevent->comments()->limit(NULL)->orderBY('id', 'DESC')->with('user')->get()->reverse() as $comment)
 
                 @include('events.widgets.single_comment')

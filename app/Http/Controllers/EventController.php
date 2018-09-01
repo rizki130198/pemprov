@@ -25,12 +25,14 @@ class EventController extends Controller
 	{
 		$user = Auth::user();
 
+        $comment_count = 2000000;
+
 		$user_list = $user->messagePeopleList();
 
 
 		$data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
 
-		return view('events.index', compact('user', 'data','user_list'));
+		return view('events.index', compact('user', 'data','user_list','comment_count'));
 	}
 	public function save(Request $request)
 	{
@@ -103,20 +105,20 @@ class EventController extends Controller
 		$response = array();
 		$response['code'] = 400;
 
-		$event = Event::find($request->input('id'));
+		$dataevent = Event::find($request->input('id'));
 		$text = $request->input('komentar');
 
 
 
 			$comment = new EventComment();
-			$comment->id_events = $event->id_events;
+			$comment->id_events = $dataevent->id_events;
 			$comment->id_users = $user->id;
 			$comment->komentar = $text;
 			if ($comment->save()){
 				$response['code'] = 200;
-				$html = View::make('widgets.single_comment', compact('event', 'comment'));
+				$html = View::make('events.widgets.single_comment', compact('dataevent', 'comment'));
 				$response['comment'] = $html->render();
-				$html = View::make('widgets.comments_title', compact('event', 'comment'));
+				$html = View::make('events.widgets.comments_title', compact('dataevent', 'comment'));
 				$response['comments_title'] = $html->render();
 			}else{
 
@@ -131,15 +133,15 @@ class EventController extends Controller
 		$response = array();
 		$response['code'] = 400;
 
-		$events_comment = EventComment::find($request->input('id'));
+		$dataevent = EventComment::find($request->input('id'));
 
 
-		if ($events_comment){
-			$post = $events_comment->post;
-			if ($events_comment->id_users == Auth::id() || $events_comment->post->id_users == Auth::id()) {
-				if ($events_comment->delete()) {
+		if ($dataevent){
+			$post = $dataevent->post;
+			if ($dataevent->id_users == Auth::id() || $dataevent->post->id_users == Auth::id()) {
+				if ($dataevent->delete()) {
 					$response['code'] = 200;
-					$html = View::make('widgets.post_detail.comments_title', compact('post'));
+					$html = View::make('events.widgets.comments_title', compact('dataevent'));
 					$response['comments_title'] = $html->render();
 				}
 			}

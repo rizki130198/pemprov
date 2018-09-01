@@ -10,9 +10,11 @@
         <div class="col-md-9">
             <div class="content-page-title">
                 <i class="fa fa-users"></i> Groups
-            </div>
-            <div class="pull-right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buat Group</button>
+                @if(Auth::user()->role=='admin')
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buat Group</button>
+                </div>
+                @endif
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -23,20 +25,20 @@
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-              <form>
+              <form action="javascript:void(0);" id="grupcreate" method="post" accept-charset="utf-8">
                   <div class="modal-body">
                       <div class="form-group">
                         <label for="inputGrup">Nama Grup</label>
                         <input type="text" name="nama_grup" class="form-control" id="inputGrup" placeholder="Nama Grup">
                     </div>
-                    <div class="form-group">
+                   <!--  <div class="form-group">
                         <label for="gambar">Cover Image</label>
                         <input type="file" class="form-control" name="gambar" id="gambar" placeholder="Cover Grup">
-                    </div>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save Data</button>
+                    <button type="submit" class="btn btn-primary">Save Data</button>
                 </div>
 
             </form>

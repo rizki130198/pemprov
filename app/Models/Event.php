@@ -27,7 +27,7 @@ class Event extends Model
     public function comments(){
         return $this->hasMany('App\Models\EventComment', 'id_events', 'id_events');
     }
-        public function getCommentCount(){
+    public function getCommentCount(){
         if ($this->comment_count == null){
             $this->comment_count = $this->comments()->count();
         }

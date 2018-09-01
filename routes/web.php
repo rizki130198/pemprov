@@ -17,7 +17,7 @@ Route::group(['middleware' => 'guest'], function () {
     });
 });
 
-
+ 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -43,14 +43,16 @@ Route::get('/search', 'HomeController@search');
 
 //Grup
 
-Route::get('/postgrups/list', 'PostsController@fetch');
-Route::post('/postgrups/new', 'PostsController@create');
-Route::post('/postgrups/delete', 'PostsController@delete');
-Route::post('/postgrups/like', 'PostsController@like');
-Route::post('/postgrups/likes', 'PostsController@likes');
-Route::post('/postgrups/comment', 'PostsController@comment');
-Route::post('/postgrups/comments/delete', 'PostsController@deleteComment');
-Route::get('/postgrup/{id}', 'PostsController@single');
+Route::get('/postgrups/list', 'GrupController@fetch');
+Route::post('/postgrups/create', 'GrupController@save');
+Route::post('/postgrups/new', 'GrupController@create');
+Route::post('/postgrups/delete', 'GrupController@delete');
+Route::post('/postgrups/like', 'GrupController@like');
+Route::post('/postgrups/likes', 'GrupController@likes');
+Route::post('/postgrups/comment', 'GrupController@comment');
+Route::post('/postgrups/comments/delete', 'GrupController@deleteComment');
+Route::get('/postgrup/{id}', 'GrupController@single');
+
 
 //events
 Route::get('/events', 'EventController@index');
