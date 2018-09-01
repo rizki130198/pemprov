@@ -2,19 +2,15 @@
 
 @section('content')
 <div class="h-20"></div>
-<div class="container">
+<div class="col-md-12">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" style="padding-left: 0;position: fixed;">
             @include('widgets.sidebar')
         </div>
-        <div class="col-md-9">
-
-
+        <div class="col-md-8 col-md-offset-3 col-xs-12">
             <div class="content-page-title">
                 <i class="fa fa-users"></i> event
             </div>
-
-
 
             @if($events->count() == 0)
 

@@ -101,15 +101,28 @@
                         </a>
                     </div>
                 </li>
-                <!-- <li id="messages" class="timeline-inverted panel-collapse collapse">
-                    <div class="timeline-panel">
+                <li>
+                    <a data-toggle="collapse" href="#profile"><div class="timeline-badge primary">
+                        <div class="tl-circ"></div>
+                    </a>
+                </div>
+                <div class="timeline-panel">
+                    <a data-toggle="collapse" href="#profile">
                         <div class="timeline-body">
-                            @if(count($user_list) == 0)
-                            <p><a href="{{ url('/direct-messages') }}" style="color: #fff;">See all messages</a></p>
-                            @endif
+                            <p style="color: #fff;">Profile</p>
                         </div>
+                    </a>
+                </div>
+            </li>
+            <li id="profile" class="timeline-inverted panel-collapse collapse">
+                <div class="timeline-panel">
+                    <div class="timeline-body" >
+                        <p><a style="color: #fff;" href="{{ url('/'.Auth::user()->username) }}">My Profile</a></p>
+                        <p><a style="color: #fff;" href="{{ url('/settings') }}">Setting</a></p>
+                        <p><a style="color: #fff;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
                     </div>
-                </li> -->
+                </div>
+            </li>
                 <li class="clearfix" style="float: none;"></li>
             </ul>
 
@@ -283,7 +296,7 @@
 @yield('footer')
 <script type="text/javascript">
     $(function () {
-     $('.panel-google-plus, .panel-footer, .input-placeholder, .panel-google-plus, .panel-google-plus-comment, .panel-google-plus-textarea, button[type="reset"]').on('click', function(event) {
+       $('.panel-google-plus, .panel-footer, .input-placeholder, .panel-google-plus, .panel-google-plus-comment, .panel-google-plus-textarea, button[type="reset"]').on('click', function(event) {
         var $panel = $(this).closest('.panel-google-plus');
         $comment = $panel.find('.panel-google-plus-comment');
 
@@ -296,7 +309,7 @@
             $comment.find('textarea').focus();
         }
     });
-     $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
+       $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
         var $comment = $(this).closest('.panel-google-plus-comment');
 
         $comment.find('button[type="submit"]').addClass('disabled');
@@ -304,10 +317,10 @@
             $comment.find('button[type="submit"]').removeClass('disabled');
         }
     });
- });
+   });
     @if(!Auth::user()->has('location'))
 
-            autoFindLocation();
+    autoFindLocation();
 
     @endif
 

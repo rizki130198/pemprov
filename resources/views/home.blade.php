@@ -4,7 +4,7 @@
 <div class="h-20"></div>
 <div class="col-md-12">
     <div class="row">
-        <div class="col-sm-3" style="padding-left: 0;position: fixed;">
+        <div class="col-md-3" style="padding-left: 0;position: fixed;">
             @include('widgets.sidebar')
         </div>
         <div class="col-xs-12 col-md-3 pull-right">
