@@ -11,9 +11,15 @@
             <img src="" />
         </div>
         <div class="row" style="padding: 10px;">
-            <div class="col-xs-4">
+            <div class="col-xs-2">
                 <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()">
                     <i class="fa fa-image"></i> Add Image
+                </button>
+                <input type="file" accept="image/*" class="image-input" name="photo" onchange="previewPostImage(this)">
+            </div>
+            <div class="col-xs-2">
+                <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()">
+                    <i class="glyphicon glyphicon-file"></i> Add File
                 </button>
                 <input type="file" accept="image/*" class="image-input" name="photo" onchange="previewPostImage(this)">
             </div>

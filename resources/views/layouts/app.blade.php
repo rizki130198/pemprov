@@ -52,7 +52,30 @@
                                 </a>
                             </div>
                         </li>
-                        
+                        <li>
+                            <div class="timeline-badge primary">
+                                <div class="tl-circ"></div>
+                            </div>
+                            <div class="timeline-panel">
+                                <a href="{{ url('/events') }}">
+                                    <div class="timeline-body">
+                                        <p style="color: #fff;">Events</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-badge primary">
+                                <div class="tl-circ"></div>
+                            </div>
+                            <div class="timeline-panel">
+                                <a href="{{ url('/groups') }}">
+                                    <div class="timeline-body">
+                                        <p style="color: #fff;">Groups</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
                         <li>
                             <a data-toggle="collapse" href="#notifications"><div class="timeline-badge primary">
                                 <div class="tl-circ"></div>
