@@ -1,12 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class EventComment extends Model
 {
-   protected $table = 'event_comment';
+   protected $table = 'event_coment';
 
     protected $dates = [
         'created_at',

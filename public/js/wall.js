@@ -205,7 +205,7 @@ function deletePost(id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#panel-post-'+id).html("Post deleted!");
+                            $('#panel-post-'+id).html(" ");
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');

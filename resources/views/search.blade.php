@@ -20,7 +20,7 @@
 
 
                             <div class="alert-message alert-message-default">
-                                <h4>Not Found !</h4>
+                                <h4>Tidak Di Temukan !</h4>
                             </div>
 
 
@@ -44,7 +44,7 @@
 
 
                             <div class="alert-message alert-message-default">
-                                <h4>Not Found !</h4>
+                                <h4>Tidak Di Temukan !</h4>
                             </div>
 
 

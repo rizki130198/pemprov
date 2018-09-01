@@ -41,10 +41,20 @@ Route::get('/post/{id}', 'PostsController@single');
 // Search
 Route::get('/search', 'HomeController@search');
 
+//Grup
+
+Route::get('/postgrups/list', 'PostsController@fetch');
+Route::post('/postgrups/new', 'PostsController@create');
+Route::post('/postgrups/delete', 'PostsController@delete');
+Route::post('/postgrups/like', 'PostsController@like');
+Route::post('/postgrups/likes', 'PostsController@likes');
+Route::post('/postgrups/comment', 'PostsController@comment');
+Route::post('/postgrups/comments/delete', 'PostsController@deleteComment');
+Route::get('/postgrup/{id}', 'PostsController@single');
 
 //events
 Route::get('/events', 'EventController@index');
-Route::get('/events/create', 'EventController@save');
+Route::post('/events/create', 'EventController@save');
 Route::post('/events/delete', 'EventController@delete');
 Route::post('/events/comment', 'EventController@comment');
 Route::post('/events/comments/delete', 'EventController@deleteComment');

@@ -57,7 +57,7 @@ class GroupController extends Controller
         $user_list = $user->messagePeopleList();
 
         $wall = [
-            'new_post_group_id' => $group->id_group
+            'new_postgrup_group_id' => $group->id_group
         ];
 
 
