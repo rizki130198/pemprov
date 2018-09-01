@@ -83,6 +83,9 @@ body {
     .hide-search{
         display: block !important; 
     }
+    .hide-menu{
+        display: none;
+    }
   }
   /* toggle res navbar */
    .invisible, .flex-nav .side-nav .overlay, .flex-nav .side-nav .navigation, .dropdown-menu {
@@ -147,7 +150,7 @@ body {
       height: 100%;
       /*background-color: #fff;*/
       transition: .3s ease;
-      background:url('http://www.planwallpaper.com/static/images/colorful-triangles-background_yB0qTG6.jpg');
+      background: url('../images/back.jpg');
       background-size:cover;
       filter: blur(3px);
     }
@@ -157,7 +160,7 @@ body {
       right:0;
       top:0;
       bottom:0;
-      background:url('http://www.planwallpaper.com/static/images/colorful-triangles-background_yB0qTG6.jpg');
+      background: url('../images/back.jpg');
       background-size:cover;
       z-index:1;
       -webkit-filter: blur(10px);
@@ -2093,7 +2096,7 @@ a, a:hover, a:active, a:visited, a:focus {
 }
 
 .dm .chat .message-list .message.message-right .text{
-    background: #6088a9;
+    background: #fac959;
     color: #fff;
 }
 

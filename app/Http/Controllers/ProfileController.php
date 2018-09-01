@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Hobby;
 use App\Models\User;
+use App\Models\UserDirectMessage;
 use App\Models\UserHobby;
 use App\Models\UserLocation;
 use App\Models\UserRelationship;
@@ -45,29 +46,48 @@ class ProfileController extends Controller
     }
 
     public function index($username){
+        $response = array();
+        $response['code'] = 200;
 
+        $user = Auth::user();
+
+        $user_list = [];
         if (!$this->secure($username)) return redirect('/404');
+        
+        $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
+
+        $new_list = [];
+        foreach(array_reverse($message_list) as $list){
+            $msg = new UserDirectMessage();
+            $msg->dataImport($list);
+            $new_list[] = $msg;
+        }
+
+        foreach (array_reverse($new_list) as $message){
+            $user_list[$message->sender_user_id] = [
+                'new' => ($message->seen == 0)?true:false,
+                'message' => $message,
+                'user' => $message->sender
+            ];
+        }
 
         $user = $this->user;
-
-
+        
         $my_profile = $this->my_profile;
 
-
         $user_list = $user->messagePeopleList();
+
         $wall = [
             'new_post_group_id' => 0
         ];
 
         $can_see = ($my_profile)?true:$user->canSeeProfile(Auth::id());
 
-
         $hobbies = Hobby::all();
         $relationship = $user->relatives()->with('relative')->where('allow', 1)->get();
         $relationship2 = $user->relatives2()->with('main')->where('allow', 1)->get();
 
-
-        return view('profile.index', compact('user', 'my_profile', 'wall', 'can_see', 'hobbies', 'relationship', 'relationship2','user_list'));
+        return view('profile.index', compact('user', 'user_list', 'my_profile', 'wall', 'can_see', 'hobbies', 'relationship', 'relationship2'));
     }
 
     public function following(Request $request, $username){

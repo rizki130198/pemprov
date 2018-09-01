@@ -12,7 +12,7 @@
                     <i class="fa fa-commenting"></i> Direct Messages
                 </div>
                 <div class="new-message-button">
-                    <button class="btn btn-success btn-sm" type="button" data-toggle="modal" data-target="#userListModal">
+                    <button class="btn btn-success" style="background-color: #5fba7d !important;background: none;" type="button" data-toggle="modal" data-target="#userListModal">
                         <i class="fa fa-commenting"></i> New Message
                     </button>
                 </div>

@@ -38,7 +38,7 @@
             </style>
             <div class="navigation" style="text-align: center;">
                 <div class="content-navigation" style="padding-left: 20px;padding-right: 20px;">
-                    <center><img src="{{ Auth::user()->getPhoto() }}" width="100px;" style="border-radius:50%;    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);padding: 7px;border: 2px solid #e8b563;margin-top: 47px;"></center>
+                    <center><img src="{{ Auth::user()->getPhoto() }}" width="100px;" height="100px" style="border-radius:50%;    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);padding: 7px;border: 2px solid #e8b563;margin-top: 47px;"></center>
                     <p class="text-sign">SIGN IN</p>
                     <ul class="timeline" style="z-index: 2;">
                         <li>
@@ -60,12 +60,14 @@
                             </a>
                         </div>
                         <div class="timeline-panel">
-                            <div class="timeline-body">
-                                <p>Notifications</p>
-                                @if(count(sHelper::notifications()) > 0)
-                                <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count(sHelper::notifications()) }}</span>
-                                @endif
-                            </div>
+                            <a data-toggle="collapse" href="#notifications">
+                                <div class="timeline-body">
+                                    <p style="color: #fff;">Notifications</p>
+                                    @if(count(sHelper::notifications()) > 0)
+                                    <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count(sHelper::notifications()) }}</span>
+                                    @endif
+                                </div>
+                            </a>
                         </div>
                     </li>
                     <li id="notifications" class="timeline-inverted panel-collapse collapse">
@@ -90,12 +92,14 @@
                         </a>
                     </div>
                     <div class="timeline-panel">
-                        <div class="timeline-body">
-                            <p>Messages</p>
-                            @if (count($user_list) > 0)
-                            <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count($user_list) }}</span>
-                            @endif
-                        </div>
+                        <a data-toggle="collapse" href="#messages">
+                            <div class="timeline-body">
+                                <p style="color: #fff;">Messages</p>
+                                @if (count($user_list) > 0)
+                                <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count($user_list) }}</span>
+                                @endif
+                            </div>
+                        </a>
                     </div>
                 </li>
                 <!-- <li id="messages" class="timeline-inverted panel-collapse collapse">
@@ -112,8 +116,8 @@
 
             @if(count($user_list) == 0)
             <a href="{{ url('/direct-messages') }}">
-                <div id="messages" class="panel panel-default panel-collapse collapse">
-                    <div class="panel-body">
+                <div id="messages" class="panel panel-default panel-collapse collapse" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
+                    <div class="panel-body" style="color: #111;font:inherit;">
                         See all messages
                     </div>
                 </div>    

@@ -10,7 +10,7 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <a href="{{ url('/'.$user->username) }}" style="text-decoration: none;"><h4 class="media-heading" style="font-size: 14px;font-weight: bold;margin-top: 7px;">{{ $user->name }}</h4></a>
+                    <a href="{{ url('/'.$user->username) }}" style="text-decoration: none;color: #111;"><h4 class="media-heading" style="font-size: 14px;font-weight: bold;margin-top: 7px;">{{ $user->name }}</h4></a>
                     <p style="margin-top: -2px;font-size: 14px;">{{ '@'.$user->username }}
                         <div id="people-listed-{{ $user->id }}" style="float: right;margin-top: -45px;">
                         {!! sHelper::followButton($user->id, Auth::id(), '#people-listed-'.$user->id, 'btn-sm') !!}
