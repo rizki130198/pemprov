@@ -16,18 +16,12 @@ There are 7 pages. which are Home Page for Login and Sign Up,  TimeLine, Direct 
 * Groups are created automatically for people who share the same hobby.  You can see group posts in groups page if you added that specific hobby.  
 * Following & Followers page shows the list of followers and people you are following.  
 
-### Packages Included
-* alexpechkarev/google-maps
-* barryvdh/laravel-debugbar
-* barryvdh/laravel-ide-helper
-* nesbot/carbon
-
 ### Requirements
 * PHP 5.6.4
 * MySQL
 
 
-### Authors
+### Authors 
 **lvntayn**
 - https://github.com/lvntayn
 
@@ -36,3 +30,10 @@ There are 7 pages. which are Home Page for Login and Sign Up,  TimeLine, Direct 
 
 **koniqwe**
 - https://github.com/koniqwe
+
+### Edited By
+**Rizki130198**
+- https://github.com/rizki130198
+
+**Fahmi36**
+- https://github.com/Fahmi36
