@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="h-20"></div>
-<div class="col-md-12">
+<div class="h-20 res-post"></div>
+<div class="col-md-12 res-home">
     <div class="row">
         <div class="col-md-3" style="padding-left: 0;position: fixed;">
             @include('widgets.sidebar')

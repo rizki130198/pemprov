@@ -1,41 +1,33 @@
 <div class="clearfix"></div>
 @if($user->id == Auth::user()->id)
 <div class="new-post-box">
-<div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
-    <form id="form-new-post">
-        <input type="hidden" name="group_id" value="{{ $wall['new_post_group_id'] }}">
-        <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;">Update Status</div>
-        <textarea class="form-control text-post" name="content" placeholder="What's in your mind?" style="resize:none;"></textarea>
-        <div class="image-area">
-            <a href="javascript:;" class="image-remove-button" onclick="removePostImage()"><i class="fa fa-times-circle"></i></a>
-            <img src="" />
-        </div>
-        <div class="row" style="padding: 10px;">
-            <div class="col-xs-2">
-                <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()">
-                    <i class="fa fa-image"></i> Add Image
-                </button>
-                <input type="file" accept="image/*" class="image-input" name="photo" onchange="previewPostImage(this)">
+    <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
+        <form id="form-new-post">
+            <input type="hidden" name="group_id" value="{{ $wall['new_post_group_id'] }}">
+            <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;">Update Status</div>
+            <textarea class="form-control text-post" name="content" placeholder="What's in your mind?" style="resize:none;"></textarea>
+            <div class="image-area">
+                <a href="javascript:;" class="image-remove-button" onclick="removePostImage()"><i class="fa fa-times-circle"></i></a>
+                <img src="" />
             </div>
-            <div class="col-xs-2">
-                <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()">
-                    <i class="glyphicon glyphicon-file"></i> Add File
-                </button>
-                <input type="file" accept="image/*" class="image-input" name="photo" onchange="previewPostImage(this)">
+            <div class="row row-res" style="padding: 10px;">
+                    <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()" style="margin-left: 15px;">
+                        <i class="fa fa-image"></i> Add Image
+                    </button>
+                    <input type="file" accept="image/*" class="image-input" name="photo" onchange="previewPostImage(this)">
+                    <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()">
+                        <i class="glyphicon glyphicon-file"></i> Add File
+                    </button>
+                    <input type="file" accept="image/*" class="image-input" name="photo" onchange="previewPostImage(this)">
+                    <div class="loading-post">
+                        <img src="{{ asset('images/rolling.gif') }}" alt="">
+                    </div>
+                    <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPost()" style="margin-right: 15px;">
+                        Post!
+                    </button>
             </div>
-            <div class="col-xs-4">
-                <div class="loading-post">
-                    <img src="{{ asset('images/rolling.gif') }}" alt="">
-                </div>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPost()">
-                    Post!
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 </div>
 @endif
 

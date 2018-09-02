@@ -26,6 +26,14 @@
 </head>
 <body>
     <div id="app">
+        <nav class="navbar navbar-inverse navbar-fixed-bottom" style="z-index: 1;">
+            <div class="icon-bar">
+                <a class="active" href="#"><i class="fa fa-home"></i></a> 
+                <a href="#" class="collapsed" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i></a> 
+                <a href="#"><i class="fa fa-bell"></i></a> 
+                <a href="#" onclick="openNav()"><i class="fa fa-bars"></i></a> 
+            </div>
+        </nav>
         <nav class="navbar navbar-default flex-nav navbar-static-top navbar-around" role="navigation">
             <div class="side-nav" id="side-nav">
                 <div class="overlay"></div>
@@ -38,9 +46,8 @@
             <div class="navigation" style="text-align: center;">
                 <div class="content-navigation" style="padding-left: 20px;padding-right: 20px;">
                     <center><img src="{{ Auth::user()->getPhoto() }}" width="100px;" height="100px" style="border-radius:50%;    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);padding: 7px;border: 2px solid #e8b563;margin-top: 47px;"></center>
-                    <p class="text-sign">SIGN IN</p>
                     <ul class="timeline" style="z-index: 2;">
-                        <li>
+                        <!-- <li>
                             <div class="timeline-badge primary">
                                 <div class="tl-circ"></div>
                             </div>
@@ -107,8 +114,8 @@
                                 @endif
                             </div>
                         </div>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a data-toggle="collapse" href="#messages"><div class="timeline-badge primary">
                             <div class="tl-circ"></div>
                         </a>
@@ -123,8 +130,8 @@
                             </div>
                         </a>
                     </div>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a data-toggle="collapse" href="#profile"><div class="timeline-badge primary">
                         <div class="tl-circ"></div>
                     </a>
@@ -145,65 +152,65 @@
                         <p><a style="color: #fff;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
                     </div>
                 </div>
-            </li>
-                <li class="clearfix" style="float: none;"></li>
-            </ul>
+            </li> -->
+            <li class="clearfix" style="float: none;"></li>
+        </ul>
 
-            @if(count($user_list) == 0)
-            <a href="{{ url('/direct-messages') }}">
-                <div id="messages" class="panel panel-default panel-collapse collapse" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
-                    <div class="panel-body" style="color: #111;font:inherit;">
-                        See all messages
-                    </div>
-                </div>    
-            </a>
-            @else
-            @foreach($user_list as $friend)
-            <a href="{{ url('/direct-messages/show/'. $friend['user']->id) }}" class="friend">
-                <div id="messages" class="panel panel-default panel-collapse collapse" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title" style="float: left;font:inherit;color: #111;">Messages</h3>
-                        <span style="float: right;color: #111;">{{ $friend['message']->created_at->diffForHumans() }}</span>
-                    </div>
-                    <div class="panel-body">
-                        <div class="media">
-                            <div class="media-left">
-                                <a href="#">
-                                    <img class="img-circle" src="{{ $friend['user']->getPhoto(40, 40) }}">
-                                </a>
-                            </div>
-                            <div class="media-body" style="color: #111;font:inherit;">
-                                <h4 class="media-heading" style="float: left;"><strong>{{ $friend['user']->name }}</strong></h4>
-                                <br>
-                                <br>
-                                <p style="float: left;margin-top: -18px;">{{ str_limit($friend['message']->message, 20) }}</p>
-                            </div>
+        @if(count($user_list) == 0)
+        <a href="{{ url('/direct-messages') }}">
+            <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
+                <div class="panel-body" style="color: #111;font:inherit;">
+                    See all messages
+                </div>
+            </div>    
+        </a>
+        @else
+        @foreach($user_list as $friend)
+        <a href="{{ url('/direct-messages/show/'. $friend['user']->id) }}" class="friend">
+            <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;margin-top: 50px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="float: left;font:inherit;color: #111;">Messages</h3>
+                    <span style="float: right;color: #111;">{{ $friend['message']->created_at->diffForHumans() }}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="img-circle" src="{{ $friend['user']->getPhoto(40, 40) }}">
+                            </a>
+                        </div>
+                        <div class="media-body" style="color: #111;font:inherit;">
+                            <h4 class="media-heading" style="float: left;"><strong>{{ $friend['user']->name }}</strong></h4>
+                            <br>
+                            <br>
+                            <p style="float: left;margin-top: -18px;">{{ str_limit($friend['message']->message, 20) }}</p>
                         </div>
                     </div>
                 </div>
-            </a>
-            @endforeach
-            @endif
-            <i class="fa fa-times-circle" data-toggle="collapse" data-target="#side-nav" style="font-size: 16px;margin-top:18%;"></i>
-            <p data-toggle="collapse" data-target="#side-nav" style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
-        </div>
+            </div>
+        </a>
+        @endforeach
+        @endif
+        <i class="fa fa-times-circle" data-toggle="collapse" data-target="#side-nav" style="font-size: 16px;margin-top:18%;"></i>
+        <p data-toggle="collapse" data-target="#side-nav" style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
     </div>
+</div>
 </div>
 <div class="container">
     <div class="navbar-header">
-        <button type="button" style="padding: 14px 14px;" class="navbar-toggle toggle-side-nav" data-toggle="collapse" data-target="#side-nav">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+        <button type="button" style="padding:0;padding-right: 10px;border:none;background-color: transparent;color: #fff;font-size: 30px;" class="navbar-toggle toggle-side-nav" data-toggle="collapse" data-target="#side-nav">
+            <i class="fa fa-commenting"></i>
+            @if (count($user_list) > 0)
+            <span class="badge badge-notify" style="right: 2px;top: 2px;">{{ count($user_list) }}</span>
+            @endif
         </button>
-        <button type="button" class="navbar-toggle collapsed" style="padding-left: 12px;float:left;border: none;margin-top: 8px;" data-toggle="collapse" data-target="#search">
+        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#search" style="padding-left: 12px;float:left;border: none;margin-top: 8px;">
             <span class="fa fa-search" style="color: #3d464d;border: none;cursor: pointer;font-size:25px;"></span>
-        </button>
-
+        </button> -->
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />
         </a>
+
     </div>
 
     <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -264,11 +271,11 @@
 </div>
 </div>
 <style type="text/css">
-@media(max-width: 768px){
+/*@media(max-width: 768px){
     .hide-search{
         display: block !important; 
     }
-}
+}*/
 </style>
 <div class="collapse navbar-collapse hide-search" id="search" style="display: none !important;">
     <form id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">
@@ -283,7 +290,61 @@
     </form>
 </div>
 </nav>
-
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="sidebar-header">
+        <div class="user-pic">
+            <img class="img-responsive img-rounded" src="{{ Auth::user()->getPhoto() }}" alt="User picture">
+        </div>
+        <div class="user-info">
+            <span class="user-name"><strong>{{ Auth::user()->name }}</strong></span>
+            <span class="user-role">{{ '@'.$user->username }}</span>
+            <span class="user-status">
+                <i class="fa fa-circle"></i>
+                <span>Online</span>
+            </span>
+        </div>
+    </div>    
+    <div class="sidebar-menu">
+        <ul>
+            <li>
+                <a href="{{ url('/events') }}">
+                    <i class="fa fa-calendar" style="background:#abc554;"></i>
+                    <span>Events</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/groups') }}">
+                    <i class="fa fa-users" style="background:#e17e41;"></i>
+                    <span>Groups</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-dropdown">
+                <a href="#">
+                    <i class="fa fa-user" style="background:#339399; "></i>
+                    <span>Profile</span>
+                </a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li>
+                            <a href="{{ url('/'.Auth::user()->username) }}">My Profile</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/settings') }}">Setting</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
 <div class="main-content">
     @yield('content')
 </div>
@@ -361,6 +422,31 @@
                 $(this).off('click');
             });
         }
+    });
+</script>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "280px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(".sidebar-dropdown > a").click(function () {
+            $(".sidebar-submenu").slideUp(200);
+            if ($(this).parent().hasClass("active")) {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this).parent().removeClass("active");
+            } else {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this).next(".sidebar-submenu").slideDown(200);
+                $(this).parent().addClass("active");
+            }
+
+        });
     });
 </script>
 </body>
