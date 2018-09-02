@@ -75,7 +75,7 @@ class ProfileController extends Controller
         
         $my_profile = $this->my_profile;
 
-        $user_list = $user->messagePeopleList();
+        // $user_list = $user->messagePeopleList();
 
         $wall = [
             'new_post_group_id' => 0

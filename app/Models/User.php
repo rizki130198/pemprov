@@ -62,6 +62,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Post', 'user_id', 'id');
     }
 
+    public function grupposts(){
+        return $this->hasMany('App\Models\GrupPost', 'user_id', 'id');
+    }
     public function event(){
         return $this->hasMany('App\Models\Event', 'user_id', 'id_users');
     }

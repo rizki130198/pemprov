@@ -1,8 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Dosis:300,700");
 body{
     /*background: url('../images/guest_bg.jpg');*/
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Dosis", sans-serif;
+    background-color: #fac959;
+    /*background: url('../images/footer-login.png') bottom no-repeat;
+    height: 20px;*/
 }
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -16,9 +19,16 @@ input:-webkit-autofill:active {
 }
 
 .container{
-    margin-top: 120px;
+    margin-top: 4%;
 }
-
+.footer-bg{
+    background: url('../images/footer-login.png') no-repeat;
+    background-size: cover;
+    width: 100%;
+    height:120px;
+    position: absolute;z-index: -1;
+    margin-top: -45px;
+}
 .logo {
     display: block;
     margin: 150px auto 0 auto;
@@ -27,8 +37,8 @@ input:-webkit-autofill:active {
 }
 
 .tab_container {
-    width: 100%;
-    margin: 0 auto;
+    width: 30%;
+    margin: 0 auto 20px;
     position: relative;
 }
 
@@ -50,7 +60,7 @@ input:-webkit-autofill:active {
     cursor: pointer;
     text-decoration: none;
     text-align: center;
-    background: rgba(59, 105, 145, 0.8);
+    background: #e85e50;
 }
 
 .tab_container label{
@@ -60,7 +70,9 @@ input:-webkit-autofill:active {
 
 .tab_container .tab-content {
 }
-
+.contents{
+    box-shadow: 0px 5px 10px #212C3C;
+}
 #tab1:checked ~ .contents #content1,
 #tab2:checked ~ .contents #content2,
 #tab3:checked ~ .contents #content3,
@@ -68,14 +80,26 @@ input:-webkit-autofill:active {
 #tab5:checked ~ .contents #content5 {
     display: block;
     padding: 20px 35px 50px 35px;
-    background: #fff;
+    background: url('../images/back1.jpg') center center no-repeat;
+    background-size: cover;
     color: #999;
     box-sizing: border-box;
+    box-shadow: 0px 5px 10px #212C3C;
+    perspective: 500px;
+    position: relative;
 }
-
+.bg {
+      background: rgba(0, 0, 0, 0.5);
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      z-index: -1;
+  }
 
 .tab_container [id^="tab"]:checked + .head, .tab_container .head:hover {
-    background: rgba(11, 75, 134, 0.8);
+    background: #e74c3c;
 }
 
 
@@ -87,11 +111,13 @@ input:-webkit-autofill:active {
 
 
 .tab_container section h2 {
-    color: #292929;
-    font-size: 22px;
+    color: #fff;
+    z-index: 2;
+    font-size: 2.8em;
     padding: 0;
     margin: 15px 0 30px 0;
     text-align: center;
+    font-weight: bold;
 
 }
 
@@ -104,7 +130,7 @@ input:-webkit-autofill:active {
 }
 
 .tab_container .form-group .control-label{
-    color: #292929;
+    color: #fff;
     font-size: 14px;
     font-weight: normal;
 }
@@ -163,7 +189,9 @@ input:-webkit-autofill:active {
 .checkbox label {
     display: inline-block;
     position: relative;
-    padding-left: 5px; }
+    padding-left: 5px; 
+    color: #fff;
+}
 .checkbox label::before {
     content: "";
     display: inline-block;
@@ -332,27 +360,17 @@ input:-webkit-autofill:active {
     background-color: #5cb85c; }
 
 .btn-login{
-    background: #409aff;
-    border: none;
+    background: #e74c3c;
     display: block;
     width: 100%;
     padding: 15px 0;
     font-size: 19px;
+    border: solid 1px #e74c3c;
 }
-
-.btn-facebook{
-    background: #5b77b2;
-    border: none;
-    display: block;
-    width: 100%;
-    padding: 15px 0;
-    font-size: 15px;
-    margin-top: 20px;
-}
-
-.btn-facebook i{
-    margin-right: 20px;
-    font-size: 20px;
+.btn-login:hover{
+    background: transparent;
+    color: #fff;
+    border: solid 1px #fff;
 }
 
 .btn-forgot{
@@ -361,8 +379,8 @@ input:-webkit-autofill:active {
 
 
 .btn-register{
-    background: #43b951;
-    border: none;
+    background: #e74c3c;
+    border: solid 1px #e74c3c;
     display: block;
     width: 100%;
     padding: 15px 0;
@@ -370,7 +388,9 @@ input:-webkit-autofill:active {
 }
 
 .btn-register:hover {
-    background: #2f8239;
+    background: transparent;
+    color: #fff;
+    border: solid 1px #fff;
 }
 
 .sub-title{
@@ -425,13 +445,15 @@ input:-webkit-autofill:active {
 
 @media only screen and (max-width: 768px) {
 
-
+    .footer-bg{
+        display: none;
+    }
     .tab_container .head .fa {
         font-size: 16px;
     }
 
     .tab_container {
-        width: 98%;
+        width: 90%;
     }
 }
 

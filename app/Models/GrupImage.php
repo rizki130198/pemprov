@@ -1,19 +1,13 @@
 <?php
-/**
- * Created by lvntayn
- * Date: 04/06/2017
- * Time: 17:23
- */
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class PostImage extends Model
+class GrupImage extends Model
 {
-
-    protected $table = 'post_images';
+    
+    protected $table = 'post_grup_images';
 
     public $timestamps = false;
 
@@ -24,4 +18,5 @@ class PostImage extends Model
     public function getFile(){
         return url('storage/uploads/posts/'.$this->file_path);
     }
+
 }

@@ -2,14 +2,12 @@
 
 @section('content')
 <div class="h-20"></div>
-
-<div class="col-md-12"> 
+<div class="col-md-12">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" style="padding-left: 0;position: fixed;">
             @include('widgets.sidebar')
         </div>
-
-        <div class="col-md-9">
+        <div class="col-md-8 col-md-offset-3 col-xs-12">
             <div class="content-page-title">
                 <i class="fa fa-users"></i> event
                 @if(Auth::user()->role=='admin')
@@ -50,7 +48,6 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save Data</button>
                 </div>
-
             </form>
         </div>
     </div>
@@ -61,7 +58,6 @@
     <div class="alert-message alert-message-default">
         <h4>Belum ada Event</h4>
     </div>
-
 
     @else
     @foreach($data as $dataevent)
