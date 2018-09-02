@@ -14,13 +14,13 @@ use Illuminate\Database\Eloquent\Model;
 class Grup extends Model
 {
 
-    protected $table = 'grup';
+	protected $table = 'grup';
 
 	protected $primaryKey = "id_grup";
-    public $timestamps = false;
+	public $timestamps = false;
 
-    public function user_grup(){
-        return $this->belongsTo('App\Models\User_grup', 'id_grup');
-    }
+	public function user(){
+		return $this->belongsTo('App\Models\User_grup', 'id_grup');
+	}
 
-}
+} 

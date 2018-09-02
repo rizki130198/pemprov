@@ -73,6 +73,7 @@ class HomeController extends Controller
 
 
         $user = Auth::user();
+        $user_list = $user->messagePeopleList();
 
         $posts = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
             ->where(function($query) use ($user) {
@@ -94,7 +95,7 @@ class HomeController extends Controller
 
         $users = User::where('name', 'like', '%'.$s.'%')->orWhere('username', 'like', '%'.$s.'%')->orderBy('name', 'ASC')->get();
 
-        return view('search', compact('users', 'posts', 'user', 'comment_count'));
+        return view('search', compact('users', 'posts', 'user', 'comment_count','user_list'));
 
     }
 

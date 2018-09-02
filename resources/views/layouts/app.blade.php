@@ -21,6 +21,7 @@
     <link href="{{ asset('plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/bootstrap/css/bootstrap-theme.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/around.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
     @yield('header')
 </head>
@@ -373,10 +374,13 @@
 <script src="{{ asset('plugins/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js') }}"></script>
 <script src="{{ asset('plugins/select2/dist/js/select2.full.min.js') }}"></script>
 <script src="//maps.google.com/maps/api/js?key=<?=config('googlemaps.key')?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
 <script src="{{ asset('plugins/gmaps/gmaps.min.js') }}"></script>
 <script src="{{ asset('js/around.js') }}"></script>
 <script src="{{ asset('js/wall.js') }}"></script>
 <script src="{{ asset('js/notifications.js') }}"></script>
+<script src="{{ asset('js/grup.js') }}"></script>
+<script src="{{ asset('js/event.js') }}"></script>
 @yield('footer')
 <script type="text/javascript">
     $(function () {

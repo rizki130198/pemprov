@@ -17,7 +17,7 @@ Route::group(['middleware' => 'guest'], function () {
     });
 });
 
-
+ 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -41,10 +41,22 @@ Route::get('/post/{id}', 'PostsController@single');
 // Search
 Route::get('/search', 'HomeController@search');
 
+//Grup
+
+Route::get('/postgrups/list', 'GrupController@fetch');
+Route::post('/postgrups/create', 'GrupController@save');
+Route::post('/postgrups/new', 'GrupController@create');
+Route::post('/postgrups/delete', 'GrupController@delete');
+Route::post('/postgrups/like', 'GrupController@like');
+Route::post('/postgrups/likes', 'GrupController@likes');
+Route::post('/postgrups/comment', 'GrupController@comment');
+Route::post('/postgrups/comments/delete', 'GrupController@deleteComment');
+Route::get('/postgrup/{id}', 'GrupController@single');
+
 
 //events
 Route::get('/events', 'EventController@index');
-Route::get('/events/create', 'EventController@save');
+Route::post('/events/create', 'EventController@save');
 Route::post('/events/delete', 'EventController@delete');
 Route::post('/events/comment', 'EventController@comment');
 Route::post('/events/comments/delete', 'EventController@deleteComment');

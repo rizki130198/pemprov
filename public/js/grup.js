@@ -1,9 +1,36 @@
 /**
  * Created by lvntayn on 04/06/2017.
  */
-$(function() {
+ $("#grupcreate").submit(function (event) {
+  var data = new FormData($(this)[0]);
+  $.ajax({
+    url: BASE_URL + '/postgrups/create',
+    type: "POST",
+    data: data,
+    contentType: false,
+    cache: false,
+    processData: false,
+    headers: {'X-CSRF-TOKEN': CSRF},
+    success: function (response) {
+        if (response.code == 200) {
+            $('#exampleModal2').modal('hide');
+            location.reload();
+        } else {
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Ada Kesalahan!');
+        }
+    },
+    error: function () {
+        $('#errorMessageModal').modal('show');
+        $('#errorMessageModal #errors').html('Ada Kesalahan!');
+    }
+});
+  return false;
+});
+
+ $(function() {
     if (WALL_ACTIVE) {
-        $('.new-post-box textarea, .panel-post .post-write-comment textarea').each(function () {
+        $('.new-postgrup-box textarea, .panel-postgrup .postgrup-write-comment textarea').each(function () {
             this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
         }).on('input', function () {
             this.style.height = 'auto';
@@ -12,7 +39,7 @@ $(function() {
 
         $(window).scroll(function () {
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                fetchForOlderPosts();
+                fetchForOlderPostgrups();
             }
         });
 
@@ -21,7 +48,7 @@ $(function() {
 
         setInterval(function(){
 
-            fetchForNewPosts();
+            fetchForNewPostgrups();
 
         }, 40000);
 
@@ -30,14 +57,14 @@ $(function() {
 });
 
 
-function uploadPostImage(){
-    var form_name = '#form-new-post';
+ function uploadPostgrupImage(){
+    var form_name = '#form-new-postgrup';
     $(form_name+' .image-input').click();
 }
 
-function previewPostImage(input){
-    var form_name = '#form-new-post';
-    $(form_name + ' .loading-post').show();
+function previewPostgrupImage(input){
+    var form_name = '#form-new-postgrup';
+    $(form_name + ' .loading-postgrup').show();
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
@@ -48,37 +75,66 @@ function previewPostImage(input){
 
         reader.readAsDataURL(input.files[0]);
     }
-    $(form_name + ' .loading-post').hide();
+    $(form_name + ' .loading-postgrup').hide();
 }
 
-function removePostImage(){
-    var form_name = '#form-new-post';
+function removePostFile(){
+    var form_name = '#form-new-postgrup';
+    $('#uploadInput').attr('value', " ");
+    $('#uploadInput').hide();
+    resetFile($(form_name + ' .file-input'));
+}
+function uploadPostFile(){
+    var form_name = '#form-new-postgrup';
+    $(form_name+' .file-input').click();
+}
+
+function previewPostFile(input){
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = input.files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+          f.size, ' bytes, last modified: ',
+          f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+          '</li>');
+  }
+  document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+}
+
+function removePostgrupImage(){
+    var form_name = '#form-new-postgrup';
     $(form_name + ' .image-area img').attr('src', " ");
     $(form_name + ' .image-area').hide();
     resetFile($(form_name + ' .image-input'));
 }
 
-function cleanPostForm(){
-    var form_name = '#form-new-post';
+function cleanPostgrupForm(){
+    var form_name = '#form-new-postgrup';
     $(form_name + ' textarea').val('');
-    removePostImage();
+    $('#list').val('');
+    removePostgrupImage();
 }
 
-function newPost(){
-    var form_name = '#form-new-post';
-
-    $(form_name + ' .loading-post').show();
+function newPostgrup(){
+    var form_name = '#form-new-postgrup';
+ 
+    $(form_name + ' .loading-postgrup').show();
 
     var data = new FormData();
     data.append('data', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
-    var file_inputs = document.querySelectorAll('.image-input');
-    $(file_inputs).each(function(index, input) {
+    var image_input = document.querySelectorAll('.image-input');
+    $(image_input).each(function(index, input) {
         data.append('image', input.files[0]);
     });
 
+    var file_inputs = document.querySelectorAll('.file-input');
+    $(file_inputs).each(function(index, input) {
+        data.append('file', input.files[0]);
+    });
+
     $.ajax({
-        url: BASE_URL+'/posts/new',
+        url: BASE_URL+'/postgrups/new',
         type: "POST",
         timeout: 5000,
         data: data,
@@ -88,20 +144,20 @@ function newPost(){
         headers: {'X-CSRF-TOKEN': CSRF},
         success: function(response){
             if (response.code == 200){
-                cleanPostForm();
-                $(form_name + ' .loading-post').hide();
-                $('.post-list-top-loading').show();
-                fetchForNewPosts();
+                cleanPostgrupForm();
+                $(form_name + ' .loading-postgrup').hide();
+                $('.postgrup-list-top-loading').show();
+                fetchForNewPostgrups();
             }else{
                 $('#errorMessageModal').modal('show');
                 $('#errorMessageModal #errors').html(response.message);
-                $(form_name + ' .loading-post').hide();
+                $(form_name + ' .loading-postgrup').hide();
             }
         },
         error: function(){
             $('#errorMessageModal').modal('show');
             $('#errorMessageModal #errors').html('Something went wrong!');
-            $(form_name + ' .loading-post').hide();
+            $(form_name + ' .loading-postgrup').hide();
         }
     });
 
@@ -109,81 +165,81 @@ function newPost(){
 
 var fetch_end = false;
 var count_empty_query = 0;
-function fetchPost(wall_type, list_type, optional_id, limit, post_min_id, post_max_id, location){
+function fetchPostgrup(wall_type, list_type, optional_id, limit, postgrup_min_id, postgrup_max_id, location){
     if (!fetch_end) {
         fetch_end = true;
         $.ajax({
-            url: BASE_URL + '/posts/list',
+            url: BASE_URL + '/postgrups/list',
             type: "GET",
             timeout: 5000,
-            data: "wall_type=" + wall_type + "&list_type=" + list_type + "&optional_id=" + optional_id + "&limit=" + limit + "&post_min_id=" + post_min_id + "&post_max_id=" + post_max_id + "&div_location=" + location,
+            data: "wall_type=" + wall_type + "&list_type=" + list_type + "&optional_id=" + optional_id + "&limit=" + limit + "&postgrup_min_id=" + postgrup_min_id + "&postgrup_max_id=" + postgrup_max_id + "&div_location=" + location,
             contentType: false,
             cache: false,
             processData: false,
             headers: {'X-CSRF-TOKEN': CSRF},
             success: function (render) {
                 if (render != "") {
-                    $('.post-list .post_data_filter_' + location).remove();
+                    $('.postgrup-list .postgrup_data_filter_' + location).remove();
                     if (location == 'bottom') {
-                        $('.post-list').append(render);
+                        $('.postgrup-list').append(render);
                     } else if (location == 'top') {
-                        $('.post-list').prepend(render);
+                        $('.postgrup-list').prepend(render);
                     } else {
-                        $('.post-list').html(render);
+                        $('.postgrup-list').html(render);
                     }
                 }else{
                     if (location == 'bottom') {
                         count_empty_query = count_empty_query + 1;
                     }
                 }
-                $('.post-list-top-loading').hide();
-                $('.post-list-bottom-loading').hide();
+                $('.postgrup-list-top-loading').hide();
+                $('.postgrup-list-bottom-loading').hide();
                 fetch_end = false;
             },
             error: function () {
                 /*
                 $('#errorMessageModal').modal('show');
                 $('#errorMessageModal #errors').html('Something went wrong when loading your wall!');*/
-                $('.post-list-top-loading').hide();
-                $('.post-list-bottom-loading').hide();
+                $('.postgrup-list-top-loading').hide();
+                $('.postgrup-list-bottom-loading').hide();
                 fetch_end = false;
             }
         });
     }
 }
 
-function fetchForNewPosts(){
-    var wall_type = $('.post-list .post_data_filter_top input[name=wall_type]').val();
-    var list_type = $('.post-list .post_data_filter_top input[name=list_type]').val();
-    var optional_id = $('.post-list .post_data_filter_top input[name=optional_id]').val();
+function fetchForNewPostgrups(){
+    var wall_type = $('.postgrup-list .postgrup_data_filter_top input[name=wall_type]').val();
+    var list_type = $('.postgrup-list .postgrup_data_filter_top input[name=list_type]').val();
+    var optional_id = $('.postgrup-list .postgrup_data_filter_top input[name=optional_id]').val();
     var limit = 150000;
-    var post_min_id = -1;
-    var post_max_id = $('.post-list .post_data_filter_top input[name=post_max_id]').val();
-    if (post_max_id > 0 || $('.panel-post').length == 0) {
-        fetchPost(wall_type, list_type, optional_id, limit, post_min_id, post_max_id, 'top');
+    var postgrup_min_id = -1;
+    var postgrup_max_id = $('.postgrup-list .postgrup_data_filter_top input[name=postgrup_max_id]').val();
+    if (postgrup_max_id > 0 || $('.panel-postgrup').length == 0) {
+        fetchPostgrup(wall_type, list_type, optional_id, limit, postgrup_min_id, postgrup_max_id, 'top');
     }
 }
 
-function fetchForOlderPosts(){
-    var wall_type = $('.post-list .post_data_filter_bottom input[name=wall_type]').val();
-    var list_type = $('.post-list .post_data_filter_bottom input[name=list_type]').val();
-    var optional_id = $('.post-list .post_data_filter_bottom input[name=optional_id]').val();
+function fetchForOlderPostgrups(){
+    var wall_type = $('.postgrup-list .postgrup_data_filter_bottom input[name=wall_type]').val();
+    var list_type = $('.postgrup-list .postgrup_data_filter_bottom input[name=list_type]').val();
+    var optional_id = $('.postgrup-list .postgrup_data_filter_bottom input[name=optional_id]').val();
     var limit = 5;
-    var post_min_id = $('.post-list .post_data_filter_bottom input[name=post_min_id]').val();
-    var post_max_id = -1;
-    if (post_min_id > 1 && count_empty_query < 5) {
-        $('.post-list-bottom-loading').show();
-        fetchPost(wall_type, list_type, optional_id, limit, post_min_id, post_max_id, 'bottom');
+    var postgrup_min_id = $('.postgrup-list .postgrup_data_filter_bottom input[name=postgrup_min_id]').val();
+    var postgrup_max_id = -1;
+    if (postgrup_min_id > 1 && count_empty_query < 5) {
+        $('.postgrup-list-bottom-loading').show();
+        fetchPostgrup(wall_type, list_type, optional_id, limit, postgrup_min_id, postgrup_max_id, 'bottom');
 
     }
 }
 
 
-function deletePost(id){
+function deletePostgrup(id){
 
     BootstrapDialog.show({
-        title: 'Post Delete!',
-        message: 'Are you sure to delete post ?',
+        title: 'Postgrup Delete!',
+        message: 'Are you sure to delete postgrup ?',
         buttons: [{
             label: "Yes, I'm Sure!",
             cssClass: 'btn-danger',
@@ -194,7 +250,7 @@ function deletePost(id){
 
 
                 $.ajax({
-                    url: BASE_URL+'/posts/delete',
+                    url: BASE_URL+'/postgrups/delete',
                     type: "POST",
                     timeout: 5000,
                     data: data,
@@ -205,7 +261,7 @@ function deletePost(id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#panel-post-'+id).html(" ");
+                            $('#panel-postgrup-'+id).html("Postgrup deleted!");
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');
@@ -228,13 +284,13 @@ function deletePost(id){
 }
 
 
-function likePost(id){
+function likePostgrup(id){
 
     var data = new FormData();
     data.append('id', id);
 
     $.ajax({
-        url: BASE_URL+'/posts/like',
+        url: BASE_URL+'/postgrups/like',
         type: "POST",
         timeout: 5000,
         data: data,
@@ -245,16 +301,16 @@ function likePost(id){
         success: function(response){
             if (response.code == 200){
                 if (response.type == 'like'){
-                    $('#panel-post-'+id+' .like-text span').html('Unlike!');
-                    $('#panel-post-'+id+' .like-text i').removeClass('fa-heart-o').addClass('fa-heart');
+                    $('#panel-postgrup-'+id+' .like-text span').html('Unlike!');
+                    $('#panel-postgrup-'+id+' .like-text i').removeClass('fa-heart-o').addClass('fa-heart');
                 }else{
-                    $('#panel-post-'+id+' .like-text span').html('Like!');
-                    $('#panel-post-'+id+' .like-text i').removeClass('fa-heart').addClass('fa-heart-o');
+                    $('#panel-postgrup-'+id+' .like-text span').html('Like!');
+                    $('#panel-postgrup-'+id+' .like-text i').removeClass('fa-heart').addClass('fa-heart-o');
                 }
                 if (response.like_count > 1){
-                    $('#panel-post-'+id+' .all_likes span').html(response.like_count+' likes');
+                    $('#panel-postgrup-'+id+' .all_likes span').html(response.like_count+' likes');
                 }else{
-                    $('#panel-post-'+id+' .all_likes span').html(response.like_count+' like');
+                    $('#panel-postgrup-'+id+' .all_likes span').html(response.like_count+' like');
                 }
             }else{
                 $('#errorMessageModal').modal('show');
@@ -268,11 +324,11 @@ function likePost(id){
     });
 }
 
-function submitComment(id){
+function submitCommentgrup(id){
 
     var data = new FormData();
     data.append('id', id);
-    var comment = $('#panel-post-'+id+' #form-new-comment textarea').val();
+    var comment = $('#panel-postgrup-'+id+' #form-new-comment-grup textarea').val();
     data.append('comment', comment);
 
     if (comment.trim() == ''){
@@ -280,7 +336,7 @@ function submitComment(id){
         $('#errorMessageModal #errors').html('Please write comment!');
     }else {
         $.ajax({
-            url: BASE_URL + '/posts/comment',
+            url: BASE_URL + '/postgrups/comment',
             type: "POST",
             timeout: 5000,
             data: data,
@@ -290,9 +346,9 @@ function submitComment(id){
             headers: {'X-CSRF-TOKEN': CSRF},
             success: function (response) {
                 if (response.code == 200) {
-                    $('#panel-post-'+id+' #form-new-comment textarea').val("");
-                    $('#panel-post-'+id+' .comments-title').html(response.comments_title);
-                    $('#panel-post-'+id+' .post-comments').append(response.comment);
+                    $('#panel-postgrup-'+id+' #form-new-comment-grup textarea').val("");
+                    $('#panel-postgrup-'+id+' .comments-title-grup').html(response.comments_title);
+                    $('#panel-postgrup-'+id+' .postgrup-comments-grup').append(response.comment);
                 } else {
                     $('#errorMessageModal').modal('show');
                     $('#errorMessageModal #errors').html('Something went wrong!');
@@ -307,7 +363,7 @@ function submitComment(id){
 }
 
 
-function removeComment(id, post_id){
+function removeCommentGrup(id, postgrup_id){
 
     BootstrapDialog.show({
         title: 'Comment Delete!',
@@ -322,7 +378,7 @@ function removeComment(id, post_id){
 
 
                 $.ajax({
-                    url: BASE_URL+'/posts/comments/delete',
+                    url: BASE_URL+'/postgrups/comments/delete',
                     type: "POST",
                     timeout: 5000,
                     data: data,
@@ -333,8 +389,8 @@ function removeComment(id, post_id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#post-comment-'+id+' .panel-body').html("<p><small>Comment deleted!</small></p>");
-                            $('#panel-post-'+post_id+' .comments-title').html(response.comments_title);
+                            $('#post-comments-grup-'+id+' .panel-body').html("<p><small>Comment deleted!</small></p>");
+                            $('#panel-postgrup-'+postgrup_id+' .comments-title').html(response.comments_title);
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');
@@ -364,7 +420,7 @@ function showLikes(id){
     data.append('id', id);
 
     $.ajax({
-        url: BASE_URL + '/posts/likes',
+        url: BASE_URL + '/postgrups/likes',
         type: "POST",
         timeout: 5000,
         data: data,

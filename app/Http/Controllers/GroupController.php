@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Group;
 use App\Models\Grup;
+use App\Models\GrupPost;
+use App\Models\User_grup;
 use App\Models\Hobby;
 use App\Models\User;
 use App\Models\UserDirectMessage;
@@ -63,7 +65,7 @@ class GroupController extends Controller
         // $user_list = $user->messagePeopleList();
 
         $groups = Grup::join('user_groups', 'user_groups.id_groups', '=', 'grup.id_grup')
-            ->where('user_groups.id_user', $user->id)->select('grup.*');
+        ->where('user_groups.id_user', $user->id)->select('grup.*');
 
         return view('groups.index', compact('user', 'groups','user_list'));
     }
@@ -77,15 +79,14 @@ class GroupController extends Controller
         $user = Auth::user();
 
         $group = $this->group;
-
+        $id_link = $id;
         $user_list = $user->messagePeopleList();
-
         $wall = [
-            'new_post_group_id' => $group->id_group
+            'new_postgrup_group_id' => $group->id_group
         ];
 
 
-        return view('groups.group', compact('user', 'group', 'wall','user_list'));
+        return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list'));
     }
 
 
