@@ -31,14 +31,18 @@
             <div class="icon-bar">
                 <a class="active" href="#"><i class="fa fa-home"></i></a> 
                 <a href="#" class="collapsed" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i></a> 
-                <a href="#"><i class="fa fa-bell"></i></a> 
+                <a href="#" onclick="openNotif()">
+                    <i class="fa fa-bell"></i>
+                    @if(count(sHelper::notifications()) > 0)
+                    <span class="badge badge-notify" style="top: 8px;right: 33%;position: absolute;">{{ count(sHelper::notifications()) }}</span>
+                    @endif
+                </a> 
                 <a href="#" onclick="openNav()"><i class="fa fa-bars"></i></a> 
             </div>
         </nav>
         <nav class="navbar navbar-default flex-nav navbar-static-top navbar-around" role="navigation">
             <div class="side-nav" id="side-nav">
                 <div class="overlay"></div>
-                <!-- <div class="background-blur"></div> -->
                 <style type="text/css">
                 .faq ul.timeline li.timeline-inverted:target {
                     display:block !important;
@@ -46,160 +50,123 @@
             </style>
             <div class="navigation" style="text-align: center;">
                 <div class="content-navigation" style="padding-left: 20px;padding-right: 20px;">
-                    <center><img src="{{ Auth::user()->getPhoto() }}" width="100px;" height="100px" style="border-radius:50%;    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);padding: 7px;border: 2px solid #e8b563;margin-top: 47px;"></center>
-                    <ul class="timeline" style="z-index: 2;">
-                        <li>
-                            <a data-toggle="collapse" href="#notifications"><div class="timeline-badge primary">
-                                <div class="tl-circ"></div>
-                            </a>
-                        </div>
-                        <div class="timeline-panel">
-                            <a data-toggle="collapse" href="#notifications">
-                                <div class="timeline-body">
-                                    <p style="color: #fff;">Notifications</p>
-                                    @if(count(sHelper::notifications()) > 0)
-                                    <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count(sHelper::notifications()) }}</span>
-                                    @endif
+                    @if(count($user_list) == 0)
+                    <a href="{{ url('/direct-messages') }}">
+                        <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
+                            <div class="panel-body" style="color: #111;font:inherit;">
+                                See all messages
+                            </div>
+                        </div>    
+                    </a>
+                    @else
+                    @foreach($user_list as $friend)
+                    <a href="{{ url('/direct-messages/show/'. $friend['user']->id) }}" class="friend">
+                        <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;margin-top: 50px;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title" style="float: left;font:inherit;color: #111;">Messages</h3>
+                                <span style="float: right;color: #111;">{{ $friend['message']->created_at->diffForHumans() }}</span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="img-circle" src="{{ $friend['user']->getPhoto(40, 40) }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body" style="color: #111;font:inherit;">
+                                        <h4 class="media-heading" style="float: left;"><strong>{{ $friend['user']->name }}</strong></h4>
+                                        <br>
+                                        <br>
+                                        <p style="float: left;margin-top: -18px;">{{ str_limit($friend['message']->message, 20) }}</p>
+                                    </div>
                                 </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li id="notifications" class="timeline-inverted panel-collapse collapse">
-                        <div class="timeline-panel">
-                            <div class="timeline-body">
-                                @if(count(sHelper::notifications()) == 0)
-                                <p>There is no notification.</p>
-                                @else
-
-                                @foreach(sHelper::notifications() as $notification)
-                                <a href="{{ $notification['url'] }}">
-                                    <i class="fa {{ $notification['icon'] }}"></i> {{ $notification['text'] }}
-                                </a>
-                                @endforeach
-                                @endif
                             </div>
                         </div>
-                    </li>
-            <li class="clearfix" style="float: none;"></li>
-        </ul>
-
-        @if(count($user_list) == 0)
-        <a href="{{ url('/direct-messages') }}">
-            <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
-                <div class="panel-body" style="color: #111;font:inherit;">
-                    See all messages
-                </div>
-            </div>    
-        </a>
-        @else
-        @foreach($user_list as $friend)
-        <a href="{{ url('/direct-messages/show/'. $friend['user']->id) }}" class="friend">
-            <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;margin-top: 50px;">
-                <div class="panel-heading">
-                    <h3 class="panel-title" style="float: left;font:inherit;color: #111;">Messages</h3>
-                    <span style="float: right;color: #111;">{{ $friend['message']->created_at->diffForHumans() }}</span>
-                </div>
-                <div class="panel-body">
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="#">
-                                <img class="img-circle" src="{{ $friend['user']->getPhoto(40, 40) }}">
-                            </a>
-                        </div>
-                        <div class="media-body" style="color: #111;font:inherit;">
-                            <h4 class="media-heading" style="float: left;"><strong>{{ $friend['user']->name }}</strong></h4>
-                            <br>
-                            <br>
-                            <p style="float: left;margin-top: -18px;">{{ str_limit($friend['message']->message, 20) }}</p>
-                        </div>
-                    </div>
+                    </a>
+                    @endforeach
+                    @endif
+                    <i class="fa fa-times-circle" data-toggle="collapse" data-target="#side-nav" style="font-size: 16px;margin-top:18%;"></i>
+                    <p data-toggle="collapse" data-target="#side-nav" style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
                 </div>
             </div>
-        </a>
-        @endforeach
-        @endif
-        <i class="fa fa-times-circle" data-toggle="collapse" data-target="#side-nav" style="font-size: 16px;margin-top:18%;"></i>
-        <p data-toggle="collapse" data-target="#side-nav" style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
-    </div>
-</div>
-</div>
-<div class="container">
-    <div class="navbar-header">
-        <button type="button" style="padding:0;padding-right: 10px;border:none;background-color: transparent;color: #fff;font-size: 30px;" class="navbar-toggle toggle-side-nav" data-toggle="collapse" data-target="#side-nav">
-            <i class="fa fa-commenting"></i>
-            @if (count($user_list) > 0)
-            <span class="badge badge-notify" style="right: 2px;top: 2px;">{{ count($user_list) }}</span>
-            @endif
-        </button>
-        <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />
-        </a>
-
-    </div>
-
-    <div class="collapse navbar-collapse" id="app-navbar-collapse">
-        <!-- Left Side Of Navbar -->
-        <ul class="nav navbar-nav">
-            &nbsp;
-        </ul>
-
-        <div class="navbar-form navbar-left">
-            <form id="custom-search-input" method="get" action="{{ url('/search') }}">
-                <div class="input-group col-md-12">
-                    <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="button">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </form>
         </div>
-
-
-        <!-- Right Side Of Navbar -->
-        <ul class="nav navbar-nav navbar-right">
-            @include('widgets.notifications')
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle parent" data-toggle="dropdown" role="button" aria-expanded="false">
-
-                    <img src="{{ Auth::user()->getPhoto() }}" alt="" />
-                    {{ Auth::user()->name }} <span class="caret"></span>
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" style="padding:0;padding-right: 10px;border:none;background-color: transparent;color: #fff;font-size: 30px;" class="navbar-toggle toggle-side-nav" data-toggle="collapse" data-target="#side-nav">
+                    <i class="fa fa-commenting"></i>
+                    @if (count($user_list) > 0)
+                    <span class="badge badge-notify" style="right: 2px;top: 2px;">{{ count($user_list) }}</span>
+                    @endif
+                </button>
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />
                 </a>
 
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="{{ url('/'.Auth::user()->username) }}">
-                            <i class="fa fa-user"></i> My Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('/settings') }}">
-                            <i class="fa fa-cog"></i> Settings
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                        <i class="fa fa-sign-out"></i> Logout
-                    </a>
+            </div>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="nav navbar-nav">
+                    &nbsp;
+                </ul>
+
+                <div class="navbar-form navbar-left">
+                    <form id="custom-search-input" method="get" action="{{ url('/search') }}">
+                        <div class="input-group col-md-12">
+                            <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-lg" type="button">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
+                        </div>
                     </form>
+                </div>
+
+
+                <!-- Right Side Of Navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    @include('widgets.notifications')
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle parent" data-toggle="dropdown" role="button" aria-expanded="false">
+
+                            <img src="{{ Auth::user()->getPhoto() }}" alt="" />
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ url('/'.Auth::user()->username) }}">
+                                    <i class="fa fa-user"></i> My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/settings') }}">
+                                    <i class="fa fa-cog"></i> Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                <i class="fa fa-sign-out"></i> Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-        </li>
-    </ul>
-</div>
-</div>
-<style type="text/css">
-@media(max-width: 768px){
-    .hide-search{
-        display: block !important; 
+        </div>
+    </div>
+    <style type="text/css">
+    @media(max-width: 768px){
+        .hide-search{
+            display: block !important; 
+        }
     }
-}
 </style>
 <div class="collapse navbar-collapse hide-search" id="search" style="display: none !important;">
     <form id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">
@@ -214,8 +181,8 @@
     </form>
 </div>
 </nav>
+<!-- Tab Hamburger -->
 <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <div class="sidebar-header">
         <div class="user-pic">
             <img class="img-responsive img-rounded" src="{{ Auth::user()->getPhoto() }}" alt="User picture">
@@ -249,7 +216,7 @@
                     <i class="fa fa-user" style="background:#339399; "></i>
                     <span>Profile</span>
                 </a>
-                <div class="sidebar-submenu">
+                <div class="sidebar-submenu" style="display: none;">
                     <ul>
                         <li>
                             <a href="{{ url('/'.Auth::user()->username) }}">My Profile</a>
@@ -259,15 +226,54 @@
                         </li>
                         <li>
                             <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">Logout</a>
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">Logout</a>
                         </li>
                     </ul>
                 </div>
             </li>
         </ul>
+        <div style="text-align: center;">
+            <a href="javascript:void(0)" onclick="closeNav()" style="color: #333;bottom: 0;position: fixed;">
+                <i class="fa fa-times-circle" style="font-size: 16px;margin-top:18%;"></i>
+                <p style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
+            </a>
+        </div>
     </div>
 </div>
+<!-- End Tab Hamburger -->
+
+<!-- Tab Notif -->
+<div id="mySidenav2" class="sidenav" style="transition: 0s;"> 
+    <div class="sidebar-menu">
+        <ul class="list-group">
+            @if(count(sHelper::notifications()) == 0)
+            <li class="list-group-item">
+             <div class="alert alert-success" role="alert">There is no notification.</div>
+         </li>
+         @else
+         @foreach(sHelper::notifications() as $notification)
+         <a href="{{ $notification['url'] }}">
+            <li class="list-group-item">
+                <div class="media">
+                    <div class="media-body">
+                        <h4 class="media-heading"><i class="fa {{ $notification['icon'] }}"></i>{{ $notification['text'] }}</h4>
+                    </div>
+                </div>
+            </li>
+        </a>
+        @endforeach
+        @endif
+    </ul>
+    <center>
+        <a href="javascript:void(0)" onclick="closeNotif()" style="color: #333;bottom: 0;position: fixed;">
+            <i class="fa fa-times-circle" style="font-size: 16px;margin-top:18%;"></i>
+            <p style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
+        </a>
+    </center>
+</div>
+</div>
+<!-- End Tab Notif -->
 </div>
 <div class="main-content">
     @yield('content')
@@ -307,7 +313,7 @@
 @yield('footer')
 <script type="text/javascript">
     $(function () {
-       $('.panel-google-plus, .panel-footer, .input-placeholder, .panel-google-plus, .panel-google-plus-comment, .panel-google-plus-textarea, button[type="reset"]').on('click', function(event) {
+     $('.panel-google-plus, .panel-footer, .input-placeholder, .panel-google-plus, .panel-google-plus-comment, .panel-google-plus-textarea, button[type="reset"]').on('click', function(event) {
         var $panel = $(this).closest('.panel-google-plus');
         $comment = $panel.find('.panel-google-plus-comment');
 
@@ -320,7 +326,7 @@
             $comment.find('textarea').focus();
         }
     });
-       $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
+     $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
         var $comment = $(this).closest('.panel-google-plus-comment');
 
         $comment.find('button[type="submit"]').addClass('disabled');
@@ -328,12 +334,12 @@
             $comment.find('button[type="submit"]').removeClass('disabled');
         }
     });
-   });
-    @if(!Auth::user()->has('location'))
+ });
+    // @if(!Auth::user()->has('location'))
 
-    autoFindLocation();
+    // autoFindLocation();
 
-    @endif
+    // @endif
 
     $('.toggle-side-nav').on('click', function () {
         var targetId = $(this).data('target'); 
@@ -353,11 +359,19 @@
 </script>
 <script>
     function openNav() {
-        document.getElementById("mySidenav").style.width = "280px";
+        document.getElementById("mySidenav").style.width = "100%";
     }
 
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function openNotif() {
+        document.getElementById("mySidenav2").style.width = "100%";
+    }
+
+    function closeNotif() {
+        document.getElementById("mySidenav2").style.width = "0";
     }
 </script>
 <script type="text/javascript">
