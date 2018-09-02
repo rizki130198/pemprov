@@ -48,42 +48,6 @@
                 <div class="content-navigation" style="padding-left: 20px;padding-right: 20px;">
                     <center><img src="{{ Auth::user()->getPhoto() }}" width="100px;" height="100px" style="border-radius:50%;    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);padding: 7px;border: 2px solid #e8b563;margin-top: 47px;"></center>
                     <ul class="timeline" style="z-index: 2;">
-                        <!-- <li>
-                            <div class="timeline-badge primary">
-                                <div class="tl-circ"></div>
-                            </div>
-                            <div class="timeline-panel">
-                                <a href="">
-                                    <div class="timeline-body">
-                                        <p style="color: #fff;">HOME</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="timeline-badge primary">
-                                <div class="tl-circ"></div>
-                            </div>
-                            <div class="timeline-panel">
-                                <a href="{{ url('/events') }}">
-                                    <div class="timeline-body">
-                                        <p style="color: #fff;">Events</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="timeline-badge primary">
-                                <div class="tl-circ"></div>
-                            </div>
-                            <div class="timeline-panel">
-                                <a href="{{ url('/groups') }}">
-                                    <div class="timeline-body">
-                                        <p style="color: #fff;">Groups</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
                         <li>
                             <a data-toggle="collapse" href="#notifications"><div class="timeline-badge primary">
                                 <div class="tl-circ"></div>
@@ -115,45 +79,7 @@
                                 @endif
                             </div>
                         </div>
-                    </li> -->
-                    <!-- <li>
-                        <a data-toggle="collapse" href="#messages"><div class="timeline-badge primary">
-                            <div class="tl-circ"></div>
-                        </a>
-                    </div>
-                    <div class="timeline-panel">
-                        <a data-toggle="collapse" href="#messages">
-                            <div class="timeline-body">
-                                <p style="color: #fff;">Messages</p>
-                                @if (count($user_list) > 0)
-                                <span class="badge badge-notify" style="right: 6px;top: -14px;">{{ count($user_list) }}</span>
-                                @endif
-                            </div>
-                        </a>
-                    </div>
-                </li> -->
-                <!-- <li>
-                    <a data-toggle="collapse" href="#profile"><div class="timeline-badge primary">
-                        <div class="tl-circ"></div>
-                    </a>
-                </div>
-                <div class="timeline-panel">
-                    <a data-toggle="collapse" href="#profile">
-                        <div class="timeline-body">
-                            <p style="color: #fff;">Profile</p>
-                        </div>
-                    </a>
-                </div>
-            </li>
-            <li id="profile" class="timeline-inverted panel-collapse collapse">
-                <div class="timeline-panel">
-                    <div class="timeline-body" >
-                        <p><a style="color: #fff;" href="{{ url('/'.Auth::user()->username) }}">My Profile</a></p>
-                        <p><a style="color: #fff;" href="{{ url('/settings') }}">Setting</a></p>
-                        <p><a style="color: #fff;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></p>
-                    </div>
-                </div>
-            </li> -->
+                    </li>
             <li class="clearfix" style="float: none;"></li>
         </ul>
 
@@ -205,9 +131,6 @@
             <span class="badge badge-notify" style="right: 2px;top: 2px;">{{ count($user_list) }}</span>
             @endif
         </button>
-        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#search" style="padding-left: 12px;float:left;border: none;margin-top: 8px;">
-            <span class="fa fa-search" style="color: #3d464d;border: none;cursor: pointer;font-size:25px;"></span>
-        </button> -->
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />
         </a>
@@ -272,11 +195,11 @@
 </div>
 </div>
 <style type="text/css">
-/*@media(max-width: 768px){
+@media(max-width: 768px){
     .hide-search{
         display: block !important; 
     }
-}*/
+}
 </style>
 <div class="collapse navbar-collapse hide-search" id="search" style="display: none !important;">
     <form id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">

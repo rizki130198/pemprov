@@ -275,7 +275,7 @@ body {
     display: none;
   }
   .res-home{
-    padding-right: 0;
+    /*padding-right: 0;*/
     padding-left: 0;
   }
   .res-home .col-md-6{
@@ -863,6 +863,7 @@ body {
 
   .main-content {
     margin-top: 61px;
+    overflow-x: hidden;
   }
 
   .m-t-10 {
