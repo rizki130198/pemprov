@@ -39,13 +39,13 @@
                                         <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()">
                                             <i class="fa fa-image"></i> Add Image
                                         </button>
-                                        <input type="file" accept="image/*" class="image-input" name="photo" onchange="previewPostgrupImage(this)">
+                                        <input type="file" accept="image/*" multiple class="image-input" name="photo[]" onchange="previewPostgrupImage(this)">
                                     </div>
                                     <div class="col-xs-2">
                                         <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostFile()">
                                             <i class="glyphicon glyphicon-file"></i> Add File
                                         </button>
-                                        <input type="file" accept="image/*" class="file-input" id="file" name="file" onchange="previewPostFile(this)">
+                                        <input type="file" multiple class="file-input" id="file" name="file[]" onchange="previewPostFile(this)">
                                     </div>
                                     <div class="col-xs-4">
                                         <div class="loading-postgrup">

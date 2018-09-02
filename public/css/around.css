@@ -1320,6 +1320,19 @@ a, a:hover, a:active, a:visited, a:focus {
     color: #000;
 }
 
+.new-postgrup-box .file-remove-button {
+    background: rgba(255,255,255,0.5);
+    position: absolute;
+    display: block;
+    font-size: 23px;
+    padding: 0 10px;
+    color: #333;
+}
+
+.new-postgrup-box .file-remove-button:hover {
+    color: #000;
+}
+
 
 /* New Post Box */
 .new-post-box {
@@ -1416,6 +1429,18 @@ a, a:hover, a:active, a:visited, a:focus {
 }
 
 .new-post-box .image-remove-button:hover {
+    color: #000;
+}
+.new-post-box .file-remove-button {
+    background: rgba(255,255,255,0.5);
+    position: absolute;
+    display: block;
+    font-size: 23px;
+    padding: 0 10px;
+    color: #333;
+}
+
+.new-post-box .file-remove-button:hover {
     color: #000;
 }
 

@@ -58,10 +58,31 @@ function removePostImage(){
     resetFile($(form_name + ' .image-input'));
 }
 
+function uploadPostFilea(){
+    var form_name = '#form-new-post';
+    $(form_name+' .file-input').click();
+}
+
+function previewPostFilea(input){
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = input.files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong>',
+          '</li>');
+  }
+  document.getElementById('lista').innerHTML = '<ul>' + output.join('') + '</ul>';
+}
+
+function removePostFile(){
+    var form_name = '#form-new-post';
+    $('#lista').remove();
+    resetFile($(form_name + ' .file-input'));
+}
 function cleanPostForm(){
     var form_name = '#form-new-post';
     $(form_name + ' textarea').val('');
     removePostImage();
+    removePostFile();
 }
 
 function newPost(){
