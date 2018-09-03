@@ -75,7 +75,6 @@ class GroupController extends Controller
     public function group($id){
 
         if (!$this->secure($id)) return redirect('/404');
-
         $user = Auth::user();
 
         $group = $this->group;
@@ -84,9 +83,13 @@ class GroupController extends Controller
         $wall = [
             'new_postgrup_group_id' => $group->id_group
         ];
+        $validasi = User_grup::find($user->id);
+        if ($validasi) {
+            return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list'));
+        }else{
+            return redirect('/404');
+        }
 
-
-        return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list'));
     }
 
 

@@ -95,8 +95,8 @@ class GrupController extends Controller
 
             $posts = $posts->where('group_post_id', $optional_id)->whereExists(function ($query) {
                 $query->select(DB::raw(1))
-                    ->from('user_groups')
-                    ->whereRaw('posts_grup.user_id = user_groups.id_user');
+                ->from('user_groups')
+                ->whereRaw('posts_grup.user_id = user_groups.id_user');
             });
         }else{
             $posts = $posts->where(function($query) use ($user) {
@@ -108,7 +108,7 @@ class GrupController extends Controller
         }
         $posts = $posts->limit(20)->orderBy('id_post_grup', 'DESC')->get();
 
-         if ($list_type == 1){
+        if ($list_type == 1){
             $posts = $posts->where('has_image', 1);
         }else if ($list_type == 2) {
             $posts = $posts->where('has_image', 2);
@@ -314,7 +314,7 @@ class GrupController extends Controller
             $post->user_id = Auth::user()->id;
 
             $image_name = '';
-            $file_name = '';
+            $file_name = "";
 
             if ($request->hasFile('image')) {
                 $post->has_image = 1;
@@ -329,46 +329,56 @@ class GrupController extends Controller
             }else if($request->hasFile('file')){
                 $post->has_image = 1;
                 $file = $request->file('file');
+                $coba = $request->file;
+                if (count($coba) != 14) {
+                  for ($i=0; $i < count($coba); $i++) {
+                    $def = $coba->getClientOriginalName()[$i].',';
+                    $file_name .= $def;
+                }
+                $fpdf = substr($file_name, 0, -1);
+            }else{
+                $fpdf = $coba->getClientOriginalName();
+          }
 
-                $file_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
-                if ($file->storeAs('public/uploads/posts', $file_name)) {
-                    $process = true;
-                } else {
-                    $process = false;
+          if ($file->storeAs('public/uploads/posts', $fpdf)) {
+            $process = true;
+        } else {
+            $process = false;
+        }
+    }else{
+        $process = true;
+    }
+
+    if ($process){
+        if ($post->save()) {
+            if ($post->has_image == 1) {
+                $post_image = new GrupImage();
+                $post_image->image_path = $image_name;
+                $post_image->file_path = $fpdf;
+                $post_image->post_grup_id = $post->id_post_grup;
+                if ($post_image->save()){
+                    $response['code'] = 200;
+                    // $response['message'] = dd($request->file);
+                }else{
+                    $response['code'] = 400;
+                    $response['message'] = "Something went wrong!";
+                    $post->delete();
                 }
             }else{
-                $process = true;
+                $response['code'] = 200;
             }
-
-            if ($process){
-                if ($post->save()) {
-                    if ($post->has_image == 1) {
-                        $post_image = new GrupImage();
-                        $post_image->image_path = $image_name;
-                        $post_image->file_path = $file_name;
-                        $post_image->post_grup_id = $post->id_post_grup;
-                        if ($post_image->save()){
-                            $response['code'] = 200;
-                        }else{
-                            $response['code'] = 400;
-                            $response['message'] = "Something went wrong!";
-                            $post->delete();
-                        }
-                    }else{
-                        $response['code'] = 200;
-                    }
-                }
-            }else{ 
-                $response['code'] = 400;
-                $response['message'] = "Something went wrong!";
-            }
-
-
         }
-
-        return Response::json($response);
-
+    }else{ 
+        $response['code'] = 400;
+        $response['message'] = "Something went wrong!";
     }
+
+
+}
+
+return Response::json($response);
+
+}
 
 
 }

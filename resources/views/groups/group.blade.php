@@ -24,7 +24,7 @@
                     @if($user->id == Auth::user()->id)
                     <div class="new-postgrup-box">
                         <div class="well well-sm well-social-postgrup" style="border-top:solid 4px #e8b563;">
-                            <form id="form-new-postgrup">
+                            <form id="form-new-postgrup" method="post"  enctype="multipart/form-data" accept-charset="utf-8">
                                 <input type="hidden" name="group_id" value="{{ $id_link }}">
                                 <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;">Update Status</div>
                                 <textarea class="form-control text-postgrup" name="content" placeholder="What's in your mind?" style="resize:none;"></textarea>

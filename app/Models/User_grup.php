@@ -18,4 +18,7 @@ class User_grup extends Model
 
     public $timestamps = false;
 
+    public $incrementing = false;
+
+    protected $primaryKey = 'id_user';
 }

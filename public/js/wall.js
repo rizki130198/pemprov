@@ -93,9 +93,14 @@ function newPost(){
     var data = new FormData();
     data.append('data', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
-    var file_inputs = document.querySelectorAll('.image-input');
-    $(file_inputs).each(function(index, input) {
+    var image_inputs = document.querySelectorAll('.image-input');
+    $(image_inputs).each(function(index, input) {
         data.append('image', input.files[0]);
+    });
+    
+    var file_inputs = document.querySelectorAll('.file-input');
+    $(file_inputs).each(function(index, input) {
+        data.append('file', input.files[0]);
     });
 
     $.ajax({
