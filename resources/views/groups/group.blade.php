@@ -9,7 +9,6 @@
         </div>
         <div class="col-md-9">
 
-
             <div class="content-page-title">
                 {{ $group->nama_grup }}
             </div>
@@ -89,16 +88,10 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
-
-
-
         </div>
     </div>
 </div>
-
-
 
 @endsection
 
