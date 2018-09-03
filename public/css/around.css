@@ -1975,26 +1975,28 @@ body {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  font: 14px/20px "Lato", Arial, sans-serif;
 }
 
 .dm .friends-list {
   width: 30%;
   float: left;
   box-sizing: border-box;
-  border-right: 1px solid #c3c3c3;
   height: 100%;
   overflow: auto;
+  background-color: #444753;
 }
 
 .dm .friends-list .friend {
   display: block;
-  border-bottom: 1px solid #dedede;
+  /*border-bottom: 1px solid #dedede;*/
   padding: 10px;
   position: relative;
 }
 
 .dm .friends-list .friend:hover {
-  background: #e1f1fe;
+  background: #2f313a;
+  color: red !important;
 }
 
 .dm .friends-list .friend .image {
@@ -2005,7 +2007,7 @@ body {
 
 .dm .friends-list .friend strong {
   font-size: 15px;
-  color: #555;
+  color: #fff;
   font-family: Arial, serif;
   display: block;
   margin-top: 5px;
@@ -2013,13 +2015,13 @@ body {
 
 .dm .friends-list .friend span {
   font-size: 13px;
-  color: #666;
+  color: #fff;
   display: block;
 }
 
 .dm .friends-list .friend small {
   font-style: italic;
-  color: #999;
+  color: #92959E;
 }
 
 .dm .friends-list .friend .circle {
@@ -2060,11 +2062,12 @@ body {
   width: 70%;
   height: 100%;
   float: left;
+  background-color: #f2f5f8;
 }
 
 .dm .chat .chat-info {
   padding: 10px;
-  border-bottom: 1px solid #c3c3c3
+  border-bottom: 2px solid #fff;
 }
 
 .dm .chat .chat-info .user-profile {
@@ -2076,6 +2079,7 @@ body {
   float: left;
   margin-right: 5px;
   width: 40px;
+  border: solid 2px #86BB71;
 }
 
 .dm .chat .chat-info .user-profile .detail {
@@ -2109,8 +2113,9 @@ body {
 }
 
 .dm .chat .message-list .message .text {
-  background: #dfdfdf;
+  background: #86BB71;
   box-sizing: border-box;
+  color: #fff;
   width: 100%;
   padding: 10px;
   -webkit-border-radius: 10px 10px;
@@ -2142,15 +2147,16 @@ body {
 }
 
 .dm .chat .message-list .message.message-right .text{
-  background: #fac959;
+  background: #94C2ED;
   color: #fff;
 }
 
 .dm .chat .message-write {
   background: #ebf0f4;
-  padding: 10px;
-  height: 77px;
+  padding: 4px 4px;
+  height: 0;
   box-sizing: border-box;
+  border-top: solid 2px #fff;
 }
 
 .dm .chat .message-write textarea{

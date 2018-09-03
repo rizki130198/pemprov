@@ -4,7 +4,7 @@
         <img class="img-circle" src="{{ $friend->getPhoto(50, 50) }}">
         <div class="detail">
             <strong>{{ $friend->name }}</strong>
-            {{ '@'.$friend->username }}
+            <p style="color: #92959E;">{{ '@'.$friend->username }}</p>
         </div>
     </a>
     <a class="btn btn-default btn-xs btn-remove" onclick="deleteChat({{ $friend->id }})" data-toggle="tooltip" data-placement="bottom" title="Delete Chat">
