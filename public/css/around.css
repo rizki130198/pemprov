@@ -12,6 +12,7 @@ body {
   right: 0;
   background-color: #fff;
   overflow-x: hidden;
+  overflow-y: scroll;
   transition: 0.5s;
   padding-top: 60px;
   border-left:solid 1px #ddd;

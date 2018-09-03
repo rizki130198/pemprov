@@ -24,16 +24,19 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        @include('profile.widgets.information')
+                        <div class="">
+                            @include('profile.widgets.information')
+                        </div>
                     </div>
                     <div class="col-xs-12 col-md-3 pull-right">
+                        <div class="">
                         @include('profile.widgets.user_follow_counts')
-                        <!-- <div class="hidden-sm hidden-xs">
-                            @include('widgets.suggested_people')
-                        </div> -->
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        @include('widgets.wall')
+                        <div class="">
+                            @include('widgets.wall')
+                        </div>    
                     </div>
                 </div>
             </div>
