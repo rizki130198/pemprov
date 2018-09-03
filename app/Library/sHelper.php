@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\User;
+use App\Models\User_grup;
 use App\Models\UserFollowing;
 use App\Models\UserLocation;
 use Auth;
@@ -36,6 +37,21 @@ class sHelper
 
     }
 
+    public static function grupButton($id_grup, $id_user, $element, $size = ''){
+
+        $relation = User_grup::where('id_user',$id_user)->where('id_groups',$id_grup)->get()->first();
+
+        if ($relation){
+            if ($relation->allow == 0) {
+                return '<a href="javascript:;" class="btn btn-default request-button '.$size.'" onclick="gabung(' . $id_grup . ', ' . $id_user . ', \''.$element.'\', \''.$size.'\')"></a>';
+            }elseif ($relation->allow == 1){
+                return '<a href="javascript:;" class="btn btn-default following-button '.$size.'" onclick="gabung('.$id_grup.', '.$id_user.', \''.$element.'\', \''.$size.'\')"></a>';
+            }
+        }
+
+        return '<a href="javascript:;" class="btn btn-default follow-button '.$size.'" onclick="gabung('.$id_grup.', '.$id_user.', \''.$element.'\', \''.$size.'\')"><i class="fa fa-plus"></i> Follow</a>';
+
+    }
 
     public static function deniedButton($me, $follower, $element, $size = ''){
         if ($me  == $follower) return "";

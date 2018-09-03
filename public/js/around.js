@@ -168,6 +168,44 @@ function follow(following, follower, element, size){
 
 }
 
+function gabung(idgrup, iduser, element, size){
+
+    var data = new FormData();
+    data.append('idgrup', idgrup);
+    data.append('iduser', iduser);
+    data.append('element', element);
+    data.append('size', size);
+
+
+    $.ajax({
+        url: BASE_URL + '/postgrups/gabung',
+        type: "POST",
+        timeout: 5000,
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        success: function (response) {
+            if (response.code == 200) {
+                $(element).html(response.button);
+                if (response.refresh == 1 && size != '.btn-no-refresh'){
+                    location.reload();
+                }
+            } else {
+                $('#errorMessageModal').modal('show');
+                $('#errorMessageModal #errors').html('Something went wrong!');
+            }
+        },
+        error: function () {
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Something went wrong!');
+        }
+    });
+
+}
+
+
 function followRequest(type, id){
 
     var data = new FormData();
