@@ -160,10 +160,11 @@ class FollowController extends Controller
 
         $user = Auth::user();
 
+        $user_list = $user->messagePeopleList();
         $list = $user->follower()->where('allow', 0)->with('follower')->get();
 
 
-        return view('followers_pending', compact('user', 'list'));
+        return view('followers_pending', compact('user', 'list','user_list'));
     }
 
 }

@@ -159,7 +159,15 @@ class User extends Authenticatable
         $list = $list->limit($limit)->inRandomOrder()->get();
         return $list;
     }
+    public function suggestedPeopleGrup($limit = 5){
 
+        $list = Grup::where('id_grup', '!=', $this->id)->whereNotIn('id_grup', function ($q) {
+                $q->select('id_groups')->from('user_groups')->where('id_groups', $this->id);
+            });
+
+        $list = $list->limit($limit)->inRandomOrder()->get();
+        return $list;
+    }
     public function validateUsername($filter = "[^a-zA-Z0-9\-\_\.]"){
         return preg_match("~" . $filter . "~iU", $this->username) ? false : true;
     }

@@ -3,12 +3,14 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\Library\sHelper;
 use App\Models\Grup;
 use App\Models\GrupPost;
 use App\Models\GrupLike;
 use App\Models\GrupComment;
 use App\Models\GrupImage;
 use App\Models\User_grup;
+use App\Models\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -22,6 +24,8 @@ use View;
 class GrupController extends Controller
 {
 
+    public $group;
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -95,8 +99,8 @@ class GrupController extends Controller
 
             $posts = $posts->where('group_post_id', $optional_id)->whereExists(function ($query) {
                 $query->select(DB::raw(1))
-                    ->from('user_groups')
-                    ->whereRaw('posts_grup.user_id = user_groups.id_user');
+                ->from('user_groups')
+                ->whereRaw('posts_grup.user_id = user_groups.id_user');
             });
         }else{
             $posts = $posts->where(function($query) use ($user) {
@@ -108,7 +112,7 @@ class GrupController extends Controller
         }
         $posts = $posts->limit(20)->orderBy('id_post_grup', 'DESC')->get();
 
-         if ($list_type == 1){
+        if ($list_type == 1){
             $posts = $posts->where('has_image', 1);
         }else if ($list_type == 2) {
             $posts = $posts->where('has_image', 2);
@@ -293,8 +297,8 @@ class GrupController extends Controller
         $response['code'] = 400;
 
 
-        if ($request->hasFile('image')){
-            $validator_data['image'] = 'required|mimes:jpeg,jpg,png,gif|max:2048';
+        if ($request->hasFile('photo')){
+            $validator_data['photo'] = 'required|mimes:jpeg,jpg,png,gif|max:2048';
         }else if($request->hasFile('file')){
             $validator_data['file'] = 'required|mimes:docx,docs,zip,rar,xls,xlsx,pdf,pptx,txt|max:10048';
         }else{
@@ -314,11 +318,11 @@ class GrupController extends Controller
             $post->user_id = Auth::user()->id;
 
             $image_name = '';
-            $file_name = '';
+            $file_name = "";
 
-            if ($request->hasFile('image')) {
+            if ($request->hasFile('photo')) {
                 $post->has_image = 1;
-                $file = $request->file('image');
+                $file = $request->file('photo');
 
                 $image_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
                 if ($file->storeAs('public/uploads/posts', $image_name)) {
@@ -329,46 +333,102 @@ class GrupController extends Controller
             }else if($request->hasFile('file')){
                 $post->has_image = 1;
                 $file = $request->file('file');
-
-                $file_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
-                if ($file->storeAs('public/uploads/posts', $file_name)) {
-                    $process = true;
-                } else {
-                    $process = false;
+                $coba = $request->file;
+                if (count($coba) != 14) {
+                  for ($i=0; $i < count($coba); $i++) {
+                    $def = $coba[$i]->getClientOriginalName().',';
+                    $file_name .= $def;
                 }
+                $fpdf = substr($file_name, 0, -1);
             }else{
+                $fpdf = $coba->getClientOriginalName();
+            }
+
+            if ($file->storeAs('public/uploads/posts', $fpdf)) {
                 $process = true;
+            } else {
+                $process = false;
             }
-
-            if ($process){
-                if ($post->save()) {
-                    if ($post->has_image == 1) {
-                        $post_image = new GrupImage();
-                        $post_image->image_path = $image_name;
-                        $post_image->file_path = $file_name;
-                        $post_image->post_grup_id = $post->id_post_grup;
-                        if ($post_image->save()){
-                            $response['code'] = 200;
-                        }else{
-                            $response['code'] = 400;
-                            $response['message'] = "Something went wrong!";
-                            $post->delete();
-                        }
-                    }else{
-                        $response['code'] = 200;
-                    }
-                }
-            }else{ 
-                $response['code'] = 400;
-                $response['message'] = "Something went wrong!";
-            }
-
-
+        }else{
+            $process = true;
         }
 
-        return Response::json($response);
+        if ($process){
+            if ($post->save()) {
+                if ($post->has_image == 1) {
+                    $post_image = new GrupImage();
+                    $post_image->image_path = $image_name;
+                    $post_image->file_path = $fpdf;
+                    $post_image->post_grup_id = $post->id_post_grup;
+                    if ($post_image->save()){
+                        $response['code'] = 200;
+                    // $response['message'] = dd($request->file);
+                    }else{
+                        $response['code'] = 400;
+                        $response['message'] = "Something went wrong!";
+                        $post->delete();
+                    }
+                }else{
+                    $response['code'] = 200;
+                }
+            }
+        }else{ 
+            $response['code'] = 400;
+            $response['message'] = "Something went wrong!";
+        }
+
 
     }
+
+    return Response::json($response);
+
+}
+public function gabung(Request $request){
+
+    $response = array();
+    $response['code'] = 400;
+
+    $id_grup = $request->input('idgrup');
+    $id_user = $request->input('iduser');
+    $element = $request->input('element');
+    $size = $request->input('size');
+
+
+
+    $grup = Grup::find($id_grup);
+    $user = User::find($id_user);
+
+
+
+    if ($grup && $user){
+
+        $relation = User_grup::where('id_user',$id_user)->where('id_groups',$id_grup)->get()->first();
+
+        if ($relation){
+            if ($relation->delete()){
+                $response['code'] = 200;
+                $response['refresh'] = 0;
+            }
+        }else{
+            $relation = new User_grup();
+            $relation->id_user = $id_user;
+            $relation->id_groups = $id_grup;
+            $relation->allow = 1;
+            if ($relation->save()){
+                $response['code'] = 200;
+                $response['refresh'] = 0;
+            }
+        }
+
+        if ($response['code'] == 200){
+            $response['button'] = sHelper::grupButton($id_grup, $id_user, $element, $size);
+        }
+    }
+
+
+    return Response::json($response);
+
+}
 
 
 }

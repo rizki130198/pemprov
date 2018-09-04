@@ -65,7 +65,8 @@ class GroupController extends Controller
         // $user_list = $user->messagePeopleList();
 
         $groups = Grup::join('user_groups', 'user_groups.id_groups', '=', 'grup.id_grup')
-        ->where('user_groups.id_user', $user->id)->select('grup.*');
+        ->join('users','users.id','=','grup.id_user')
+        ->where('user_groups.id_user', $user->id);
 
         return view('groups.index', compact('user', 'groups','user_list'));
     }
@@ -75,7 +76,6 @@ class GroupController extends Controller
     public function group($id){
 
         if (!$this->secure($id)) return redirect('/404');
-
         $user = Auth::user();
 
         $group = $this->group;
@@ -84,9 +84,13 @@ class GroupController extends Controller
         $wall = [
             'new_postgrup_group_id' => $group->id_group
         ];
+        $validasi = User_grup::find($user->id);
+        if ($validasi) {
+            return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list'));
+        }else{
+            return redirect('/404');
+        }
 
-
-        return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list'));
     }
 
 

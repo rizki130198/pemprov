@@ -96,13 +96,14 @@ class ProfileController extends Controller
 
         $user = $this->user;
 
+        $user_list = $user->messagePeopleList();
         $list = $user->following()->where('allow', 1)->with('following')->get();
 
         $my_profile = $this->my_profile;
 
         $can_see = ($my_profile)?true:$user->canSeeProfile(Auth::id());
 
-        return view('profile.following', compact('user', 'list', 'my_profile', 'can_see'));
+        return view('profile.following', compact('user', 'list', 'user_list','my_profile', 'can_see'));
     }
 
 
@@ -112,6 +113,7 @@ class ProfileController extends Controller
 
         $user = $this->user;
 
+        $user_list = $user->messagePeopleList();
         $list = $user->follower()->where('allow', 1)->with('follower')->get();
 
 
@@ -119,7 +121,7 @@ class ProfileController extends Controller
 
         $can_see = ($my_profile)?true:$user->canSeeProfile(Auth::id());
 
-        return view('profile.followers', compact('user', 'list', 'my_profile', 'can_see'));
+        return view('profile.followers', compact('user', 'list', 'my_profile', 'user_list','can_see'));
     }
 
 

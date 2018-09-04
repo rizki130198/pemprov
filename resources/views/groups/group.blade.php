@@ -21,12 +21,12 @@
                 </div>
                 <div class="col-md-9"> 
                     @if($user->id == Auth::user()->id)
-                    <div class="new-postgrup-box">
-                        <div class="well well-sm well-social-postgrup" style="border-top:solid 4px #e8b563;">
-                            <form id="form-new-postgrup">
+                    <div class="new-post-box">
+                        <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
+                            <form method="post" id="form-new-postgrup" enctype="multipart/form-data" accept-charset="utf-8">
                                 <input type="hidden" name="group_id" value="{{ $id_link }}">
                                 <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;">Update Status</div>
-                                <textarea class="form-control text-postgrup" name="content" placeholder="What's in your mind?" style="resize:none;"></textarea>
+                                <textarea class="form-control text-post" name="content" placeholder="What's in your mind?" style="resize:none;"></textarea>
                                 <div class="image-area">
                                     <a href="javascript:;" class="image-remove-button" onclick="removePostgrupImage()"><i class="fa fa-times-circle"></i></a>
                                     <img src="" />
@@ -47,7 +47,7 @@
                                         <input type="file" multiple class="file-input" id="file" name="file[]" onchange="previewPostFile(this)">
                                     </div>
                                     <div class="col-xs-4">
-                                        <div class="loading-postgrup">
+                                        <div class="loading-post">
                                             <img src="{{ asset('images/rolling.gif') }}" alt="">
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                     <div class="post-list-top-loading">
                         <img src="{{ asset('images/rolling.gif') }}" alt="">
                     </div>
-                    <div class="postgrup-list">
+                    <div class="post-list">
 
                     </div>
                     <div class="post-list-bottom-loading">

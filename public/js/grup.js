@@ -78,10 +78,9 @@ function previewPostgrupImage(input){
     $(form_name + ' .loading-postgrup').hide();
 }
 
-function removePostFile(){
+function removePostGrupFile(){
     var form_name = '#form-new-postgrup';
-    $('#uploadInput').attr('value', " ");
-    $('#uploadInput').hide();
+    $('#list').hide();
     resetFile($(form_name + ' .file-input'));
 }
 function uploadPostFile(){
@@ -93,7 +92,7 @@ function previewPostFile(input){
     // files is a FileList of File objects. List some properties.
     var output = [];
     for (var i = 0, f; f = input.files[i]; i++) {
-      output.push('<li><strong>', escape(f.name), '</strong>'
+      output.push('<li><strong>', escape(f.name), '</strong>',
           '</li>');
   }
   document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
@@ -111,11 +110,12 @@ function cleanPostgrupForm(){
     $(form_name + ' textarea').val('');
     $('#list').val('');
     removePostgrupImage();
+    removePostGrupFile();
 }
 
 function newPostgrup(){
     var form_name = '#form-new-postgrup';
- 
+
     $(form_name + ' .loading-postgrup').show();
 
     var data = new FormData();
@@ -128,7 +128,9 @@ function newPostgrup(){
 
     var file_inputs = document.querySelectorAll('.file-input');
     $(file_inputs).each(function(index, input) {
-        data.append('file', input.files[0]);
+        for (var i = 0, f; f = input.files[i]; i++) {
+            data.append('file', f); 
+        }
     });
 
     $.ajax({

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Library\IPAPI;
 use App\Library\sHelper;
 use App\Models\Group;
+use App\Models\Grup;
+use App\Models\User_grup;
 use App\Models\Hobby;
 use App\Models\Post;
 use App\Models\User;
@@ -37,9 +39,9 @@ class HomeController extends Controller
 
         $user_list = [];
 
+        $grup = User_grup::join('grup','grup.id_grup','=','user_groups.id_groups')->where('user_groups.id_user','!=',$user->id)->limit(5)->get();
 
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
-
         $new_list = [];
         foreach(array_reverse($message_list) as $list){
             $msg = new UserDirectMessage();
@@ -61,7 +63,7 @@ class HomeController extends Controller
         // $html = View::make('home', compact('user', 'user_list', 'wall'));
         // $response['html'] = $html->render();
         // return Response::json($response);
-        return view('home', compact('user', 'user_list', 'wall'));
+        return view('home', compact('user', 'user_list', 'wall','grup'));
     }
 
 
