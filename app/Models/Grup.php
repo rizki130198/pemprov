@@ -22,5 +22,20 @@ class Grup extends Model
 	public function user(){
 		return $this->belongsTo('App\Models\User_grup', 'id_grup');
 	}
-
+	    public function getPhoto($w = null, $h = null){
+        if (!empty($this->profile_path)){
+            $path = 'storage/uploads/profile_photos/'.$this->profile_path;
+        }else {
+            $path = "images/profile-picture.png";
+        }
+        if ($w == null && $h == null){
+            return url('/'.$path);
+        }
+        $image = '/resizer.php?';
+        if ($w > -1) $image .= '&w='.$w;
+        if ($h > -1) $image .= '&h='.$h;
+        $image .= '&zc=1';
+        $image .= '&src='.$path;
+        return url($image);
+    }
 } 

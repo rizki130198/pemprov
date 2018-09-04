@@ -39,7 +39,7 @@ class HomeController extends Controller
 
         $user_list = [];
 
-        $grup = User_grup::join('grup','grup.id_grup','=','user_grou ps.id_groups')->where('user_groups.id_user','!=',$user->id)->limit(5)->get();
+        $grup = User_grup::join('grup','grup.id_grup','=','user_groups.id_groups')->where('user_groups.id_user','!=',$user->id)->limit(5)->get();
 
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
         $new_list = [];

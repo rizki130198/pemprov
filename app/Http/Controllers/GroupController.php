@@ -65,7 +65,8 @@ class GroupController extends Controller
         // $user_list = $user->messagePeopleList();
 
         $groups = Grup::join('user_groups', 'user_groups.id_groups', '=', 'grup.id_grup')
-        ->where('user_groups.id_user', $user->id)->select('grup.*');
+        ->join('users','users.id','=','grup.id_user')
+        ->where('user_groups.id_user', $user->id);
 
         return view('groups.index', compact('user', 'groups','user_list'));
     }

@@ -102,10 +102,10 @@
                             <hr>
                             <div class="blog-post-actions">
                                 <p class="blog-post-bottom pull-left">
-                                    Nama Admin
+                                   {{ $group->name }}
                                 </p>
                                 <p class="blog-post-bottom pull-right">
-                                  <span class="badge quote-badge">20</span>  <i class="fa fa-user"></i>
+                                  <!-- <span class="badge quote-badge">{{count( $group->id_groups)}}</span>  <i class="fa fa-user"></i> -->
                                 </p>
                             </div>
                         </div>

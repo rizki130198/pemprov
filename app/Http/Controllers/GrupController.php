@@ -24,6 +24,8 @@ use View;
 class GrupController extends Controller
 {
 
+    public $group;
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -401,7 +403,7 @@ public function gabung(Request $request){
     if ($grup && $user){
 
         $relation = User_grup::where('id_user',$id_user)->where('id_groups',$id_grup)->get()->first();
-        
+
         if ($relation){
             if ($relation->delete()){
                 $response['code'] = 200;
