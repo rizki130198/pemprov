@@ -5,18 +5,18 @@
 .panel-follow{
     margin-top: 20px;
 }
-..autocomplete {
+.autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
   display: inline-block;
 }
-input {
+.autocomplete input {
   border: 1px solid transparent;
   background-color: #f1f1f1;
   padding: 10px;
   font-size: 16px;
 }
-input[type=text] {
+.autocomplete input[type=text] {
   background-color: #f1f1f1;
   width: 100%;
 }
