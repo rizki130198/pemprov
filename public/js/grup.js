@@ -21,7 +21,7 @@
 
             fetchForNewPostgrups();
 
-        }, 1000);
+        }, 40000);
 
     }
 
@@ -162,7 +162,7 @@ function newPostgrup(){
     });
 
     $.ajax({
-        url: BASE_URL+'/posts/new',
+        url: BASE_URL+'/postgrups/new',
         type: "POST",
         timeout: 5000,
         data: data,
@@ -193,6 +193,7 @@ function newPostgrup(){
 
 var fetch_end = false;
 var count_empty_query = 0;
+
 function fetchPostgrup(wall_type, list_type, optional_id, limit, postgrup_min_id, postgrup_max_id, location){
     if (!fetch_end) {
         fetch_end = true;

@@ -85,8 +85,8 @@ class GrupController extends Controller
         $optional_id = $request->input('optional_id'); // Group ID, User ID, or empty
         $limit = intval($request->input('limit'));
         if (empty($limit)) $limit = 20;
-        $post_min_id = intval($request->input('post_min_id')); // If not empty, post_id < post_min_id
-        $post_max_id = intval($request->input('post_max_id')); // If not empty, post_id > post_max_id
+        $post_min_id = intval($request->input('postgrup_min_id')); // If not empty, post_id < post_min_id
+        $post_max_id = intval($request->input('postgrup_max_id')); // If not empty, post_id > post_max_id
         $div_location = $request->input('div_location');
 
         $user = Auth::user();
@@ -98,7 +98,7 @@ class GrupController extends Controller
         }else if ($wall_type == 2){
 
             $posts = $posts->where('group_post_id', $optional_id)->whereExists(function ($query) {
-                $query->select(DB::raw(1)) 
+                $query->select(DB::raw(1))
                 ->from('user_groups')
                 ->whereRaw('posts_grup.user_id = user_groups.id_user');
             });
@@ -288,56 +288,52 @@ class GrupController extends Controller
     public function create(Request $request){
 
         $data = $request->all();
-
-        $response = array();
-        $response['code'] = 400;        
-
         $input = json_decode($data['data'], true);
         unset($data['data']);
         foreach ($input as $key => $value) $data[$key] = $value;
+
+        $response = array();
+        $response['code'] = 400;
+
 
         if ($request->hasFile('image')){
             $validator_data['image'] = 'required|mimes:jpeg,jpg,png,gif|max:2048';
         }else{
             $validator_data['content'] = 'required';
         }
-
-
+        
         $validator = Validator::make($data, $validator_data);
-
         if ($validator->fails()) {
             $response['code'] = 400;
             $response['message'] = implode(' ', $validator->errors()->all());
         }else{
 
             $post = new GrupPost();
-            $post->content = $data['content'];
+            $post->content = !empty($data['content'])?$data['content']:'';
             $post->group_post_id = $data['group_id'];
             $post->user_id = Auth::user()->id;
 
             $image_name = '';
-            $file_name = "";
 
-            if ($request->hasFile('photo')) {
+            if ($request->hasFile('image')) {
                 $post->has_image = 1;
-                $file = $request->file('photo');
+                $file = $request->file('image');
 
-                $image_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
-                if ($file->storeAs('public/uploads/posts', $image_name)) {
+                $file_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
+                if ($file->storeAs('public/uploads/posts', $file_name)) {
                     $process = true;
                 } else {
                     $process = false;
                 }
-        }else{
-            $process = true;
-        }
+            }else{
+                $process = true;
+            }
 
         if ($process){
             if ($post->save()) {
                 if ($post->has_image == 1) {
                     $post_image = new GrupImage();
                     $post_image->image_path = $image_name;
-                    $post_image->file_path = $fpdf;
                     $post_image->post_grup_id = $post->id_post_grup;
                     if ($post_image->save()){
                         $response['code'] = 200;
@@ -355,10 +351,7 @@ class GrupController extends Controller
             $response['code'] = 400;
             $response['message'] = "Something went wrong!";
         }
-
-
     }
-
     return Response::json($response);
 
 }
@@ -382,10 +375,11 @@ public function gabung(Request $request){
     if ($grup && $user){
 
         $relation = User_grup::where('id_user',$id_user)->where('id_groups',$id_grup)->get()->first();
+
         if ($relation){
             if ($relation->delete()){
                 $response['code'] = 200;
-                $response['refresh'] = 0;
+                $response['refresh'] = 1;
             }
         }else{
             $relation = new User_grup();
@@ -394,7 +388,7 @@ public function gabung(Request $request){
             $relation->allow = 1;
             if ($relation->save()){
                 $response['code'] = 200;
-                $response['refresh'] = 1;
+                $response['refresh'] = 0;
             }
         }
 
