@@ -257,7 +257,7 @@ body {
 }
 
 .active {
-  color: #fac959 !important;
+  /*color: #fac959 !important;*/
 }
 .navbar-fixed-bottom{
   display: none;
@@ -1996,7 +1996,11 @@ body {
 
 .dm .friends-list .friend:hover {
   background: #2f313a;
-  color: red !important;
+  /*color: red !important;*/
+}
+
+.dm .friends-list .alert {
+  color: #fff;
 }
 
 .dm .friends-list .friend .image {

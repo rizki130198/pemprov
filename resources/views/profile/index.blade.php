@@ -7,9 +7,6 @@
 
         @include('profile.widgets.header')
 
-
-
-
         @if ($can_see)
             <div class="container profile-main">
                 <div class="row">

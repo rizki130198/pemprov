@@ -159,7 +159,7 @@ class User extends Authenticatable
         $list = $list->limit($limit)->inRandomOrder()->get();
         return $list;
     }
-    public function suggestedPeopleGrup($limit = 5, $grup_id){
+    public function suggestedPeopleGrup($limit = 3, $grup_id){
 
         $list = User::where('id', '!=', $this->id)->whereNotExists(function ($query) use($grup_id) {
                 $query->select(DB::raw(1))
