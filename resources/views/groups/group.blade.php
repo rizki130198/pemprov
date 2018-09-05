@@ -119,7 +119,7 @@
                 <li><a href="#">PENGATURAN GRUP</a></li>
             </ul>
             @if($user->id == Auth::user()->id)
-            <div class="new-post-box">
+            <div class="new-postgrup-box">
                 <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
                     <form method="post" id="form-new-postgrup" enctype="multipart/form-data" accept-charset="utf-8">
                         <input type="hidden" name="group_id" value="{{ $id_link }}">
@@ -135,12 +135,12 @@
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()" style="margin-left: 15px;">
                                 <i class="fa fa-image"></i> Add Image
                             </button>
-                            <input type="file" accept="image/*" multiple class="image-input" name="photo[]" onchange="previewPostgrupImage(this)">
-                            <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostFile()">
+                            <input type="file" accept="image/*" multiple class="image-input" name="photo" onchange="previewPostgrupImage(this)">
+                            <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupFile()">
                                 <i class="glyphicon glyphicon-file"></i> Add File
                             </button>
-                            <input type="file" multiple class="file-input" id="file" name="file[]" onchange="previewPostFile(this)">
-                            <div class="loading-post">
+                            <input type="file" multiple class="file-input" id="file" name="file" onchange="previewPostgrupFile(this)">
+                            <div class="loading-postgrup">
                                 <img src="{{ asset('images/rolling.gif') }}" alt="">
                             </div>
                             <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPostgrup()" style="margin-right: 15px;">
@@ -151,13 +151,13 @@
                 </div>
             </div>
             @endif
-            <div class="post-list-top-loading">
+            <div class="postgrup-list-top-loading">
                 <img src="{{ asset('images/rolling.gif') }}" alt="">
             </div>
-            <div class="post-list">
+            <div class="postgrup-list">
 
             </div>
-            <div class="post-list-bottom-loading">
+            <div class="postgrup-list-bottom-loading">
                 <img src="{{ asset('images/rolling.gif') }}" alt="">
             </div>
 
@@ -185,11 +185,7 @@
 
 @section('footer')
 <script type="text/javascript">
-    WALL_ACTIVE = true;
-    fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
-</script>
-<script type="text/javascript">
-function uploadGroupCover(){
+    function uploadGroupCover(){
     var div_name = '.cover';
     var form_name = '#form-upload-cover';
     $(form_name+' input').click();
@@ -198,7 +194,7 @@ function uploadGroupCover(){
         $(div_name+ ' .loading-cover').show();
 
         var data = new FormData();
-        data.append('photo', JSON.stringify(makeSerializable(form_name).serializeJSON()));
+        data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
 
         var file_inputs = document.querySelectorAll('.cover_input');
@@ -235,5 +231,10 @@ function uploadGroupCover(){
         });
     });
 }
+
+    WALL_ACTIVE = true;
+    fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
+
+
 </script>
 @endsection

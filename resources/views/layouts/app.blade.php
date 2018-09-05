@@ -308,7 +308,7 @@
 <script src="{{ asset('js/around.js') }}"></script>
 <script src="{{ asset('js/wall.js') }}"></script>
 <script src="{{ asset('js/notifications.js') }}"></script>
-<script src="{{ asset('js/grup.js') }}"></script>
+<script src="{{ asset('js/grup.js') }}"></script> 
 <script src="{{ asset('js/event.js') }}"></script>
 @yield('footer')
 <script type="text/javascript">

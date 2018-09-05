@@ -1,5 +1,5 @@
 <!-- <a href="{{ url('/post/'.$post->id) }}"> -->
-    <div class="panel panel-default panel-google-plus panel-post" id="panel-postgrup-{{ $post->id_post_grup }}">
+    <div class="panel panel-default panel-google-plus panel-postgrup" id="panel-postgrup-{{ $post->id_post_grup }}">
         @if($post->checkOwner($user->id))
         <div class="dropdown">
             <span class="dropdown-toggle" type="button" data-toggle="dropdown" id="dd1">
