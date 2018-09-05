@@ -5,18 +5,18 @@
 .panel-follow{
     margin-top: 20px;
 }
-.autocomplete {
+..autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
   display: inline-block;
 }
-.autocomplete input {
+input {
   border: 1px solid transparent;
   background-color: #f1f1f1;
   padding: 10px;
   font-size: 16px;
 }
-.autocomplete input[type=text] {
+input[type=text] {
   background-color: #f1f1f1;
   width: 100%;
 }
@@ -84,7 +84,7 @@ input[type=submit] {
                     <a href="{{ url('/'.$user->username) }}" style="text-decoration: none;">
                         <h4 class="media-heading" style="font-size: 14px;margin-top: 8px;">{{ '@'.$user->username }}</h4>
                         <div id="people-listed-{{ $user->id }}" class="pull-right" style="margin-top: -25px;">
-                            {!! sHelper::followButton($user->id, Auth::id(), '#people-listed-'.$user->id, 'btn-sm') !!}
+                            {!! sHelper::grupButton($group->id_grup, $user->id, '#people-listed-'.$group->id_grup, 'btn-sm') !!}
                         </div>
                     </a>
                 </div>
