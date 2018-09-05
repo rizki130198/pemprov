@@ -288,22 +288,10 @@ class GrupController extends Controller
     public function create(Request $request){
 
         $data = $request->all();
-        $input = json_decode($data['data'], true);
-        unset($data['data']);
-        foreach ($input as $key => $value) $data[$key] = $value;
-
 
         $response = array();
         $response['code'] = 400;
-
-
-        if ($request->hasFile('photo')){
-            $validator_data['photo'] = 'required|mimes:jpeg,jpg,png,gif|max:2048';
-        }else if($request->hasFile('file')){
-            $validator_data['file'] = 'required|mimes:docx,docs,zip,rar,xls,xlsx,pdf,pptx,txt|max:10048';
-        }else{
-            $validator_data['content'] = 'required';
-        }
+        $validator_data = [ 'content' => 'required'];
 
         $validator = Validator::make($data, $validator_data);
 
@@ -313,7 +301,7 @@ class GrupController extends Controller
         }else{
 
             $post = new GrupPost();
-            $post->content = !empty($data['content'])?$data['content']:'';
+            $post->content = $data['content'];
             $post->group_post_id = $data['group_id'];
             $post->user_id = Auth::user()->id;
 
@@ -333,15 +321,14 @@ class GrupController extends Controller
             }else if($request->hasFile('file')){
                 $post->has_image = 1;
                 $file = $request->file('file');
-                $coba = $request->file;
-                if (count($coba) != 14) {
-                  for ($i=0; $i < count($coba); $i++) {
-                    $def = $coba[$i]->getClientOriginalName().',';
+                if (count($file)) {
+                  for ($i=0; $i < count($file); $i++) {
+                    $def = $file[$i]->getClientOriginalName().',';
                     $file_name .= $def;
                 }
                 $fpdf = substr($file_name, 0, -1);
             }else{
-                $fpdf = $coba->getClientOriginalName();
+                $fpdf = $file->getClientOriginalName();
             }
 
             if ($file->storeAs('public/uploads/posts', $fpdf)) {

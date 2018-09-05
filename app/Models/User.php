@@ -159,10 +159,12 @@ class User extends Authenticatable
         $list = $list->limit($limit)->inRandomOrder()->get();
         return $list;
     }
-    public function suggestedPeopleGrup($limit = 3){
+    public function suggestedPeopleGrup($limit = 3, $grup_id){
 
-        $list = Grup::where('id_grup', '!=', $this->id)->whereNotIn('id_grup', function ($q) {
-                $q->select('id_groups')->from('user_groups')->where('id_groups', $this->id);
+        $list = User::where('id', '!=', $this->id)->whereNotExists(function ($query) use($grup_id) {
+                $query->select(DB::raw(1))
+                    ->from('user_groups')
+                    ->whereRaw('users.id = user_groups.id_user and user_groups.id_groups = '.$grup_id);
             });
 
         $list = $list->limit($limit)->inRandomOrder()->get();

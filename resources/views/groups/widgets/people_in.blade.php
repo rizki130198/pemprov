@@ -56,7 +56,7 @@ input[type=submit] {
         <h5 style="color: #90949c;"><strong>TAMBAHKAN ANGGOTA</strong></h5> 
             <form autocomplete="off" action="">
                 <div class="autocomplete" style="width:100%;">
-                    <input id="" type="text" name="" placeholder="Cari Anggota">
+                    <input id="" type="text" name="" placeholder="Tambah Anggota">
                 </div>
             </form>
         </div>
@@ -73,7 +73,7 @@ input[type=submit] {
             <img style="display: inline-block;margin-right: 3px;border-radius: 50%;" class="m3dia-object" src="https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png" alt="" width="48px" height="48px">
             <hr>
             <h5 style="color: #90949c;"><strong>SARAN ANGGOTA</strong></h5>
-            @foreach(Auth::user()->suggestedPeopleGrup(3) as $user)
+            @foreach(Auth::user()->suggestedPeopleGrup(3,$group->id_grup) as $user)
             <div class="media">
                 <div class="media-left">
                     <a href="{{ url('/'.$user->username) }}">

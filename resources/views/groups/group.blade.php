@@ -85,6 +85,7 @@
             <div class="hidden-sm hidden-xs">
                 @include('groups.widgets.people_in')
             </div>
+
         </div>
         <div class="col-md-6 col-md-offset-3 col-xs-12">
             <div class="profile" style="margin-bottom: 20px;">

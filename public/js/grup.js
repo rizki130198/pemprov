@@ -27,7 +27,38 @@
 });
   return false;
 });
+   $("#form-new-postgrup").submit(function (event) {
+      var data = new FormData($(this)[0]);
+      $.ajax({
+        url: BASE_URL+'/postgrups/new',
+        type: "POST",
+        timeout: 5000,
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        success: function(response){
+            if (response.code == 200){
+                cleanPostgrupForm();
+                $("#form-new-postgrup" + ' .loading-postgrup').hide();
+                $('.postgrup-list-top-loading').show();
+                fetchForNewPostgrups();
+            }else{
+                $('#errorMessageModal').modal('show');
+                $('#errorMessageModal #errors').html(response.message);
+                $("#form-new-postgrup" + ' .loading-postgrup').hide();
+            }
+        },
+        error: function(){
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Something went wrong!');
+            $("#form-new-postgrup" + ' .loading-postgrup').hide();
+        }
+    });
 
+      return false;
+  });
  $(function() {
     if (WALL_ACTIVE) {
         $('.new-postgrup-box textarea, .panel-postgrup .postgrup-write-comment textarea').each(function () {
@@ -83,7 +114,7 @@ function removePostGrupFile(){
     $('#list').hide();
     resetFile($(form_name + ' .file-input'));
 }
-function uploadPostFile(){
+function uploadPostgrupFile(){
     var form_name = '#form-new-postgrup';
     $(form_name+' .file-input').click();
 }
@@ -114,52 +145,7 @@ function cleanPostgrupForm(){
 }
 
 function newPostgrup(){
-    var form_name = '#form-new-postgrup';
 
-    $(form_name + ' .loading-postgrup').show();
-
-    var data = new FormData();
-    data.append('data', JSON.stringify(makeSerializable(form_name).serializeJSON()));
-
-    var image_input = document.querySelectorAll('.image-input');
-    $(image_input).each(function(index, input) {
-        data.append('image', input.files[0]);
-    });
-
-    var file_inputs = document.querySelectorAll('.file-input');
-    $(file_inputs).each(function(index, input) {
-        for (var i = 0, f; f = input.files[i]; i++) {
-            data.append('file', f); 
-        }
-    });
-
-    $.ajax({
-        url: BASE_URL+'/postgrups/new',
-        type: "POST",
-        timeout: 5000,
-        data: data,
-        contentType: false,
-        cache: false,
-        processData: false,
-        headers: {'X-CSRF-TOKEN': CSRF},
-        success: function(response){
-            if (response.code == 200){
-                cleanPostgrupForm();
-                $(form_name + ' .loading-postgrup').hide();
-                $('.postgrup-list-top-loading').show();
-                fetchForNewPostgrups();
-            }else{
-                $('#errorMessageModal').modal('show');
-                $('#errorMessageModal #errors').html(response.message);
-                $(form_name + ' .loading-postgrup').hide();
-            }
-        },
-        error: function(){
-            $('#errorMessageModal').modal('show');
-            $('#errorMessageModal #errors').html('Something went wrong!');
-            $(form_name + ' .loading-postgrup').hide();
-        }
-    });
 
 }
 
