@@ -84,7 +84,7 @@ input[type=submit] {
                     <a href="{{ url('/'.$user->username) }}" style="text-decoration: none;">
                         <h4 class="media-heading" style="font-size: 14px;margin-top: 8px;">{{ '@'.$user->username }}</h4>
                         <div id="people-listed-{{ $user->id }}" class="pull-right" style="margin-top: -25px;">
-                            {!! sHelper::followButton($user->id, Auth::id(), '#people-listed-'.$user->id, 'btn-sm') !!}
+                            {!! sHelper::grupButton($group->id_grup, $user->id, '#people-listed-'.$group->id_grup, 'btn-sm') !!}
                         </div>
                     </a>
                 </div>

@@ -1245,6 +1245,43 @@ body {
     content: 'Undo Request'
   }
 
+  /* Grup Buttons */
+  .gabung-button, .invite-button, .request-gabung {
+    background: #fff;
+    border: 1px solid #ddd;
+  }
+
+  .gabung-button i, .invite-button i, .request-gabung i {
+    color: #5d7c97;
+    margin-right: 5px;
+  }
+
+  .invite-button {
+    background: #e6f5d6;
+    border-color: #c9e0b1;
+  }
+
+  .invite-button:after {
+    content: 'Gabung'
+  }
+
+  .invite-button:hover {
+    background: #d6e7f5;
+    border-color: #adc5da;
+  }
+
+  .invite-button:hover:after {
+    content: 'Kick'
+  }
+
+  .request-button:after {
+    content: 'Request Sent'
+  }
+
+  .request-button:hover:after {
+    content: 'Undo Request'
+  }
+
   /* Footer */
   .footer{
     margin-top: 98px;
@@ -1462,6 +1499,103 @@ body {
   }
 
   .new-post-box .image-remove-button:hover {
+    color: #000;
+  }
+  /*Post grup grup*/
+.new-postgrup-box {
+    -webkit-box-shadow: 0px 0px 20px 2px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 20px 2px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 20px 2px rgba(0,0,0,0.15);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: 0;
+    margin: 0 0 25px 0;
+  }
+
+  .new-postgrup-box textarea {
+    outline: none;
+    -webkit-appearance: none;
+    resize: none;
+    border: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    width: 100%;
+    font-size: 18px;
+    color: #333;
+    height: 30px;
+    /*margin-top: 10px;*/
+    /*padding: 0;*/
+  }
+
+  .new-postgrup-box textarea::-webkit-input-placeholder {
+    font-size: 13px;
+    color: #9d9d9d;
+    font-style: italic;
+  }
+
+  .new-postgrup-box hr {
+    margin: 10px 0;
+  }
+
+  .new-postgrup-box input[type=file] {
+    display: none;
+  }
+
+  .new-postgrup-box .btn-add-image {
+    background: #ececec;
+    border-color: #d9d9d9
+  }
+
+  .new-postgrup-box .btn-add-image:hover {
+    background: #d9d9d9;
+    border-color: #c8c8c8
+  }
+
+  .new-postgrup-box .btn-submit {
+    background: #e8b563;
+    border-color: #e8b563;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff
+  }
+
+  .new-postgrup-box .btn-submit:hover {
+    background: transparent;
+    border-color: #e8b563;
+    color: #e8b563;
+  }
+
+  .new-postgrup-box .loading-postgrup {
+    display: none;
+  }
+
+  .new-postgrup-box .loading-postgrup img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .new-postgrup-box .image-area {
+    text-align: center;
+    display: none;
+    width: 150px;
+  }
+
+  .new-postgrup-box .image-area img{
+    max-width: 100%;
+  }
+
+  .new-postgrup-box .image-remove-button {
+    background: rgba(255,255,255,0.5);
+    position: absolute;
+    display: block;
+    font-size: 23px;
+    padding: 0 10px;
+    color: #333;
+  }
+
+  .new-postgrup-box .image-remove-button:hover {
     color: #000;
   }
 

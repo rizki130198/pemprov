@@ -119,7 +119,7 @@
                 <li><a href="#">PENGATURAN GRUP</a></li>
             </ul>
             @if($user->id == Auth::user()->id)
-            <div class="new-post-box">
+            <div class="new-postgrup-box">
                 <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
                     <form method="post" id="form-new-postgrup" enctype="multipart/form-data" accept-charset="utf-8">
                         <input type="hidden" name="group_id" value="{{ $id_link }}">
@@ -140,7 +140,7 @@
                                 <i class="glyphicon glyphicon-file"></i> Add File
                             </button>
                             <input type="file" multiple class="file-input" id="file" name="file[]" onchange="previewPostFile(this)">
-                            <div class="loading-post">
+                            <div class="loading-postgrup">
                                 <img src="{{ asset('images/rolling.gif') }}" alt="">
                             </div>
                             <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPostgrup()" style="margin-right: 15px;">
@@ -154,7 +154,7 @@
             <div class="post-list-top-loading">
                 <img src="{{ asset('images/rolling.gif') }}" alt="">
             </div>
-            <div class="post-list">
+            <div class="postgrup-list">
 
             </div>
             <div class="post-list-bottom-loading">

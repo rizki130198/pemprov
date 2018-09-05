@@ -98,7 +98,7 @@ class GrupController extends Controller
         }else if ($wall_type == 2){
 
             $posts = $posts->where('group_post_id', $optional_id)->whereExists(function ($query) {
-                $query->select(DB::raw(1))
+                $query->select(DB::raw(1)) 
                 ->from('user_groups')
                 ->whereRaw('posts_grup.user_id = user_groups.id_user');
             });
@@ -290,8 +290,18 @@ class GrupController extends Controller
         $data = $request->all();
 
         $response = array();
-        $response['code'] = 400;
-        $validator_data = [ 'content' => 'required'];
+        $response['code'] = 400;        
+
+        $input = json_decode($data['data'], true);
+        unset($data['data']);
+        foreach ($input as $key => $value) $data[$key] = $value;
+
+        if ($request->hasFile('image')){
+            $validator_data['image'] = 'required|mimes:jpeg,jpg,png,gif|max:2048';
+        }else{
+            $validator_data['content'] = 'required';
+        }
+
 
         $validator = Validator::make($data, $validator_data);
 
@@ -318,24 +328,6 @@ class GrupController extends Controller
                 } else {
                     $process = false;
                 }
-            }else if($request->hasFile('file')){
-                $post->has_image = 1;
-                $file = $request->file('file');
-                if (count($file)) {
-                  for ($i=0; $i < count($file); $i++) {
-                    $def = $file[$i]->getClientOriginalName().',';
-                    $file_name .= $def;
-                }
-                $fpdf = substr($file_name, 0, -1);
-            }else{
-                $fpdf = $file->getClientOriginalName();
-            }
-
-            if ($file->storeAs('public/uploads/posts', $fpdf)) {
-                $process = true;
-            } else {
-                $process = false;
-            }
         }else{
             $process = true;
         }
@@ -390,7 +382,6 @@ public function gabung(Request $request){
     if ($grup && $user){
 
         $relation = User_grup::where('id_user',$id_user)->where('id_groups',$id_grup)->get()->first();
-
         if ($relation){
             if ($relation->delete()){
                 $response['code'] = 200;
@@ -403,7 +394,7 @@ public function gabung(Request $request){
             $relation->allow = 1;
             if ($relation->save()){
                 $response['code'] = 200;
-                $response['refresh'] = 0;
+                $response['refresh'] = 1;
             }
         }
 

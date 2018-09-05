@@ -42,7 +42,7 @@
 <div class="post-list-top-loading">
     <img src="{{ asset('images/rolling.gif') }}" alt="">
 </div>
-<div class="post-list">
+<div class="postgrup-list">
 
 </div>
 <div class="post-list-bottom-loading">

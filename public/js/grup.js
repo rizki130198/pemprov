@@ -1,8 +1,34 @@
 /**
  * Created by lvntayn on 04/06/2017.
  */
+ $(function() {
+    if (WALL_ACTIVE) {
+        $('.new-postgrup-box textarea, .panel-postgrup .postgrup-write-comment textarea').each(function () {
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+        }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                fetchForOlderPostgrups();
+            }
+        });
+
+
+        setInterval(function(){
+
+            fetchForNewPostgrups();
+
+        }, 1000);
+
+    }
+
+});
+
  $("#grupcreate").submit(function (event) {
-  var data = new FormData($(this)[0]);
+  var data = new FormData($(this)[0]); 
   $.ajax({
     url: BASE_URL + '/postgrups/create',
     type: "POST",
@@ -27,65 +53,38 @@
 });
   return false;
 });
-   $("#form-new-postgrup").submit(function (event) {
-      var data = new FormData($(this)[0]);
-      $.ajax({
-        url: BASE_URL+'/postgrups/new',
-        type: "POST",
-        timeout: 5000,
-        data: data,
-        contentType: false,
-        cache: false,
-        processData: false,
-        headers: {'X-CSRF-TOKEN': CSRF},
-        success: function(response){
-            if (response.code == 200){
-                cleanPostgrupForm();
-                $("#form-new-postgrup" + ' .loading-postgrup').hide();
-                $('.postgrup-list-top-loading').show();
-                fetchForNewPostgrups();
-            }else{
-                $('#errorMessageModal').modal('show');
-                $('#errorMessageModal #errors').html(response.message);
-                $("#form-new-postgrup" + ' .loading-postgrup').hide();
-            }
-        },
-        error: function(){
-            $('#errorMessageModal').modal('show');
-            $('#errorMessageModal #errors').html('Something went wrong!');
-            $("#form-new-postgrup" + ' .loading-postgrup').hide();
-        }
-    });
+//  $("#form-new-postgrup").submit(function (event) {
+//   var data = new FormData($(this)[0]);
+//   $.ajax({
+//     url: BASE_URL+'/postgrups/new',
+//     type: "POST",
+//     timeout: 5000,
+//     data: data,
+//     contentType: false,
+//     cache: false,
+//     processData: false,
+//     headers: {'X-CSRF-TOKEN': CSRF},
+//     success: function(response){
+//         if (response.code == 200){
+//             cleanPostgrupForm();
+//             $("#form-new-postgrup" + ' .loading-postgrup').hide();
+//             $('.postgrup-list-top-loading').show();
+//             fetchForNewPostgrups();
+//         }else{
+//             $('#errorMessageModal').modal('show');
+//             $('#errorMessageModal #errors').html(response.message);
+//             $("#form-new-postgrup" + ' .loading-postgrup').hide();
+//         }
+//     },
+//     error: function(){
+//         $('#errorMessageModal').modal('show');
+//         $('#errorMessageModal #errors').html('Something went wrong!');
+//         $("#form-new-postgrup" + ' .loading-post').hide();
+//     }
+// });
 
-      return false;
-  });
- $(function() {
-    if (WALL_ACTIVE) {
-        $('.new-postgrup-box textarea, .panel-postgrup .postgrup-write-comment textarea').each(function () {
-            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
-        }).on('input', function () {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-
-        $(window).scroll(function () {
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                fetchForOlderPostgrups();
-            }
-        });
-
-
-
-
-        setInterval(function(){
-
-            fetchForNewPostgrups();
-
-        }, 40000);
-
-    }
-
-});
+//   return false;
+// });
 
 
  function uploadPostgrupImage(){
@@ -95,7 +94,7 @@
 
 function previewPostgrupImage(input){
     var form_name = '#form-new-postgrup';
-    $(form_name + ' .loading-postgrup').show();
+    $(form_name + ' .loading-post').show();
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
@@ -106,7 +105,7 @@ function previewPostgrupImage(input){
 
         reader.readAsDataURL(input.files[0]);
     }
-    $(form_name + ' .loading-postgrup').hide();
+    $(form_name + ' .loading-post').hide();
 }
 
 function removePostGrupFile(){
@@ -145,7 +144,50 @@ function cleanPostgrupForm(){
 }
 
 function newPostgrup(){
+    var form_name = '#form-new-postgrup';
 
+    $(form_name + ' .loading-postgrup').show();
+
+    var data = new FormData();
+    data.append('data', JSON.stringify(makeSerializable(form_name).serializeJSON()));
+
+    var image_inputs = document.querySelectorAll('.image-input');
+    $(image_inputs).each(function(index, input) {
+        data.append('image', input.files[0]);
+    });
+    
+    var file_inputs = document.querySelectorAll('.file-input');
+    $(file_inputs).each(function(index, input) {
+        data.append('file', input.files[0]);
+    });
+
+    $.ajax({
+        url: BASE_URL+'/posts/new',
+        type: "POST",
+        timeout: 5000,
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        success: function(response){
+            if (response.code == 200){
+                fetchForNewPostgrups();
+                cleanPostgrupForm();
+                $(form_name + ' .loading-postgrup').hide();
+                $('.post-list-top-loading').show();
+            }else{
+                $('#errorMessageModal').modal('show');
+                $('#errorMessageModal #errors').html(response.message);
+                $(form_name + ' .loading-postgrup').hide();
+            }
+        },
+        error: function(){
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Something went wrong!');
+            $(form_name + ' .loading-postgrup').hide();
+        }
+    });
 
 }
 
@@ -191,7 +233,7 @@ function fetchPostgrup(wall_type, list_type, optional_id, limit, postgrup_min_id
                 fetch_end = false;
             }
         });
-    }
+    } 
 }
 
 function fetchForNewPostgrups(){
@@ -204,7 +246,7 @@ function fetchForNewPostgrups(){
     if (postgrup_max_id > 0 || $('.panel-postgrup').length == 0) {
         fetchPostgrup(wall_type, list_type, optional_id, limit, postgrup_min_id, postgrup_max_id, 'top');
     }
-}
+} 
 
 function fetchForOlderPostgrups(){
     var wall_type = $('.postgrup-list .postgrup_data_filter_bottom input[name=wall_type]').val();
