@@ -66,6 +66,7 @@ Route::post('/events/like', 'EventController@like');
 Route::post('/events/likes', 'EventController@likes');
 // Groups
 Route::get('/groups', 'GroupController@index');
+Route::get('/group/{id}', 'GroupController@group');
 Route::get('/group/diskusi/{id}', 'GroupController@group');
 Route::get('/group/anggota/{id}', 'GroupController@group');
 Route::get('/group/foto/{id}', 'GroupController@group');

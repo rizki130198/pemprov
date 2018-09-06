@@ -297,7 +297,9 @@ class GrupController extends Controller
 
 
         if ($request->hasFile('image')){
-            $validator_data['image'] = 'max:2048';
+            $validator_data['image.*'] = 'required|mimes:jpg,png,jpeg|max:10048';
+        }else if($request->hasFile('file')){
+            $validator_data['file.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc|max:15048';
         }else{
             $validator_data['content'] = 'required';
         }
@@ -313,53 +315,73 @@ class GrupController extends Controller
             $post->group_post_id = $data['group_id'];
             $post->user_id = Auth::user()->id;
 
-            $fb = '';
+            $imageupload = '';
+            $fileupload = '';
 
             if ($request->hasFile('image')) {
                 $post->has_image = 1;
-                $file = $request->file('image');
-                if (count($file) != 14) {
-                  for ($i=0; $i < count($file); $i++) {
-                    $abc = $file[$i]->getClientOriginalName().',';
-                    $fb .= $abc;
+                $image = $request->file('image');
+                if (count($image) != 14) {
+                  for ($i=0; $i < count($image); $i++) {
+                    $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+                    $imagestore = str_replace(',', '', $dataimage);
+                    $imageupload .= $dataimage;
+
+                    $image[$i]->storeAs('public/uploads/posts', $imagestore);
                 }
-                $foto_bang = substr($fb, 0, -1);
+                $image_path = substr($imageupload, 0, -1);
             }else{
-              $foto_bang = $file->getClientOriginalName();
+              $image_path = $image->getClientOriginalName();
           }
-            $process = true;
+          $process = true;
+      }else if($request->hasFile('file')){
+       $post->has_image = 1;
+       $file = $request->file('file');
+       if (count($file) != 14) {
+          for ($i=0; $i < count($file); $i++) {
+            $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
+            $filestore = str_replace(',', '', $datafile);
+            $fileupload .= $datafile;
 
-    }else{
-        $process = true;
-    }
-
-    if ($process){
-        if ($post->save()) {
-            if ($post->has_image == 1) {
-                $post_image = new GrupImage();
-                $post_image->image_path = $foto_bang;
-                $post_image->post_grup_id = $post->id_post_grup;
-                if ($post_image->save()){
-                    $response['code'] = 200;
-                    // $response['message'] = dd($request->file);
-                }else{
-                    $response['code'] = 400;
-                    $response['message'] = "Something went wrong!";
-                    $post->delete();
-                }
-            }else{
-                $response['code'] = 200;
-            }
+            $file[$i]->storeAs('public/uploads/posts', $filestore);
         }
-    }else{ 
-        $response['code'] = 400;
-        $response['message'] = "Something went wrong!";
+        $file_path = substr($fileupload, 0, -1);
+    }else{
+        $file_path = $file->getClientOriginalName();
     }
+    $process = true;
+}else{
+    $process = true;
+}
+
+if ($process){
+    if ($post->save()) {
+        if ($post->has_image == 1) {
+            $post_image = new GrupImage();
+            $post_image->image_path = $foto_bang;
+            $post_image->file_path = $file_path;
+            $post_image->post_grup_id = $post->id_post_grup;
+            if ($post_image->save()){
+                $response['code'] = 200;
+                    // $response['message'] = dd($request->file);
+            }else{
+                $response['code'] = 400;
+                $response['message'] = "Something went wrong!";
+                $post->delete();
+            }
+        }else{
+            $response['code'] = 200;
+        }
+    }
+}else{ 
+    $response['code'] = 400;
+    $response['message'] = "Something went wrong!";
+}
 }
 return Response::json($response);
 
 }
-public function tambah(Request $request, $grup_id)
+public function tambah(Request $request,$grup_id)
 {
 
     $s = $request->input('cari');
@@ -368,11 +390,18 @@ public function tambah(Request $request, $grup_id)
         $query->select(DB::raw(1))
         ->from('user_groups')
         ->whereRaw('users.id = user_groups.id_user and user_groups.id_groups = '. $grup_id);
-    })->where('users.username','LIKE',''.$s.'')->limit(5)->get();
+    })->where('users.username','LIKE','%'.$s.'%')->limit(5)->get();
+    
+    if (count($query) == 0){ ?>
 
-    foreach ($query as $row){ ?>
-        <a href="<?php echo site_url('cp/detail_pengaduan/aparat/'.$row->id_air); ?>"><li><?php echo substr($row->alamat, 0,40); ?></li></a>
-    <?php }
+        <li>Tidak ada data</li>
+    <?php }else{ ?>
+
+        <?php foreach ($query as $key ): ?>
+            <a href="javascript:;" onclick="gabung('<?=$grup_id?>','<?= $key->id ?>','#people-listed-<?=$grup_id?>','btn-sm')"><li><?= $key->username ?></li></a>
+        <?php endforeach ?>
+
+    <?php } 
 }
 public function gabung(Request $request){
 
@@ -407,7 +436,7 @@ public function gabung(Request $request){
             $relation->allow = 1;
             if ($relation->save()){
                 $response['code'] = 200;
-                $response['refresh'] = 0;
+                $response['refresh'] = 1;
             }
         }
 

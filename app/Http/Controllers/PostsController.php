@@ -48,8 +48,8 @@ class PostsController extends Controller
 
             $posts = $posts->where('group_id', $optional_id)->whereExists(function ($query) use($city) {
                 $query->select(DB::raw(1))
-                    ->from('user_locations')
-                    ->whereRaw('posts.user_id = user_locations.user_id and user_locations.city_id = '.$city->id);
+                ->from('user_locations')
+                ->whereRaw('posts.user_id = user_locations.user_id and user_locations.city_id = '.$city->id);
             });
         }else{
             $posts = $posts->where(function($query) use ($user) {
@@ -258,7 +258,9 @@ class PostsController extends Controller
 
 
         if ($request->hasFile('image')){
-            $validator_data['image'] = 'required|mimes:jpeg,jpg,png,gif|max:2048';
+            $validator_data['image.*'] = 'required|mimes:jpeg,jpg,png,gif';
+        }else if($request->hasFile('file')){
+            $validator_data['file.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
         }else{
             $validator_data['content'] = 'required';
         }
@@ -275,50 +277,77 @@ class PostsController extends Controller
             $post->group_id = $data['group_id'];
             $post->user_id = Auth::user()->id;
 
-            $file_name = '';
+            $imageupload = '';
+            $fileupload = '';
 
             if ($request->hasFile('image')) {
                 $post->has_image = 1;
-                $file = $request->file('image');
+                $image = $request->file('image');
+                if (count($image) != 14) {
+                  for ($i=0; $i < count($image); $i++) {
+                    $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+                    $imagestore = str_replace(',', '', $dataimage);
+                    $imageupload .= $dataimage;
 
-                $file_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
-                if ($file->storeAs('public/uploads/posts', $file_name)) {
-                    $process = true;
-                } else {
-                    $process = false;
+                    $image[$i]->storeAs('public/uploads/posts', $imagestore);
                 }
+                $image_path = substr($imageupload, 0, -1);
             }else{
-                $process = true;
-            }
+              $image_path = '';
+          }
+          $process = true;
+      }else if($request->hasFile('file')){
+         $post->has_image = 1;
+         $file = $request->file('file');
+         if (count($file) != 14) {
+          for ($i=0; $i < count($file); $i++) {
+            $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
+            $filestore = str_replace(',', '', $datafile);
+            $fileupload .= $datafile;
 
-            if ($process){
-                if ($post->save()) {
-                    if ($post->has_image == 1) {
-                        $post_image = new PostImage();
-                        $post_image->image_path = $file_name;
-                        $post_image->post_id = $post->id;
-                        if ($post_image->save()){
-                            $response['code'] = 200;
-                        }else{
-                            $response['code'] = 400;
-                            $response['message'] = "Something went wrong!";
-                            $post->delete();
-                        }
-                    }else{
-                        $response['code'] = 200;
-                    }
-                }
+            $file[$i]->storeAs('public/uploads/posts', $filestore);
+        }
+        $database = substr($fileupload, 0, -1);
+    }else{
+        $database = '';
+    }
+    $process = true;
+}else{
+    $process = true;
+}
+
+if ($process){
+    if ($post->save()) {
+        if ($post->has_image == 1) {
+            $post_image = new PostImage();
+            if ($request->hasFile('file')) {
+                $post_image->file_path = $database;
+            }else if($request->hasFile('image')){
+                $post_image->image_path = $image_path;
+            }
+            $post_image->post_id = $post->id;
+            if ($post_image->save()){
+                $response['code'] = 200;
             }else{
                 $response['code'] = 400;
                 $response['message'] = "Something went wrong!";
+                $post->delete();
             }
-
-
+        }else{
+            $response['code'] = 200;
         }
-
-        return Response::json($response);
-
     }
+}else{
+    $response['code'] = 400;
+    $response['message'] = "Something went wrong!";
+}
+
+
+}
+
+return Response::json($response);
+
+}
 
 
 }

@@ -1,3 +1,0 @@
-private key = 0xc44ea9e6b141654c9cff68e956a2d11a1f53ef21dd71255f79670417c1a9e903 
-backup code = 87b4a 
-NOte: Please Keep Your Private Key Secure

@@ -68,7 +68,7 @@ input[type=submit] {
     <form autocomplete="off" action="">
       <div class="autocomplete" style="width:100%;">
         <input id="getanggota" type="text" name="anggota" onkeyup="tambahanggota()" placeholder="Tambah Anggota">
-        <input id="grup" type="hidden" name="grup" value="{{Request::segment(2)}}">
+        <input id="grup" type="hidden" name="grup" value="{{Request::segment(3)}}">
       </div>
       <div id="suggestions">
        <div id="autoSuggestionsList"></div>

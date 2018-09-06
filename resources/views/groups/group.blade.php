@@ -131,6 +131,8 @@
                             <img src="" />
 
                         </div>
+
+                        <p><output id="listimage"></output></p>
                         <p><output id="list"></output></p>
                         <div class="row" style="padding: 10px;">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()" style="margin-left: 15px;">
@@ -194,57 +196,7 @@
 
 @section('footer')
 <script type="text/javascript">
-    function uploadGroupCover(){
-        var div_name = '.cover';
-        var form_name = '#form-upload-cover';
-        $(form_name+' input').click();
-        $(form_name+' input').change(function (){
 
-            $(div_name+ ' .loading-cover').show();
-
-            var data = new FormData();
-            data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
-
-
-            var file_inputs = document.querySelectorAll('.cover_input');
-            $(file_inputs).each(function(index, input) {
-                data.append('image', input.files[0]);
-            });
-
-
-            $.ajax({
-                url: REQUEST_URL+'/upload/cover_grup',
-                type: "POST",
-                timeout: 5000,
-                data: data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': CSRF},
-                success: function(response){
-                    if (response.code == 200){
-                        $(div_name).css('background-image', 'url('+response.image+')');
-                        $(div_name+ ' .loading-cover').hide();
-                        $(div_name).removeClass('no-cover');
-                    }else{
-                        $('#errorMessageModal').modal('show');
-                        $('#errorMessageModal #errors').html(response.message);
-                        $(div_name+ ' .loading-cover').hide();
-                    }
-                },
-                error: function(){
-                    $('#errorMessageModal').modal('show');
-                    $('#errorMessageModal #errors').html('Something went wrong!');
-                    $(div_name+ ' .loading-cover').hide();
-                }
-            });
-        });
-    }
-
-    WALL_ACTIVE = true;
-    fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
-</script>
-<script type="text/javascript">
     (function() {
         var toggleElement;
         toggleElement = function($el, type) {
@@ -278,5 +230,8 @@
             });
         });
     }).call(this);
+
+    WALL_ACTIVE = true;
+    fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
 </script>
 @endsection

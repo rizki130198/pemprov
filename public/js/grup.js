@@ -117,7 +117,7 @@ else
               }
           }
       });
-
+ 
 }
 }
 function uploadPostgrupImage(){
@@ -126,19 +126,13 @@ function uploadPostgrupImage(){
 }
 
 function previewPostgrupImage(input){
-    var form_name = '#form-new-postgrup';
-    $(form_name + ' .loading-post').show();
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $(form_name + ' .image-area img').attr('src', e.target.result);
-            $(form_name + ' .image-area').show();
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-    $(form_name + ' .loading-post').hide();
+    
+    var output = [];
+    for (var i = 0, f; f = input.files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong>',
+          '</li>');
+  }
+  document.getElementById('listimage').innerHTML = '<ul>' + output.join('') + '</ul>';
 }
 
 function removePostGrupFile(){
@@ -189,10 +183,10 @@ function newPostgrup(){
         data.append("image[]", document.getElementById('imageupload').files[x]);
     }
 
-    var file_inputs = document.querySelectorAll('.file-input');
-    $(file_inputs).each(function(index, input) {
-        data.append('file', input.files[0]);
-    });
+    var ins = document.getElementById('file').files.length;
+    for (var x = 0; x < ins; x++) {
+        data.append("file[]", document.getElementById('file').files[x]);
+    }
 
     $.ajax({
         url: BASE_URL+'/postgrups/new',
@@ -505,3 +499,49 @@ function showLikes(id){
         }
     });
 }
+    function uploadGroupCover(){
+        var div_name = '.cover';
+        var form_name = '#form-upload-cover';
+        $(form_name+' input').click();
+        $(form_name+' input').change(function (){
+
+            $(div_name+ ' .loading-cover').show();
+
+            var data = new FormData();
+            data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
+
+
+            var file_inputs = document.querySelectorAll('.cover_input');
+            $(file_inputs).each(function(index, input) {
+                data.append('image', input.files[0]);
+            });
+
+
+            $.ajax({
+                url: REQUEST_URL+'/upload/cover_grup',
+                type: "POST",
+                timeout: 5000,
+                data: data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': CSRF},
+                success: function(response){
+                    if (response.code == 200){
+                        $(div_name).css('background-image', 'url('+response.image+')');
+                        $(div_name+ ' .loading-cover').hide();
+                        $(div_name).removeClass('no-cover');
+                    }else{
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html(response.message);
+                        $(div_name+ ' .loading-cover').hide();
+                    }
+                },
+                error: function(){
+                    $('#errorMessageModal').modal('show');
+                    $('#errorMessageModal #errors').html('Something went wrong!');
+                    $(div_name+ ' .loading-cover').hide();
+                }
+            });
+        });
+    }

@@ -29,26 +29,39 @@ $(function() {
 
 });
 
-
 function uploadPostImage(){
     var form_name = '#form-new-post';
     $(form_name+' .image-input').click();
 }
 
 function previewPostImage(input){
+    
+    var output = [];
+    for (var i = 0, f; f = input.files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong>',
+          '</li>');
+  }
+  document.getElementById('listimage').innerHTML = '<ul>' + output.join('') + '</ul>';
+}
+
+function removePostFile(){
     var form_name = '#form-new-post';
-    $(form_name + ' .loading-post').show();
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+    $('#list').hide();
+    resetFile($(form_name + ' .file-input'));
+}
+function uploadPostFile(){
+    var form_name = '#form-new-post';
+    $(form_name+' .file-input').click();
+}
 
-        reader.onload = function (e) {
-            $(form_name + ' .image-area img').attr('src', e.target.result);
-            $(form_name + ' .image-area').show();
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-    $(form_name + ' .loading-post').hide();
+function previewPostFile(input){
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = input.files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong>',
+          '</li>');
+  }
+  document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
 }
 
 function removePostImage(){
@@ -58,29 +71,10 @@ function removePostImage(){
     resetFile($(form_name + ' .image-input'));
 }
 
-function uploadPostFilea(){
-    var form_name = '#form-new-post';
-    $(form_name+' .file-input').click();
-}
-
-function previewPostFilea(input){
-    // files is a FileList of File objects. List some properties.
-    var output = [];
-    for (var i = 0, f; f = input.files[i]; i++) {
-      output.push('<li><strong>', escape(f.name), '</strong>',
-          '</li>');
-  }
-  document.getElementById('lista').innerHTML = '<ul>' + output.join('') + '</ul>';
-}
-
-function removePostFile(){
-    var form_name = '#form-new-post';
-    $('#lista').remove();
-    resetFile($(form_name + ' .file-input'));
-}
 function cleanPostForm(){
     var form_name = '#form-new-post';
     $(form_name + ' textarea').val('');
+    $('#list').val('');
     removePostImage();
     removePostFile();
 }
@@ -93,15 +87,15 @@ function newPost(){
     var data = new FormData();
     data.append('data', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
-    var image_inputs = document.querySelectorAll('.image-input');
-    $(image_inputs).each(function(index, input) {
-        data.append('image', input.files[0]);
-    });
-    
-    var file_inputs = document.querySelectorAll('.file-input');
-    $(file_inputs).each(function(index, input) {
-        data.append('file', input.files[0]);
-    });
+    var ins = document.getElementById('uploadimage').files.length;
+    for (var x = 0; x < ins; x++) {
+        data.append("image[]", document.getElementById('uploadimage').files[x]);
+    }
+
+    var ins = document.getElementById('uploadfile').files.length;
+    for (var x = 0; x < ins; x++) {
+        data.append("file[]", document.getElementById('uploadfile').files[x]);
+    }
 
     $.ajax({
         url: BASE_URL+'/posts/new',
