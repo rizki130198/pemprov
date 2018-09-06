@@ -68,7 +68,7 @@ class GroupController extends Controller
         ->join('users','users.id','=','grup.id_user')
         ->where('user_groups.id_user', $user->id);
 
-        return view('groups.index', compact('user', 'groups','user_list'));
+        return view('groups.index', compact('user', 'groups','user_list','anggota'));
     }
 
 
@@ -85,8 +85,10 @@ class GroupController extends Controller
             'new_postgrup_group_id' => $group->id_group
         ];
         $validasi = User_grup::find($user->id);
+
+        $anggota = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id);
         if ($validasi) {
-            return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list'));
+            return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','anggota'));
         }else{
             return redirect('/404');
         }

@@ -86,8 +86,41 @@
 //   return false;
 // });
 
+function tambahanggota()
+{
+  var input_data = $('#getanggota').val();
+  var grup = $('#grup').val();
 
- function uploadPostgrupImage(){
+  if (input_data.length === 0)
+  {
+    $('#suggestions').hide();
+}
+else
+{
+
+    var post_data = {
+      'cari': input_data,
+      'grup': grup
+  };
+
+  $.ajax({
+      type: "POST",
+      url: BASE_URL+'/postgrups/tambah/'+grup,
+      data: post_data,
+      headers: {'X-CSRF-TOKEN': CSRF},
+      success: function (data) {
+                // return success
+                if (data.length > 0) {
+                  $('#suggestions').show();
+                  $('#autoSuggestionsList').addClass('auto_list');
+                  $('#autoSuggestionsList').html(data);
+              }
+          }
+      });
+
+}
+}
+function uploadPostgrupImage(){
     var form_name = '#form-new-postgrup';
     $(form_name+' .image-input').click();
 }
