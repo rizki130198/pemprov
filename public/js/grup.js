@@ -499,9 +499,9 @@ function showLikes(id){
         }
     });
 }
-    function uploadGroupCover(){
+    function uploadGroupCover(id){
         var div_name = '.cover';
-        var form_name = '#form-upload-cover';
+        var form_name = '#form-upload-covergrup';
         $(form_name+' input').click();
         $(form_name+' input').change(function (){
 
@@ -511,14 +511,14 @@ function showLikes(id){
             data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
 
-            var file_inputs = document.querySelectorAll('.cover_input');
+            var file_inputs = document.querySelectorAll('.covergrup_input');
             $(file_inputs).each(function(index, input) {
                 data.append('image', input.files[0]);
             });
 
 
             $.ajax({
-                url: REQUEST_URL+'/upload/cover_grup',
+                url: BASE_URL+'/upload/cover_grup/'+id,
                 type: "POST",
                 timeout: 5000,
                 data: data,
@@ -528,7 +528,7 @@ function showLikes(id){
                 headers: {'X-CSRF-TOKEN': CSRF},
                 success: function(response){
                     if (response.code == 200){
-                        $(div_name).css('background-image', 'url('+response.image+')');
+                        location.reload();
                         $(div_name+ ' .loading-cover').hide();
                         $(div_name).removeClass('no-cover');
                     }else{

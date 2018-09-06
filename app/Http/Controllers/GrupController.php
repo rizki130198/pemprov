@@ -335,9 +335,9 @@ class GrupController extends Controller
           }
           $process = true;
       }else if($request->hasFile('file')){
-       $post->has_image = 1;
-       $file = $request->file('file');
-       if (count($file) != 14) {
+         $post->has_image = 1;
+         $file = $request->file('file');
+         if (count($file) != 14) {
           for ($i=0; $i < count($file); $i++) {
             $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
             $filestore = str_replace(',', '', $datafile);

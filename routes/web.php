@@ -79,6 +79,7 @@ Route::post('/group/like', 'GroupController@like');
 Route::post('/group/likes', 'GroupController@likes');
 Route::post('/group/comment', 'GroupController@comment');
 Route::post('/group/comments/delete', 'GroupController@deleteComment');
+Route::post('upload/cover_grup/{id}', 'GroupController@uploadCover');
 
 
 // Follow

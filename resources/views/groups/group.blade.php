@@ -90,8 +90,8 @@
         <div class="col-md-6 col-md-offset-3 col-xs-12">
             <div class="profile" style="margin-bottom: 20px;">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="cover @if($group->cover_grup == ''){{ 'no-cover' }}@endif" style="">
+                    <div class="row"> 
+                        <div class="cover @if($group->cover_grup == ''){{ 'no-cover' }}@endif" style=" background-image: url('{{ url('storage/uploads/covers/'.$group->cover_grup) }}')">
                             <div class="loading-cover">
                                 <img src="{{ asset('images/rolling.gif') }}" alt="">
                             </div>
@@ -100,10 +100,10 @@
                                     <div class="profile-text" style="left: 0;">
                                         <h4>{{ $group->nama_grup }}</h4>
                                     </div>
-                                    <form id="form-upload-cover" enctype="multipart/form-data">
+                                    <form id="form-upload-covergrup" enctype="multipart/form-data">
                                         <div class="profile-upload-cover">
-                                            <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadGroupCover()"><i class="fa fa-upload"></i> Change Cover</a>
-                                            <input type="file" accept="image/*" name="cover" class="cover_input">
+                                            <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadGroupCover({{$group->id_grup}})"><i class="fa fa-upload"></i> Change Cover</a>
+                                            <input type="file" accept="image/*" name="cover_grup" class="covergrup_input">
                                         </div>
                                     </form>
                                 </div>

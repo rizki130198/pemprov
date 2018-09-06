@@ -12,7 +12,10 @@ use App\Models\User;
 use App\Models\UserDirectMessage;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Response;
+use Storage;
 
 class GroupController extends Controller
 {
@@ -127,7 +130,44 @@ class GroupController extends Controller
         }
 
     }
+    public function uploadCover(Request $request, $id){
 
+        $response = array();
+        $response['code'] = 400;
+        if (!$this->secure($id, true)) return Response::json($response);
+
+        $messages = [
+            'image.required' => trans('validation.required'),
+            'image.mimes' => trans('validation.mimes'),
+            'image.max.file' => trans('validation.max.file'),
+        ];
+        $validator = Validator::make(array('image' => $request->file('image')), [
+            'image' => 'required|mimes:jpeg,jpg,png,gif|max:2048'
+        ], $messages);
+
+        if ($validator->fails()) {
+            $response['code'] = 400;
+            $response['message'] = implode(' ', $validator->errors()->all());
+        }else{
+
+            $file_name ="";
+
+            $file = $request->file('image');
+
+            $file_name = md5(uniqid() .$file->getClientOriginalName(). time()) . '.' . $file->getClientOriginalExtension();
+            if ($file->storeAs('public/uploads/covers', $file_name)){
+                $response['code'] = 200;
+                $cover = Grup::find($id);
+                $cover->cover_grup = $file_name;
+                $cover->save();
+            }else{
+                $response['code'] = 400;
+                $response['message'] = "Something went wrong!";
+            }
+        }
+        return Response::json($response);
+
+    }
     public function stats($id){
 
 
