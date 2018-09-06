@@ -94,15 +94,14 @@ input[type=submit] {
     <!-- <center style="margin-top: 10px;"><a href="">Liat Selengkapnya</a></center> -->
   </div>
 </div>
-
 <div class="panel-follow">
   <div class="panel-body" style="padding: 10px 20px;">
     <h5 style="color: #90949c;"><strong>FOTO GRUP</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="#">Lihat Semua</a></span></h5>
     @foreach($images_grup as $rowImage)
     <a data-fancybox="gallery" href="" data-caption="{{ $rowImage->content }}"><img class="img-responsive post-image" src="<?php echo asset("storage/uploads/post/$rowImage->image_path")?>"></a>
     @endforeach
-    <img style="display: inline-block;margin-right: 3px;" src="http://www.intrawallpaper.com/static/images/Hawaii-Beach-Wallpaper-HD_H47ejc9.jpg" alt="" width="102.8px" height="102.8px">
+    <!-- <img style="display: inline-block;margin-right: 3px;" src="http://www.intrawallpaper.com/static/images/Hawaii-Beach-Wallpaper-HD_H47ejc9.jpg" alt="" width="102.8px" height="102.8px">
     <img style="display: inline-block;margin-right: 3px;" src="https://www.planwallpaper.com/static/images/2015-wallpaper_111525594_269.jpg" alt="" width="102.8px" height="102.8px">
-    <img style="display: inline-block;margin-right: 3px;" src="https://www.planwallpaper.com/static/images/3865967-wallpaper-full-hd_XNgM7er.jpg" alt="" width="102.8px" height="102.8px">
+    <img style="display: inline-block;margin-right: 3px;" src="https://www.planwallpaper.com/static/images/3865967-wallpaper-full-hd_XNgM7er.jpg" alt="" width="102.8px" height="102.8px"> -->
   </div>
 </div>
