@@ -285,6 +285,7 @@ body {
   .panel-google-plus {
     border: none;
     border-radius: 0 !important;
+    margin-bottom: 40px;
   }
   .well-social-post {
     border-top:0 !important;

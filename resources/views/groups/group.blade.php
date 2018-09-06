@@ -113,10 +113,10 @@
                 </div>
             </div>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#">DISKUSI</a></li>
-                <li><a href="#">ANGGOTA</a></li>
-                <li><a href="#">FOTO GRUP</a></li>
-                <li><a href="#">PENGATURAN GRUP</a></li>
+                <li class="{{ Request::segment(2) == 'diskusi' ? 'active' : '' }}"><a href="{{ url('/group/diskusi/'.$group->id_grup) }}">DISKUSI</a></li>
+                <li class="{{ Request::segment(2) == 'anggota' ? 'active' : '' }}"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">ANGGOTA</a></li>
+                <li class="{{ Request::segment(2) == 'foto' ? 'foto' : '' }}"><a href="{{ url('/group/foto/'.$group->id_grup) }}">FOTO GRUP</a></li>
+                <li class="{{ Request::segment(2) == 'pengaturan_group' ? 'active' : '' }}"><a href="{{ url('/group/pengaturan_group/'.$group->id_grup) }}">PENGATURAN GRUP</a></li>
             </ul>
             @if (Request::segment(2) == 'diskusi')
             @if($user->id == Auth::user()->id)
@@ -170,6 +170,10 @@
             @elseif (Request::segment(2) == 'foto')
 
                 @include('groups.widgets.foto')
+
+            @elseif (Request::segment(2) == 'pengaturan_group')
+
+                @include('groups.widgets.pengaturan_group')
 
             @endif
             <div class="modal fade " id="likeListModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -233,5 +237,20 @@
 
     WALL_ACTIVE = true;
     fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+  
+  $(".selLabel").click(function () {
+    $('.dropdown').toggleClass('active');
+  });
+  
+  $(".dropdown-list li").click(function() {
+    $('.selLabel').text($(this).text());
+    $('.dropdown').removeClass('active');
+    $('.selected-item p span').text($('.selLabel').text());
+  });
+  
+});
 </script>
 @endsection

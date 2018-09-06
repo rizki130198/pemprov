@@ -76,11 +76,31 @@ class GroupController extends Controller
     public function group($id){
 
         if (!$this->secure($id)) return redirect('/404');
+        $response = array();
+        $response['code'] = 200;
+
         $user = Auth::user();
+        $user_list = [];
+        $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
+
+        $new_list = [];
+        foreach(array_reverse($message_list) as $list){
+            $msg = new UserDirectMessage();
+            $msg->dataImport($list);
+            $new_list[] = $msg;
+        }
+
+        foreach (array_reverse($new_list) as $message){
+            $user_list[$message->sender_user_id] = [
+                'new' => ($message->seen == 0)?true:false,
+                'message' => $message,
+                'user' => $message->sender
+            ];
+        }
 
         $group = $this->group;
         $id_link = $id;
-        $user_list = $user->messagePeopleList();
+        // $user_list = $user->messagePeopleList();
         $wall = [
             'new_postgrup_group_id' => $group->id_group
         ];
@@ -99,14 +119,14 @@ class GroupController extends Controller
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "foto") {
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
-            }    
+            }elseif (request()->segment(2) == "pengaturan_group") {
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
+            }     
         }else{
             return redirect('/404');
         }
 
     }
-
-
 
     public function stats($id){
 
