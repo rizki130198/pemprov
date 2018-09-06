@@ -135,7 +135,7 @@
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()" style="margin-left: 15px;">
                                 <i class="fa fa-image"></i> Add Image
                             </button>
-                            <input type="file" accept="image/*" multiple class="image-input" name="photo" onchange="previewPostgrupImage(this)">
+                            <input type="file" id="imageupload" accept="image/*" multiple class="image-input" name="photo" onchange="previewPostgrupImage(this)">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupFile()">
                                 <i class="glyphicon glyphicon-file"></i> Add File
                             </button>

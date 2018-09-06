@@ -184,11 +184,11 @@ function newPostgrup(){
     var data = new FormData();
     data.append('data', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
-    var image_inputs = document.querySelectorAll('.image-input');
-    $(image_inputs).each(function(index, input) {
-        data.append('image', input.files[0]);
-    });
-    
+    var ins = document.getElementById('imageupload').files.length;
+    for (var x = 0; x < ins; x++) {
+        data.append("image[]", document.getElementById('imageupload').files[x]);
+    }
+
     var file_inputs = document.querySelectorAll('.file-input');
     $(file_inputs).each(function(index, input) {
         data.append('file', input.files[0]);

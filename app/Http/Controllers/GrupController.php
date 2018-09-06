@@ -297,7 +297,7 @@ class GrupController extends Controller
 
 
         if ($request->hasFile('image')){
-            $validator_data['image'] = 'required|mimes:jpeg,jpg,png,gif|max:2048';
+            $validator_data['image'] = 'max:2048';
         }else{
             $validator_data['content'] = 'required';
         }
@@ -313,109 +313,113 @@ class GrupController extends Controller
             $post->group_post_id = $data['group_id'];
             $post->user_id = Auth::user()->id;
 
-            $image_name = '';
+            $fb = '';
 
             if ($request->hasFile('image')) {
                 $post->has_image = 1;
                 $file = $request->file('image');
-
-                $file_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
-                if ($file->storeAs('public/uploads/posts', $file_name)) {
-                    $process = true;
-                } else {
-                    $process = false;
+                if (count($file) != 14) {
+                  for ($i=0; $i < count($file); $i++) {
+                    $abc = $file[$i]->getClientOriginalName().',';
+                    $fb .= $abc;
                 }
+                $foto_bang = substr($fb, 0, -1);
             }else{
-                $process = true;
-            }
+              $foto_bang = $file->getClientOriginalName();
+          }
+            $process = true;
 
-            if ($process){
-                if ($post->save()) {
-                    if ($post->has_image == 1) {
-                        $post_image = new GrupImage();
-                        $post_image->image_path = $image_name;
-                        $post_image->post_grup_id = $post->id_post_grup;
-                        if ($post_image->save()){
-                            $response['code'] = 200;
+    }else{
+        $process = true;
+    }
+
+    if ($process){
+        if ($post->save()) {
+            if ($post->has_image == 1) {
+                $post_image = new GrupImage();
+                $post_image->image_path = $foto_bang;
+                $post_image->post_grup_id = $post->id_post_grup;
+                if ($post_image->save()){
+                    $response['code'] = 200;
                     // $response['message'] = dd($request->file);
-                        }else{
-                            $response['code'] = 400;
-                            $response['message'] = "Something went wrong!";
-                            $post->delete();
-                        }
-                    }else{
-                        $response['code'] = 200;
-                    }
-                }
-            }else{ 
-                $response['code'] = 400;
-                $response['message'] = "Something went wrong!";
-            }
-        }
-        return Response::json($response);
-
-    }
-    public function tambah(Request $request, $grup_id)
-    {
-
-        $s = $request->input('cari');
-
-        $query = User::where('id', '!=', Auth::user()->id)->whereNotExists(function ($query) use($grup_id) {
-            $query->select(DB::raw(1))
-            ->from('user_groups')
-            ->whereRaw('users.id = user_groups.id_user and user_groups.id_groups = '. $grup_id);
-        })->where('users.username','LIKE',''.$s.'')->limit(5)->get();
-
-            foreach ($query as $row){ ?>
-                <a href="<?php echo site_url('cp/detail_pengaduan/aparat/'.$row->id_air); ?>"><li><?php echo substr($row->alamat, 0,40); ?></li></a>
-            <?php }
-    }
-    public function gabung(Request $request){
-
-        $response = array();
-        $response['code'] = 400;
-
-        $id_grup = $request->input('idgrup');
-        $id_user = $request->input('iduser');
-        $element = $request->input('element');
-        $size = $request->input('size');
-
-
-
-        $grup = Grup::find($id_grup);
-        $user = User::find($id_user);
-
-
-
-        if ($grup && $user){
-
-            $relation = User_grup::where('id_user',$id_user)->where('id_groups',$id_grup)->get()->first();
-
-            if ($relation){
-                if ($relation->delete()){
-                    $response['code'] = 200;
-                    $response['refresh'] = 1;
+                }else{
+                    $response['code'] = 400;
+                    $response['message'] = "Something went wrong!";
+                    $post->delete();
                 }
             }else{
-                $relation = new User_grup();
-                $relation->id_user = $id_user;
-                $relation->id_groups = $id_grup;
-                $relation->allow = 1;
-                if ($relation->save()){
-                    $response['code'] = 200;
-                    $response['refresh'] = 0;
-                }
+                $response['code'] = 200;
             }
+        }
+    }else{ 
+        $response['code'] = 400;
+        $response['message'] = "Something went wrong!";
+    }
+}
+return Response::json($response);
 
-            if ($response['code'] == 200){
-                $response['button'] = sHelper::grupButton($id_grup, $id_user, $element, $size);
+}
+public function tambah(Request $request, $grup_id)
+{
+
+    $s = $request->input('cari');
+
+    $query = User::where('id', '!=', Auth::user()->id)->whereNotExists(function ($query) use($grup_id) {
+        $query->select(DB::raw(1))
+        ->from('user_groups')
+        ->whereRaw('users.id = user_groups.id_user and user_groups.id_groups = '. $grup_id);
+    })->where('users.username','LIKE',''.$s.'')->limit(5)->get();
+
+    foreach ($query as $row){ ?>
+        <a href="<?php echo site_url('cp/detail_pengaduan/aparat/'.$row->id_air); ?>"><li><?php echo substr($row->alamat, 0,40); ?></li></a>
+    <?php }
+}
+public function gabung(Request $request){
+
+    $response = array();
+    $response['code'] = 400;
+
+    $id_grup = $request->input('idgrup');
+    $id_user = $request->input('iduser');
+    $element = $request->input('element');
+    $size = $request->input('size');
+
+
+
+    $grup = Grup::find($id_grup);
+    $user = User::find($id_user);
+
+
+
+    if ($grup && $user){
+
+        $relation = User_grup::where('id_user',$id_user)->where('id_groups',$id_grup)->get()->first();
+
+        if ($relation){
+            if ($relation->delete()){
+                $response['code'] = 200;
+                $response['refresh'] = 1;
+            }
+        }else{
+            $relation = new User_grup();
+            $relation->id_user = $id_user;
+            $relation->id_groups = $id_grup;
+            $relation->allow = 1;
+            if ($relation->save()){
+                $response['code'] = 200;
+                $response['refresh'] = 0;
             }
         }
 
-
-        return Response::json($response);
-
+        if ($response['code'] == 200){
+            $response['button'] = sHelper::grupButton($id_grup, $id_user, $element, $size);
+        }
     }
+
+
+    return Response::json($response);
+
+}
 
 
 }
