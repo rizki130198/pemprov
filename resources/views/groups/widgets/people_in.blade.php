@@ -50,11 +50,11 @@ input[type=submit] {
   color: #ffffff; 
 }
 .modal-dialog {
-    min-height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: auto;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
 }
 @media(max-width: 768px) {
   .modal-dialog {
@@ -110,7 +110,11 @@ input[type=submit] {
   <div class="panel-body" style="padding: 10px 20px;">
     <h5 style="color: #90949c;"><strong>FOTO GRUP</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="#">Lihat Semua</a></span></h5>
     @foreach($images_grup->slice(0,3) as $rowImage)
-    <img style="display: inline-block;margin-right: 3px;" src="{{ url('storage/uploads/posts/'.$rowImage->image_path) }}" width="102.8px" height="102.8px">
+    <?php $image = explode(',',$rowImage->image_path); ?>
+    @for($i = 0; $i < count($image); $i++) 
+    <img style="display: inline-block;margin-right: 3px;" src="{{ url('storage/uploads/posts/'.$image[$i]) }}" width="102.8px" height="102.8px">
+    
+    @endfor
     @endforeach
   </div>
 </div>

@@ -358,8 +358,8 @@ if ($process){
     if ($post->save()) {
         if ($post->has_image == 1) {
             $post_image = new GrupImage();
-            $post_image->image_path = $foto_bang;
-            $post_image->file_path = $file_path;
+            $post_image->image_path = $image_path;
+            // $post_image->file_path = $file_path;
             $post_image->post_grup_id = $post->id_post_grup;
             if ($post_image->save()){
                 $response['code'] = 200;
