@@ -73,8 +73,8 @@
     }
     /*.profile-text h4{
         font-size: 20px !important;
-    }*/
-}
+        }*/
+    }
 </style>
 <div class="col-md-12 col-group">
     <div class="row row-group">
@@ -118,6 +118,7 @@
                 <li><a href="#">FOTO GRUP</a></li>
                 <li><a href="#">PENGATURAN GRUP</a></li>
             </ul>
+            @if (Request::segment(2) == 'diskusi')
             @if($user->id == Auth::user()->id)
             <div class="new-postgrup-box">
                 <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
@@ -160,7 +161,15 @@
             <div class="postgrup-list-bottom-loading">
                 <img src="{{ asset('images/rolling.gif') }}" alt="">
             </div>
+            @elseif (Request::segment(2) == 'anggota')
 
+                @include('groups.widgets.anggota')
+            
+            @elseif (Request::segment(2) == 'foto')
+
+                @include('groups.widgets.foto')
+
+            @endif
             <div class="modal fade " id="likeListModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -186,55 +195,88 @@
 @section('footer')
 <script type="text/javascript">
     function uploadGroupCover(){
-    var div_name = '.cover';
-    var form_name = '#form-upload-cover';
-    $(form_name+' input').click();
-    $(form_name+' input').change(function (){
+        var div_name = '.cover';
+        var form_name = '#form-upload-cover';
+        $(form_name+' input').click();
+        $(form_name+' input').change(function (){
 
-        $(div_name+ ' .loading-cover').show();
+            $(div_name+ ' .loading-cover').show();
 
-        var data = new FormData();
-        data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
-
-
-        var file_inputs = document.querySelectorAll('.cover_input');
-        $(file_inputs).each(function(index, input) {
-            data.append('image', input.files[0]);
-        });
+            var data = new FormData();
+            data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
 
-        $.ajax({
-            url: REQUEST_URL+'/upload/cover_grup',
-            type: "POST",
-            timeout: 5000,
-            data: data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            headers: {'X-CSRF-TOKEN': CSRF},
-            success: function(response){
-                if (response.code == 200){
-                    $(div_name).css('background-image', 'url('+response.image+')');
-                    $(div_name+ ' .loading-cover').hide();
-                    $(div_name).removeClass('no-cover');
-                }else{
+            var file_inputs = document.querySelectorAll('.cover_input');
+            $(file_inputs).each(function(index, input) {
+                data.append('image', input.files[0]);
+            });
+
+
+            $.ajax({
+                url: REQUEST_URL+'/upload/cover_grup',
+                type: "POST",
+                timeout: 5000,
+                data: data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': CSRF},
+                success: function(response){
+                    if (response.code == 200){
+                        $(div_name).css('background-image', 'url('+response.image+')');
+                        $(div_name+ ' .loading-cover').hide();
+                        $(div_name).removeClass('no-cover');
+                    }else{
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html(response.message);
+                        $(div_name+ ' .loading-cover').hide();
+                    }
+                },
+                error: function(){
                     $('#errorMessageModal').modal('show');
-                    $('#errorMessageModal #errors').html(response.message);
+                    $('#errorMessageModal #errors').html('Something went wrong!');
                     $(div_name+ ' .loading-cover').hide();
                 }
-            },
-            error: function(){
-                $('#errorMessageModal').modal('show');
-                $('#errorMessageModal #errors').html('Something went wrong!');
-                $(div_name+ ' .loading-cover').hide();
-            }
+            });
         });
-    });
-}
+    }
 
     WALL_ACTIVE = true;
     fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
+</script>
+<script type="text/javascript">
+    (function() {
+        var toggleElement;
+        toggleElement = function($el, type) {
+            if (type != null) {
+                if (type === 'open') {
+                    $el.addClass('panel-element-open');
+                    $el.siblings('.panel-element').removeClass('panel-element-open');
+                } else if (type === 'close') {
+                    $el.removeClass('panel-element-open');
+                }
+            } else {
+                if ($el.hasClass('panel-element-open')) {
+                    toggleElement($el, 'close');
+                } else {
+                    toggleElement($el, 'open');
+                }
+            }
+            return null;
+        };
 
-
+        $(document).ready(function() {
+            var hammertime;
+            $('.btn').click(function() {
+                var $parent;
+                $parent = $(this).parents('.panel-element');
+                if ($(this).hasClass('btn-more')) {
+                    if (!hammertime) {
+                        return toggleElement($parent);
+                    }
+                }
+            });
+        });
+    }).call(this);
 </script>
 @endsection

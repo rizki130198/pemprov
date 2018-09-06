@@ -89,7 +89,7 @@
             <div class="row">
                 @foreach($groups->get() as $group)
                 <div class="col-sm-6 col-md-4">
-                    <a href="{{ url('/group/'.$group->id_grup) }}">
+                    <a href="{{ url('/group/diskusi/'.$group->id_grup) }}">
                         <div class="panel group-box">
                             <p class="quotation-mark">
                             </p>
