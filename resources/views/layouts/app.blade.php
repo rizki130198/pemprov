@@ -29,7 +29,7 @@
     <div id="app">
         <nav class="navbar navbar-inverse navbar-fixed-bottom" style="z-index: 1;">
             <div class="icon-bar">
-                <a class="active" href="#"><i class="fa fa-home"></i></a> 
+                <a class="active" href="{{ url('/home') }}"><i class="fa fa-home"></i></a> 
                 <a href="#" class="collapsed" data-toggle="collapse" data-target="#search"><i class="fa fa-search"></i></a> 
                 <a href="#" onclick="openNotif()">
                     <i class="fa fa-bell"></i>

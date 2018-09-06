@@ -99,7 +99,9 @@ class GroupController extends Controller
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "foto") {
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
-            }    
+            }elseif (request()->segment(2) == "pengaturan_group") {
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
+            }     
         }else{
             return redirect('/404');
         }

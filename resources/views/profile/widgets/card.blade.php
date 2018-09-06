@@ -44,15 +44,15 @@
     @if($group->status_grup == 'public')
     <label style="color: #90949c;margin-bottom: 20px;"  data-toggle="tooltip" data-placement="bottom" title="Siapa pun dapat menemukan group. melihat siapa anggotanya dan postingan mereka"><i class="glyphicon glyphicon-globe"></i> Group Public</label>
     @elseif($group->status_grup == 'tertutup')
-    <label style="color: #90949c;margin-bottom: 20px;"  data-toggle="tooltip" data-placement="bottom" title="Siapa pun dapat menemukan group. hanya anggota yang dapat melihat siapa anggotanya dan postingan mereka."><i class="glyphicon glyphicon-globe"></i> Group Public</label>
+    <label style="color: #90949c;margin-bottom: 20px;"  data-toggle="tooltip" data-placement="bottom" title="Siapa pun dapat menemukan group. hanya anggota yang dapat melihat siapa anggotanya dan postingan mereka."><i class="glyphicon glyphicon-lock"></i> Group Tertutup</label>
     @elseif($group->status_grup == 'rahasia')
-    <label style="color: #90949c;margin-bottom: 20px;"  data-toggle="tooltip" data-placement="bottom" title="Siapa pun tidak dapat menemukan group, hanya admin yang dapat menemukan. anggota dapat melihat siapa anggotanya dan postingan mereka."><i class="glyphicon glyphicon-globe"></i> Group Public</label>
+    <label style="color: #90949c;margin-bottom: 20px;"  data-toggle="tooltip" data-placement="bottom" title="Siapa pun tidak dapat menemukan group, hanya admin yang dapat menemukan. anggota dapat melihat siapa anggotanya dan postingan mereka."><i class="glyphicon glyphicon-eye-close"></i> Group Rahasia</label>
     @endif
     <li role="presentation" class="{{ Request::segment(2) == 'diskusi' ? 'active' : '' }}"><a href="{{ url('/group/diskusi/'.$group->id_grup) }}">Diskusi</a></li>
     <li role="presentation" class="{{ Request::segment(2) == 'anggota' ? 'active' : '' }}"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">Anggota</a></li>
     <li role="presentation" class="{{ Request::segment(2) == 'foto' ? 'active' : '' }}"><a href="{{ url('/group/foto/'.$group->id_grup) }}">Foto</a></li>
     @if($group->id_grup !== 'id_user')
-    <li role="presentation"><a href="#">Pengaturan Grup</a></li>
+    <li role="presentation" class="{{ Request::segment(2) == 'pengaturan_group' ? 'active' : '' }}"><a href="{{ url('/group/pengaturan_group/'.$group->id_grup) }}">Pengaturan Grup</a></li>
     @else
     @endif
 </ul>
