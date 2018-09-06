@@ -48,9 +48,9 @@
     @elseif($group->status_grup == 'rahasia')
     <label style="color: #90949c;margin-bottom: 20px;"  data-toggle="tooltip" data-placement="bottom" title="Siapa pun tidak dapat menemukan group, hanya admin yang dapat menemukan. anggota dapat melihat siapa anggotanya dan postingan mereka."><i class="glyphicon glyphicon-globe"></i> Group Public</label>
     @endif
-    <li role="presentation" class="active"><a href="#">Diskusi</a></li>
-    <li role="presentation"><a href="#">Anggota</a></li>
-    <li role="presentation"><a href="#">Foto</a></li>
+    <li role="presentation" class="{{ Request::segment(2) == 'diskusi' ? 'active' : '' }}"><a href="{{ url('/group/diskusi/'.$group->id_grup) }}">Diskusi</a></li>
+    <li role="presentation" class="{{ Request::segment(2) == 'anggota' ? 'active' : '' }}"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">Anggota</a></li>
+    <li role="presentation" class="{{ Request::segment(2) == 'foto' ? 'active' : '' }}"><a href="{{ url('/group/foto/'.$group->id_grup) }}">Foto</a></li>
     @if($group->id_grup !== 'id_user')
     <li role="presentation"><a href="#">Pengaturan Grup</a></li>
     @else

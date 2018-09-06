@@ -17,7 +17,6 @@ input {
   font-size: 16px;
 }
 input[type=text] {
-  background-color: #f1f1f1;
   width: 100%;
 }
 input[type=submit] {
@@ -50,6 +49,18 @@ input[type=submit] {
   background-color: DodgerBlue !important; 
   color: #ffffff; 
 }
+.modal-dialog {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+}
+@media(max-width: 768px) {
+  .modal-dialog {
+    min-height: calc(100vh - 20px);
+  }
+}
 </style>
 <div class="panel-follow" style="margin-top: 0;">
   <div class="panel-body" style="padding: 10px 20px;">
@@ -65,11 +76,10 @@ input[type=submit] {
    </form>
  </div>
 </div>
-
 <div class="panel-follow">
   <div class="panel-body" style="padding: 10px 20px;">
-    <h5 style="color: #90949c;"><strong>ANGGOTA</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="#">{{$anggota->count()}}</a></span></h5>
-    @foreach($anggota->get() as $member)
+    <h5 style="color: #90949c;"><strong>ANGGOTA</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">{{$anggota->count()}}</a></span></h5>
+    @foreach($anggota->slice(0,6) as $member)
     <img style="display: inline-block;margin-right: 3px;border-radius: 50%;" class="m3dia-object" src="{{ url('storage/uploads/profile_photos/'.$member->profile_path) }}" alt="{{$member->username}}" width="48px" height="48px">
     @endforeach
     <hr>
@@ -94,14 +104,14 @@ input[type=submit] {
     <!-- <center style="margin-top: 10px;"><a href="">Liat Selengkapnya</a></center> -->
   </div>
 </div>
+@if (Request::segment(2) == 'foto')
+@else
 <div class="panel-follow">
   <div class="panel-body" style="padding: 10px 20px;">
     <h5 style="color: #90949c;"><strong>FOTO GRUP</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="#">Lihat Semua</a></span></h5>
-    @foreach($images_grup as $rowImage)
-    <a data-fancybox="gallery" href="" data-caption="{{ $rowImage->content }}"><img class="img-responsive post-image" src="<?php echo asset("storage/uploads/post/$rowImage->image_path")?>"></a>
+    @foreach($images_grup->slice(0,3) as $rowImage)
+    <img style="display: inline-block;margin-right: 3px;" src="{{ url('storage/uploads/posts/'.$rowImage->image_path) }}" width="102.8px" height="102.8px">
     @endforeach
-    <!-- <img style="display: inline-block;margin-right: 3px;" src="http://www.intrawallpaper.com/static/images/Hawaii-Beach-Wallpaper-HD_H47ejc9.jpg" alt="" width="102.8px" height="102.8px">
-    <img style="display: inline-block;margin-right: 3px;" src="https://www.planwallpaper.com/static/images/2015-wallpaper_111525594_269.jpg" alt="" width="102.8px" height="102.8px">
-    <img style="display: inline-block;margin-right: 3px;" src="https://www.planwallpaper.com/static/images/3865967-wallpaper-full-hd_XNgM7er.jpg" alt="" width="102.8px" height="102.8px"> -->
   </div>
 </div>
+@endif
