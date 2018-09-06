@@ -84,9 +84,14 @@ class GroupController extends Controller
         $wall = [
             'new_postgrup_group_id' => $group->id_group
         ];
+        $images_grup = DB::table('posts_grup')->join('post_grup_images', 'post_grup_images.post_grup_id', '=', 'posts_grup.id_post_grup')->where('group_post_id', $id_link)->get();
+        
+        $groups = Grup::join('user_groups', 'user_groups.id_groups', '=', 'grup.id_grup')
+        ->join('users','users.id','=','grup.id_user')
+        ->where('user_groups.id_user', $user->id);
         $validasi = User_grup::find($user->id);
         if ($validasi) {
-            return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list'));
+            return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','images_grup'));
         }else{
             return redirect('/404');
         }
