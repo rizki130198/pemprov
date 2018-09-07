@@ -129,7 +129,7 @@ function previewPostgrupImage(input){
     
     var output = [];
     for (var i = 0, f; f = input.files[i]; i++) {
-      output.push('<li><strong>', escape(f.name), '</strong>',
+      output.push('<li><strong class="label label-primary">', escape(f.name), '</strong>',
           '</li>');
   }
   document.getElementById('listimage').innerHTML = '<ul>' + output.join('') + '</ul>';

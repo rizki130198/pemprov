@@ -133,13 +133,24 @@
     </div>
 
     @else
+    @if($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{$message}}</p>
+        </div>
+    @endif
     <section id="pinBoot">
         @foreach($data as $dataevent)
         <article class="white-panel">
             <div class="panel-default event-primary panel-google-plus" id="panel-post-event-{{ $dataevent->id_events }}">
                 <div class="panel-heading" style="margin-top:0;background-color: #444753 !important;background:none;color: #fff;">
+                    <form method="post" class="delete_form" action="{{ url('/EventController/hapusEvent', $dataevent['id']) }}">
+                        {{csrf_field()}}    
+                        <input type="hidden" name="_method">
+                        <button class="btn btn-danger" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></button>
+                    </form>
                     <h2>{{ $dataevent->nama_event }}</h2>
                     <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
+
                 </div>
                 <div class="panel-body nopadding">
                     <!-- <img src="https://placehold.it/400x150" alt="event image" class="img-responsive"/> -->
@@ -347,5 +358,15 @@
 
     })(jQuery, window, document);
 </script>
-
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.delete_form').on('submit', function(){
+            if (confirm("Yakin hapus Event?")) {
+                return true;
+            }else{
+                return false;
+            }
+        });
+    });
+</script>
 @endsection

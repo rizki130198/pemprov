@@ -102,6 +102,12 @@ class EventController extends Controller
 
 		return Response::json($response);
 	}
+	public function hapusEvent($id)
+	{
+		$event = Events::find($id);
+		$events->delete();
+		return redirect()->route('events')->with('success', 'Data Deleted');
+	}
 	public function delete(Request $request){
 
 		$response = array();
@@ -171,7 +177,6 @@ class EventController extends Controller
 
 		return Response::json($response);
 	}
-
 
 }
 
