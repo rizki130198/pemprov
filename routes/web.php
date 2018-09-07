@@ -71,7 +71,7 @@ Route::get('/group/diskusi/{id}', 'GroupController@group');
 Route::get('/group/anggota/{id}', 'GroupController@group');
 Route::get('/group/foto/{id}', 'GroupController@group');
 Route::get('/group/pengaturan_group/{id}', 'GroupController@group');
-Route::get('/group/edit/{id}', 'GroupController@edit');
+Route::post('/group/edit/{id}', 'GroupController@edit');
 Route::get('/group/{id}/stats', 'GroupController@stats');
 Route::post('/group/new', 'GroupController@create');
 Route::post('/group/delete', 'GroupController@delete');

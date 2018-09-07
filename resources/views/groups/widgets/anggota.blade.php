@@ -187,10 +187,11 @@ h1 {
 				@foreach($anggota as $member)
 				<div class="col-md-6">
 					<div class="panel-element">
+						@if($member->jabatan_grup!='admin')
 						<div class="element-actions">
 							<button class="btn btn-action btn-hide"><i class="fa fa-ban"></i></button>
 						</div>
-
+						@endif
 						<div class="element-content">
 							<button class="btn btn-more">
 								<i class="fa fa-ellipsis-h icon-closed"></i>

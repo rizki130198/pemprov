@@ -60,6 +60,7 @@ class GrupController extends Controller
                     $user_grup = new User_grup();
                     $user_grup->id_user = Auth::user()->id;
                     $user_grup->id_groups = $grup->id_grup;
+                    $user_grup->jabatan_grup = 'admin';
                     $user_grup->allow = '1';
 
                     $user_grup->save();

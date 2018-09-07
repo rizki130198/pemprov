@@ -130,6 +130,33 @@ class GroupController extends Controller
         }
 
     }
+    public function edit(Request $request, $id){
+
+        $response = array();
+        $response['code'] = 400;
+        if (!$this->secure($id, true)) return Response::json($response);
+        $data = $request->all();
+        $messages = [
+            'nama_grup' => 'required',
+            'privasi' => 'required',
+        ];
+        $validator = Validator::make($data, $messages);
+
+        if ($validator->fails()) {
+            $response['code'] = 400;
+            $response['message'] = implode(' ', $validator->errors()->all());
+        }else{
+                $cover = Grup::find($id);
+                $cover->nama_grup = $data['nama_grup'];
+                $cover->status_grup = $data['privasi'];
+            if($cover->save()){
+                return redirect('group/pengaturan_group/'.$id);
+            }else{
+                return redirect('group/pengaturan_group/'.$id);
+            }
+        }
+
+    }
     public function uploadCover(Request $request, $id){
 
         $response = array();
