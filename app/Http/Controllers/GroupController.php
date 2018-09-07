@@ -113,13 +113,13 @@ class GroupController extends Controller
         ->join('users','users.id','=','grup.id_user')
         ->where('user_groups.id_user', $user->id);
         $validasi = User_grup::find($user->id);
-
+        $cekanggota = User_grup::where('id_user',$user->id)->get()->first();
         $anggota = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->get();
         if ($validasi) {
             if (request()->segment(2) == "diskusi") {
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "anggota") {
-                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup','cekanggota'));
             }elseif (request()->segment(2) == "foto") {
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "pengaturan_group") {
@@ -218,7 +218,7 @@ class GroupController extends Controller
         $response = array();
         $response['code'] = 400;
 
-        if (Auth::user()->id != $id) {
+        if (Auth::user()->id == $id) {
              $update = User_grup::where('id_user',$id)->delete();
             $response['code'] = 200;
         }else{

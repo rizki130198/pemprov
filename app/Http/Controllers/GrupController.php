@@ -397,12 +397,11 @@ public function tambah(Request $request,$grup_id)
     })->where('users.username','LIKE','%'.$s.'%')->limit(5)->get();
     
     if (count($query) == 0){ ?>
-
-        <li>Tidak ada data</li>
+        <div>Tidak ada data</div>
     <?php }else{ ?>
 
         <?php foreach ($query as $key ): ?>
-            <a href="javascript:;" onclick="gabung('<?=$grup_id?>','<?= $key->id ?>','#people-listed-<?=$grup_id?>','btn-sm')"><li><?= $key->username ?></li></a>
+            <a href="javascript:;" onclick="gabung('<?=$grup_id?>','<?= $key->id ?>','#people-listed-<?=$grup_id?>','btn-sm')"><div><?= $key->username ?></div></a>
         <?php endforeach ?>
 
     <?php } 

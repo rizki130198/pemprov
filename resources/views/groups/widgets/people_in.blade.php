@@ -5,7 +5,7 @@
 .panel-follow{
   margin-top: 20px;
 }
-..autocomplete {
+.autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
   display: inline-block;
@@ -24,7 +24,6 @@ input[type=submit] {
   color: #fff;
 }
 .autocomplete-items {
-  position: absolute;
   border: 1px solid #d4d4d4;
   border-bottom: none;
   border-top: none;
@@ -32,17 +31,18 @@ input[type=submit] {
   /*position the autocomplete items to be the same width as the container:*/
   top: 100%;
   left: 0;
+  display: none;
   right: 0;
 }
-.autocomplete-items div {
+.autocomplete-items .auto_list div {
   padding: 10px;
   cursor: pointer;
   background-color: #fff; 
   border-bottom: 1px solid #d4d4d4; 
 }
-.autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #e9e9e9; 
+.autocomplete-items .auto_list div:hover {
+  background-color: DodgerBlue;
+  color: #fff; 
 }
 .autocomplete-active {
   /*when navigating through the items using the arrow keys:*/
@@ -70,9 +70,9 @@ input[type=submit] {
         <input id="getanggota" type="text" name="anggota" onkeyup="tambahanggota()" placeholder="Tambah Anggota">
         <input id="grup" type="hidden" name="grup" value="{{Request::segment(3)}}">
       </div>
-      <div id="suggestions">
-       <div id="autoSuggestionsList"></div>
-     </div>
+      <div id="suggestions" class="autocomplete-items">
+        <div id="autoSuggestionsList"></div>
+      </div>
    </form>
  </div>
 </div>
