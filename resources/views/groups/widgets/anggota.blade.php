@@ -30,14 +30,13 @@ h1 {
 }
 .panel .panel-element {
 	position: relative;
+	z-index: 1;
 }
 .panel .panel-element .element-content {
-	background-color: #fff;
 	padding: 15px;
 	border-bottom: 1px solid #d6d6d6;
 	position: relative;
 	right: 0;
-	z-index: 2;
 }
 .panel .panel-element .element-content .btn-more {
 	width: 30px;
@@ -187,16 +186,14 @@ h1 {
 				@foreach($anggota as $member)
 				<div class="col-md-6">
 					<div class="panel-element">
-						<div class="element-actions">
-							<button class="btn btn-action btn-hide"><i class="fa fa-ban"></i></button>
-						</div>
-
 						<div class="element-content">
-							<button class="btn btn-more">
-								<i class="fa fa-ellipsis-h icon-closed"></i>
-								<i class="fa fa-times icon-open"></i>
+							<button class="btn btn-more dropdown-toggle" id="editAnggota" data-toggle="dropdown" aria-expanded="true">
+								<i class="fa fa-ellipsis-h"></i>
 							</button>
-
+							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 144px;top: 33px;">
+							    <li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="#">Jadikan admin Grup</a></li>
+							    <li role="presentation"><a role="menuitem" href="#">Hapus Anggota</a></li>
+							</ul>
 							<div class="content-post">
 								<div class="post-avatar">
 									<img class="img-circle" src="{{ url('storage/uploads/profile_photos/'.$member->profile_path) }}" width="60px" height="60px">

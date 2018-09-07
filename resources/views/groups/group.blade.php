@@ -200,41 +200,6 @@
 
 @section('footer')
 <script type="text/javascript">
-
-    (function() {
-        var toggleElement;
-        toggleElement = function($el, type) {
-            if (type != null) {
-                if (type === 'open') {
-                    $el.addClass('panel-element-open');
-                    $el.siblings('.panel-element').removeClass('panel-element-open');
-                } else if (type === 'close') {
-                    $el.removeClass('panel-element-open');
-                }
-            } else {
-                if ($el.hasClass('panel-element-open')) {
-                    toggleElement($el, 'close');
-                } else {
-                    toggleElement($el, 'open');
-                }
-            }
-            return null;
-        };
-
-        $(document).ready(function() {
-            var hammertime;
-            $('.btn').click(function() {
-                var $parent;
-                $parent = $(this).parents('.panel-element');
-                if ($(this).hasClass('btn-more')) {
-                    if (!hammertime) {
-                        return toggleElement($parent);
-                    }
-                }
-            });
-        });
-    }).call(this);
-
     WALL_ACTIVE = true;
     fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
 </script>
