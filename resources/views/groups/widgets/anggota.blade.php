@@ -190,7 +190,7 @@ h1 {
 							<button class="btn btn-more dropdown-toggle" id="editAnggota" data-toggle="dropdown" aria-expanded="true">
 								<i class="fa fa-ellipsis-h"></i>
 							</button>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 144px;top: 33px;">
+							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 148px;top: 33px;">
 							    <li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="#">Jadikan admin Grup</a></li>
 							    <li role="presentation"><a role="menuitem" href="#">Hapus Anggota</a></li>
 							</ul>
@@ -200,8 +200,8 @@ h1 {
 								</div>
 
 								<div class="post-content">
-									<span class="post-title">{{ $user->name }}</span>
-									<p class="post-body">{{ '@'.$user->username }}</p>
+									<span class="post-title">{{ $member->name }}</span>
+									<p class="post-body">{{ '@'.$member->username }}</p>
 								</div>
 							</div>
 						</div>
