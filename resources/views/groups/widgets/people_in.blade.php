@@ -112,7 +112,7 @@ input[type=submit] {
 @else
 <div class="panel-follow">
   <div class="panel-body" style="padding: 10px 20px;">
-    <h5 style="color: #90949c;"><strong>FOTO GRUP</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="#">Lihat Semua</a></span></h5>
+    <h5 style="color: #90949c;"><strong>FOTO GRUP</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="/group/foto/{{$group->id_grup}}">Lihat Semua</a></span></h5>
     @foreach($images_grup->slice(0,3) as $rowImage)
     <?php $image = explode(',',$rowImage->image_path); ?>
     @for($i = 0; $i < count($image); $i++) 

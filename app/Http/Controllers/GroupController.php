@@ -146,9 +146,9 @@ class GroupController extends Controller
             $response['code'] = 400;
             $response['message'] = implode(' ', $validator->errors()->all());
         }else{
-                $cover = Grup::find($id);
-                $cover->nama_grup = $data['nama_grup'];
-                $cover->status_grup = $data['privasi'];
+            $cover = Grup::find($id);
+            $cover->nama_grup = $data['nama_grup'];
+            $cover->status_grup = $data['privasi'];
             if($cover->save()){
                 return redirect('group/pengaturan_group/'.$id);
             }else{
@@ -212,22 +212,59 @@ class GroupController extends Controller
         return view('groups.stats', compact('user', 'group', 'country', 'city', 'all_countries'));
     }
 
+    public function deleteMemberGrup($id)
+    {
+
+        $response = array();
+        $response['code'] = 400;
+
+        if (Auth::user()->id != $id) {
+             $update = User_grup::where('id_user',$id)->delete();
+            $response['code'] = 200;
+        }else{
+            $response['code'] = 400;
+            $response['message'] = "Anda bukan Pemilik grup";
+        }
+
+        return Response::json($response);
+    }
     public function deleteGrup($id)
     {
 
         $response = array();
         $response['code'] = 400;
+
         if (!$this->secure($id)) return redirect('/home');
-        $grup = Grup::where('id_grup',$id)->get()->first();
-        if (Auth::user()->id == $grup->id_user) {
-                $delete = Grup::where('id_grup',$id)->delete();
-                $response['code'] = 200;
+
+        if (Auth::user()->id != $grup->id) {
+            $delete = User_grup::where('id_user',$id)->delete();
+            $response['code'] = 200;
         }else{
-                $response['code'] = 400;
-                $response['message'] = "Anda bukan Pemilik grup";
+            $response['code'] = 400;
+            $response['message'] = "Gagal";
         }
         return Response::json($response);
     }
+    public function addAdmin($id)
+    {
 
+        $response = array();
+        $response['code'] = 400;
+
+        if (Auth::user()->id != $id) {
+
+             $update = User_grup::where('id_user',$id)->get()->first();
+
+             $update->jabatan_grup = 'admin';
+
+             $update->save();
+
+            $response['code'] = 200;
+        }else{
+            $response['code'] = 400;
+            $response['message'] = "Anda bukan Pemilik grup";
+        }
+        return Response::json($response);
+    }
 
 }

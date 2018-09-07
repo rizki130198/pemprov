@@ -30,14 +30,13 @@ h1 {
 }
 .panel .panel-element {
 	position: relative;
+	z-index: 1;
 }
 .panel .panel-element .element-content {
-	background-color: #fff;
 	padding: 15px;
 	border-bottom: 1px solid #d6d6d6;
 	position: relative;
 	right: 0;
-	z-index: 2;
 }
 .panel .panel-element .element-content .btn-more {
 	width: 30px;
@@ -187,22 +186,28 @@ h1 {
 				@foreach($anggota as $member)
 				<div class="col-md-6">
 					<div class="panel-element">
-						@if($member->jabatan_grup!='admin')
-						<div class="element-actions">
-							<button class="btn btn-action btn-hide"><i class="fa fa-ban"></i></button>
-						</div>
-						@endif
 						<div class="element-content">
-							<button class="btn btn-more">
-								<i class="fa fa-ellipsis-h icon-closed"></i>
-								<i class="fa fa-times icon-open"></i>
-							</button>
 
+							@if($member->jabatan_grup!='admin')
+							<button class="btn btn-more dropdown-toggle" id="editAnggota" data-toggle="dropdown" aria-expanded="true">
+								<i class="fa fa-ellipsis-h"></i>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 144px;top: 33px;">
+
+								<li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="javascript:;" onclick="createdadmin('{{$member->id_user}}')">Jadikan admin Grup</a></li>
+								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="kickanggota('{{$member->id_user}}')" >Hapus Anggota</a></li>
+							</ul>
+							@endif
 							<div class="content-post">
+								@if($member->profile_path!=NULL)								
 								<div class="post-avatar">
 									<img class="img-circle" src="{{ url('storage/uploads/profile_photos/'.$member->profile_path) }}" width="60px" height="60px">
 								</div>
-
+								@else
+								<div class="post-avatar">
+									<img class="img-circle" src="{{ url('images/profile-picture.png') }}" width="60px" height="60px">
+								</div>
+								@endif
 								<div class="post-content">
 									<span class="post-title">{{ $user->name }}</span>
 									<p class="post-body">{{ '@'.$user->username }}</p>

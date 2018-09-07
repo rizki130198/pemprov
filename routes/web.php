@@ -81,6 +81,8 @@ Route::post('/group/likes', 'GroupController@likes');
 Route::post('/group/comment', 'GroupController@comment');
 Route::post('/group/comments/delete', 'GroupController@deleteComment');
 Route::post('/group/delete/{id}', 'GroupController@deleteGrup');
+Route::post('/group/delete/member/{id}', 'GroupController@deleteMemberGrup');
+Route::post('/group/addadmin/{id}', 'GroupController@addAdmin');
 Route::post('upload/cover_grup/{id}', 'GroupController@uploadCover');
 
 

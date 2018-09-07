@@ -18,8 +18,7 @@
             <p>{{ $post->content }}</p>
             @if($post->hasImage())
             @foreach($post->images()->get() as $image)
-            @if($image->image_path == 'null')
-
+            @if($image->image_path == NULL)
             <?php $file = explode(',',$image->file_path); ?>
             @for($i = 0; $i < count($file); $i++)
             <p><a href="{{url('storage/uploads/posts/'.$file[$i])}}">Download File</a></p>

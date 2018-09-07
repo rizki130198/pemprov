@@ -116,9 +116,7 @@
                 <li class="{{ Request::segment(2) == 'diskusi' ? 'active' : '' }}"><a href="{{ url('/group/diskusi/'.$group->id_grup) }}">DISKUSI</a></li>
                 <li class="{{ Request::segment(2) == 'anggota' ? 'active' : '' }}"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">ANGGOTA</a></li>
                 <li class="{{ Request::segment(2) == 'foto' ? 'foto' : '' }}"><a href="{{ url('/group/foto/'.$group->id_grup) }}">FOTO GRUP</a></li>
-                @if($group->jabatan_grup == 'admin')
                 <li class="{{ Request::segment(2) == 'pengaturan_group' ? 'active' : '' }}"><a href="{{ url('/group/pengaturan_group/'.$group->id_grup) }}">PENGATURAN GRUP</a></li>
-                @endif
             </ul>
             @if (Request::segment(2) == 'diskusi')
             @if($user->id == Auth::user()->id)
@@ -135,16 +133,16 @@
                         </div>
 
                         <p><output id="listimage"></output></p>
-                        <p><output id="list"></output></p>
+                        <p><output id="lista"></output></p>
                         <div class="row" style="padding: 10px;">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()" style="margin-left: 15px;">
                                 <i class="fa fa-image"></i> Add Image
                             </button>
-                            <input type="file" id="imageupload" accept="image/*" multiple class="image-input" name="photo" onchange="previewPostgrupImage(this)">
+                            <input type="file" id="imageupload" accept="image/*" multiple class="image-input" name="photo[]" onchange="previewPostgrupImage(this)">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupFile()">
                                 <i class="glyphicon glyphicon-file"></i> Add File
                             </button>
-                            <input type="file" multiple class="file-input" id="file" name="file" onchange="previewPostgrupFile(this)">
+                            <input type="file"  class="file-input" id="files" name="files[]" multiple onchange="previewPostgrupFile(this)">
                             <div class="loading-postgrup">
                                 <img src="{{ asset('images/rolling.gif') }}" alt="">
                             </div>
@@ -202,41 +200,6 @@
 
 @section('footer')
 <script type="text/javascript">
-
-    (function() {
-        var toggleElement;
-        toggleElement = function($el, type) {
-            if (type != null) {
-                if (type === 'open') {
-                    $el.addClass('panel-element-open');
-                    $el.siblings('.panel-element').removeClass('panel-element-open');
-                } else if (type === 'close') {
-                    $el.removeClass('panel-element-open');
-                }
-            } else {
-                if ($el.hasClass('panel-element-open')) {
-                    toggleElement($el, 'close');
-                } else {
-                    toggleElement($el, 'open');
-                }
-            }
-            return null;
-        };
-
-        $(document).ready(function() {
-            var hammertime;
-            $('.btn').click(function() {
-                var $parent;
-                $parent = $(this).parents('.panel-element');
-                if ($(this).hasClass('btn-more')) {
-                    if (!hammertime) {
-                        return toggleElement($parent);
-                    }
-                }
-            });
-        });
-    }).call(this);
-
     WALL_ACTIVE = true;
     fetchPostgrup(0,0,{{ $group->id_grup }},10,-1,-1,'initialize');
 </script>

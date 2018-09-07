@@ -51,9 +51,8 @@
     <li role="presentation" class="{{ Request::segment(2) == 'diskusi' ? 'active' : '' }}"><a href="{{ url('/group/diskusi/'.$group->id_grup) }}">Diskusi</a></li>
     <li role="presentation" class="{{ Request::segment(2) == 'anggota' ? 'active' : '' }}"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">Anggota</a></li>
     <li role="presentation" class="{{ Request::segment(2) == 'foto' ? 'active' : '' }}"><a href="{{ url('/group/foto/'.$group->id_grup) }}">Foto</a></li>
-    @if($group->id_grup !== 'id_user')
+    @if($group->jabatan_grup == 'admin')
     <li role="presentation" class="{{ Request::segment(2) == 'pengaturan_group' ? 'active' : '' }}"><a href="{{ url('/group/pengaturan_group/'.$group->id_grup) }}">Pengaturan Grup</a></li>
-    @else
     @endif
 </ul>
 @else

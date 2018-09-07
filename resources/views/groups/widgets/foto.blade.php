@@ -6,7 +6,7 @@
         @foreach($images_grup as $rowImage)
         <?php $image = explode(',',$rowImage->image_path); ?>
         @for($i = 0; $i < count($image); $i++) 
-        <img style="display: inline-block;margin-right: 3px;margin-bottom: 10px;" src="{{ url('storage/uploads/posts/'.$image[$i]) }}" width="133px" height="133px">
+        <a data-fancybox="gallery" href="{{ url('storage/uploads/posts/'.$image[$i]) }}"><img style="display: inline-block;margin-right: 3px;margin-bottom: 10px;" src="{{ url('storage/uploads/posts/'.$image[$i]) }}" width="133px" height="133px"></a>
         @endfor
         @endforeach
       </div>
