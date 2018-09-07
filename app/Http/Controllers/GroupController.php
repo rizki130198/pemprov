@@ -212,6 +212,22 @@ class GroupController extends Controller
         return view('groups.stats', compact('user', 'group', 'country', 'city', 'all_countries'));
     }
 
+    public function deleteGrup($id)
+    {
+
+        $response = array();
+        $response['code'] = 400;
+        if (!$this->secure($id)) return redirect('/home');
+        $grup = Grup::where('id_grup',$id)->get()->first();
+        if (Auth::user()->id == $grup->id_user) {
+                $delete = Grup::where('id_grup',$id)->delete();
+                $response['code'] = 200;
+        }else{
+                $response['code'] = 400;
+                $response['message'] = "Anda bukan Pemilik grup";
+        }
+        return Response::json($response);
+    }
 
 
 }

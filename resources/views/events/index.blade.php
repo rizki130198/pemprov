@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label for="awal">Waktu Mulai Event</label>
-                        <input type="text" class="form-control" name="awal" id="awal" placeholder="Waktu Mulai Evente">
+                        <input type="text" class="form-control" name="awal" id="awal" placeholder="Waktu Mulai Event">
                     </div>
                     <div class="form-group">
                         <label for="akhir">Waktu Akhir Event</label>

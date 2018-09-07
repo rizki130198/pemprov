@@ -117,7 +117,7 @@ else
               }
           }
       });
- 
+
 }
 }
 function uploadPostgrupImage(){
@@ -126,7 +126,7 @@ function uploadPostgrupImage(){
 }
 
 function previewPostgrupImage(input){
-    
+
     var output = [];
     for (var i = 0, f; f = input.files[i]; i++) {
       output.push('<li><strong>', escape(f.name), '</strong>',
@@ -499,49 +499,72 @@ function showLikes(id){
         }
     });
 }
-    function uploadGroupCover(id){
-        var div_name = '.cover';
-        var form_name = '#form-upload-covergrup';
-        $(form_name+' input').click();
-        $(form_name+' input').change(function (){
+function uploadGroupCover(id){
+    var div_name = '.cover';
+    var form_name = '#form-upload-covergrup';
+    $(form_name+' input').click();
+    $(form_name+' input').change(function (){
 
-            $(div_name+ ' .loading-cover').show();
+        $(div_name+ ' .loading-cover').show();
 
-            var data = new FormData();
-            data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
-
-
-            var file_inputs = document.querySelectorAll('.covergrup_input');
-            $(file_inputs).each(function(index, input) {
-                data.append('image', input.files[0]);
-            });
+        var data = new FormData();
+        data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
 
-            $.ajax({
-                url: BASE_URL+'/upload/cover_grup/'+id,
-                type: "POST",
-                timeout: 5000,
-                data: data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': CSRF},
-                success: function(response){
-                    if (response.code == 200){
-                        location.reload();
-                        $(div_name+ ' .loading-cover').hide();
-                        $(div_name).removeClass('no-cover');
-                    }else{
-                        $('#errorMessageModal').modal('show');
-                        $('#errorMessageModal #errors').html(response.message);
-                        $(div_name+ ' .loading-cover').hide();
-                    }
-                },
-                error: function(){
+        var file_inputs = document.querySelectorAll('.covergrup_input');
+        $(file_inputs).each(function(index, input) {
+            data.append('image', input.files[0]);
+        });
+
+
+        $.ajax({
+            url: BASE_URL+'/upload/cover_grup/'+id,
+            type: "POST",
+            timeout: 5000,
+            data: data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            headers: {'X-CSRF-TOKEN': CSRF},
+            success: function(response){
+                if (response.code == 200){
+                    location.reload();
+                    $(div_name+ ' .loading-cover').hide();
+                    $(div_name).removeClass('no-cover');
+                }else{
                     $('#errorMessageModal').modal('show');
-                    $('#errorMessageModal #errors').html('Something went wrong!');
+                    $('#errorMessageModal #errors').html(response.message);
                     $(div_name+ ' .loading-cover').hide();
                 }
-            });
+            },
+            error: function(){
+                $('#errorMessageModal').modal('show');
+                $('#errorMessageModal #errors').html('Something went wrong!');
+                $(div_name+ ' .loading-cover').hide();
+            }
         });
-    }
+    });
+}
+function hapusgrup(id){
+    $.ajax({
+        url: BASE_URL+'/group/delete/'+id,
+        type: "POST",
+        timeout: 5000,
+        contentType: false,
+        cache: false,
+        processData: false,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        success: function(response){
+            if (response.code == 200){
+                window.location.replace(BASE_URL+'/groups');
+            }else{
+                $('#errorMessageModal').modal('show');
+                $('#errorMessageModal #errors').html(response.message);
+            }
+        },
+        error: function(){
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Something went wrong!');
+        }
+    });
+};

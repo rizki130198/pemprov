@@ -136,8 +136,8 @@ function removeCommentevent(id, post_id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#post-comment-'+id+' .panel-body').html("<p><small>Comment deleted!</small></p>");
-                            $('#panel-post-event'+post_id+' .comments-title').html(response.comments_title);
+                            $('#post-comment-'+id+'').html("<p><small>Comment deleted!</small></p>");
+                             $('#panel-post-event-'+post_id+' .comments-title-event').html(response.comments_title);
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');

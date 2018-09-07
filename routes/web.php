@@ -26,6 +26,7 @@ Route::post('/settings', array(
     'as' => 'settings',
     'uses' => 'SettingsController@update'
 ));
+Route::post('/delete/akun/{id}', 'SettingsController@delete');
 
 
 // Posts
@@ -79,6 +80,7 @@ Route::post('/group/like', 'GroupController@like');
 Route::post('/group/likes', 'GroupController@likes');
 Route::post('/group/comment', 'GroupController@comment');
 Route::post('/group/comments/delete', 'GroupController@deleteComment');
+Route::post('/group/delete/{id}', 'GroupController@deleteGrup');
 Route::post('upload/cover_grup/{id}', 'GroupController@uploadCover');
 
 

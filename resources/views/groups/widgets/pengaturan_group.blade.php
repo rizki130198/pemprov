@@ -24,7 +24,7 @@
 				</select>
 				<br>
 				<label>Menghapus grup akan menghilangkan semua data, anda tidak akan bisa melihat grup ini kembali.</label>
-				<button class="btn btn-danger">Hapus Grup</button>
+				<a href="javascirpt:;" onclick="hapusgrup('{{$group->id_grup}}')" class="btn btn-danger">Hapus Grup</a>
 			</div>
 		</div>
 	</div>

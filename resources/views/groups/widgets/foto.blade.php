@@ -3,8 +3,11 @@
   <div class="panel-body">
     <div class="col-md-12">
       <div class="row">
-        @foreach($images_grup->slice(0,3) as $rowImage)
-        <img style="display: inline-block;margin-right: 3px;margin-bottom: 10px;" src="{{ url('storage/uploads/posts/'.$rowImage->image_path) }}" width="133px" height="133px">
+        @foreach($images_grup as $rowImage)
+        <?php $image = explode(',',$rowImage->image_path); ?>
+        @for($i = 0; $i < count($image); $i++) 
+        <img style="display: inline-block;margin-right: 3px;margin-bottom: 10px;" src="{{ url('storage/uploads/posts/'.$image[$i]) }}" width="133px" height="133px">
+        @endfor
         @endforeach
       </div>
     </div>
