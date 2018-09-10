@@ -21,4 +21,5 @@ class User_grup extends Model
     public $incrementing = false;
 
     protected $primaryKey = 'id_user';
+    
 }

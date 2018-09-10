@@ -10,9 +10,9 @@
         </div>
         @endif
         <div class="panel-heading" style="background:none;">
-            <img class="img-circle pull-left" src="{{ $post->$user->getPhoto(60,60) }}" alt="{{ $post->$user->name }}" />
-            <a href="{{ url('/'.$post->$user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->$user->name }}</h3></a>
-            <h5><span>{{ '@'.$post->$user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
+            <img class="img-circle pull-left" src="{{ $post->user->getPhoto(60,60) }}" alt="{{ $post->user->name }}" />
+            <a href="{{ url('/'.$post->user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->user->name }}</h3></a>
+            <h5><span>{{ '@'.$post->user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
         </div>
         <div class="panel-body">
             <p>{{ $post->content }}</p>
@@ -48,7 +48,7 @@
             <div class="like-box">
                 <button class="btn btn-default" style="background-color: transparent;background:none;">
                     <a href="javascript:;" onclick="likePostgrup({{ $post->id_post_grup }})" class="like-text" style="color: #d5483c;">
-                        @if($post->checkLike($post->$user->id))
+                        @if($post->checkLike($post->user->id))
                         <i class="fa fa-heart"></i> Unlike!
                         @else
                         <i class="fa fa-heart-o"></i> Like!
@@ -64,7 +64,7 @@
             <div class="input-placeholder">Add a comment...</div>
         </div>
         <div class="panel-google-plus-comment">
-            <img class="img-circle" src="{{ $post->$user->getPhoto(40,40) }}" alt="User Image" />
+            <img class="img-circle" src="{{ $post->user->getPhoto(40,40) }}" alt="User Image" />
             <div class="panel-google-plus-textarea">
                 <form id="form-new-comment-grup">
                     <textarea rows="4" style="width: 100%;resize: none;"></textarea>
