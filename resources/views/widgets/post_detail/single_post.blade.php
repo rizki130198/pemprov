@@ -10,9 +10,9 @@
         </div>
         @endif
         <div class="panel-heading" style="background:none;">
-            <img class="img-circle pull-left" src="{{ $post->user->getPhoto(60,60) }}" alt="{{ $post->user->name }}" />
-            <a href="{{ url('/'.$post->user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->user->name }}</h3></a>
-            <h5><span>{{ '@'.$post->user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
+            <img class="img-circle pull-left" src="{{ $user->getPhoto(60,60) }}" alt="{{ $user->name }}" />
+            <a href="{{ url('/'.$user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $user->name }}</h3></a>
+            <h5><span>{{ '@'.$user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
         </div>
         <div class="panel-body">
             <p>{{ $post->content }}</p>
@@ -32,10 +32,10 @@
             @endforeach
             @endif
             <hr class="fix-hr">
-            <div class="comments-title-">
+            <div class="comments-title">
                 @include('groups.widgets.post_detail.comments_title')
             </div>
-            <div class="post-comments-">
+            <div class="post-comments">
                 @foreach($post->comments()->limit($comment_count)->orderBY('id', 'DESC')->with('user')->get()->reverse() as $comment)
 
                 @include('groups.widgets.post_detail.single_comment')
@@ -47,7 +47,7 @@
             <div class="like-box">
                 <button class="btn btn-default" style="background-color: transparent;background:none;">
                     <a href="javascript:;" onclick="likePost({{ $post->id }})" class="like-text" style="color: #d5483c;">
-                        @if($post->checkLike($post->user->id))
+                        @if($post->checkLike($user->id))
                         <i class="fa fa-heart"></i> Unlike!
                         @else
                         <i class="fa fa-heart-o"></i> Like!
@@ -60,16 +60,16 @@
                     </a>
                 </button>
             </div>
-            <div class="input-placeholder input-post">Add a comment...</div>
+            <!-- <div class="input-placeholder">Add a comment...</div> -->
         </div>
-        <div class="panel-google-plus-comment">
-            <img class="img-circle" src="{{ $post->user->getPhoto(40,40) }}" alt="User Image" />
+        <div class="panel-google-plus-comment" style="display: block;">
+            <img class="img-circle" src="{{ $user->getPhoto(40,40) }}" alt="User Image" />
             <div class="panel-google-plus-textarea">
-                <form id="form-new-comment-event">
-                    <textarea rows="4" style="width: 100%;resize: none;"></textarea>
+                <form id="form-new-comment">
+                    <textarea rows="4" style="width: 100%;resize: none;" name="comment"></textarea>
                     <a href="javascript:void(0)" class="btn btn-warning" onclick="submitComment({{ $post->id }})">Post comment</a>
                 </form>
-                <button type="reset" style="margin-top: -34px;margin-right: 0;float: right;" class="btn btn-default">Cancel</button>
+                <!-- <button type="reset" style="margin-top: -34px;margin-right: 0;float: right;" class="btn btn-default">Cancel</button> -->
             </div>
             <div class="clearfix"></div>
         </div>

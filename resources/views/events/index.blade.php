@@ -181,9 +181,9 @@
 
                         @endforeach
                     </div>
-                    <div class="input-placeholder input-event" style="margin-left: 0;margin-top: 0;">Add a comment...</div>
+                    <div class="input-placeholder" style="margin-left: 0;margin-top: 0;">Add a comment...</div>
                 </div>
-                <div class="panel-google-plus-comment comment-event" style="border: solid 1px #ddd;">
+                <div class="panel-google-plus-comment" style="border: solid 1px #ddd;">
                     <img class="img-circle" src="{{ $user->getPhoto(40,40) }}" alt="User Image" />
                     <div class="panel-google-plus-textarea">
                         <form id="form-new-comment-event">

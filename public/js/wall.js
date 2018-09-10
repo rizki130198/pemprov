@@ -1,7 +1,7 @@
 /**
  * Created by lvntayn on 04/06/2017.
  */
-$(function() {
+ $(function() {
     if (WALL_ACTIVE) {
         $('.new-post-box textarea, .panel-post .post-write-comment textarea').each(function () {
             this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
@@ -29,16 +29,16 @@ $(function() {
 
 });
 
-function uploadPostImage(){
+ function uploadPostImage(){
     var form_name = '#form-new-post';
     $(form_name+' .image-input').click();
 }
 
 function previewPostImage(input){
-    
+
     var output = [];
     for (var i = 0, f; f = input.files[i]; i++) {
-      output.push('<li><strong>', escape(f.name), '</strong>',
+      output.push('<li><strong class="label label-primary">', escape(f.name), '</strong>',
           '</li>');
   }
   document.getElementById('listimage').innerHTML = '<ul>' + output.join('') + '</ul>';
@@ -288,42 +288,37 @@ function likePost(id){
     });
 }
 
-function submitComment(id){
+function submitComment(id){ 
 
     var data = new FormData();
     data.append('id', id);
     var comment = $('#panel-post-'+id+' #form-new-comment textarea').val();
     data.append('comment', comment);
 
-    if (comment.trim() == ''){
-        $('#errorMessageModal').modal('show');
-        $('#errorMessageModal #errors').html('Please write comment!');
-    }else {
-        $.ajax({
-            url: BASE_URL + '/posts/comment',
-            type: "POST",
-            timeout: 5000,
-            data: data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            headers: {'X-CSRF-TOKEN': CSRF},
-            success: function (response) {
-                if (response.code == 200) {
-                    $('#panel-post-'+id+' #form-new-comment textarea').val("");
-                    $('#panel-post-'+id+' .comments-title').html(response.comments_title);
-                    $('#panel-post-'+id+' .post-comments').append(response.comment);
-                } else {
-                    $('#errorMessageModal').modal('show');
-                    $('#errorMessageModal #errors').html('Something went wrong!');
-                }
-            },
-            error: function () {
+    $.ajax({
+        url: BASE_URL + '/posts/comment',
+        type: "POST",
+        timeout: 5000,
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        success: function (response) {
+            if (response.code == 200) {
+                $('#panel-post-'+id+' #form-new-comment textarea').val("");
+                $('#panel-post-'+id+' .comments-title').html(response.comments_title);
+                $('#panel-post-'+id+' .post-comments').append(response.comment);
+            } else {
                 $('#errorMessageModal').modal('show');
                 $('#errorMessageModal #errors').html('Something went wrong!');
             }
-        });
-    }
+        },
+        error: function () {
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Something went wrong!');
+        }
+    });
 }
 
 

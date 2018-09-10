@@ -11,23 +11,23 @@
                 <img src="" />
             </div>
 
-                        <p><output id="listimage"></output></p>
-                        <p><output id="list"></output></p>
+            <output id="listimage"><p style="display: none;"></p></output>
+            <output id="list"><p style="display: none;"></p></output>
             <div class="row row-res" style="padding: 10px;">
-                    <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()" style="margin-left: 15px;">
-                        <i class="fa fa-image"></i> Add Image
-                    </button>
-                    <input type="file" id="uploadimage" accept="image/*" multiple class="image-input" name="photo[]" onchange="previewPostImage(this)">
-                    <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostFile()">
-                        <i class="glyphicon glyphicon-file"></i> Add File
-                    </button>
-                    <input type="file" class="file-input" id="uploadfile" multiple name="file[]" onchange="previewPostFile(this)">
-                    <div class="loading-post">
-                        <img src="{{ asset('images/rolling.gif') }}" alt="">
-                    </div>
-                    <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPost()" style="margin-right: 15px;">
-                        Post!
-                    </button>
+                <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()" style="margin-left: 15px;">
+                    <i class="fa fa-image"></i> Add Image
+                </button>
+                <input type="file" id="uploadimage" accept="image/*" multiple class="image-input" name="photo[]" onchange="previewPostImage(this)">
+                <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostFile()">
+                    <i class="glyphicon glyphicon-file"></i> Add File
+                </button>
+                <input type="file" class="file-input" id="uploadfile" multiple name="file[]" onchange="previewPostFile(this)">
+                <div class="loading-post">
+                    <img src="{{ asset('images/rolling.gif') }}" alt="">
+                </div>
+                <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPost()" style="margin-right: 15px;">
+                    Post!
+                </button>
             </div>
         </form>
     </div>
