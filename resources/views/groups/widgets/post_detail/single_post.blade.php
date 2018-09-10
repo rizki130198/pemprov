@@ -64,7 +64,7 @@
         <!-- <div class="input-placeholder">Add a comment...</div> -->
     </div>
     <div class="panel-google-plus-comment" style="display: block;">
-        <img class="img-circle" src="{{ $post->user->getPhoto(40,40) }}" alt="User Image" />
+        <img class="img-circle" src="{{ $user->getPhoto(40,40) }}" alt="User Image" />
         <div class="panel-google-plus-textarea">
             <form id="form-new-comment-grup">
                 <textarea rows="4" style="width: 100%;resize: none;"></textarea>

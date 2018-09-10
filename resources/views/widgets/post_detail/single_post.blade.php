@@ -1,5 +1,5 @@
 <div class="panel panel-default panel-google-plus panel-post" id="panel-post-{{ $post->id }}">
-        @if($post->checkOwner($user->id))
+        @if($post->checkOwner($post->user->id))
         <div class="dropdown">
             <span class="dropdown-toggle" type="button" data-toggle="dropdown" id="dd1">
                 <span class="glyphicon glyphicon-chevron-down"></span>
@@ -10,9 +10,9 @@
         </div>
         @endif
         <div class="panel-heading" style="background:none;">
-            <img class="img-circle pull-left" src="{{ $user->getPhoto(60,60) }}" alt="{{ $user->name }}" />
-            <a href="{{ url('/'.$user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $user->name }}</h3></a>
-            <h5><span>{{ '@'.$user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
+            <img class="img-circle pull-left" src="{{ $post->user->getPhoto(60,60) }}" alt="{{ $post->user->name }}" />
+            <a href="{{ url('/'.$post->user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->user->name }}</h3></a>
+            <h5><span>{{ '@'.$post->user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
         </div>
         <div class="panel-body">
             <p>{{ $post->content }}</p>
@@ -47,7 +47,7 @@
             <div class="like-box">
                 <button class="btn btn-default" style="background-color: transparent;background:none;">
                     <a href="javascript:;" onclick="likePost({{ $post->id }})" class="like-text" style="color: #d5483c;">
-                        @if($post->checkLike($user->id))
+                        @if($post->checkLike($post->user->id))
                         <i class="fa fa-heart"></i> Unlike!
                         @else
                         <i class="fa fa-heart-o"></i> Like!

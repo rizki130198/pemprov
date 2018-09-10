@@ -445,8 +445,8 @@ function removeCommentGrup(id, postgrup_id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#post-comments-grup-'+id+' .panel-body').html("<p><small>Comment deleted!</small></p>");
-                            $('#panel-postgrup-'+postgrup_id+' .comments-title').html(response.comments_title);
+                            $('#post-comments-grup-'+id+' .commet').html("<p><small>Comment deleted!</small></p>");
+                            $('#panel-postgrup-'+postgrup_id+' .comments-title-grup').html(response.comments_title);
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');
