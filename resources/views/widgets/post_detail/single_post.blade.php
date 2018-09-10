@@ -60,14 +60,14 @@
                     </a>
                 </button>
             </div>
-            <div class="input-placeholder">Add a comment...</div>
+            <div class="input-placeholder input-post">Add a comment...</div>
         </div>
         <div class="panel-google-plus-comment">
             <img class="img-circle" src="{{ $user->getPhoto(40,40) }}" alt="User Image" />
             <div class="panel-google-plus-textarea">
-                <form id="form-new-comment-">
+                <form id="form-new-comment-event">
                     <textarea rows="4" style="width: 100%;resize: none;"></textarea>
-                    <ahref="javascript:void(0)" class="btn btn-warning" onclick="submitComment({{ $post->id }})">Post comment</a>
+                    <a href="javascript:void(0)" class="btn btn-warning" onclick="submitComment({{ $post->id }})">Post comment</a>
                 </form>
                 <button type="reset" style="margin-top: -34px;margin-right: 0;float: right;" class="btn btn-default">Cancel</button>
             </div>
