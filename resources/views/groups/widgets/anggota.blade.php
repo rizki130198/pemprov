@@ -192,7 +192,7 @@ h1 {
 								<i class="fa fa-ellipsis-h"></i>
 							</button>
 							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 144px;top: 33px;">
-							@if ($member->jabatan_grup!='admin')
+			 				@if ($member->jabatan_grup!='admin')
 								<li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="javascript:;" onclick="createdadmin('{{$member->id_user}}')">Jadikan admin Grup</a></li>
 							@endif
 								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="kickanggota('{{$member->id_user}}')" >Hapus Anggota</a></li>
