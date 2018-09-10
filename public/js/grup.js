@@ -117,7 +117,7 @@ else
               }
           }
       });
- 
+
 }
 }
 function uploadPostgrupImage(){
@@ -126,7 +126,7 @@ function uploadPostgrupImage(){
 }
 
 function previewPostgrupImage(input){
-    
+
     var output = [];
     for (var i = 0, f; f = input.files[i]; i++) {
       output.push('<li><strong class="label label-primary">', escape(f.name), '</strong>',
@@ -145,27 +145,27 @@ function uploadPostgrupFile(){
     $(form_name+' .file-input').click();
 }
 
-function previewPostFile(input){
+function previewPostgrupFile(input){
     // files is a FileList of File objects. List some properties.
     var output = [];
     for (var i = 0, f; f = input.files[i]; i++) {
       output.push('<li><strong>', escape(f.name), '</strong>',
           '</li>');
   }
-  document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  document.getElementById('lista').innerHTML = '<ul>' + output.join('') + '</ul>';
 }
 
 function removePostgrupImage(){
     var form_name = '#form-new-postgrup';
-    $(form_name + ' .image-area img').attr('src', " ");
-    $(form_name + ' .image-area').hide();
+    $('#listimage').hide();
     resetFile($(form_name + ' .image-input'));
 }
 
 function cleanPostgrupForm(){
     var form_name = '#form-new-postgrup';
     $(form_name + ' textarea').val('');
-    $('#list').val('');
+    $('#lista').val('');
+    $('#listimage').val('');
     removePostgrupImage();
     removePostGrupFile();
 }
@@ -183,9 +183,9 @@ function newPostgrup(){
         data.append("image[]", document.getElementById('imageupload').files[x]);
     }
 
-    var ins = document.getElementById('file').files.length;
-    for (var x = 0; x < ins; x++) {
-        data.append("file[]", document.getElementById('file').files[x]);
+    var ini = document.getElementById('files').files.length;
+    for (var x = 0; x < ini; x++) {
+        data.append("files[]", document.getElementById('files').files[x]);
     }
 
     $.ajax({
@@ -499,49 +499,165 @@ function showLikes(id){
         }
     });
 }
-    function uploadGroupCover(id){
-        var div_name = '.cover';
-        var form_name = '#form-upload-covergrup';
-        $(form_name+' input').click();
-        $(form_name+' input').change(function (){
+function uploadGroupCover(id){
+    var div_name = '.cover';
+    var form_name = '#form-upload-covergrup';
+    $(form_name+' input').click();
+    $(form_name+' input').change(function (){
 
-            $(div_name+ ' .loading-cover').show();
+        $(div_name+ ' .loading-cover').show();
 
-            var data = new FormData();
-            data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
-
-
-            var file_inputs = document.querySelectorAll('.covergrup_input');
-            $(file_inputs).each(function(index, input) {
-                data.append('image', input.files[0]);
-            });
+        var data = new FormData();
+        data.append('cover', JSON.stringify(makeSerializable(form_name).serializeJSON()));
 
 
-            $.ajax({
-                url: BASE_URL+'/upload/cover_grup/'+id,
-                type: "POST",
-                timeout: 5000,
-                data: data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': CSRF},
-                success: function(response){
-                    if (response.code == 200){
-                        location.reload();
-                        $(div_name+ ' .loading-cover').hide();
-                        $(div_name).removeClass('no-cover');
-                    }else{
-                        $('#errorMessageModal').modal('show');
-                        $('#errorMessageModal #errors').html(response.message);
-                        $(div_name+ ' .loading-cover').hide();
-                    }
-                },
-                error: function(){
+        var file_inputs = document.querySelectorAll('.covergrup_input');
+        $(file_inputs).each(function(index, input) {
+            data.append('image', input.files[0]);
+        });
+
+
+        $.ajax({
+            url: BASE_URL+'/upload/cover_grup/'+id,
+            type: "POST",
+            timeout: 5000,
+            data: data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            headers: {'X-CSRF-TOKEN': CSRF},
+            success: function(response){
+                if (response.code == 200){
+                    location.reload();
+                    $(div_name+ ' .loading-cover').hide();
+                    $(div_name).removeClass('no-cover');
+                }else{
                     $('#errorMessageModal').modal('show');
-                    $('#errorMessageModal #errors').html('Something went wrong!');
+                    $('#errorMessageModal #errors').html(response.message);
                     $(div_name+ ' .loading-cover').hide();
                 }
-            });
+            },
+            error: function(){
+                $('#errorMessageModal').modal('show');
+                $('#errorMessageModal #errors').html('Something went wrong!');
+                $(div_name+ ' .loading-cover').hide();
+            }
         });
-    }
+    });
+}
+function hapusgrup(id){
+    BootstrapDialog.show({
+        title: 'Hapus Grup!',
+        message: 'Yakin Hapus Grup ?',
+        buttons: [{
+            label: "Kamu yakin ?",
+            cssClass: 'btn-danger',
+            action: function(dialog) {
+                $.ajax({
+                    url: BASE_URL+'/group/delete/'+id,
+                    type: "POST",
+                    timeout: 5000,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    headers: {'X-CSRF-TOKEN': CSRF},
+                    success: function(response){
+                        if (response.code == 200){
+                            window.location.replace(BASE_URL+'/groups');
+                        }else{
+                            $('#errorMessageModal').modal('show');
+                            $('#errorMessageModal #errors').html(response.message);
+                        }
+                    },
+                    error: function(){
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html('Something went wrong!');
+                    }
+                });
+            }
+        }, {
+            label: 'No!',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }]
+    });
+}
+function kickanggota(id){
+    BootstrapDialog.show({
+        title: 'Keluarkan Anggota!',
+        message: 'Yakin Keluarkan Anggota ?',
+        buttons: [{
+            label: "Kamu yakin ?",
+            cssClass: 'btn-danger',
+            action: function(dialog) {
+                $.ajax({
+                    url: BASE_URL+'/group/delete/member/'+id,
+                    type: "POST",
+                    timeout: 5000,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    headers: {'X-CSRF-TOKEN': CSRF},
+                    success: function(response){
+                        if (response.code == 200){
+                            location.reload();
+                        }else{
+                            $('#errorMessageModal').modal('show');
+                            $('#errorMessageModal #errors').html(response.message);
+                        }
+                    },
+                    error: function(){
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html('Something went wrong!');
+                    }
+                });
+
+            }
+        }, {
+            label: 'No!',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }]
+    });
+}
+function createdadmin(id){
+    BootstrapDialog.show({
+        title: 'Jadikan Admin!',
+        message: 'Yakin Jadikan Admin ?',
+        buttons: [{
+            label: "Kamu yakin ?",
+            cssClass: 'btn-danger',
+            action: function(dialog) {
+                $.ajax({
+                    url: BASE_URL+'/group/addadmin/'+id,
+                    type: "POST",
+                    timeout: 5000,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    headers: {'X-CSRF-TOKEN': CSRF},
+                    success: function(response){
+                        if (response.code == 200){
+                            location.reload();
+                        }else{
+                            $('#errorMessageModal').modal('show');
+                            $('#errorMessageModal #errors').html(response.message);
+                        }
+                    },
+                    error: function(){
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html('Something went wrong!');
+                    }
+                });
+
+            }
+        }, {
+            label: 'No!',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }]
+    });
+}

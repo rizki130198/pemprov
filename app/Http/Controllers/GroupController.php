@@ -113,13 +113,13 @@ class GroupController extends Controller
         ->join('users','users.id','=','grup.id_user')
         ->where('user_groups.id_user', $user->id);
         $validasi = User_grup::find($user->id);
-
+        $cekanggota = User_grup::where('id_user',$user->id)->get()->first();
         $anggota = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->get();
         if ($validasi) {
             if (request()->segment(2) == "diskusi") {
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "anggota") {
-                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup','cekanggota'));
             }elseif (request()->segment(2) == "foto") {
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "pengaturan_group") {
@@ -127,6 +127,33 @@ class GroupController extends Controller
             }     
         }else{
             return redirect('/404');
+        }
+
+    }
+    public function edit(Request $request, $id){
+
+        $response = array();
+        $response['code'] = 400;
+        if (!$this->secure($id, true)) return Response::json($response);
+        $data = $request->all();
+        $messages = [
+            'nama_grup' => 'required',
+            'privasi' => 'required',
+        ];
+        $validator = Validator::make($data, $messages);
+
+        if ($validator->fails()) {
+            $response['code'] = 400;
+            $response['message'] = implode(' ', $validator->errors()->all());
+        }else{
+            $cover = Grup::find($id);
+            $cover->nama_grup = $data['nama_grup'];
+            $cover->status_grup = $data['privasi'];
+            if($cover->save()){
+                return redirect('group/pengaturan_group/'.$id);
+            }else{
+                return redirect('group/pengaturan_group/'.$id);
+            }
         }
 
     }
@@ -185,6 +212,59 @@ class GroupController extends Controller
         return view('groups.stats', compact('user', 'group', 'country', 'city', 'all_countries'));
     }
 
+    public function deleteMemberGrup($id)
+    {
 
+        $response = array();
+        $response['code'] = 400;
+
+        if (Auth::user()->id == $id) {
+             $update = User_grup::where('id_user',$id)->delete();
+            $response['code'] = 200;
+        }else{
+            $response['code'] = 400;
+            $response['message'] = "Anda bukan Pemilik grup";
+        }
+
+        return Response::json($response);
+    }
+    public function deleteGrup($id)
+    {
+
+        $response = array();
+        $response['code'] = 400;
+
+        if (!$this->secure($id)) return redirect('/home');
+
+        if (Auth::user()->id != $grup->id) {
+            $delete = User_grup::where('id_user',$id)->delete();
+            $response['code'] = 200;
+        }else{
+            $response['code'] = 400;
+            $response['message'] = "Gagal";
+        }
+        return Response::json($response);
+    }
+    public function addAdmin($id)
+    {
+
+        $response = array();
+        $response['code'] = 400;
+
+        if (Auth::user()->id != $id) {
+
+             $update = User_grup::where('id_user',$id)->get()->first();
+
+             $update->jabatan_grup = 'admin';
+
+             $update->save();
+
+            $response['code'] = 200;
+        }else{
+            $response['code'] = 400;
+            $response['message'] = "Anda bukan Pemilik grup";
+        }
+        return Response::json($response);
+    }
 
 }

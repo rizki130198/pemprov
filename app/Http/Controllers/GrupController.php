@@ -60,6 +60,7 @@ class GrupController extends Controller
                     $user_grup = new User_grup();
                     $user_grup->id_user = Auth::user()->id;
                     $user_grup->id_groups = $grup->id_grup;
+                    $user_grup->jabatan_grup = 'admin';
                     $user_grup->allow = '1';
 
                     $user_grup->save();
@@ -297,9 +298,9 @@ class GrupController extends Controller
 
 
         if ($request->hasFile('image')){
-            $validator_data['image.*'] = 'required|mimes:jpg,png,jpeg|max:10048';
-        }else if($request->hasFile('file')){
-            $validator_data['file.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc|max:15048';
+            $validator_data['image.*'] = 'required|mimes:jpg,png,jpeg';
+        }else if($request->hasFile('files')){
+            $validator_data['files.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
         }else{
             $validator_data['content'] = 'required';
         }
@@ -334,9 +335,9 @@ class GrupController extends Controller
               $image_path = $image->getClientOriginalName();
           }
           $process = true;
-      }else if($request->hasFile('file')){
+      }else if($request->hasFile('files')){
          $post->has_image = 1;
-         $file = $request->file('file');
+         $file = $request->file('files');
          if (count($file) != 14) {
           for ($i=0; $i < count($file); $i++) {
             $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
@@ -358,8 +359,11 @@ if ($process){
     if ($post->save()) {
         if ($post->has_image == 1) {
             $post_image = new GrupImage();
-            $post_image->image_path = $image_path;
-            // $post_image->file_path = $file_path;
+            if ($request->file('image') != NULL) {
+                $post_image->image_path = $image_path;
+            }else if($request->file('files') !=NULL){
+                $post_image->file_path = $file_path;
+            }
             $post_image->post_grup_id = $post->id_post_grup;
             if ($post_image->save()){
                 $response['code'] = 200;

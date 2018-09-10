@@ -187,21 +187,30 @@ h1 {
 				<div class="col-md-6">
 					<div class="panel-element">
 						<div class="element-content">
+							@if($cekanggota->jabatan_grup=='admin')
 							<button class="btn btn-more dropdown-toggle" id="editAnggota" data-toggle="dropdown" aria-expanded="true">
 								<i class="fa fa-ellipsis-h"></i>
 							</button>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 148px;top: 33px;">
-							    <li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="#">Jadikan admin Grup</a></li>
-							    <li role="presentation"><a role="menuitem" href="#">Hapus Anggota</a></li>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 144px;top: 33px;">
+							@if ($member->jabatan_grup!='admin')
+								<li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="javascript:;" onclick="createdadmin('{{$member->id_user}}')">Jadikan admin Grup</a></li>
+							@endif
+								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="kickanggota('{{$member->id_user}}')" >Hapus Anggota</a></li>
 							</ul>
+							@endif
 							<div class="content-post">
+								@if($member->profile_path!=NULL)								
 								<div class="post-avatar">
 									<img class="img-circle" src="{{ url('storage/uploads/profile_photos/'.$member->profile_path) }}" width="60px" height="60px">
 								</div>
-
+								@else
+								<div class="post-avatar">
+									<img class="img-circle" src="{{ url('images/profile-picture.png') }}" width="60px" height="60px">
+								</div>
+								@endif
 								<div class="post-content">
-									<span class="post-title">{{ $member->name }}</span>
-									<p class="post-body">{{ '@'.$member->username }}</p>
+									<span class="post-title">{{ $user->name }}</span>
+									<p class="post-body">{{ '@'.$user->username }}</p>
 								</div>
 							</div>
 						</div>

@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label for="awal">Waktu Mulai Event</label>
-                        <input type="text" class="form-control" name="awal" id="awal" placeholder="Waktu Mulai Evente">
+                        <input type="text" class="form-control" name="awal" id="awal" placeholder="Waktu Mulai Event">
                     </div>
                     <div class="form-group">
                         <label for="akhir">Waktu Akhir Event</label>
@@ -143,10 +143,10 @@
         <article class="white-panel">
             <div class="panel-default event-primary panel-google-plus" id="panel-post-event-{{ $dataevent->id_events }}">
                 <div class="panel-heading" style="margin-top:0;background-color: #444753 !important;background:none;color: #fff;">
-                    <form method="post" class="delete_form" action="{{ url('/EventController/hapusEvent', $dataevent['id']) }}">
-                        {{csrf_field()}}    
-                        <input type="hidden" name="_method">
-                        <button class="btn btn-danger" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></button>
+                    <form class="delete_form" action="{{ '/events/hapusevent/',$dataevent['id_events'] }}" method="post">
+                        {{csrf_field()}} 
+                        {{method_field('DELETE')}}   
+                        <button class="btn btn-danger" type="submit" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></button>
                     </form>
                     <h2>{{ $dataevent->nama_event }}</h2>
                     <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>

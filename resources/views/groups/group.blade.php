@@ -133,16 +133,16 @@
                         </div>
 
                         <output id="listimage"><p style="display: none;"></p></output>
-                        <!-- <output id="list"><p></p></output> -->
+                        <output id="list"><p style="display: none;"></p></output>
                         <div class="row" style="padding: 10px;">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()" style="margin-left: 15px;">
                                 <i class="fa fa-image"></i> Add Image
                             </button>
-                            <input type="file" id="imageupload" accept="image/*" multiple class="image-input" name="photo" onchange="previewPostgrupImage(this)">
+                            <input type="file" id="imageupload" accept="image/*" multiple class="image-input" name="photo[]" onchange="previewPostgrupImage(this)">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupFile()">
                                 <i class="glyphicon glyphicon-file"></i> Add File
                             </button>
-                            <input type="file" multiple class="file-input" id="file" name="file" onchange="previewPostgrupFile(this)">
+                            <input type="file"  class="file-input" id="files" name="files[]" multiple onchange="previewPostgrupFile(this)">
                             <div class="loading-postgrup">
                                 <img src="{{ asset('images/rolling.gif') }}" alt="">
                             </div>

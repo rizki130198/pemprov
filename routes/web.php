@@ -26,6 +26,7 @@ Route::post('/settings', array(
     'as' => 'settings',
     'uses' => 'SettingsController@update'
 ));
+Route::post('/delete/akun/{id}', 'SettingsController@delete');
 
 
 // Posts
@@ -64,6 +65,7 @@ Route::post('/events/comment', 'EventController@comment');
 Route::post('/events/comments/delete', 'EventController@deleteComment');
 Route::post('/events/like', 'EventController@like');
 Route::post('/events/likes', 'EventController@likes');
+Route::get('/events/hapusevent/{id}', 'EventController@hapusevent');
 // Groups
 Route::get('/groups', 'GroupController@index');
 Route::get('/group/{id}', 'GroupController@group');
@@ -71,7 +73,7 @@ Route::get('/group/diskusi/{id}', 'GroupController@group');
 Route::get('/group/anggota/{id}', 'GroupController@group');
 Route::get('/group/foto/{id}', 'GroupController@group');
 Route::get('/group/pengaturan_group/{id}', 'GroupController@group');
-Route::get('/group/edit/{id}', 'GroupController@edit');
+Route::post('/group/edit/{id}', 'GroupController@edit');
 Route::get('/group/{id}/stats', 'GroupController@stats');
 Route::post('/group/new', 'GroupController@create');
 Route::post('/group/delete', 'GroupController@delete');
@@ -79,6 +81,9 @@ Route::post('/group/like', 'GroupController@like');
 Route::post('/group/likes', 'GroupController@likes');
 Route::post('/group/comment', 'GroupController@comment');
 Route::post('/group/comments/delete', 'GroupController@deleteComment');
+Route::post('/group/delete/{id}', 'GroupController@deleteGrup');
+Route::post('/group/delete/member/{id}', 'GroupController@deleteMemberGrup');
+Route::post('/group/addadmin/{id}', 'GroupController@addAdmin');
 Route::post('upload/cover_grup/{id}', 'GroupController@uploadCover');
 
 

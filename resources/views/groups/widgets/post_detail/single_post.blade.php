@@ -18,7 +18,7 @@
             <p>{{ $post->content }}</p>
             @if($post->hasImage())
             @foreach($post->images()->get() as $image)
-            @if($image->image_path == 'null')
+            @if($image->image_path == NULL)
 
             <?php $file = explode(',',$image->file_path); ?>
             @for($i = 0; $i < count($file); $i++)
@@ -27,7 +27,7 @@
             @else
             <?php $image = explode(',',$image->image_path); ?>
             @for($i = 0; $i < count($image); $i++)
-            <a data-fancybox="gallery" href="{{ url('storage/uploads/posts/'.$image[$i]) }}" data-caption="{{ $post->content }}"><img class="img-responsive post-image" src="{{ url('storage/uploads/posts/'.$image[$i]) }}"></a>
+            <a data-fancybox="gallery" href="{{ url('storage/uploads/posts/'.$image[$i]) }}" data-caption="{{ $post->content }}"><img class="img-responsive post-image" src="{{ url('storage/uploads/posts/'.$image[$i]) }}" style="width: 320px;height: 320px;display: inline-block;padding: 0 5px 10px 0;"></a>
             @endfor
             @endif
             @endforeach
