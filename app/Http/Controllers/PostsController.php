@@ -287,9 +287,9 @@ class PostsController extends Controller
                   for ($i=0; $i < count($image); $i++) {
                     $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
                     $imagestore = str_replace(',', '', $dataimage);
+                    $image[$i]->storeAs('public/uploads/posts', $imagestore);
                     $imageupload .= $dataimage;
 
-                    $image[$i]->storeAs('public/uploads/posts', $imagestore);
                 }
                 $image_path = substr($imageupload, 0, -1);
             }else{
