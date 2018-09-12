@@ -1,5 +1,6 @@
+
 <div class="panel panel-default panel-google-plus panel-post" id="panel-post-{{ $post->id }}">
-    @if($post->checkOwner($user->id))
+    @if($post->checkOwner($post->user->id))
     <div class="dropdown">
         <span class="dropdown-toggle" type="button" data-toggle="dropdown" id="dd1">
             <span class="glyphicon glyphicon-chevron-down"></span>
@@ -10,11 +11,11 @@
     </div>
     @endif
     <div class="panel-heading" style="background:none;">
-        <img class="img-circle pull-left" src="{{ $user->getPhoto(60,60) }}" alt="{{ $user->name }}" />
-        <a href="{{ url('/'.$user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $user->name }}</h3></a>
-        <h5><span>{{ '@'.$user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
+        <img class="img-circle pull-left" src="{{ $post->user->getPhoto(60,60) }}" alt="{{ $post->user->name }}" />
+        <a href="{{ url('/'.$post->user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->user->name }}</h3></a>
+        <h5><span>{{ '@'.$post->user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="padding-bottom: 0;">
         <p>{{ $post->content }}</p>
         @if($post->hasImage())
         @foreach($post->images()->get() as $image)
@@ -45,15 +46,16 @@
     </div>
     <div class="panel-footer">
         <div class="like-box">
-            <a href="javascript:;" onclick="likePost({{ $post->id }})" class="like-text" style="color: #d5483c;display: inline-block;">
-                <button class="btn btn-default" style="background-color: transparent;background:none;">
-                    @if($post->checkLike($user->id))
+            <button class="btn btn-default" style="background-color: transparent;background:none;">
+                <a href="javascript:;" onclick="likePost({{ $post->id }})" class="like-text" style="color: #d5483c;">
+
+                    @if($post->checkLike($post->user->id))
                     <i class="fa fa-heart"></i> <span>Unlike!</span>
                     @else
                     <i class="fa fa-heart-o"></i> <span>Like!</span>
                     @endif
-                </button>
-            </a>
+                </a>
+            </button>
             <button class="btn btn-default" style="padding: 0;background: none;padding: 0;border: none;box-shadow: none;margin-left: 4px;">
                 <a href="javascript:;" class="all_likes" onclick="showLikes({{ $post->id }})">
                     <span>{{ $post->getLikeCount() }} @if($post->getLikeCount() > 1){{ 'likes' }}@else{{ 'like' }}@endif</span>
@@ -74,4 +76,3 @@
         <div class="clearfix"></div>
     </div>
 </div>
-    <!-- </a> -->

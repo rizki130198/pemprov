@@ -16,7 +16,6 @@
         background-color: #fff;
         margin-top: 25px;
         color:#555;
-        width: 325px;
         box-shadow: 2px 2px 2px 2px #E0E0E0;
         
     }

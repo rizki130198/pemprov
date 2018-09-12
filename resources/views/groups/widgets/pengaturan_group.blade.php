@@ -4,6 +4,11 @@
 		margin-bottom: 50px;
 		border-radius: 0;
 	}
+	.panel-default{
+		border: none;
+		border-radius: 0;
+		margin-bottom: 48px;
+	}
 } 
 </style>
 <div class="panel panel-default">

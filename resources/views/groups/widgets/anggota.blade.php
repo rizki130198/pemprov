@@ -163,13 +163,19 @@ h1 {
 	display: inline-block;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
 	h1 {
 		margin-bottom: 0;
 		padding: 40px;
 		font-size: 25px;
 	}
 
+	.panel-default{
+		border: none;
+		border-radius: 0;
+		margin-bottom: 48px;
+	}
+	
 	.panel .panel-element .element-content .btn-more {
 		opacity: 1;
 	}

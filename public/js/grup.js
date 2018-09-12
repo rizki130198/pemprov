@@ -484,7 +484,7 @@ function showLikes(id){
         cache: false,
         processData: false,
         headers: {'X-CSRF-TOKEN': CSRF},
-        success: function (response) {
+        success: function (response) { 
             if (response.code == 200) {
                 $('#likeListModal .user_list').html(response.likes);
                 $('#likeListModal').modal('show');

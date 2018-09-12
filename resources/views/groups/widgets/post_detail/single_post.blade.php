@@ -43,7 +43,7 @@
 
             @endforeach
         </div>
-    </div>
+    </div> 
     <div class="panel-footer">
         <div class="like-box">
             <a href="javascript:;" onclick="likePostgrup({{ $post->id_post_grup }})" class="like-text" style="display: inline-block;">
