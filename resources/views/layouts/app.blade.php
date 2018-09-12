@@ -170,15 +170,16 @@
 </style>
 <div class="collapse navbar-collapse hidden-lg" id="search">
     <form class="hidden-sm hidden-md hidden-lg" id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">
-       <div class="input-group col-md-12">
-        <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
-        <span class="input-group-btn">
-            <button class="btn btn-info btn-lg" type="button">
-                <i class="glyphicon glyphicon-search"></i>
-            </button>
-        </span>
-    </div>
-</form>
+
+        <div class="input-group col-md-12">
+            <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
+            <span class="input-group-btn">
+                <button class="btn btn-info btn-lg" type="button">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
 </div>
 </nav>
 <!-- Tab Hamburger -->

@@ -1,3 +1,4 @@
+
 <div class="panel panel-default panel-google-plus panel-post" id="panel-post-{{ $post->id }}">
     @if($post->checkOwner($post->user->id))
     <div class="dropdown">
@@ -14,7 +15,7 @@
         <a href="{{ url('/'.$post->user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->user->name }}</h3></a>
         <h5><span>{{ '@'.$post->user->username }}</span> - <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $post->created_at->diffForHumans() }}</span> </h5>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="padding-bottom: 0;">
         <p>{{ $post->content }}</p>
         @if($post->hasImage())
         @foreach($post->images()->get() as $image)
@@ -47,6 +48,7 @@
         <div class="like-box">
             <button class="btn btn-default" style="background-color: transparent;background:none;">
                 <a href="javascript:;" onclick="likePost({{ $post->id }})" class="like-text" style="color: #d5483c;">
+
                     @if($post->checkLike($post->user->id))
                     <i class="fa fa-heart"></i> <span>Unlike!</span>
                     @else
@@ -74,4 +76,3 @@
         <div class="clearfix"></div>
     </div>
 </div>
-    <!-- </a> -->
