@@ -175,7 +175,7 @@ h1 {
 		border-radius: 0;
 		margin-bottom: 48px;
 	}
-	
+
 	.panel .panel-element .element-content .btn-more {
 		opacity: 1;
 	}
@@ -215,8 +215,8 @@ h1 {
 								</div>
 								@endif
 								<div class="post-content">
-									<span class="post-title">{{ $user->name }}</span>
-									<p class="post-body">{{ '@'.$user->username }}</p>
+									<span class="post-title">{{ $member->name }}</span>
+									<p class="post-body">{{ '@'.$member->username }}</p>
 								</div>
 							</div>
 						</div>
