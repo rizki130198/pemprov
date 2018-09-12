@@ -43,15 +43,15 @@
 
             @endforeach
         </div>
-    </div>
+    </div> 
     <div class="panel-footer">
         <div class="like-box">
             <button class="btn btn-default" style="background-color: transparent;background:none;">
                 <a href="javascript:;" onclick="likePostgrup({{ $post->id_post_grup }})" class="like-text" style="color: #d5483c;">
                     @if($post->checkLike($post->user->id))
-                    <i class="fa fa-heart"></i> Unlike!
+                    <i class="fa fa-heart"></i> <span>Unlike!</span>
                     @else
-                    <i class="fa fa-heart-o"></i> Like!
+                    <i class="fa fa-heart-o"></i> <span>Like!</span>
                     @endif
                 </a>
             </button>

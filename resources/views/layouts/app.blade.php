@@ -168,17 +168,17 @@
         }
     }
 </style>
-<div class="collapse navbar-collapse hide-search" id="search" style="display: none !important;">
-    <form id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">
-        <div class="input-group col-md-12">
-            <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
-            <span class="input-group-btn">
-                <button class="btn btn-info btn-lg" type="button">
-                    <i class="glyphicon glyphicon-search"></i>
-                </button>
-            </span>
-        </div>
-    </form>
+<div class="collapse navbar-collapse hidden-lg" id="search">
+    <form class="hidden-sm hidden-md hidden-lg" id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">
+       <div class="input-group col-md-12">
+        <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
+        <span class="input-group-btn">
+            <button class="btn btn-info btn-lg" type="button">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </span>
+    </div>
+</form>
 </div>
 </nav>
 <!-- Tab Hamburger -->
@@ -224,17 +224,18 @@
                         <li>
                             <a href="{{ url('/settings') }}">Setting</a>
                         </li>
-                        <li>
-                            <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">Logout</a>
-                        </li>
                     </ul>
                 </div>
             </li>
+            <li>
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa fa-power-off" style="background: #d5483c;"></i>
+                    <span>Keluar</span>
+                </a>
+            </li>
         </ul>
         <div style="text-align: center;">
-            <a href="javascript:void(0)" onclick="closeNav()" style="color: #333;bottom: 0;position: fixed;">
+            <a href="javascript:void(0)" onclick="closeNav()" style="color: #333;position: relative;">
                 <i class="fa fa-times-circle" style="font-size: 16px;margin-top:18%;"></i>
                 <p style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
             </a>
@@ -249,11 +250,11 @@
         <ul class="list-group">
             @if(count(sHelper::notifications()) == 0)
             <li class="list-group-item">
-             <div class="alert alert-success" role="alert">There is no notification.</div>
-         </li>
-         @else
-         @foreach(sHelper::notifications() as $notification)
-         <a href="{{ $notification['url'] }}">
+               <div class="alert alert-success" role="alert">There is no notification.</div>
+           </li>
+           @else
+           @foreach(sHelper::notifications() as $notification)
+           <a href="{{ $notification['url'] }}">
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-body">
@@ -313,7 +314,7 @@
 @yield('footer')
 <script type="text/javascript">
     $(function () {
-     $('.panel-google-plus, .panel-footer, .input-placeholder, .panel-google-plus, .panel-google-plus-comment, .panel-google-plus-textarea, button[type="reset"]').on('click', function(event) {
+       $('.panel-google-plus, .panel-footer, .input-placeholder, .panel-google-plus, .panel-google-plus-comment, .panel-google-plus-textarea, button[type="reset"]').on('click', function(event) {
         var $panel = $(this).closest('.panel-google-plus');
         $comment = $panel.find('.panel-google-plus-comment');
 
@@ -326,7 +327,7 @@
             $comment.find('textarea').focus();
         }
     });
-     $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
+       $('.panel-google-plus-comment > .panel-google-plus-textarea > textarea').on('keyup', function(event) {
         var $comment = $(this).closest('.panel-google-plus-comment');
 
         $comment.find('button[type="submit"]').addClass('disabled');
@@ -334,7 +335,7 @@
             $comment.find('button[type="submit"]').removeClass('disabled');
         }
     });
- });
+   });
     // @if(!Auth::user()->has('location'))
 
     // autoFindLocation();
