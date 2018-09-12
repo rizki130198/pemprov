@@ -46,15 +46,15 @@
     </div>
     <div class="panel-footer">
         <div class="like-box">
-            <button class="btn btn-default" style="background-color: transparent;background:none;">
-                <a href="javascript:;" onclick="likePostgrup({{ $post->id_post_grup }})" class="like-text" style="color: #d5483c;">
+            <a href="javascript:;" onclick="likePostgrup({{ $post->id_post_grup }})" class="like-text" style="display: inline-block;">
+                <button class="btn btn-default" style="background-color: transparent;background:none;color: #d5483c;">
                     @if($post->checkLike($post->user->id))
-                    <i class="fa fa-heart"></i> Unlike!
+                    <i class="fa fa-heart"></i> <span>Unlike!</span>
                     @else
-                    <i class="fa fa-heart-o"></i> Like!
+                    <i class="fa fa-heart-o"></i> <span>Like!</span>
                     @endif
-                </a>
-            </button>
+                </button>
+            </a>
             <button class="btn btn-default" style="padding: 0;background: none;padding: 0;border: none;box-shadow: none;margin-left: 4px;">
                 <a href="javascript:;" class="all_likes" onclick="showLikesGrup({{ $post->id_post_grup }})">
                     <span>{{ $post->getLikeCount() }} @if($post->getLikeCount() > 1){{ 'likes' }}@else{{ 'like' }}@endif</span>
