@@ -73,7 +73,7 @@ class User extends Authenticatable
     }
 
     public function has($Model){
-        if (count($this->$Model) > 0) return true;
+        if (is_array($this->$Model) > 0) return true;
         return false;
     }
 

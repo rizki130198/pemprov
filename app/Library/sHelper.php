@@ -6,6 +6,8 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\PostComment;
 use App\Models\PostLike;
+use App\Models\GrupComment;
+use App\Models\GrupLike;
 use App\Models\User;
 use App\Models\User_grup;
 use App\Models\UserFollowing;
@@ -111,7 +113,7 @@ class sHelper
             }
 
             $comments = PostComment::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_comments.post_id')
-                ->where('posts.user_id', $user->id)->where('user_id', '!=', $user->id)->select('post_comments.*')->orderBy('id', 'DESC');
+                ->where('posts.user_id', $user->id)->where('comment_user_id', '!=', $user->id)->select('post_comments.*')->orderBy('id', 'DESC');
             if ($comments->count() > 0){
                 foreach ($comments->get() as $comment){
                     $notifications[] = [
@@ -124,7 +126,7 @@ class sHelper
             }
 
             $likes = PostLike::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_likes.post_id')
-                ->where('posts.user_id', $user->id)->where('user_id', '!=', $user->id)->select('post_likes.*')->orderBy('id', 'DESC');
+                ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->select('post_likes.*')->orderBy('id', 'DESC');
             if ($likes->count() > 0){
                 foreach ($likes->get() as $likne){
                     $notifications[] = [
@@ -136,6 +138,31 @@ class sHelper
 
             }
 
+        $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')
+                ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->select('grup_post_comments.*')->orderBy('id', 'DESC');
+            if ($commentsgrup->count() > 0){
+                foreach ($commentsgrup->get() as $commentgrup){
+                    $notifications[] = [
+                        'url' => url('/postgrup/'.$commentgrup->grup_post_id),
+                        'icon' => 'fa-commenting',
+                        'text' => $user->name.' left a comment on your post in grup.'
+                    ];
+                }
+
+            }
+
+            $likesgrup = GrupLike::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'post_grup_likes.grup_post_id')
+                ->where('posts_grup.user_id', $user->id)->where('like_user', '!=', $user->id)->select('post_grup_likes.*')->orderBy('id', 'DESC');
+            if ($likesgrup->count() > 0){
+                foreach ($likesgrup->get() as $likegrup){
+                    $notifications[] = [
+                        'url' => url('/postgrup/'.$likegrup->grup_post_id),
+                        'icon' => 'fa-heart',
+                        'text' => $user->name.' liked your post.'
+                    ];
+                }
+
+            }
 
             self::$notifications = $notifications;
 

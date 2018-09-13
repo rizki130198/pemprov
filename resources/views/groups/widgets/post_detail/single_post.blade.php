@@ -56,7 +56,7 @@
                 </button>
             </a>
             <button class="btn btn-default" style="padding: 0;background: none;padding: 0;border: none;box-shadow: none;margin-left: 4px;">
-                <a href="javascript:;" class="all_likes" onclick="showLikesGrup({{ $post->id_post_grup }})">
+                <a href="javascript:;" class="all_likes" onclick="showLikesgrup({{ $post->id_post_grup }})">
                     <span>{{ $post->getLikeCount() }} @if($post->getLikeCount() > 1){{ 'likes' }}@else{{ 'like' }}@endif</span>
                 </a>
             </button>
