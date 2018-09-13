@@ -65,6 +65,10 @@ class EventController extends Controller
 
 		return view('events.index', compact('user', 'data','user_list','comment_count'));
 	}
+	public function countEvent()
+	{
+		$data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
+	}
 	public function save(Request $request)
 	{
 		if (Auth::user()->role == 'admin') {

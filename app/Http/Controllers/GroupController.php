@@ -49,6 +49,8 @@ class GroupController extends Controller
 
 
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
+        
+        $data = DB::table('events')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
 
         $new_list = [];
         foreach(array_reverse($message_list) as $list){
@@ -71,7 +73,7 @@ class GroupController extends Controller
         ->join('users','users.id','=','grup.id_user')
         ->where('user_groups.id_user', $user->id);
 
-        return view('groups.index', compact('user', 'groups','user_list','anggota'));
+        return view('groups.index', compact('user', 'groups','user_list','anggota','data'));
     }
 
 
@@ -85,7 +87,7 @@ class GroupController extends Controller
         $user = Auth::user();
         $user_list = [];
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
-
+        $data = DB::table('events')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
         $new_list = [];
         foreach(array_reverse($message_list) as $list){
             $msg = new UserDirectMessage();
@@ -117,13 +119,13 @@ class GroupController extends Controller
         $anggota = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->get();
         if ($validasi) {
             if (request()->segment(2) == "diskusi") {
-                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','data','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "anggota") {
-                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup','cekanggota'));
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','data','user_list','groups','anggota','images_grup','cekanggota'));
             }elseif (request()->segment(2) == "foto") {
-                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','data','user_list','groups','anggota','images_grup'));
             }elseif (request()->segment(2) == "pengaturan_group") {
-                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
+                return view('groups.group', compact('id_link','user' ,'group', 'wall','data','user_list','groups','anggota','images_grup'));
             }     
         }else{
             return redirect('/404');
