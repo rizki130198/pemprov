@@ -659,6 +659,7 @@ body {
   margin-left: 18px;
   margin-top: 3px;
   padding: 5px;
+  width: 230px;
 }
 .menu-explore li.active{
   background-color: #fff !important;
