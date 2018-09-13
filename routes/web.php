@@ -113,6 +113,8 @@ Route::post('/direct-messages/delete-chat', 'MessagesController@deleteChat');
 Route::post('/direct-messages/delete-message', 'MessagesController@deleteMessage');
 Route::post('/direct-messages/notifications', 'MessagesController@notifications');
 
+
+Route::post('/notifications', 'HomeController@notifications');
 // Find Location
 Route::get('/find-my-location', 'FindLocationController@index');
 Route::get('/save-my-location', 'FindLocationController@save');

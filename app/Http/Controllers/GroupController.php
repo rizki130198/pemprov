@@ -49,7 +49,6 @@ class GroupController extends Controller
 
 
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
-
         $new_list = [];
         foreach(array_reverse($message_list) as $list){
             $msg = new UserDirectMessage();
@@ -85,7 +84,6 @@ class GroupController extends Controller
         $user = Auth::user();
         $user_list = [];
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
-
         $new_list = [];
         foreach(array_reverse($message_list) as $list){
             $msg = new UserDirectMessage();

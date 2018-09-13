@@ -93,11 +93,13 @@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" style="padding:0;padding-right: 10px;border:none;background-color: transparent;color: #fff;font-size: 30px;" class="navbar-toggle toggle-side-nav" data-toggle="collapse" data-target="#side-nav">
-                    <i class="fa fa-commenting"></i>
-                    @if (Request::segment(1) == 'direct-messages')
+                    @if (count($user_list) > 0)
+                        @if (Request::segment(1) == 'direct-messages')
                         @else
                         <span class="badge badge-notify" style="right: 2px;top: 2px;">{{ count($user_list) }}</span>
                         @endif
+                    @endif
+                    <i class="fa fa-commenting"></i>
                 </button>
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />

@@ -37,7 +37,6 @@ class MessagesController extends Controller
                 $show = true;
             }
         }
-
         return view('messages.index', compact('user', 'user_list', 'show', 'id'));
     }
 
