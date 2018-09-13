@@ -137,6 +137,7 @@ class GrupController extends Controller
         if (!$post) return redirect('/404');
 
         $user = Auth::user();
+        $user_list = $user->messagePeopleList();
         $comment_count = 2000000;
 
         if ($post->group_id == 0) {
@@ -150,7 +151,7 @@ class GrupController extends Controller
 
 
 
-        return view('post', compact('post', 'user', 'comment_count', 'can_see'));
+        return view('groups.post', compact('post', 'user', 'comment_count', 'can_see','user_list'));
     }
 
     public function delete(Request $request){
@@ -274,7 +275,7 @@ class GrupController extends Controller
         $response = array();
         $response['code'] = 400;
 
-        $post = Post::find($request->input('id'));
+        $post = GrupPost::find($request->input('id'));
 
         if ($post){
             $response['code'] = 200;

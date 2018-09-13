@@ -470,7 +470,7 @@ function removeCommentGrup(id, postgrup_id){
 
 
 
-function showLikes(id){
+function showLikesgrup(id){
 
     var data = new FormData();
     data.append('id', id);

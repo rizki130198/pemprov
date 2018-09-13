@@ -143,11 +143,7 @@
         <article class="white-panel">
             <div class="panel-default event-primary panel-google-plus" id="panel-post-event-{{ $dataevent->id_events }}">
                 <div class="panel-heading" style="margin-top:0;background-color: #444753 !important;background:none;color: #fff;">
-                    <form class="delete_form" action="{{ '/events/hapusevent/',$dataevent['id_events'] }}" method="post">
-                        {{csrf_field()}} 
-                        {{method_field('DELETE')}}   
-                        <button class="btn btn-danger" type="submit" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></button>
-                    </form>
+                        <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a>
                     <h2>{{ $dataevent->nama_event }}</h2>
                     <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
 

@@ -97,6 +97,8 @@ class PostsController extends Controller
         if (!$post) return redirect('/404');
 
         $user = Auth::user();
+
+        $user_list = $user->messagePeopleList();
         $comment_count = 2000000;
 
         if ($post->group_id == 0) {
@@ -110,7 +112,7 @@ class PostsController extends Controller
 
 
 
-        return view('post', compact('post', 'user', 'comment_count', 'can_see'));
+        return view('post', compact('post', 'user', 'comment_count', 'can_see','user_list'));
     }
 
     public function delete(Request $request){
@@ -130,7 +132,7 @@ class PostsController extends Controller
 
         return Response::json($response);
     }
-
+ 
 
     public function like(Request $request){
 

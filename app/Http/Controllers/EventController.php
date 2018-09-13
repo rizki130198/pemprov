@@ -21,37 +21,46 @@ class EventController extends Controller
 	{
 		$this->middleware('auth');
 	}
+	public function secure($id){
+		$group = Event::find($id);
+
+		if ($group){
+			$this->group = $group;
+			return true;
+		}
+		return false;
+	}
 
 	public function index()
 	{
 		$response = array();
-        $response['code'] = 200;
+		$response['code'] = 200;
 
-        $user = Auth::user();
-        $comment_count = 2000000;
+		$user = Auth::user();
+		$comment_count = 2000000;
 
 		$user_list = $user->messagePeopleList();
 
-        $user_list = [];
+		$user_list = [];
 
 
-        $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
+		$message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
 
-        $new_list = [];
-        foreach(array_reverse($message_list) as $list){
-            $msg = new UserDirectMessage();
-            $msg->dataImport($list);
-            $new_list[] = $msg;
-        }
+		$new_list = [];
+		foreach(array_reverse($message_list) as $list){
+			$msg = new UserDirectMessage();
+			$msg->dataImport($list);
+			$new_list[] = $msg;
+		}
 
-        foreach (array_reverse($new_list) as $message){
-            $user_list[$message->sender_user_id] = [
-                'new' => ($message->seen == 0)?true:false,
-                'message' => $message,
-                'user' => $message->sender
-            ];
-        }
-
+		foreach (array_reverse($new_list) as $message){
+			$user_list[$message->sender_user_id] = [
+				'new' => ($message->seen == 0)?true:false,
+				'message' => $message,
+				'user' => $message->sender
+			];
+		}
+		// Kalau mau count ganti aja ->get() sama count(); buat dua baris ya yang $data untuk ngget data soalnya
 		$data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
 
 		return view('events.index', compact('user', 'data','user_list','comment_count'));
@@ -102,31 +111,35 @@ class EventController extends Controller
 
 		return Response::json($response);
 	}
-	public function hapusevent($id)
+	public function delete(Request $request)
 	{
-		$item = Event::find($id);
-		$item = Event_Coment::find($id);
-		$item->delete();
-		return redirect()->route('events.index')->with('success', 'Data Deleted');
-	}
-	public function delete(Request $request){
-
 		$response = array();
 		$response['code'] = 400;
 
-		$event = Event::find($request->input('id'));
+        if (!$this->secure($request->input('id'))) return redirect('/404');
 
-		if ($event){
+		$item = EventComment::where('id_events',$request->input('id'));
+		if (count($item) != 0 ) {
+			$item->delete();
+			$event = Event::find($request->input('id'));
 			if ($event->id_users == Auth::id()) {
-				if ($event->delete()) {
-					$response['code'] = 200;
-				}
+				$event->delete();
+				$response['code'] = 200;
+			}else{
+				$response['code'] = 400;			}
+		}else{
+			$event = Event::find($request->input('id'));
+			if ($event->id_users == Auth::id()) {
+				$event->delete();
+				$response['code'] = 200;
+			}else{
+				$response['code'] = 400;
 			}
 		}
 
 		return Response::json($response);
-	}
 
+	}
 	public function comment(Request $request){
 
 		$user = Auth::user();
@@ -139,20 +152,20 @@ class EventController extends Controller
 
 
 
-			$comment = new EventComment();
-			$comment->id_events = $dataevent->id_events;
-			$comment->id_users = $user->id;
-			$comment->komentar = $text;
-			if ($comment->save()){
-				$response['code'] = 200;
-				$html = View::make('events.widgets.single_comment', compact('dataevent', 'comment'));
-				$response['comment'] = $html->render();
-				$html = View::make('events.widgets.comments_title', compact('dataevent', 'comment'));
-				$response['comments_title'] = $html->render();
-			}else{
+		$comment = new EventComment();
+		$comment->id_events = $dataevent->id_events;
+		$comment->id_users = $user->id;
+		$comment->komentar = $text;
+		if ($comment->save()){
+			$response['code'] = 200;
+			$html = View::make('events.widgets.single_comment', compact('dataevent', 'comment'));
+			$response['comment'] = $html->render();
+			$html = View::make('events.widgets.comments_title', compact('dataevent', 'comment'));
+			$response['comments_title'] = $html->render();
+		}else{
 
-				$response['code'] = 400;
-			}
+			$response['code'] = 400;
+		}
 
 		return Response::json($response);
 	}
