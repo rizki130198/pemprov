@@ -51,9 +51,11 @@
     <li role="presentation" class="{{ Request::segment(2) == 'diskusi' ? 'active' : '' }}"><a href="{{ url('/group/diskusi/'.$group->id_grup) }}">Diskusi</a></li>
     <li role="presentation" class="{{ Request::segment(2) == 'anggota' ? 'active' : '' }}"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">Anggota</a></li>
     <li role="presentation" class="{{ Request::segment(2) == 'foto' ? 'active' : '' }}"><a href="{{ url('/group/foto/'.$group->id_grup) }}">Foto</a></li>
-    @if($group->jabatan_grup == 'admin')
+    @foreach($groups->get() as $get)
+    @if($get->jabatan_grup == 'admin')
     <li role="presentation" class="{{ Request::segment(2) == 'pengaturan_group' ? 'active' : '' }}"><a href="{{ url('/group/pengaturan_group/'.$group->id_grup) }}">Pengaturan Grup</a></li>
     @endif
+    @endforeach
 </ul>
 @else
 <div class="panel prof" style="box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);border-radius: 0;border-top-right-radius: 8px;border-bottom-right-radius: 8px;width: 290px;margin-bottom: 35px;border: none;">

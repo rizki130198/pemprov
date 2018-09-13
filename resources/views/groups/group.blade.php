@@ -100,12 +100,16 @@
                                     <div class="profile-text" style="left: 0;">
                                         <h4>{{ $group->nama_grup }}</h4>
                                     </div>
+                                    @foreach($groups->get() as $get)
+                                    @if ($get->jabatan_grup == "admin")
                                     <form id="form-upload-covergrup" enctype="multipart/form-data">
                                         <div class="profile-upload-cover">
                                             <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadGroupCover({{$group->id_grup}})"><i class="fa fa-upload"></i> Change Cover</a>
                                             <input type="file" accept="image/*" name="cover_grup" class="covergrup_input">
                                         </div>
                                     </form>
+                                    @endif
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -165,15 +169,15 @@
             </div>
             @elseif (Request::segment(2) == 'anggota')
 
-                @include('groups.widgets.anggota')
+            @include('groups.widgets.anggota')
             
             @elseif (Request::segment(2) == 'foto')
 
-                @include('groups.widgets.foto')
+            @include('groups.widgets.foto')
 
             @elseif (Request::segment(2) == 'pengaturan_group')
 
-                @include('groups.widgets.pengaturan_group')
+            @include('groups.widgets.pengaturan_group')
 
             @endif
             <div class="modal fade " id="likeListModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -205,17 +209,17 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function() {
-  
-  $(".selLabel").click(function () {
-    $('.dropdown').toggleClass('active');
+
+      $(".selLabel").click(function () {
+        $('.dropdown').toggleClass('active');
+    });
+
+      $(".dropdown-list li").click(function() {
+        $('.selLabel').text($(this).text());
+        $('.dropdown').removeClass('active');
+        $('.selected-item p span').text($('.selLabel').text());
+    });
+
   });
-  
-  $(".dropdown-list li").click(function() {
-    $('.selLabel').text($(this).text());
-    $('.dropdown').removeClass('active');
-    $('.selected-item p span').text($('.selLabel').text());
-  });
-  
-});
 </script>
 @endsection

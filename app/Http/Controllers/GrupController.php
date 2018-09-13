@@ -104,12 +104,7 @@ class GrupController extends Controller
                 ->whereRaw('posts_grup.user_id = user_groups.id_user');
             });
         }else{
-            $posts = $posts->where(function($query) use ($user) {
-                $query->whereIn('user_id', function ($q) use ($user) {
-                    $q->select('id_groups')->from('user_groups')->where('id_user', $user->id)->where('allow', 1);
-                });
-                $query->orWhere('user_id', $user->id);
-            })->where('group_post_id', $optional_id);
+            $posts = GrupPost::where('group_post_id', $optional_id);
         }
         $posts = $posts->limit(20)->orderBy('id_post_grup', 'DESC')->get();
 

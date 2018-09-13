@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Models\User_grup;
 use App\Models\UserFollowing;
 use App\Models\UserLocation;
+use App\Models\Event;
+use App\Models\EventComment;
 use Auth;
 
 class sHelper
@@ -20,7 +22,11 @@ class sHelper
     static $notifications = null;
 
 
-
+    public static function countevent()
+    {
+        $data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
+        return $data;
+    }
     public static function followButton($following, $follower, $element, $size = ''){
 
         if ($following  == $follower) return "This is me";
@@ -113,7 +119,7 @@ class sHelper
             }
 
             $comments = PostComment::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_comments.post_id')
-                ->where('posts.user_id', $user->id)->where('comment_user_id', '!=', $user->id)->select('post_comments.*')->orderBy('id', 'DESC');
+            ->where('posts.user_id', $user->id)->where('comment_user_id', '!=', $user->id)->select('post_comments.*')->orderBy('id', 'DESC');
             if ($comments->count() > 0){
                 foreach ($comments->get() as $comment){
                     $notifications[] = [
@@ -126,7 +132,7 @@ class sHelper
             }
 
             $likes = PostLike::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_likes.post_id')
-                ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->select('post_likes.*')->orderBy('id', 'DESC');
+            ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->select('post_likes.*')->orderBy('id', 'DESC');
             if ($likes->count() > 0){
                 foreach ($likes->get() as $likne){
                     $notifications[] = [
@@ -138,8 +144,8 @@ class sHelper
 
             }
 
-        $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')
-                ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->select('grup_post_comments.*')->orderBy('id', 'DESC');
+            $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')
+            ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->select('grup_post_comments.*')->orderBy('id', 'DESC');
             if ($commentsgrup->count() > 0){
                 foreach ($commentsgrup->get() as $commentgrup){
                     $notifications[] = [
@@ -152,13 +158,26 @@ class sHelper
             }
 
             $likesgrup = GrupLike::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'post_grup_likes.grup_post_id')
-                ->where('posts_grup.user_id', $user->id)->where('like_user', '!=', $user->id)->select('post_grup_likes.*')->orderBy('id', 'DESC');
+            ->where('posts_grup.user_id', $user->id)->where('like_user', '!=', $user->id)->select('post_grup_likes.*')->orderBy('grup_post_id', 'DESC');
             if ($likesgrup->count() > 0){
                 foreach ($likesgrup->get() as $likegrup){
                     $notifications[] = [
                         'url' => url('/postgrup/'.$likegrup->grup_post_id),
                         'icon' => 'fa-heart',
-                        'text' => $user->name.' liked your post.'
+                        'text' => $user->name.' liked your post in grup.'
+                    ];
+                }
+
+            }
+
+            $commentsnotif = EventComment::where('seen', 0)->with('user')->join('events', 'events.id_events', '=', 'event_coment.id_events')
+            ->where('events.id_users',$user->id)->where('event_coment.id_users', '!=', $user->id)->select('event_coment.*')->orderBy('id', 'DESC');
+            if ($commentsnotif->count() > 0){
+                foreach ($commentsnotif->get() as $commentnotif){
+                    $notifications[] = [
+                        'url' => url('/events/'.$commentnotif->id_events),
+                        'icon' => 'fa-commenting',
+                        'text' => $user->name.' left a comment on your Event.'
                     ];
                 }
 

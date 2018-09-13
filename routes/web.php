@@ -65,6 +65,7 @@ Route::post('/events/comment', 'EventController@comment');
 Route::post('/events/comments/delete', 'EventController@deleteComment');
 Route::post('/events/like', 'EventController@like');
 Route::post('/events/likes', 'EventController@likes');
+Route::get('/events/{id}', 'EventController@single');
 // Groups
 Route::get('/groups', 'GroupController@index');
 Route::get('/group/{id}', 'GroupController@group');

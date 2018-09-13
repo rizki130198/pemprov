@@ -115,6 +115,7 @@ class GroupController extends Controller
         $validasi = User_grup::find($user->id);
         $cekanggota = User_grup::where('id_user',$user->id)->get()->first();
         $anggota = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->get();
+
         if ($validasi) {
             if (request()->segment(2) == "diskusi") {
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','images_grup'));
@@ -214,57 +215,61 @@ class GroupController extends Controller
 
     public function deleteMemberGrup($id)
     {
-
         $response = array();
         $response['code'] = 400;
-
-        if (Auth::user()->id == $id) {
-             $update = User_grup::where('id_user',$id)->delete();
-            $response['code'] = 200;
-        }else{
-            $response['code'] = 400;
-            $response['message'] = "Anda bukan Pemilik grup";
-        }
-
-        return Response::json($response);
-    }
-    public function deleteGrup($id)
-    {
-
-        $response = array();
-        $response['code'] = 400;
-
-        if (!$this->secure($id)) return redirect('/home');
-
-        if (Auth::user()->id != $grup->id) {
-            $delete = User_grup::where('id_user',$id)->delete();
-            $response['code'] = 200;
-        }else{
-            $response['code'] = 400;
-            $response['message'] = "Gagal";
-        }
-        return Response::json($response);
-    }
-    public function addAdmin($id)
-    {
-
-        $response = array();
-        $response['code'] = 400;
-
         if (Auth::user()->id != $id) {
+           $update = User_grup::where('id_user',$id)->delete();
+           $response['code'] = 200;
+       }else{
+        $response['code'] = 400;
+        $response['message'] = "Anda Tidak bisa delete anda sendiri";
+    }
+    return Response::json($response);
+}
+public function deleteGrup($id)
+{
 
-             $update = User_grup::where('id_user',$id)->get()->first();
+    $response = array();
+    $response['code'] = 400;
 
-             $update->jabatan_grup = 'admin';
+    if (!$this->secure($id)) return redirect('/home');
 
-             $update->save();
+    $grup = Grup::where('id_grup',$id)->get()->first();
 
+    if (count($grup->id_grup) != 0 ) {
+        $delete = User_grup::where('id_groups',$id)->delete();
+        if ($delete) {
+            $deleteGrup = Grup::where('id_grup',$id)->delete();
             $response['code'] = 200;
         }else{
             $response['code'] = 400;
-            $response['message'] = "Anda bukan Pemilik grup";
         }
-        return Response::json($response);
+    }else{
+        $deleteGrup = Grup::where('id_grup',$id)->delete();
+        $response['code'] = 200;
     }
+    return Response::json($response);
+}
+public function addAdmin($id)
+{
+
+    $response = array();
+    $response['code'] = 400;
+
+    if (Auth::user()->id != $id) {
+
+       $update = User_grup::where('id_user',$id)->get()->first();
+
+       $update->jabatan_grup = 'admin';
+
+       $update->save();
+
+       $response['code'] = 200;
+   }else{
+    $response['code'] = 400;
+    $response['message'] = "Anda bukan Pemilik grup";
+}
+return Response::json($response);
+}
 
 }

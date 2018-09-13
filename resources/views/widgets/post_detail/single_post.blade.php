@@ -1,6 +1,6 @@
 
 <div class="panel panel-default panel-google-plus panel-post" id="panel-post-{{ $post->id }}">
-    @if($post->checkOwner($post->user->id))
+    @if($post->checkOwner($user->id))
     <div class="dropdown">
         <span class="dropdown-toggle" type="button" data-toggle="dropdown" id="dd1">
             <span class="glyphicon glyphicon-chevron-down"></span>
