@@ -232,9 +232,9 @@ public function deleteGrup($id)
 
     if (!$this->secure($id)) return redirect('/home');
 
-    $grup = Grup::where('id_grup',$id)->get()->first();
+    $grup = Grup::where('id_grup',$id)->count();
 
-    if (count($grup->id_grup) != 0 ) {
+    if ($grup != 0 ) {
         $delete = User_grup::where('id_groups',$id)->delete();
         if ($delete) {
             $deleteGrup = Grup::where('id_grup',$id)->delete();

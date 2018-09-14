@@ -133,8 +133,8 @@ class EventController extends Controller
 
 		if (!$this->secure($request->input('id'))) return redirect('/404');
 
-		$item = EventComment::where('id_events',$request->input('id'));
-		if (count($item) != 0 ) {
+		$item = EventComment::where('id_events',$request->input('id'))->count();
+		if ($item != 0 ) {
 			$item->delete();
 			$event = Event::find($request->input('id'));
 			if ($event->id_users == Auth::id()) {
