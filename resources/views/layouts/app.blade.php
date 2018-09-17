@@ -311,7 +311,9 @@
 <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
 <script src="{{ asset('plugins/gmaps/gmaps.min.js') }}"></script>
 <script src="{{ asset('js/around.js') }}"></script>
+@if( Request::segment(2) != 'diskusi')
 <script src="{{ asset('js/wall.js') }}"></script>
+@endif
 <script src="{{ asset('js/notifications.js') }}"></script>
 <script src="{{ asset('js/grup.js') }}"></script> 
 <script src="{{ asset('js/event.js') }}"></script>
