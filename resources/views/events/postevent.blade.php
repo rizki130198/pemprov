@@ -89,6 +89,7 @@ time > .month {
                             <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a>
                             @endif
                             <h2>{{ $dataevent->nama_event }}</h2>
+                            <a href="{{ url('/'.$dataevent->username) }}" style="color: #fff;"><span>{{ $dataevent->username }}</span></a>
                             <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
 
                         </div>
@@ -110,7 +111,7 @@ time > .month {
                             </div>
                         </div>
                         <div class="panel-footer panel-primary">
-                            <h5>{{ $dataevent->keterangan }}</h5>
+                            <h4>{{ $dataevent->keterangan }}</h4>
                             <div class="comments-title-event">
                                 @include('events.widgets.comments_title')
                             </div>
