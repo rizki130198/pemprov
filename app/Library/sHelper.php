@@ -118,71 +118,69 @@ class sHelper
                 ];
             }
 
-            $comments = PostComment::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_comments.post_id')
-            ->where('posts.user_id', $user->id)->where('comment_user_id', '!=', $user->id)->select('post_comments.*')->orderBy('id', 'DESC');
+            $comments = PostComment::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_comments.post_id')->join('users','users.id','=','post_comments.comment_user_id')
+            ->where('posts.user_id', $user->id)->where('comment_user_id', '!=', $user->id)->orderBy('post_comments.id', 'DESC');
             if ($comments->count() > 0){
                 foreach ($comments->get() as $comment){
                     $notifications[] = [
                         'url' => url('/post/'.$comment->post_id),
                         'icon' => 'fa-commenting',
-                        'text' => $user->name.' left a comment on your post.'
+                        'text' => $comment->name.' left a comment on your post.'
                     ];
                 }
 
             }
 
-            $likes = PostLike::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_likes.post_id')
-            ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->select('post_likes.*')->orderBy('id', 'DESC');
+            $likes = PostLike::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_likes.post_id')->join('users','users.id','=','post_likes.like_user_id')
+            ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->orderBy('post_likes.id', 'DESC');
             if ($likes->count() > 0){
                 foreach ($likes->get() as $likne){
                     $notifications[] = [
                         'url' => url('/post/'.$likne->post_id),
                         'icon' => 'fa-heart',
-                        'text' => $user->name.' liked your post.'
+                        'text' => $likne->name.' liked your post.'
                     ];
                 }
 
             }
 
-            $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')
-            ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->select('grup_post_comments.*')->orderBy('id', 'DESC');
+            $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->join('users','users.id','=','grup_post_comments.comment_grup_user_id')
+            ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
             if ($commentsgrup->count() > 0){
                 foreach ($commentsgrup->get() as $commentgrup){
                     $notifications[] = [
                         'url' => url('/postgrup/'.$commentgrup->grup_post_id),
                         'icon' => 'fa-commenting',
-                        'text' => $user->name.' left a comment on your post in grup.'
+                        'text' => $commentgrup->name.' left a comment on your post in grup.'
                     ];
                 }
 
             }
 
-            $likesgrup = GrupLike::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'post_grup_likes.grup_post_id')
-            ->where('posts_grup.user_id', $user->id)->where('like_user', '!=', $user->id)->select('post_grup_likes.*')->orderBy('grup_post_id', 'DESC');
+            $likesgrup = GrupLike::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'post_grup_likes.grup_post_id')->join('users','users.id','=','post_grup_likes.like_user')
+            ->where('posts_grup.user_id', $user->id)->where('like_user', '!=', $user->id)->orderBy('post_grup_likes.grup_post_id', 'DESC');
             if ($likesgrup->count() > 0){
                 foreach ($likesgrup->get() as $likegrup){
                     $notifications[] = [
                         'url' => url('/postgrup/'.$likegrup->grup_post_id),
                         'icon' => 'fa-heart',
-                        'text' => $user->name.' liked your post in grup.'
+                        'text' => $likegrup->name.' liked your post in grup.'
                     ];
                 }
 
             }
-
-            $commentsnotif = EventComment::where('seen', 0)->with('user')->join('events', 'events.id_events', '=', 'event_coment.id_events')
-            ->where('events.id_users',$user->id)->where('event_coment.id_users', '!=', $user->id)->select('event_coment.*')->orderBy('id', 'DESC');
-            if ($commentsnotif->count() > 0){
-                foreach ($commentsnotif->get() as $commentnotif){
-                    $notifications[] = [
-                        'url' => url('/events/'.$commentnotif->id_events),
-                        'icon' => 'fa-commenting',
-                        'text' => $user->name.' left a comment on your Event.'
-                    ];
+            if (Auth::user()->role == 'admin') {
+                $commentsnotif = EventComment::where('seen', 0)->with('user')->join('events', 'events.id_events', '=', 'event_coment.id_events')->join('users','users.id','=','event_coment.id_users')->where('event_coment.id_users', '!=', $user->id)->orderBy('event_coment.id', 'DESC');
+                if ($commentsnotif->count() > 0){
+                    foreach ($commentsnotif->get() as $commentnotif){
+                        $notifications[] = [
+                            'url' => url('/events/'.$commentnotif->id_events),
+                            'icon' => 'fa-commenting',
+                            'text' => $commentnotif->name.' left a comment on your Event.'
+                        ];
+                    }
                 }
-
             }
-
             self::$notifications = $notifications;
 
         }
