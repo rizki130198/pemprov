@@ -86,7 +86,7 @@
                     @endforeach
                     @endif
                     <i class="fa fa-times-circle" data-toggle="collapse" data-target="#side-nav" style="font-size: 16px;margin-top:18%;"></i>
-                    <p data-toggle="collapse" data-target="#side-nav" style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
+                    <p data-toggle="collapse" data-target="#side-nav" style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Tutup</p>
                 </div>
             </div>
         </div>
@@ -196,7 +196,7 @@
             <span class="user-role">{{ '@'.$user->username }}</span>
             <span class="user-status">
                 <i class="fa fa-circle"></i>
-                <span>Online</span>
+                <span>Aktif</span>
             </span>
         </div>
     </div>    
@@ -205,28 +205,28 @@
             <li>
                 <a href="{{ url('/events') }}">
                     <i class="fa fa-calendar" style="background:#abc554;"></i>
-                    <span>Events</span><span class="hitung_event badge" style="float: right;background-color: #abc554;">{{sHelper::countevent()}}</span>
+                    <span>Acara</span><span class="hitung_event badge" style="float: right;background-color: #abc554;">{{sHelper::countevent()}}</span>
                 </a>
             </li>
             <li>
                 <a href="{{ url('/groups') }}">
                     <i class="fa fa-users" style="background:#e17e41;"></i>
-                    <span>Groups</span>
+                    <span>Grup</span>
                 </a>
             </li>
             
             <li class="sidebar-dropdown">
                 <a href="#">
                     <i class="fa fa-user" style="background:#339399; "></i>
-                    <span>Profile</span>
+                    <span>Profil</span>
                 </a>
                 <div class="sidebar-submenu" style="display: none;">
                     <ul>
                         <li>
-                            <a href="{{ url('/'.Auth::user()->username) }}">My Profile</a>
+                            <a href="{{ url('/'.Auth::user()->username) }}">Profil Saya</a>
                         </li>
                         <li>
-                            <a href="{{ url('/settings') }}">Setting</a>
+                            <a href="{{ url('/settings') }}">Pengaturan</a>
                         </li>
                     </ul>
                 </div>
@@ -241,7 +241,7 @@
         <div style="text-align: center;">
             <a href="javascript:void(0)" onclick="closeNav()" style="color: #333;position: relative;">
                 <i class="fa fa-times-circle" style="font-size: 16px;margin-top:18%;"></i>
-                <p style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
+                <p style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Tutup</p>
             </a>
         </div>
     </div>
@@ -271,9 +271,9 @@
         @endif
     </ul>
     <center>
-        <a href="javascript:void(0)" onclick="closeNotif()" style="color: #333;bottom: 0;position: fixed;">
+        <a href="javascript:void(0)" onclick="closeNotif()" style="color: #333;bottom: 0;">
             <i class="fa fa-times-circle" style="font-size: 16px;margin-top:18%;"></i>
-            <p style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Close</p>
+            <p style="font-size: 20px;line-height: 35px;padding-bottom: 50px;">Tutup</p>
         </a>
     </center>
 </div>
