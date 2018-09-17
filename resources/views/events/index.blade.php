@@ -147,7 +147,8 @@
                         <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a>
                     @endif
                     <h2>{{ $dataevent->nama_event }}</h2>
-                    <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
+                    <a href="{{ url('/'.$dataevent->username) }}" style="color: #fff;"><span>{{ $dataevent->name }}</span></a>
+                    <span style="color: #92959E;margin-left: 10px;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
 
                 </div>
                 <div class="panel-body nopadding">
@@ -168,7 +169,7 @@
                     </div>
                 </div>
                 <div class="panel-footer panel-primary">
-                    <h5>{{ $dataevent->keterangan }}</h5>
+                    <h4 style="margin-bottom: 20px;">{{ $dataevent->keterangan }}</h4>
                     <div class="comments-title-event">
                         @include('events.widgets.comments_title')
                     </div>
