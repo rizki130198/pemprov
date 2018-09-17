@@ -652,18 +652,21 @@ body {
   border-top-color: #e9eaed;
 }
 /* Menu Explore */
+.menu-explore{
+  padding-left: 27px;
+}
 .menu-explore li {
   margin-top: 5px;
   list-style: none;
   letter-spacing: 2px;
-  margin-left: 18px;
+  /*margin-left: 18px;*/
   margin-top: 3px;
   padding: 5px;
-  width: 230px;
+  width: 263px;
 }
 .menu-explore li.active{
   background-color: #fff !important;
-  width: 230px;
+  width: 263px;
   border:solid 1px #ddd;
   padding: 5px;
 }

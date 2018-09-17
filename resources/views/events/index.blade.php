@@ -4,12 +4,12 @@
 <div class="h-20"></div>
 <div class="col-md-12">
     <div class="row">
-        <div class="col-md-3" style="padding-left: 0;position: fixed;">
+        <div class="col-md-3" style="padding-left: 0;position: fixed;width: 20%;">
             @include('widgets.sidebar')
         </div>
         <div class="col-md-8 col-md-offset-3 col-xs-12">
             <div class="content-page-title">
-                <i class="fa fa-users"></i> event
+                <i class="fa fa-users"></i> Acara
                 @if(Auth::user()->role=='admin')
                 <div class="pull-right">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Buat Event</button>
