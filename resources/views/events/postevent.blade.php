@@ -1,142 +1,142 @@
 @extends('layouts.app')
 
 @section('content')
+<style type="text/css">
+.panel-primary h5{
+    color: #888;
+    /*font-size: .9em;*/
+}
+.event-primary h2 {
+    margin-top:0;
+    margin-bottom: 0;
+}
+
+.nopadding {
+    padding: 0 !important
+}
+time {
+    display: inline-block;
+    width: 100%;
+    color: rgb(255, 255, 255);
+
+    padding: 5px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+time.pink {
+    background-color: rgb(197, 44, 102);
+}
+time.purple {
+    background-color: rgb(165, 82, 167)
+}
+
+time.dkblue
+{
+    background-color: #336699;
+}
+time.pink { background-color: #fc5ab8}
+time.purple { background-color: #af31f2}
+.time {
+    background-color: rgb(165, 82, 167);
+}
+time > span {
+    display: none;
+}
+time > .day {
+    display: block;
+    font-size: 4em;
+    font-weight: 100;
+    line-height: 1;
+}
+time > .month {
+    display: block;
+    font-size: 24pt;
+    font-weight: 900;
+    line-height: 1;
+}
+.nopadding {padding:0 !important;margin:0!important;}
+.panel-primary > .panel-footer {
+    color: #fff!important ;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.panel-primary > .panel-footer p,.panel-primary a {color:#FFF}
+#pinBoot {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+.white-panel {
+  position: absolute;
+  background: white;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+}
+</style>
 <div class="h-20"></div>
 <div class="col-md-12">
     <div class="row">
+        <div class="col-md-3" style="padding-left: 0;position: fixed;width: 20%;">
+            @include('widgets.sidebar')
+        </div>
+        <div class="col-md-offset-3 col-md-12"> 
+            <section id="pinBoot">
+                <article class="white-panel">
+                    <div class="panel-default event-primary panel-google-plus" id="panel-post-event-{{ $dataevent->id_events }}">
+                        <div class="panel-heading" style="margin-top:0;background-color: #444753 !important;background:none;color: #fff;">
+                            <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a>
+                            <h2>{{ $dataevent->nama_event }}</h2>
+                            <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
 
-        <div class="col-md-offset-3 col-md-12">
-            <style type="text/css">
-            .panel-primary h5{
-                color: #888;
-                /*font-size: .9em;*/
-            }
-            .event-primary h2 {
-                margin-top:0;
-                margin-bottom: 0;
-            }
-
-            .nopadding {
-                padding: 0 !important
-            }
-            time {
-                display: inline-block;
-                width: 100%;
-                color: rgb(255, 255, 255);
-
-                padding: 5px;
-                text-align: center;
-                text-transform: uppercase;
-            }
-
-            time.pink {
-                background-color: rgb(197, 44, 102);
-            }
-            time.purple {
-                background-color: rgb(165, 82, 167)
-            }
-
-            time.dkblue
-            {
-                background-color: #336699;
-            }
-            time.pink { background-color: #fc5ab8}
-            time.purple { background-color: #af31f2}
-            .time {
-                background-color: rgb(165, 82, 167);
-            }
-            time > span {
-                display: none;
-            }
-            time > .day {
-                display: block;
-                font-size: 4em;
-                font-weight: 100;
-                line-height: 1;
-            }
-            time > .month {
-                display: block;
-                font-size: 24pt;
-                font-weight: 900;
-                line-height: 1;
-            }
-            .nopadding {padding:0 !important;margin:0!important;}
-            .panel-primary > .panel-footer {
-                color: #fff!important ;
-                background-color: #337ab7;
-                border-color: #337ab7;
-            }
-            .panel-primary > .panel-footer p,.panel-primary a {color:#FFF}
-            #pinBoot {
-              position: relative;
-              max-width: 100%;
-              width: 100%;
-              overflow-x: hidden;
-          }
-          .white-panel {
-              position: absolute;
-              background: white;
-              box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
-          }
-      </style>
-      <div class="">
-        <section id="pinBoot">
-            <article class="white-panel">
-                <div class="panel-default event-primary panel-google-plus" id="panel-post-event-{{ $dataevent->id_events }}">
-                    <div class="panel-heading" style="margin-top:0;background-color: #444753 !important;background:none;color: #fff;">
-                        <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a>
-                        <h2>{{ $dataevent->nama_event }}</h2>
-                        <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
-
-                    </div>
-                    <div class="panel-body nopadding">
-                        <!-- <img src="https://placehold.it/400x150" alt="event image" class="img-responsive"/> -->
-                        <div class="row nopadding">
-                            <div class="col-sm-6 nopadding">
-                                <time class="start pink">
-                                    Mulai <span class="day">{{ date('d', strtotime($dataevent->mulai))}}</span>
-                                    <span class="month">{{ date('M/y', strtotime($dataevent->mulai))}}</span>
-                                </time>
-                            </div>
-                            <div class="col-sm-6 nopadding">
-                                <time class="end purple">
-                                    Selesai <span class="day">{{ date('d', strtotime($dataevent->akhir))}}</span>
-                                    <span class ="month">{{ date('M/y', strtotime($dataevent->akhir))}}</span>
-                                </time>
+                        </div>
+                        <div class="panel-body nopadding">
+                            <!-- <img src="https://placehold.it/400x150" alt="event image" class="img-responsive"/> -->
+                            <div class="row nopadding">
+                                <div class="col-sm-6 nopadding">
+                                    <time class="start pink">
+                                        Mulai <span class="day">{{ date('d/M/y', strtotime($dataevent->mulai))}}</span>
+                                        <span class="month">{{ date('h:i', strtotime($dataevent->mulai))}}</span>
+                                    </time>
+                                </div>
+                                <div class="col-sm-6 nopadding">
+                                    <time class="end purple">
+                                        Selesai <span class="day">{{ date('d/M/y', strtotime($dataevent->akhir))}}</span>
+                                        <span class ="month">{{ date('h:i', strtotime($dataevent->akhir))}}</span>
+                                    </time>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-footer panel-primary">
-                        <h5>{{ $dataevent->keterangan }}</h5>
-                        <div class="comments-title-event">
-                            @include('events.widgets.comments_title')
-                        </div>
-                        <div class="post-comments-event">
-                            @foreach($dataevent->comments()->limit(NULL)->orderBY('id', 'DESC')->with('user')->get()->reverse() as $comment)
+                        <div class="panel-footer panel-primary">
+                            <h5>{{ $dataevent->keterangan }}</h5>
+                            <div class="comments-title-event">
+                                @include('events.widgets.comments_title')
+                            </div>
+                            <div class="post-comments-event">
+                                @foreach($dataevent->comments()->limit(NULL)->orderBY('id', 'DESC')->with('user')->get()->reverse() as $comment)
 
-                            @include('events.widgets.single_comment')
+                                @include('events.widgets.single_comment')
 
-                            @endforeach
+                                @endforeach
+                            </div>
+                            <div class="input-placeholder" style="margin-left: 0;margin-top: 0;">Add a comment...</div>
                         </div>
-                        <div class="input-placeholder" style="margin-left: 0;margin-top: 0;">Add a comment...</div>
-                    </div>
-                    <div class="panel-google-plus-comment" style="border: solid 1px #ddd;">
-                        <img class="img-circle" src="{{ $user->getPhoto(40,40) }}" alt="User Image" />
-                        <div class="panel-google-plus-textarea">
-                            <form id="form-new-comment-event">
-                                <textarea rows="4" style="width: 100%;resize: none;"></textarea>
-                                <a href="javascript:void(0)" class="btn btn-warning" onclick="submitCommentEvents({{ $dataevent->id_events }})">Post comment</a>
-                            </form>
-                            <button type="reset" style="margin-top: -34px;margin-right: 0;float: right;" class="btn btn-default">Cancel</button>
+                        <div class="panel-google-plus-comment" style="border: solid 1px #ddd;">
+                            <img class="img-circle" src="{{ $user->getPhoto(40,40) }}" alt="User Image" />
+                            <div class="panel-google-plus-textarea">
+                                <form id="form-new-comment-event">
+                                    <textarea rows="4" style="width: 100%;resize: none;"></textarea>
+                                    <a href="javascript:void(0)" class="btn btn-warning" onclick="submitCommentEvents({{ $dataevent->id_events }})">Post comment</a>
+                                </form>
+                                <button type="reset" style="margin-top: -34px;margin-right: 0;float: right;" class="btn btn-default">Cancel</button>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
                     </div>
-                </div>
-            </article>
-        </section>
+                </article>
+            </section>
+        </div>
     </div>
-</div>
-</div>
 </div>
 @endsection
 
