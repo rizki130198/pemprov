@@ -10,7 +10,7 @@ $(function() {
 
         messageNotifications();
 
-    }, 100000);
+    }, 12000);
 
 
 
@@ -38,3 +38,40 @@ function messageNotifications(){
     });
 
 }
+
+// $(function() {
+
+
+//     messageNotifications();
+//     setInterval(function(){
+
+//         Notifications();
+
+//     }, 15000);
+
+
+
+// });
+
+
+// function Notifications(){
+
+//     $.ajax({
+//         url: BASE_URL + '/notifications',
+//         type: "POST",
+//         timeout: 5000,
+//         contentType: false,
+//         cache: false,
+//         processData: false,
+//         headers: {'X-CSRF-TOKEN': CSRF},
+//         success: function (response) {
+//             if (response.code == 200) {
+//                 $('.notifications').html(response.html);
+//             }
+//         },
+//         error: function () {
+
+//         }
+//     });
+
+// }

@@ -34,7 +34,7 @@
                     @if($my_profile)
                         <form id="form-upload-cover" enctype="multipart/form-data">
                             <div class="profile-upload-cover">
-                                <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadCover()"><i class="fa fa-upload"></i> Change Cover</a>
+                                <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadCover()"><i class="fa fa-upload"></i> Ubah Sampul</a>
                                 <input type="file" accept="image/*" name="cover" class="cover_input">
                             </div>
                         </form>

@@ -7,7 +7,7 @@
             <p style="color: #92959E;">{{ '@'.$friend->username }}</p>
         </div>
     </a>
-    <a class="btn btn-default btn-xs btn-remove" onclick="deleteChat({{ $friend->id }})" data-toggle="tooltip" data-placement="bottom" title="Delete Chat">
+    <a class="btn btn-default btn-xs btn-remove" onclick="deleteChat({{ $friend->id }})" data-toggle="tooltip" data-placement="bottom" title="Hapus Pesan">
         <i class="fa fa-times"></i>
     </a>
     <div class="clearfix"></div>
@@ -17,7 +17,7 @@
     @php($first_message_id = 0)
     @if($message_list->count() == 0)
         <div class="alert alert-info">
-            No messages
+            Tidak ada pesan
         </div>
     @else
         @php($i=0)
@@ -39,9 +39,9 @@
     <form id="form-message-write" action="javascript:void(0);" method="post" accept-charset="utf-8"  >
         <input type="hidden" name="user_id" value="{{ $friend->id }}">
         @if ($can_send_message)
-            <input class="form-control" rows="1" id="pesan" placeholder="Your message.." autocomplete="off" style="height: 56px;">
+            <input class="form-control" rows="1" id="pesan" placeholder="Pesan kamu.." autocomplete="off" style="height: 56px;">
         @else
-        <div class="alert alert-danter">You can't send new message anymore.</div>
+        <div class="alert alert-danter">Anda tidak dapat mengirim pesan baru lagi.</div>
         @endif
     </form>
 </div>

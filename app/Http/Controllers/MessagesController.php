@@ -37,9 +37,7 @@ class MessagesController extends Controller
                 $show = true;
             }
         }
-        $data = DB::table('events')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
-
-        return view('messages.index', compact('user', 'user_list', 'show', 'id','data'));
+        return view('messages.index', compact('user', 'user_list', 'show', 'id'));
     }
 
 

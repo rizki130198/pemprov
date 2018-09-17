@@ -190,14 +190,14 @@ h1 {
 		<div class="col-md-12">
 			<div class="row">
 				@foreach($anggota as $member)
-				<div class="col-md-6">
+				<div class="col-md-6" style="width: 50%;">
 					<div class="panel-element">
 						<div class="element-content">
 							@if($cekanggota->jabatan_grup=='admin')
 							<button class="btn btn-more dropdown-toggle" id="editAnggota" data-toggle="dropdown" aria-expanded="true">
 								<i class="fa fa-ellipsis-h"></i>
 							</button>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="editAnggota" style="left: 144px;top: 33px;">
+							<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="editAnggota" style="top: 33px;">
 			 				@if ($member->jabatan_grup!='admin')
 								<li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="javascript:;" onclick="createdadmin('{{$member->id_user}}')">Jadikan admin Grup</a></li>
 							@endif

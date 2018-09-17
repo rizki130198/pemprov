@@ -43,10 +43,10 @@
 
         <div class="col-md-8 col-md-offset-3 col-xs-12">
             <div class="content-page-title">
-                <i class="fa fa-users"></i> Groups
+                <i class="fa fa-users"></i> Grup
                 @if(Auth::user()->role=='admin')
                 <div class="pull-right">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buat Group</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buat Grup</button>
                 </div>
                 @endif
             </div>
@@ -71,8 +71,8 @@
                                 </div> -->
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save Data</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan Data</button>
                             </div>
                         </form>
                     </div>
@@ -96,7 +96,7 @@
                                 <i class="fa fa-users"></i>
                             </p>
                             <p class="group-text">
-                                Nama group : <span>{{ $group->nama_grup }}</span> 
+                                Nama grup : <span>{{ $group->nama_grup }}</span> 
                             </p>
                             <hr>
                             <div class="blog-post-actions">

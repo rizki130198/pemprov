@@ -6,7 +6,18 @@
 .nav-tabs{
     display: none;
 }
+.col-md-offset-3{
+    margin-left: 21%;
+}
+@media(min-width: 1200px){
+    .row-group .col-md-6{
+        width: 53%;
+    }
+}
 @media(max-width: 768px){
+    .col-md-offset-3{
+        margin-left: auto;
+    }
     .row-group{
         margin-left: 0;
         margin-right: 0;
@@ -100,12 +111,16 @@
                                     <div class="profile-text" style="left: 0;">
                                         <h4>{{ $group->nama_grup }}</h4>
                                     </div>
+                                    @foreach($groups->get() as $get)
+                                    @if ($get->jabatan_grup == "admin")
                                     <form id="form-upload-covergrup" enctype="multipart/form-data">
                                         <div class="profile-upload-cover">
-                                            <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadGroupCover({{$group->id_grup}})"><i class="fa fa-upload"></i> Change Cover</a>
+                                            <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadGroupCover({{$group->id_grup}})"><i class="fa fa-upload"></i> Ganti Sampul</a>
                                             <input type="file" accept="image/*" name="cover_grup" class="covergrup_input">
                                         </div>
                                     </form>
+                                    @endif
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -124,30 +139,30 @@
                 <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
                     <form method="post" id="form-new-postgrup" enctype="multipart/form-data" accept-charset="utf-8">
                         <input type="hidden" name="group_id" value="{{ $id_link }}">
-                        <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;">Update Status</div>
-                        <textarea class="form-control text-post" name="content" placeholder="What's in your mind?" style="resize:none;"></textarea>
+                        <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;"><i class="glyphicon glyphicon-pencil"></i> Buat Postingan</div>
+                        <textarea class="form-control text-post" name="content" placeholder="Apa yang Anda pikirkan, {{ Auth::user()->name }}?" style="resize:none;"></textarea>
                         <div class="image-area">
                             <a href="javascript:;" class="image-remove-button" onclick="removePostgrupImage()"><i class="fa fa-times-circle"></i></a>
                             <img src="" />
 
                         </div>
 
-                        <output id="listimage"><p style="display: none;"></p></output>
-                        <output id="list"><p style="display: none;"></p></output>
+                        <output id="listimage"></output>
+                        <output id="lista"></output>
                         <div class="row" style="padding: 10px;">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()" style="margin-left: 15px;">
-                                <i class="fa fa-image"></i> Add Image
+                                <i class="fa fa-image"></i> Tambah Foto
                             </button>
                             <input type="file" id="imageupload" accept="image/*" multiple class="image-input" name="photo[]" onchange="previewPostgrupImage(this)">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupFile()">
-                                <i class="glyphicon glyphicon-file"></i> Add File
+                                <i class="glyphicon glyphicon-file"></i> Tambah File
                             </button>
                             <input type="file"  class="file-input" id="files" name="files[]" multiple onchange="previewPostgrupFile(this)">
                             <div class="loading-postgrup">
                                 <img src="{{ asset('images/rolling.gif') }}" alt="">
                             </div>
                             <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPostgrup()" style="margin-right: 15px;">
-                                Post!
+                                Bagikan
                             </button>
                         </div>
                     </form>
@@ -165,15 +180,15 @@
             </div>
             @elseif (Request::segment(2) == 'anggota')
 
-                @include('groups.widgets.anggota')
+            @include('groups.widgets.anggota')
             
             @elseif (Request::segment(2) == 'foto')
 
-                @include('groups.widgets.foto')
+            @include('groups.widgets.foto')
 
             @elseif (Request::segment(2) == 'pengaturan_group')
 
-                @include('groups.widgets.pengaturan_group')
+            @include('groups.widgets.pengaturan_group')
 
             @endif
             <div class="modal fade " id="likeListModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -205,17 +220,17 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function() {
-  
-  $(".selLabel").click(function () {
-    $('.dropdown').toggleClass('active');
+
+      $(".selLabel").click(function () {
+        $('.dropdown').toggleClass('active');
+    });
+
+      $(".dropdown-list li").click(function() {
+        $('.selLabel').text($(this).text());
+        $('.dropdown').removeClass('active');
+        $('.selected-item p span').text($('.selLabel').text());
+    });
+
   });
-  
-  $(".dropdown-list li").click(function() {
-    $('.selLabel').text($(this).text());
-    $('.dropdown').removeClass('active');
-    $('.selected-item p span').text($('.selLabel').text());
-  });
-  
-});
 </script>
 @endsection

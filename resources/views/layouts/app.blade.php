@@ -52,9 +52,9 @@
                 <div class="content-navigation" style="padding-left: 20px;padding-right: 20px;">
                     @if(count($user_list) == 0)
                     <a href="{{ url('/direct-messages') }}">
-                        <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;">
+                        <div id="messages" class="panel panel-default" style="background-color: rgba(255, 255, 255, 0.7);border-radius: 16px;border: none;margin-top: 20px;">
                             <div class="panel-body" style="color: #111;font:inherit;">
-                                See all messages
+                                Lihat semua pesan
                             </div>
                         </div>    
                     </a>
@@ -116,7 +116,7 @@
                 <div class="navbar-form navbar-left">
                     <form id="custom-search-input" method="get" action="{{ url('/search') }}">
                         <div class="input-group col-md-12">
-                            <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
+                            <input type="text" class="form-control input-lg" name="s" placeholder="Cari..." />
                             <span class="input-group-btn">
                                 <button class="btn btn-info btn-lg" type="button">
                                     <i class="glyphicon glyphicon-search"></i>
@@ -140,19 +140,19 @@
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="{{ url('/'.Auth::user()->username) }}">
-                                    <i class="fa fa-user"></i> My Profile
+                                    <i class="fa fa-user"></i> Profil Saya
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ url('/settings') }}">
-                                    <i class="fa fa-cog"></i> Settings
+                                    <i class="fa fa-cog"></i> Pengaturan
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
-                                <i class="fa fa-sign-out"></i> Logout
+                                <i class="fa fa-sign-out"></i> Keluar
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -175,7 +175,7 @@
     <form class="hidden-sm hidden-md hidden-lg" id="custom-search-input" method="get" action="{{ url('/search') }}" style="margin-bottom: 12px;margin-top: 12px;">
 
         <div class="input-group col-md-12">
-            <input type="text" class="form-control input-lg" name="s" placeholder="search..." />
+            <input type="text" class="form-control input-lg" name="s" placeholder="Cari..." />
             <span class="input-group-btn">
                 <button class="btn btn-info btn-lg" type="button">
                     <i class="glyphicon glyphicon-search"></i>
@@ -205,7 +205,7 @@
             <li>
                 <a href="{{ url('/events') }}">
                     <i class="fa fa-calendar" style="background:#abc554;"></i>
-                    <span>Events</span>
+                    <span>Events</span><span class="hitung_event badge" style="float: right;background-color: #abc554;">{{sHelper::countevent()}}</span>
                 </a>
             </li>
             <li>

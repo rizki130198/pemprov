@@ -42,7 +42,7 @@ function submitCommentEvents(id){
             timeout: 5000,
             data: data,
             contentType: false,
-            cache: false,
+            cache: false, 
             processData: false,
             headers: {'X-CSRF-TOKEN': CSRF},
             success: function (response) {
@@ -74,7 +74,7 @@ function deleteEvent(id){
             action: function(dialog) {
 
                 var data = new FormData();
-                data.append('id', id);
+                data.append('id', id); 
 
 
                 $.ajax({
@@ -90,6 +90,7 @@ function deleteEvent(id){
                         dialog.close();
                         if (response.code == 200){
                             $('#panel-post-event-'+id).html(" ");
+                            $('.hitung_event').html(response.countevent);
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');

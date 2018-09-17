@@ -5,7 +5,7 @@
             <span class="glyphicon glyphicon-chevron-down"></span>
         </span>
         <ul class="dropdown-menu" aria-labelledby="dd1">
-            <li><a href="javascript:;" onclick="deletePostgrup({{ $post->id_post_grup }})"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Delete</a></li>
+            <li><a href="javascript:;" onclick="deletePostgrup({{ $post->id_post_grup }})"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Hapus</a></li>
         </ul>
     </div>
     @endif

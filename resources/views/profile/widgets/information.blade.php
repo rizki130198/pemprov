@@ -4,7 +4,7 @@
             <div class="button-frame">
                 <a href="javascript:;" data-toggle="modal" data-target="#profileInformation">
                     <i class="fa fa-pencil"></i>
-                    Edit
+                    Ubah
                 </a>
             </div>
         </div>
@@ -46,7 +46,7 @@
 </div>
 
 
-<div class="panel panel-default">
+<!-- <div class="panel panel-default">
     <div class="panel-heading">Relationships @if($my_profile) <a href="javascript:;" data-toggle="modal" data-target="#profileRelationship"><i>{{ 'New' }}</i></a> @endif</div>
 
     <ul class="list-group" style="max-height: 300px; overflow-x: auto">
@@ -74,16 +74,16 @@
             @endforeach
         @endif
     </ul>
-</div>
+</div> -->
 
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">Hobbies @if($my_profile) <a href="javascript:;" data-toggle="modal" data-target="#profileHobbies"><i>{{ 'Edit' }}</i></a> @endif</div>
+    <div class="panel-heading">Hobi @if($my_profile) <a href="javascript:;" data-toggle="modal" data-target="#profileHobbies"><i>{{ 'Ubah' }}</i></a> @endif</div>
 
     <ul class="list-group" style="max-height: 300px; overflow-x: auto">
         @if($user->hobbies()->count() == 0)
-            <li class="list-group-item">No hobby!</li>
+            <li class="list-group-item">Tidak ada hobi!</li>
         @else
             @foreach($user->hobbies()->get() as $hobby)
                 <li class="list-group-item">{{ $hobby->hobby->name }}</li>
@@ -129,8 +129,8 @@
                             <div class="form-group">
                                 <label>Gender</label>
                                 <select class="form-control " name="sex">
-                                    <option value="0" @if($user->sex == 0){{ 'selected' }}@endif>Male</option>
-                                    <option value="1" @if($user->sex == 1){{ 'selected' }}@endif>Female</option>
+                                    <option value="0" @if($user->sex == 0){{ 'selected' }}@endif>Laki-laki</option>
+                                    <option value="1" @if($user->sex == 1){{ 'selected' }}@endif>Perempuan</option>
                                 </select>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title">Your Hobbies</h5>
+                <h5 class="modal-title">Hobi Kamu</h5>
             </div>
             <form id="form-profile-hobbies" method="post" action="{{ url('/'.$user->username.'/save/hobbies') }}">
 
@@ -182,7 +182,7 @@
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Hobbies:</label>
+                        <label>Hobi:</label>
                         <div class="row">
                             <div class="col-xs-12">
                                 <select class="form-control select2-multiple" name="hobbies[]" multiple="multiple" style="width: 100%">
@@ -196,8 +196,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                 </div>
             </form>
 

@@ -8,8 +8,8 @@
 
 
                 <ul class="nav nav-pills">
-                    <li class="active"><a data-toggle="pill" href="#posts">Posts ({{ $posts->count() }})</a></li>
-                    <li><a data-toggle="pill" href="#users">Users ({{ $users->count() }})</a></li>
+                    <li class="active"><a data-toggle="pill" href="#posts">Postingan ({{ $posts->count() }})</a></li>
+                    <li><a data-toggle="pill" href="#users">Pengguna ({{ $users->count() }})</a></li>
                 </ul>
 
                 <div class="tab-content">

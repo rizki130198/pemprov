@@ -104,12 +104,7 @@ class GrupController extends Controller
                 ->whereRaw('posts_grup.user_id = user_groups.id_user');
             });
         }else{
-            $posts = $posts->where(function($query) use ($user) {
-                $query->whereIn('user_id', function ($q) use ($user) {
-                    $q->select('id_groups')->from('user_groups')->where('id_user', $user->id)->where('allow', 1);
-                });
-                $query->orWhere('user_id', $user->id);
-            })->where('group_post_id', $optional_id);
+            $posts = GrupPost::where('group_post_id', $optional_id);
         }
         $posts = $posts->limit(20)->orderBy('id_post_grup', 'DESC')->get();
 
@@ -319,6 +314,7 @@ class GrupController extends Controller
 
             $imageupload = '';
             $fileupload = '';
+            $originaupload = '';
 
             if ($request->hasFile('image')) {
                 $post->has_image = 1;
@@ -326,12 +322,14 @@ class GrupController extends Controller
                 if (count($image) != 14) {
                   for ($i=0; $i < count($image); $i++) {
                     $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+                    $originalimage = $image[$i]->getClientOriginalName().',';
                     $imagestore = str_replace(',', '', $dataimage);
-                    $imageupload .= $dataimage;
-
                     $image[$i]->storeAs('public/uploads/posts', $imagestore);
+                    $imageupload .= $dataimage;
+                    $originaupload .= $originalimage;
                 }
                 $image_path = substr($imageupload, 0, -1);
+                $image_original = substr($originaupload, 0, -1);
             }else{
               $image_path = $image->getClientOriginalName();
           }
@@ -342,12 +340,15 @@ class GrupController extends Controller
          if (count($file) != 14) {
           for ($i=0; $i < count($file); $i++) {
             $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
+            $originalfile = $file[$i]->getClientOriginalName().',';
             $filestore = str_replace(',', '', $datafile);
             $fileupload .= $datafile;
+            $originaupload .= $originalfile;
 
             $file[$i]->storeAs('public/uploads/posts', $filestore);
         }
         $file_path = substr($fileupload, 0, -1);
+        $originalcontent = substr($originaupload, 0, -1);
     }else{
         $file_path = $file->getClientOriginalName();
     }
@@ -362,8 +363,12 @@ if ($process){
             $post_image = new GrupImage();
             if ($request->file('image') != NULL) {
                 $post_image->image_path = $image_path;
+                $post_image->original_name = $image_original;
+                $post_image->id_user = Auth::user()->id;
             }else if($request->file('files') !=NULL){
                 $post_image->file_path = $file_path;
+                $post_image->original_name = $originalcontent;
+                $post_image->id_user = Auth::user()->id;
             }
             $post_image->post_grup_id = $post->id_post_grup;
             if ($post_image->save()){

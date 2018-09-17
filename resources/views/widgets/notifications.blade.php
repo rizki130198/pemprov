@@ -3,7 +3,7 @@
         <i class="fa fa-commenting"></i>
     </a>
 </li>
-<li class="dropdown">
+<li class="dropdown notifications">
     <a href="#" class="dropdown-toggle parent" data-toggle="dropdown" role="button" aria-expanded="false">
         @if(count(sHelper::notifications()) > 0)
         <span class="badge badge-notify">{{ count(sHelper::notifications()) }}</span>
@@ -13,7 +13,7 @@
     <ul class="dropdown-menu" role="menu">
         @if(count(sHelper::notifications()) == 0)
             <li style="padding: 10px">
-                <a href="javascript:;">There is no notification.</a>
+                <a href="javascript:;">Tidak Ada Pemberitahuan.</a>
             </li>
         @else
             @foreach(sHelper::notifications() as $notification)

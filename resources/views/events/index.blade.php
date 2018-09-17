@@ -12,7 +12,7 @@
                 <i class="fa fa-users"></i> Acara
                 @if(Auth::user()->role=='admin')
                 <div class="pull-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Buat Event</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Buat Acara</button>
                 </div>
                 @endif
             </div>
@@ -20,7 +20,7 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Buat Event</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Buat Acara</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
@@ -28,25 +28,25 @@
               <form action="javascript:void(0);" id="eventscreate" method="post" accept-charset="utf-8">
                   <div class="modal-body">
                       <div class="form-group">
-                        <label for="inputevent">Nama Event</label>
-                        <input type="text" name="nama_events" class="form-control" id="inputevent" placeholder="Nama Event">
+                        <label for="inputevent">Nama Acara</label>
+                        <input type="text" name="nama_events" class="form-control" id="inputevent" placeholder="Nama Acara">
                     </div>
                     <div class="form-group">
                         <label for="keterangan">Keterangan</label>
                         <textarea class="form-control" name="ket" id="keterangan" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="awal">Waktu Mulai Event</label>
-                        <input type="text" class="form-control" name="awal" id="awal" placeholder="Waktu Mulai Event">
+                        <label for="awal">Waktu Mulai Acara</label>
+                        <input type="text" class="form-control" name="awal" id="awal" placeholder="Waktu Mulai Acara">
                     </div>
                     <div class="form-group">
-                        <label for="akhir">Waktu Akhir Event</label>
-                        <input type="text" class="form-control" name="akhir" id="akhir" placeholder="Waktu AKhir Event">
+                        <label for="akhir">Waktu Akhir Acara</label>
+                        <input type="text" class="form-control" name="akhir" id="akhir" placeholder="Waktu AKhir Acara">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Data</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </div>
             </form>
         </div>
@@ -96,7 +96,7 @@
     }
     time > .day {
         display: block;
-        font-size: 4em;
+        font-size: 3em;
         font-weight: 100;
         line-height: 1;
     }
@@ -129,7 +129,7 @@
     @if($data->count() == 0)
 
     <div class="alert-message alert-message-default">
-        <h4>Belum ada Event</h4>
+        <h4>Belum ada Acara</h4>
     </div>
 
     @else
@@ -143,7 +143,9 @@
         <article class="white-panel">
             <div class="panel-default event-primary panel-google-plus" id="panel-post-event-{{ $dataevent->id_events }}">
                 <div class="panel-heading" style="margin-top:0;background-color: #444753 !important;background:none;color: #fff;">
+                    @if ($dataevent->id_users == Auth::user()->id)
                         <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a>
+                    @endif
                     <h2>{{ $dataevent->nama_event }}</h2>
                     <span style="color: #92959E;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $dataevent->tanggal->diffForHumans() }}</span>
 
@@ -153,14 +155,14 @@
                     <div class="row nopadding">
                         <div class="col-sm-6 nopadding">
                             <time class="start pink">
-                                Mulai <span class="day">{{ date('d', strtotime($dataevent->mulai))}}</span>
-                                <span class="month">{{ date('M/y', strtotime($dataevent->mulai))}}</span>
+                                Mulai <span class="day">{{ date('d/M/y', strtotime($dataevent->mulai))}}</span>
+                                <span class="month">{{ date('h:i', strtotime($dataevent->mulai))}}</span>
                             </time>
                         </div>
                         <div class="col-sm-6 nopadding">
                             <time class="end purple">
-                                Selesai <span class="day">{{ date('d', strtotime($dataevent->akhir))}}</span>
-                                <span class ="month">{{ date('M/y', strtotime($dataevent->akhir))}}</span>
+                                Selesai <span class="day">{{ date('d/M/y', strtotime($dataevent->akhir))}}</span>
+                                <span class ="month">{{ date('h:i', strtotime($dataevent->akhir))}}</span>
                             </time>
                         </div>
                     </div>
@@ -177,16 +179,16 @@
 
                         @endforeach
                     </div>
-                    <div class="input-placeholder" style="margin-left: 0;margin-top: 0;">Add a comment...</div>
+                    <div class="input-placeholder" style="margin-left: 0;margin-top: 0;">Masukan komentar...</div>
                 </div>
                 <div class="panel-google-plus-comment" style="border: solid 1px #ddd;">
                     <img class="img-circle" src="{{ $user->getPhoto(40,40) }}" alt="User Image" />
                     <div class="panel-google-plus-textarea">
                         <form id="form-new-comment-event">
                             <textarea rows="4" style="width: 100%;resize: none;"></textarea>
-                            <a href="javascript:void(0)" class="btn btn-warning" onclick="submitCommentEvents({{ $dataevent->id_events }})">Post comment</a>
+                            <a href="javascript:void(0)" class="btn btn-warning" onclick="submitCommentEvents({{ $dataevent->id_events }})">Bagikan komentar</a>
                         </form>
-                        <button type="reset" style="margin-top: -34px;margin-right: 0;float: right;" class="btn btn-default">Cancel</button>
+                        <button type="reset" style="margin-top: -34px;margin-right: 0;float: right;" class="btn btn-default">Batal</button>
                     </div>
                     <div class="clearfix"></div>
                 </div>

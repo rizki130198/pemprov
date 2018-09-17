@@ -2,7 +2,7 @@
     <div class="text">
         {{ $message->message }}
     </div>
-    <a href="javascript:;" class="delete" onclick="deleteMessage({{ $message->id }})">Delete</a>
+    <a href="javascript:;" class="delete" onclick="deleteMessage({{ $message->id }})">Hapus</a>
     <small>{{ $message->created_at->format('d/m/Y H:i') }}</small>
 </div>
 <div class="clearfix"></div>

@@ -30,6 +30,21 @@ class EventController extends Controller
 		}
 		return false;
 	}
+	public function single(Request $request, $id){
+
+		$dataevent = Event::find($id);
+
+
+		if (!$dataevent) return redirect('/404');
+
+		$user = Auth::user();
+		$user_list = $user->messagePeopleList();
+		$comment_count = 2000000;
+
+		$update_all = $dataevent->comments()->where('seen', 0)->update(['seen' => 1]);
+
+		return view('events.postevent', compact('dataevent', 'user', 'comment_count','user_list'));
+	}
 
 	public function index()
 	{
@@ -64,10 +79,6 @@ class EventController extends Controller
 		$data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
 
 		return view('events.index', compact('user', 'data','user_list','comment_count'));
-	}
-	public function countEvent()
-	{
-		$data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
 	}
 	public function save(Request $request)
 	{
@@ -120,81 +131,83 @@ class EventController extends Controller
 		$response = array();
 		$response['code'] = 400;
 
-        if (!$this->secure($request->input('id'))) return redirect('/404');
+		if (!$this->secure($request->input('id'))) return redirect('/404');
 
-		$item = EventComment::where('id_events',$request->input('id'));
-		if (count($item) != 0 ) {
+		$item = EventComment::where('id_events',$request->input('id'))->count();
+		if ($item != 0 ) {
 			$item->delete();
 			$event = Event::find($request->input('id'));
 			if ($event->id_users == Auth::id()) {
 				$event->delete();
 				$response['code'] = 200;
+                $response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
 			}else{
 				$response['code'] = 400;			}
-		}else{
-			$event = Event::find($request->input('id'));
-			if ($event->id_users == Auth::id()) {
-				$event->delete();
-				$response['code'] = 200;
 			}else{
-				$response['code'] = 400;
-			}
-		}
-
-		return Response::json($response);
-
-	}
-	public function comment(Request $request){
-
-		$user = Auth::user();
-
-		$response = array();
-		$response['code'] = 400;
-
-		$dataevent = Event::find($request->input('id'));
-		$text = $request->input('komentar');
-
-
-
-		$comment = new EventComment();
-		$comment->id_events = $dataevent->id_events;
-		$comment->id_users = $user->id;
-		$comment->komentar = $text;
-		if ($comment->save()){
-			$response['code'] = 200;
-			$html = View::make('events.widgets.single_comment', compact('dataevent', 'comment'));
-			$response['comment'] = $html->render();
-			$html = View::make('events.widgets.comments_title', compact('dataevent', 'comment'));
-			$response['comments_title'] = $html->render();
-		}else{
-
-			$response['code'] = 400;
-		}
-
-		return Response::json($response);
-	}
-
-	public function deleteComment(Request $request){
-
-		$response = array();
-		$response['code'] = 400;
-
-		$dataevent = EventComment::find($request->input('id'));
-
-
-		if ($dataevent){
-			$post = $dataevent->post;
-			if ($dataevent->id_users == Auth::id() || $dataevent->post->id_users == Auth::id()) {
-				if ($dataevent->delete()) {
+				$event = Event::find($request->input('id'));
+				if ($event->id_users == Auth::id()) {
+					$event->delete();
 					$response['code'] = 200;
-					$html = View::make('events.widgets.comments_title', compact('dataevent'));
-					$response['comments_title'] = $html->render();
+               		$response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
+				}else{
+					$response['code'] = 400;
 				}
 			}
+
+			return Response::json($response);
+
+		}
+		public function comment(Request $request){
+
+			$user = Auth::user();
+
+			$response = array();
+			$response['code'] = 400;
+
+			$dataevent = Event::find($request->input('id'));
+			$text = $request->input('komentar');
+
+
+
+			$comment = new EventComment();
+			$comment->id_events = $dataevent->id_events;
+			$comment->id_users = $user->id;
+			$comment->komentar = $text;
+			if ($comment->save()){
+				$response['code'] = 200;
+				$html = View::make('events.widgets.single_comment', compact('dataevent', 'comment'));
+				$response['comment'] = $html->render();
+				$html = View::make('events.widgets.comments_title', compact('dataevent', 'comment'));
+				$response['comments_title'] = $html->render();
+			}else{
+
+				$response['code'] = 400;
+			}
+
+			return Response::json($response);
 		}
 
-		return Response::json($response);
-	}
+		public function deleteComment(Request $request){
 
-}
+			$response = array();
+			$response['code'] = 400;
+
+			$dataevent = EventComment::find($request->input('id'));
+
+
+			if ($dataevent){
+				$post = $dataevent->post;
+				if ($dataevent->id_users == Auth::id() || $dataevent->post->id_users == Auth::id()) {
+					if ($dataevent->delete()) {
+						$response['code'] = 200;
+						$html = View::make('events.widgets.comments_title', compact('dataevent'));
+						$response['comments_title'] = $html->render();
+					}
+				}
+			}
+
+			return Response::json($response);
+		}
+
+	}
 
