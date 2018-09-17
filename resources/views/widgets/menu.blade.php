@@ -3,7 +3,7 @@
     <ul class="menu-explore">
         <a href="{{ url('/') }}"><li class="{{ request()->is('home') ? 'active' : '' }}"><i class="fa fa-home" style="color: #339399;"></i>Home</li></a>
         <a href="{{ url('/events') }}">
-        	<li class="{{ request()->is('events') ? 'active' : '' }}"><i class="fa fa-calendar" style="color: #abc554;"></i>Events <span class="badge" style="float: right;background-color: #abc554;">{{sHelper::countevent()}}</span></li>
+        	<li class="{{ request()->is('events') ? 'active' : '' }}"><i class="fa fa-calendar" style="color: #abc554;"></i>Events <span class="hitung_event badge" style="float: right;background-color: #abc554;">{{sHelper::countevent()}}</span></li>
         </a>
         <a href="{{ url('/groups') }}"><li class="{{ Request::segment(1) == 'group' || Request::segment(1) == 'groups' ? 'active' : '' }}"><i class="fa fa-users" style="color:#e17e41;"></i>Groups</li></a>
         <a href="{{ url('/direct-messages') }}"><li class="{{ request()->is('direct-messages') ? 'active' : '' }}"><i class="fa fa-commenting" style="color: #d5483c;"></i>Direct Messages</li></a>

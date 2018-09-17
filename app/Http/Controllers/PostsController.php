@@ -132,7 +132,7 @@ class PostsController extends Controller
 
         return Response::json($response);
     }
- 
+
 
     public function like(Request $request){
 
@@ -262,7 +262,7 @@ class PostsController extends Controller
         if ($request->hasFile('image')){
             $validator_data['image.*'] = 'required|mimes:jpeg,jpg,png,gif';
         }else if($request->hasFile('file')){
-            $validator_data['file.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
+            $validator_data['file.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,docx,doc,pdf';
         }else{
             $validator_data['content'] = 'required';
         }
@@ -281,6 +281,7 @@ class PostsController extends Controller
 
             $imageupload = '';
             $fileupload = '';
+            $originaupload = '';
 
             if ($request->hasFile('image')) {
                 $post->has_image = 1;
@@ -288,28 +289,34 @@ class PostsController extends Controller
                 if (count($image) != 14) {
                   for ($i=0; $i < count($image); $i++) {
                     $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+                    $originalimage = $image[$i]->getClientOriginalName().',';
                     $imagestore = str_replace(',', '', $dataimage);
                     $image[$i]->storeAs('public/uploads/posts', $imagestore);
                     $imageupload .= $dataimage;
+                    $originaupload .= $originalimage;
 
                 }
                 $image_path = substr($imageupload, 0, -1);
+                $image_original = substr($originaupload, 0, -1);
             }else{
               $image_path = '';
           }
           $process = true;
       }else if($request->hasFile('file')){
-         $post->has_image = 1;
-         $file = $request->file('file');
-         if (count($file) != 14) {
+       $post->has_image = 1;
+       $file = $request->file('file');
+       if (count($file) != 14) {
           for ($i=0; $i < count($file); $i++) {
             $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
+            $originalfile = $file[$i]->getClientOriginalName().',';
             $filestore = str_replace(',', '', $datafile);
             $fileupload .= $datafile;
+            $originaupload .= $originalfile;
 
             $file[$i]->storeAs('public/uploads/posts', $filestore);
         }
         $database = substr($fileupload, 0, -1);
+        $originalcontent = substr($originaupload, 0, -1);
     }else{
         $database = '';
     }
@@ -324,8 +331,10 @@ if ($process){
             $post_image = new PostImage();
             if ($request->hasFile('file')) {
                 $post_image->file_path = $database;
+                $post_image->original_name = $originalcontent;
             }else if($request->hasFile('image')){
                 $post_image->image_path = $image_path;
+                $post_image->original_name = $image_original;
             }
             $post_image->post_id = $post->id;
             if ($post_image->save()){

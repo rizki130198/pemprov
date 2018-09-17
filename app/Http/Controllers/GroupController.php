@@ -238,6 +238,7 @@ public function deleteGrup($id)
         $delete = User_grup::where('id_groups',$id)->delete();
         if ($delete) {
             $deleteGrup = Grup::where('id_grup',$id)->delete();
+            $deletepostGrup = GrupPost::where('group_post_id',$id)->delete();
             $response['code'] = 200;
         }else{
             $response['code'] = 400;

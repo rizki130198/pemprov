@@ -140,6 +140,7 @@ class EventController extends Controller
 			if ($event->id_users == Auth::id()) {
 				$event->delete();
 				$response['code'] = 200;
+                $response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
 			}else{
 				$response['code'] = 400;			}
 			}else{
@@ -147,6 +148,7 @@ class EventController extends Controller
 				if ($event->id_users == Auth::id()) {
 					$event->delete();
 					$response['code'] = 200;
+               		$response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
 				}else{
 					$response['code'] = 400;
 				}

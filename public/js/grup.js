@@ -133,12 +133,14 @@ function previewPostgrupImage(input){
           '</li>');
   }
   document.getElementById('listimage').innerHTML = '<ul>' + output.join('') + '</ul>';
+  $('#lista').html('');
 }
 
 function removePostGrupFile(){
     var form_name = '#form-new-postgrup';
     $('#list').hide();
     resetFile($(form_name + ' .file-input'));
+    resetFile($('#lista'));
 }
 function uploadPostgrupFile(){
     var form_name = '#form-new-postgrup';
@@ -153,19 +155,21 @@ function previewPostgrupFile(input){
           '</li>');
   }
   document.getElementById('lista').innerHTML = '<ul>' + output.join('') + '</ul>';
+  $('#listimage').html('');
 }
 
 function removePostgrupImage(){
     var form_name = '#form-new-postgrup';
     $('#listimage').hide();
     resetFile($(form_name + ' .image-input'));
+    resetFile($('#listimage'));
 }
 
 function cleanPostgrupForm(){
     var form_name = '#form-new-postgrup';
     $(form_name + ' textarea').val('');
-    $('#lista').val('');
-    $('#listimage').val('');
+    $('#lista').html('');
+    $('#listimage').html('');
     removePostgrupImage();
     removePostGrupFile();
 }

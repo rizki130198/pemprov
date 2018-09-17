@@ -11,8 +11,8 @@
                 <img src="" />
             </div>
 
-            <output id="listimage"><p style="display: none;"></p></output>
-            <output id="list"><p style="display: none;"></p></output>
+            <output id="listimage"></output>
+            <output id="list"></output>
             <div class="row row-res" style="padding: 10px;">
                 <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostImage()" style="margin-left: 15px;">
                     <i class="fa fa-image"></i> Add Image

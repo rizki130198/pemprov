@@ -42,12 +42,14 @@ function previewPostImage(input){
           '</li>');
   }
   document.getElementById('listimage').innerHTML = '<ul>' + output.join('') + '</ul>';
+  $('#list').html('');
 }
 
 function removePostFile(){
     var form_name = '#form-new-post';
     $('#list').hide();
     resetFile($(form_name + ' .file-input'));
+    resetFile($('#list'));
 }
 function uploadPostFile(){
     var form_name = '#form-new-post';
@@ -62,6 +64,7 @@ function previewPostFile(input){
           '</li>');
   }
   document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  $('#listimage').html('');
 }
 
 function removePostImage(){
@@ -69,12 +72,14 @@ function removePostImage(){
     $(form_name + ' .image-area img').attr('src', " ");
     $(form_name + ' .image-area').hide();
     resetFile($(form_name + ' .image-input'));
+    resetFile($('#listimage'));
 }
 
 function cleanPostForm(){
     var form_name = '#form-new-post';
     $(form_name + ' textarea').val('');
-    $('#list').val('');
+    $('#listimage').html('');
+    $('#list').html('');
     removePostImage();
     removePostFile();
 }

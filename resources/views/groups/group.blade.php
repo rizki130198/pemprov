@@ -136,8 +136,8 @@
 
                         </div>
 
-                        <output id="listimage"><p style="display: none;"></p></output>
-                        <output id="list"><p style="display: none;"></p></output>
+                        <output id="listimage"></output>
+                        <output id="lista"></output>
                         <div class="row" style="padding: 10px;">
                             <button type="button" class="btn btn-default btn-add-image btn-sm" onclick="uploadPostgrupImage()" style="margin-left: 15px;">
                                 <i class="fa fa-image"></i> Add Image

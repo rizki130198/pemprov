@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use App\Models\EventComment;
-use App\Models\Gruppost;
+use App\Models\GrupPost;
 use App\Models\Post;
 use App\Models\GrupImage;
 use App\Models\GrupLike;
@@ -145,10 +145,10 @@ class SettingsController extends Controller
         if ($id == Auth::user()->id) {
             $delete_event = EventComment::where('id_users',$id)->delete();
             $delete_post = Post::where('user_id',$id)->delete();
-            $delete_gruppost = Gruppost::where('user_id',$id)->delete();
-            $delete_grupimage = GrupImage::where('id_user',$id)->delete();
-            $delete_grupimage = UserDirectMessage::where('sender_user_id',$id)->where('receiver_user_id',$id)->delete();
-            $delete_grupimage = GrupLike::where('like_user',$id)->delete();
+            $delete_gruppost = GrupPost::where('user_id',$id)->delete();
+            //$delete_grupimage = GrupImage::where('id_user',$id)->delete();
+            $delete_userdirect = UserDirectMessage::where('sender_user_id',$id)->orWhere('receiver_user_id',$id)->delete();
+            $delete_gruplike = GrupLike::where('like_user',$id)->delete();
             $delete = User::where('id',$id)->delete();
             return redirect(route('logout'));
         }else{

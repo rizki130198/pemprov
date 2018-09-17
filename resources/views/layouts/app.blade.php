@@ -205,7 +205,7 @@
             <li>
                 <a href="{{ url('/events') }}">
                     <i class="fa fa-calendar" style="background:#abc554;"></i>
-                    <span>Events</span>
+                    <span>Events</span><span class="hitung_event badge" style="float: right;background-color: #abc554;">{{sHelper::countevent()}}</span>
                 </a>
             </li>
             <li>
