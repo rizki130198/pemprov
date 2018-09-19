@@ -34,7 +34,6 @@ class EventController extends Controller
 
 		$dataevent = Event::find($id);
 
-
 		if (!$dataevent) return redirect('/404');
 
 		$user = Auth::user();
@@ -43,7 +42,9 @@ class EventController extends Controller
 
 		$update_all = $dataevent->comments()->where('seen', 0)->update(['seen' => 1]);
 
-		return view('events.postevent', compact('dataevent', 'user', 'comment_count','user_list'));
+		$data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
+
+		return view('events.postevent', compact('dataevent','data','user', 'comment_count','user_list'));
 	}
 
 	public function index()
