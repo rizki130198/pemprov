@@ -7,11 +7,13 @@ use App\Models\Country;
 use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\GrupComment;
+use App\Models\GrupPost;
 use App\Models\GrupLike;
 use App\Models\User;
 use App\Models\User_grup;
 use App\Models\UserFollowing;
 use App\Models\UserLocation;
+use App\Models\NotifGrup;
 use App\Models\Event;
 use App\Models\EventComment;
 use Auth;
@@ -94,7 +96,7 @@ class sHelper
 
     }
 
-    public static function notifications(){
+    public static function notifications($idgrup=null){
         if (self::$notifications == null){
             $notifications = [];
 
@@ -143,7 +145,23 @@ class sHelper
                 }
 
             }
-
+            $User_grup = User_grup::where('id_user',$user->id);
+            foreach ($User_grup->get() as $key) {
+                $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->orderBy('posts_grup.id_post_grup', 'DESC');
+            }
+            if ($postgrup->count() > 0){
+                foreach ($postgrup->get() as $postsgrup){
+                    $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
+                    $cekpost = NotifGrup::where('seen',0)->where('id_grup',$postsgrup->grup_post_id)->where('id_user',$user->id);
+                    if ($cekpost->count() < 1 ) {
+                        $notifications[] = [
+                            'url' => url('/postgrup/'.$postsgrup->grup_post_id),
+                            'icon' => 'fa-commenting',
+                            'text' => $ceknama->name.' left a comment on your post in grup.'
+                        ];
+                    }
+                }
+            }
             $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->join('users','users.id','=','grup_post_comments.comment_grup_user_id')
             ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
             if ($commentsgrup->count() > 0){
@@ -169,18 +187,18 @@ class sHelper
                 }
 
             }
-            if (Auth::user()->role == 'admin') {
-                $commentsnotif = EventComment::where('seen', 0)->with('user')->join('events', 'events.id_events', '=', 'event_coment.id_events')->join('users','users.id','=','event_coment.id_users')->where('event_coment.id_users', '!=', $user->id)->orderBy('event_coment.id', 'DESC');
-                if ($commentsnotif->count() > 0){
-                    foreach ($commentsnotif->get() as $commentnotif){
-                        $notifications[] = [
-                            'url' => url('/events/'.$commentnotif->id_events),
-                            'icon' => 'fa-commenting',
-                            'text' => $commentnotif->name.' left a comment on your Event.'
-                        ];
-                    }
+            // if (Auth::user()->role == 'admin') {
+            $commentsnotif = EventComment::where('seen', 0)->with('user')->join('events', 'events.id_events', '=', 'event_coment.id_events')->join('users','users.id','=','event_coment.id_users')->where('event_coment.id_users', '!=', $user->id)->orderBy('event_coment.id', 'DESC');
+            if ($commentsnotif->count() > 0){
+                foreach ($commentsnotif->get() as $commentnotif){
+                    $notifications[] = [
+                        'url' => url('/events/'.$commentnotif->id_events),
+                        'icon' => 'fa-commenting',
+                        'text' => $commentnotif->name.' left a comment on your Event.'
+                    ];
                 }
             }
+            // }
             self::$notifications = $notifications;
 
         }

@@ -381,6 +381,8 @@ if ($process){
             }
         }else{
             $response['code'] = 200;
+            sHelper::notifications($data['group_id']);
+
         }
     }
 }else{ 
