@@ -3,6 +3,19 @@ body {
   background: #f5f5f5;
   overflow-x: hidden;
 }
+.inner-container {
+ overflow-x: hidden;
+ overflow-y: scroll;
+ padding: 0;
+ width: 400px;
+ height:470px;
+}
+.inner-container::-webkit-scrollbar {
+ display: none;
+}
+.inner-container a li.list-group-item{
+  border-radius: 0;
+}
 .sidenav {
   height: 100%;
   width: 0;
