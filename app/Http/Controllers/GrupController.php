@@ -10,6 +10,7 @@ use App\Models\GrupLike;
 use App\Models\GrupComment;
 use App\Models\GrupImage;
 use App\Models\User_grup;
+use App\Models\NotifGrup;
 use App\Models\User;
 use Auth;
 use DB;
@@ -146,6 +147,34 @@ class GrupController extends Controller
 
 
 
+        return view('groups.post', compact('post', 'user', 'comment_count', 'can_see','user_list'));
+    }
+
+    public function singlepost(Request $request, $id){
+
+        // return dd($id);
+
+        $post = GrupPost::find($id);
+
+        if (!$post) return redirect('/404');
+
+        $user = Auth::user();
+        $user_list = $user->messagePeopleList();
+        $comment_count = 2000000;
+
+        if ($post->group_id == 0) {
+            $can_see = $post->user->canSeeProfile(Auth::id());
+            if (!$can_see) return redirect('/404');
+        }
+        $notif = NotifGrup::where('id_user',Auth::user()->id)->where('id_post',$id)->get()->first();
+        if ($notif == NULL) {
+            $insert = new NotifGrup();
+            $insert->id_grup = $post->group_post_id;
+            $insert->id_post = $id;
+            $insert->id_user = Auth::user()->id;
+            $insert->seen = 1;
+            $insert->save();
+        }
         return view('groups.post', compact('post', 'user', 'comment_count', 'can_see','user_list'));
     }
 

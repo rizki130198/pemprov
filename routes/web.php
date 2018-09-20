@@ -55,6 +55,7 @@ Route::post('/postgrups/gabung', 'GrupController@gabung');
 Route::post('/postgrups/comments/delete', 'GrupController@deleteComment');
 Route::post('/postgrups/tambah/{id}', 'GrupController@tambah');
 Route::get('/postgrup/{id}', 'GrupController@single');
+Route::get('/group/diskusi/postgrup/{id}', 'GrupController@singlepost');
 
 
 //events
