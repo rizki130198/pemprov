@@ -149,21 +149,20 @@ class sHelper
             $User_grup = User_grup::where('id_user',$user->id);
             foreach ($User_grup->get() as $key) {
                 $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->orderBy('posts_grup.id_post_grup', 'DESC');
-            }
-            if ($postgrup->count() > 0){
-                foreach ($postgrup->get() as $postsgrup){
-                    $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
-                    $cekpost = NotifGrup::where('seen',1)->join('posts_grup','posts_grup.id_post_grup','=','notif_grup.id_post')->where('posts_grup.user_id','!=',$user->id)->where('notif_grup.id_post',$postsgrup->id_post_grup)->where('notif_grup.id_user',$user->id);
-                    if ($cekpost->count() < 1) {
-                        $notifications[] = [
-                            'url' => url('group/diskusi/postgrup/'.$postsgrup->id_post_grup),
-                            'icon' => 'fa-commenting',
-                            'text' => $ceknama->name.'Grup.'
-                        ];
+                if ($postgrup->count() > 0){
+                    foreach ($postgrup->get() as $postsgrup){
+                        $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
+                        $cekpost = NotifGrup::where('seen',1)->join('posts_grup','posts_grup.id_post_grup','=','notif_grup.id_post')->where('posts_grup.user_id','!=',$user->id)->where('notif_grup.id_post',$postsgrup->id_post_grup)->where('notif_grup.id_user',$user->id);
+                        if ($cekpost->count() < 1) {
+                            $notifications[] = [
+                                'url' => url('group/diskusi/postgrup/'.$postsgrup->id_post_grup),
+                                'icon' => 'fa-commenting',
+                                'text' => $ceknama->name.'Grup.'
+                            ];
+                        }
                     }
                 }
             }
-
             $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->join('users','users.id','=','grup_post_comments.comment_grup_user_id')
             ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
             if ($commentsgrup->count() > 0){
