@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\GrupComment;
+use App\Models\Grup;
 use App\Models\GrupPost;
 use App\Models\GrupLike;
 use App\Models\User;
@@ -153,11 +154,12 @@ class sHelper
                     foreach ($postgrup->get() as $postsgrup){
                         $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
                         $cekpost = NotifGrup::where('seen',1)->join('posts_grup','posts_grup.id_post_grup','=','notif_grup.id_post')->where('posts_grup.user_id','!=',$user->id)->where('notif_grup.id_post',$postsgrup->id_post_grup)->where('notif_grup.id_user',$user->id);
+                        $cekgrup = Grup::where('id_grup',$key->id_groups)->get()->first();
                         if ($cekpost->count() < 1) {
                             $notifications[] = [
                                 'url' => url('group/diskusi/postgrup/'.$postsgrup->id_post_grup),
                                 'icon' => 'fa-commenting',
-                                'text' => $ceknama->name.'Grup.'
+                                'text' => $ceknama->name.' Membuat Postingan Di Grup '.$cekgrup->nama_grup
                             ];
                         }
                     }
@@ -188,7 +190,7 @@ class sHelper
                 }
 
             }
-            // if (Auth::user()->role == 'admin') {
+            
             $commentsnotif = EventComment::where('seen', 0)->with('user')->join('events', 'events.id_events', '=', 'event_coment.id_events')->join('users','users.id','=','event_coment.id_users')->where('event_coment.id_users', '!=', $user->id)->orderBy('event_coment.id', 'DESC');
             if ($commentsnotif->count() > 0){
                 foreach ($commentsnotif->get() as $commentnotif){
@@ -199,7 +201,6 @@ class sHelper
                     ];
                 }
             }
-            // }
             self::$notifications = $notifications;
 
         }

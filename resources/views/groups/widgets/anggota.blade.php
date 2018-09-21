@@ -198,8 +198,7 @@ h1 {
 						<i class="fa fa-ellipsis-h"></i>
 					</button>
 					<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="editAnggota" style="top: 33px;">
-						<li role="presentation"><a role="menuitem" href="javascript:;" onclick="" >Keluar dari Grup</a></li>
-						<li role="presentation"><a role="menuitem" href="javascript:;" onclick="" >Hapus sebagai Admin</a></li>
+						<li role="presentation"><a role="menuitem" href="javascript:;" onclick="keluargrup('{{$myuser->id_user}}','{{$myuser->id_groups}}')" >Keluar dari Grup</a></li>
 					</ul>
 					<div class="content-post">
 						@if($myuser->profile_path!=NULL)								
@@ -227,18 +226,12 @@ h1 {
 				<div class="col-md-6 col-anggota" style="width: 50%;">
 					<div class="panel-element">
 						<div class="element-content">
-							<button class="btn btn-more dropdown-toggle" id="editAnggota" data-toggle="dropdown" aria-expanded="true">
-								<i class="fa fa-ellipsis-h"></i>
-							</button>
 							@if($cekanggota->jabatan_grup=='admin')
 							<button class="btn btn-more dropdown-toggle" id="editAnggota" data-toggle="dropdown" aria-expanded="true">
 								<i class="fa fa-ellipsis-h"></i>
 							</button>
 							<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="editAnggota" style="top: 33px;">
-								@if ($admin->jabatan_grup!='admin')
-								<li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="javascript:;" onclick="createdadmin('{{$admin->id_user}}')">Jadikan admin Grup</a></li>
-								@endif
-								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="kickanggota('{{$admin->id_user}}')" >Hapus Anggota</a></li>
+								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="hapusadminanggota('{{$admin->id_user}}','{{$admin->id_groups}}')" >Hapus Status Admin</a></li>
 							</ul>
 							@endif
 							<div class="content-post">
@@ -275,9 +268,12 @@ h1 {
 							</button>
 							<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="editAnggota" style="top: 33px;">
 								@if ($member->jabatan_grup!='admin')
-								<li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="javascript:;" onclick="createdadmin('{{$member->id_user}}')">Jadikan admin Grup</a></li>
+								<li role="presentation" style="margin-bottom: 3px;"><a role="menuitem" href="javascript:;" onclick="createdadmin('{{$member->id_user}}','{{$member->id_groups}}')">Jadikan admin Grup</a></li>
+								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="kickanggota('{{$member->id_user}}','{{$member->id_groups}}')" >Hapus Anggota</a></li>
+								@else
+								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="hapusadminanggota('{{$member->id_user}}','{{$member->id_groups}}')" >Hapus Status Admin</a></li>
 								@endif
-								<li role="presentation"><a role="menuitem" href="javascript:;"onclick="kickanggota('{{$member->id_user}}')" >Hapus Anggota</a></li>
+
 							</ul>
 							@endif
 							<div class="content-post">
