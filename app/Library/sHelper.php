@@ -148,7 +148,7 @@ class sHelper
 
             $User_grup = User_grup::where('id_user',$user->id);
             foreach ($User_grup->get() as $key) {
-                $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->orderBy('posts_grup.id_post_grup', 'DESC');
+                $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->join('grup','grup.id_grup','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->orderBy('posts_grup.id_post_grup', 'DESC');
                 if ($postgrup->count() > 0){
                     foreach ($postgrup->get() as $postsgrup){
                         $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
@@ -156,8 +156,10 @@ class sHelper
                         if ($cekpost->count() < 1) {
                             $notifications[] = [
                                 'url' => url('group/diskusi/postgrup/'.$postsgrup->id_post_grup),
-                                'icon' => 'fa-commenting',
-                                'text' => $ceknama->name.'Grup.'
+                                'icon' => 'fa-users',
+                                'nama' => $ceknama->name,
+                                'text' => 'mengirimkan sesuatu di',
+                                'grup' => $postsgrup->nama_grup
                             ];
                         }
                     }

@@ -138,10 +138,19 @@
 
         @else
         @foreach(sHelper::notifications() as $notification)
-        <li>
-            <a href="{{ $notification['url'] }}">
-                <i class="fa {{ $notification['icon'] }}"></i> {{ $notification['text'] }}
-            </a>
+        <a href="{{ $notification['url'] }}" style="color: #555">
+            <li class="list-group-item">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object" width="48" height="48" src="https://upload.wikimedia.org/wikipedia/commons/3/38/Wikipedia_User-ICON_byNightsight.png" alt="">
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading" style="font-weight: bold;">{{ $notification['nama'] }} <span style="font-weight: 100;">{{ $notification['text'] }} </span><span>{{ $notification['grup'] }} </span></h5>
+                        <span><i class="fa {{ $notification['icon'] }}" style="background: #e17e41;color:#fff;padding: 4px;font-size: 12px;border-radius: 50px;"></i> 2h</span>
+                    </div>
+                </div>
+            </li>
+        </a>
         </li>
         @endforeach
         @endif
