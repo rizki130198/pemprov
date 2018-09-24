@@ -63,6 +63,7 @@ class GrupController extends Controller
                     $user_grup->id_groups = $grup->id_grup;
                     $user_grup->jabatan_grup = 'admin';
                     $user_grup->allow = '1';
+                    $user_grup->seen = '1';
 
                     $user_grup->save();
                 }else{
@@ -474,6 +475,7 @@ public function gabung(Request $request){
             $relation->id_user = $id_user;
             $relation->id_groups = $id_grup;
             $relation->allow = 1;
+            $relation->seen = 0;
             if ($relation->save()){
                 $response['code'] = 200;
                 $response['refresh'] = 1;

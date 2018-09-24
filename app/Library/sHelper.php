@@ -135,7 +135,7 @@ class sHelper
             }
 
             $likes = PostLike::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_likes.post_id')->join('users','users.id','=','post_likes.like_user_id')
-            ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->orderBy('post_likes.id', 'DESC');
+            ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->orderBy('post_likes.post_id', 'DESC');
             if ($likes->count() > 0){
                 foreach ($likes->get() as $likne){
                     $notifications[] = [
@@ -198,6 +198,18 @@ class sHelper
                         'url' => url('/events/'.$commentnotif->id_events),
                         'icon' => 'fa-commenting',
                         'text' => $commentnotif->name.' Meninggalkan Komentar di Event.'
+                    ];
+                }
+            }
+
+            $invitenotif = User_grup::where('seen', 0)->where('user_groups.id_user', '=', Auth::user()->id)->orderBy('user_groups.id', 'DESC');
+            if ($invitenotif->count() > 0){
+                foreach ($invitenotif->get() as $invitenotifs){
+                    $getgrup = Grup::where('id_grup',$invitenotifs->id_groups)->get()->first();
+                    $notifications[] = [
+                        'url' => url('/group/diskusi/'.$invitenotifs->id_groups),
+                        'icon' => 'fa-commenting',
+                        'text' => 'Anda Telah Bergabung Kedalam Grup '.$getgrup->nama_grup
                     ];
                 }
             }

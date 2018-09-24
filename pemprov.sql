@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2018 at 07:15 AM
+-- Generation Time: Sep 24, 2018 at 06:38 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -99,7 +99,8 @@ INSERT INTO `event_coment` (`id`, `id_users`, `id_events`, `komentar`, `seen`, `
 (9, 1, 5, 'Wkowkowko', 1, '2018-09-17 08:08:16', '2018-09-17 01:08:16'),
 (13, 1, 5, 'afafafa', 1, '2018-09-17 08:21:21', '2018-09-17 01:21:21'),
 (15, 1, 5, 'hahaha', 1, '2018-09-17 08:21:21', '2018-09-17 01:21:21'),
-(16, 1, 5, 'coman', 1, '2018-09-20 04:58:08', '2018-09-19 21:58:08');
+(16, 1, 5, 'coman', 1, '2018-09-20 04:58:08', '2018-09-19 21:58:08'),
+(17, 1, 5, 'gagaga', 1, '2018-09-21 07:57:46', '2018-09-21 00:57:46');
 
 -- --------------------------------------------------------
 
@@ -147,8 +148,8 @@ CREATE TABLE `grup` (
 --
 
 INSERT INTO `grup` (`id_grup`, `id_user`, `nama_grup`, `avatar`, `cover_grup`, `status_grup`) VALUES
-(2, 2, 'asasasa', '', '', 'public'),
-(3, 4, 'asasa', '', '', 'public');
+(1, 1, 'Hahahaha', '', '', 'public'),
+(2, 1, 'Jancok', '', '', 'public');
 
 -- --------------------------------------------------------
 
@@ -165,16 +166,6 @@ CREATE TABLE `grup_post_comments` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `seen` tinyint(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `grup_post_comments`
---
-
-INSERT INTO `grup_post_comments` (`id`, `grup_post_id`, `comment_grup_user_id`, `comment`, `created_at`, `updated_at`, `seen`) VALUES
-(1, 6, 2, 'asasasa', '2018-09-13 05:27:15', '2018-09-12 22:27:15', 1),
-(5, 9, 2, 'Bisa', '2018-09-14 04:25:06', '2018-09-13 21:25:06', 1),
-(6, 9, 2, 'lagi', '2018-09-14 04:25:06', '2018-09-13 21:25:06', 1),
-(7, 2, 1, 'asasasasa', '2018-09-19 12:34:47', '2018-09-19 12:34:47', 0);
 
 -- --------------------------------------------------------
 
@@ -334,11 +325,9 @@ CREATE TABLE `notif_grup` (
 --
 
 INSERT INTO `notif_grup` (`id_notif`, `id_grup`, `id_post`, `id_user`, `seen`) VALUES
-(1, 2, 8, 1, 1),
-(2, 2, 4, 2, 1),
-(3, 2, 1, 2, 1),
-(4, 2, 2, 2, 1),
-(5, 2, 6, 1, 1);
+(1, 1, 1, 2, 1),
+(2, 1, 2, 1, 1),
+(3, 1, 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -373,7 +362,9 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `user_id`, `group_id`, `has_image`, `content`, `created_at`, `updated_at`) VALUES
-(1, 1, 0, 1, '', '2018-09-16 23:19:42', '2018-09-16 23:19:42');
+(1, 1, 0, 1, '', '2018-09-16 23:19:42', '2018-09-16 23:19:42'),
+(2, 1, 0, 0, 'asasasasasa', '2018-09-20 05:23:20', '2018-09-20 05:23:20'),
+(3, 1, 0, 0, 'asasasasaas', '2018-09-21 02:29:04', '2018-09-21 02:29:04');
 
 -- --------------------------------------------------------
 
@@ -396,14 +387,9 @@ CREATE TABLE `posts_grup` (
 --
 
 INSERT INTO `posts_grup` (`id_post_grup`, `user_id`, `group_post_id`, `has_image`, `content`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 0, 'asasasa', '2018-09-17 07:02:07', '2018-09-17 07:02:07'),
-(2, 1, 2, 0, 'jkjkjk', '2018-09-19 19:33:02', '2018-09-19 19:33:02'),
-(3, 1, 2, 0, 'asasasa', '2018-09-19 19:34:56', '2018-09-19 19:34:56'),
-(4, 1, 2, 0, 'sasasasa', '2018-09-19 19:37:14', '2018-09-19 19:37:14'),
-(5, 2, 2, 0, 'sasasasa', '2018-09-19 20:09:43', '2018-09-19 20:09:43'),
-(6, 2, 2, 0, 'sasasasa', '2018-09-19 20:10:04', '2018-09-19 20:10:04'),
-(7, 2, 2, 0, 'sasasasa', '2018-09-19 20:11:07', '2018-09-19 20:11:07'),
-(8, 2, 2, 0, 'sasasasa', '2018-09-19 20:11:32', '2018-09-19 20:11:32');
+(1, 1, 1, 0, 'sasasa', '2018-09-20 12:24:07', '2018-09-20 12:24:07'),
+(2, 2, 1, 0, 'Hahaha', '2018-09-21 07:27:42', '2018-09-21 07:27:42'),
+(3, 2, 1, 0, 'dadada', '2018-09-21 07:47:40', '2018-09-21 07:47:40');
 
 -- --------------------------------------------------------
 
@@ -420,6 +406,13 @@ CREATE TABLE `post_comments` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `seen` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `post_comments`
+--
+
+INSERT INTO `post_comments` (`id`, `post_id`, `comment_user_id`, `comment`, `created_at`, `updated_at`, `seen`) VALUES
+(1, 3, 2, 'dadada', '2018-09-21 02:29:46', '2018-09-23 12:13:45', 1);
 
 -- --------------------------------------------------------
 
@@ -546,8 +539,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `private`, `birthday`, `sex`, `phone`, `bio`, `profile_path`, `username`, `role`, `groups`, `cover_path`) VALUES
-(1, 'Fahmi Fauzi', 'fauzifahmi55@gmail.com', '$2y$10$smFbadRM4NEmo2mCZ2IpSO4QW1K17l7vC9ShrlI/gGO5sCzcOhJNe', NULL, '2018-09-16 21:03:30', '2018-09-16 21:03:30', 0, NULL, 0, NULL, NULL, NULL, 'admin', 'admin', '', NULL),
-(2, 'Fahmi Fauzi1', 'fauzifahmi551@gmail.com', '$2y$10$INurBkW6Km/Ge7kcTnfJbuj4bvMZF44R2P6WblYWME2g1wIRzKd8q', 'tHhoMq7JXHaMA6WwdRSGEI4dyO0kczZEUVTvZ06eUJd2fQ2C26KhhHteHvfT', '2018-09-16 23:42:48', '2018-09-16 23:42:48', 0, NULL, 0, NULL, NULL, NULL, 'admin121', 'admin', '', NULL);
+(1, 'Fahmi Fauzi', 'fauzifahmi55@gmail.com', '$2y$10$smFbadRM4NEmo2mCZ2IpSO4QW1K17l7vC9ShrlI/gGO5sCzcOhJNe', 'Mp9QCvfMTxqisuVXtmkUqFb7RouN7G9Tw5IFSMEzbGYyichQ4zzcYEtYrLw7', '2018-09-16 21:03:30', '2018-09-16 21:03:30', 0, NULL, 0, NULL, NULL, NULL, 'admin', 'admin', '', NULL),
+(2, 'Fahmi Fauzi1', 'fauzifahmi551@gmail.com', '$2y$10$INurBkW6Km/Ge7kcTnfJbuj4bvMZF44R2P6WblYWME2g1wIRzKd8q', 'm72ENkLy3gYJfePpFliKVpl84Hw5XjZA2YYEuKJQgm0kkan55pRAjtRzwZJo', '2018-09-16 23:42:48', '2018-09-16 23:42:48', 0, NULL, 0, NULL, NULL, NULL, 'admin121', 'admin', '', NULL),
+(3, 'Fahmi Fauzi12', 'fauzifahmi5511@gmail.com', '$2y$10$INurBkW6Km/Ge7kcTnfJbuj4bvMZF44R2P6WblYWME2g1wIRzKd8q', 'H4SBIaJRs5zZRlpZ4FTO4FKcoq6blAnotqOrnTVtREPUViZOwz9sO81croLP', '2018-09-16 23:42:48', '2018-09-16 23:42:48', 0, NULL, 0, NULL, NULL, NULL, 'admin121', 'admin', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -580,6 +574,14 @@ CREATE TABLE `user_following` (
   `allow` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `user_following`
+--
+
+INSERT INTO `user_following` (`id`, `following_user_id`, `follower_user_id`, `allow`) VALUES
+(1, 2, 1, 1),
+(2, 1, 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -591,6 +593,7 @@ CREATE TABLE `user_groups` (
   `id_user` varchar(9) NOT NULL,
   `id_groups` varchar(9) NOT NULL,
   `jabatan_grup` enum('member','moderator','admin') NOT NULL,
+  `seen` tinyint(1) NOT NULL,
   `allow` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -598,10 +601,10 @@ CREATE TABLE `user_groups` (
 -- Dumping data for table `user_groups`
 --
 
-INSERT INTO `user_groups` (`id`, `id_user`, `id_groups`, `jabatan_grup`, `allow`) VALUES
-(2, '2', '2', 'admin', 1),
-(3, '4', '3', 'admin', 1),
-(4, '1', '2', 'member', 1);
+INSERT INTO `user_groups` (`id`, `id_user`, `id_groups`, `jabatan_grup`, `seen`, `allow`) VALUES
+(1, '1', '1', 'admin', 0, 1),
+(3, '1', '2', 'admin', 1, 1),
+(4, '2', '1', 'admin', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -866,7 +869,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `event_coment`
 --
 ALTER TABLE `event_coment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `friendships`
 --
@@ -881,12 +884,12 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `grup`
 --
 ALTER TABLE `grup`
-  MODIFY `id_grup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_grup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `grup_post_comments`
 --
 ALTER TABLE `grup_post_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `hobbies`
 --
@@ -906,22 +909,22 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `notif_grup`
 --
 ALTER TABLE `notif_grup`
-  MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `posts_grup`
 --
 ALTER TABLE `posts_grup`
-  MODIFY `id_post_grup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_post_grup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `post_comments`
 --
 ALTER TABLE `post_comments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `post_grup_images`
 --
@@ -941,7 +944,7 @@ ALTER TABLE `profiles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `user_direct_messages`
 --
@@ -951,7 +954,7 @@ ALTER TABLE `user_direct_messages`
 -- AUTO_INCREMENT for table `user_following`
 --
 ALTER TABLE `user_following`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user_groups`
 --

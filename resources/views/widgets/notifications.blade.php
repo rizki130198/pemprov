@@ -22,9 +22,6 @@
         <a href="{{ $notification['url'] }}" style="color: #555">
             <li class="list-group-item">
                 <div class="media">
-                    <div class="media-left">
-                        <img class="media-object" width="48" height="48" src="https://st3.depositphotos.com/2703645/15661/v/450/depositphotos_156610906-stock-illustration-male-user-avatar-icon.jpg" alt="">
-                    </div>
                     <div class="media-body">
                         <h5 class="media-heading" style="font-weight: bold;">{{ $notification['text'] }}</h5>
                         <span><i class="fa {{ $notification['icon'] }}" style="background: #5a90ff;color:#fff;padding: 4px;font-size: 12px;border-radius: 50px;"></i></span>

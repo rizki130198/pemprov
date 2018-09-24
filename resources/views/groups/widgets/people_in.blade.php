@@ -62,6 +62,7 @@ input[type=submit] {
   }
 }
 </style>
+@if($cekanggota->jabatan_grup=='admin')
 <div class="panel-follow" style="margin-top: 0;">
   <div class="panel-body" style="padding: 10px 20px;">
     <h5 style="color: #90949c;"><strong>TAMBAHKAN ANGGOTA</strong></h5> 
@@ -76,6 +77,7 @@ input[type=submit] {
    </form>
  </div>
 </div>
+@endif
 <div class="panel-follow">
   <div class="panel-body" style="padding: 10px 20px;">
     <h5 style="color: #90949c;"><strong>ANGGOTA</strong> <span class="pull-right" style="font-size: 14px;margin-top: 3px;"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">{{$anggota->count()}}</a></span></h5>
@@ -86,6 +88,7 @@ input[type=submit] {
     <img style="display: inline-block;margin-right: 3px;border-radius: 50%;" class="m3dia-object" src="{{ url('images/profile-picture.png') }}" alt="{{$member->username}}" width="48px" height="48px">
     @endif
     @endforeach
+    @if($cekanggota->jabatan_grup=='admin')
     <hr>
     <h5 style="color: #90949c;"><strong>SARAN ANGGOTA</strong></h5>
     @foreach(Auth::user()->suggestedPeopleGrup(3,$group->id_grup) as $user)
@@ -105,6 +108,7 @@ input[type=submit] {
       </div>
     </div>
     @endforeach
+    @endif
     <!-- <center style="margin-top: 10px;"><a href="">Liat Selengkapnya</a></center> -->
   </div>
 </div>
