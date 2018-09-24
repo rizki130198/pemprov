@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\GrupComment;
+use App\Models\Grup;
 use App\Models\GrupPost;
 use App\Models\GrupLike;
 use App\Models\User;
@@ -107,7 +108,10 @@ class sHelper
                 $notifications[] = [
                     'url' => url('/followers/pending'),
                     'icon' => 'fa-user-plus',
-                    'text' => $followers.' follower requests'
+                    'color' => 'icon-like',
+                    'nama' => $followers,
+                    'text' => 'follower requests',
+                    'grup' => ''
                 ];
             }
 
@@ -126,21 +130,27 @@ class sHelper
                 foreach ($comments->get() as $comment){
                     $notifications[] = [
                         'url' => url('/post/'.$comment->post_id),
-                        'icon' => 'fa-commenting',
-                        'text' => $comment->name.' left a comment on your post.'
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $comment->name,
+                        'text' => 'mengomentari kiriman anda',
+                        'grup' => str_limit($comment->comment, 25)
                     ];
                 }
 
             }
 
             $likes = PostLike::where('seen', 0)->with('user')->join('posts', 'posts.id', '=', 'post_likes.post_id')->join('users','users.id','=','post_likes.like_user_id')
-            ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->orderBy('post_likes.id', 'DESC');
+            ->where('posts.user_id', $user->id)->where('like_user_id', '!=', $user->id)->orderBy('post_likes.post_id', 'DESC');
             if ($likes->count() > 0){
                 foreach ($likes->get() as $likne){
                     $notifications[] = [
                         'url' => url('/post/'.$likne->post_id),
-                        'icon' => 'fa-heart',
-                        'text' => $likne->name.' liked your post.'
+                        'icon' => 'fa-thumbs-up',
+                        'color' => 'icon-like',
+                        'nama' => $likne->name,
+                        'text' => 'menyukai kiriman anda',
+                        'grup' => ''
                     ];
                 }
 
@@ -153,13 +163,15 @@ class sHelper
                     foreach ($postgrup->get() as $postsgrup){
                         $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
                         $cekpost = NotifGrup::where('seen',1)->join('posts_grup','posts_grup.id_post_grup','=','notif_grup.id_post')->where('posts_grup.user_id','!=',$user->id)->where('notif_grup.id_post',$postsgrup->id_post_grup)->where('notif_grup.id_user',$user->id);
+                        $cekgrup = Grup::where('id_grup',$key->id_groups)->get()->first();
                         if ($cekpost->count() < 1) {
                             $notifications[] = [
                                 'url' => url('group/diskusi/postgrup/'.$postsgrup->id_post_grup),
                                 'icon' => 'fa-users',
+                                'color' => 'icon-group',
                                 'nama' => $ceknama->name,
-                                'text' => 'mengirimkan sesuatu di',
-                                'grup' => $postsgrup->nama_grup
+                                'text' => 'mengirimkan sesuatu di grup',
+                                'grup' => $cekgrup->nama_grup
                             ];
                         }
                     }
@@ -171,8 +183,12 @@ class sHelper
                 foreach ($commentsgrup->get() as $commentgrup){
                     $notifications[] = [
                         'url' => url('/postgrup/'.$commentgrup->grup_post_id),
-                        'icon' => 'fa-commenting',
-                        'text' => $commentgrup->name.' left a comment on your post in grup.'
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $commentgrup->name,
+                        'text' => 'mengomentari kiriman anda di grup',
+                        'grup' => ''
+
                     ];
                 }
 
@@ -184,24 +200,29 @@ class sHelper
                 foreach ($likesgrup->get() as $likegrup){
                     $notifications[] = [
                         'url' => url('/postgrup/'.$likegrup->grup_post_id),
-                        'icon' => 'fa-heart',
-                        'text' => $likegrup->name.' liked your post in grup.'
+                        'icon' => 'fa-thumbs-up',
+                        'color' => 'icon-like',
+                        'nama' => $commentgrup->name,
+                        'text' => 'menyukai kiriman anda di grup',
+                        'grup' => $likegrup->nama_grup
                     ];
                 }
 
             }
-            // if (Auth::user()->role == 'admin') {
+            
             $commentsnotif = EventComment::where('seen', 0)->with('user')->join('events', 'events.id_events', '=', 'event_coment.id_events')->join('users','users.id','=','event_coment.id_users')->where('event_coment.id_users', '!=', $user->id)->orderBy('event_coment.id', 'DESC');
             if ($commentsnotif->count() > 0){
                 foreach ($commentsnotif->get() as $commentnotif){
                     $notifications[] = [
                         'url' => url('/events/'.$commentnotif->id_events),
-                        'icon' => 'fa-commenting',
-                        'text' => $commentnotif->name.' Meninggalkan Komentar di Event.'
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $commentnotif->name,
+                        'text' => 'Meninggalkan Komentar di Event',
+                        'grup' => $commentnotif->nama_event
                     ];
                 }
             }
-            // }
             self::$notifications = $notifications;
 
         }

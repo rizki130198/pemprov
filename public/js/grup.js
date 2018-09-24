@@ -587,7 +587,7 @@ function hapusgrup(id){
         }]
     });
 }
-function kickanggota(id){
+function kickanggota(id,idgrup){
     BootstrapDialog.show({
         title: 'Keluarkan Anggota!',
         message: 'Yakin Keluarkan Anggota ?',
@@ -596,7 +596,7 @@ function kickanggota(id){
             cssClass: 'btn-danger',
             action: function(dialog) {
                 $.ajax({
-                    url: BASE_URL+'/group/delete/member/'+id,
+                    url: BASE_URL+'/group/delete/member/'+id+'/'+idgrup,
                     type: "POST",
                     timeout: 5000,
                     contentType: false,
@@ -626,7 +626,85 @@ function kickanggota(id){
         }]
     });
 }
-function createdadmin(id){
+function hapusadminanggota(id,idgrup){
+    BootstrapDialog.show({
+        title: 'Turunkan Status Admin!',
+        message: 'Yakin Turunkan Status Admin ?',
+        buttons: [{
+            label: "Kamu yakin ?",
+            cssClass: 'btn-danger',
+            action: function(dialog) {
+                $.ajax({
+                    url: BASE_URL+'/group/delete/hapusadmin/'+id+'/'+idgrup,
+                    type: "POST",
+                    timeout: 5000,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    headers: {'X-CSRF-TOKEN': CSRF},
+                    success: function(response){
+                        if (response.code == 200){
+                            location.reload();
+                        }else{
+                            $('#errorMessageModal').modal('show');
+                            $('#errorMessageModal #errors').html(response.message);
+                        }
+                    },
+                    error: function(){
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html('Something went wrong!');
+                    }
+                });
+
+            }
+        }, {
+            label: 'No!',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }]
+    });
+}
+function keluargrup(id,idgrup){
+    BootstrapDialog.show({
+        title: 'Ingin Keluar dari Grup!',
+        message: 'Yakin Ingin Keluar dari Grup ?',
+        buttons: [{
+            label: "Kamu yakin ?",
+            cssClass: 'btn-danger',
+            action: function(dialog) {
+                $.ajax({
+                    url: BASE_URL+'/group/leavegrup/'+id+'/'+idgrup,
+                    type: "POST",
+                    timeout: 5000,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    headers: {'X-CSRF-TOKEN': CSRF},
+                    success: function(response){
+                        if (response.code == 200){
+                            window.location = "/groups";
+                        }else{
+                            $('#errorMessageModal').modal('show');
+                            $('#errorMessageModal #errors').html(response.message);
+                        }
+                    },
+                    error: function(){
+                        $('#errorMessageModal').modal('show');
+                        $('#errorMessageModal #errors').html('Something went wrong!');
+                    }
+                });
+
+            }
+        }, {
+            label: 'No!',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }]
+    });
+}
+function createdadmin(id,idgrup){
     BootstrapDialog.show({
         title: 'Jadikan Admin!',
         message: 'Yakin Jadikan Admin ?',
@@ -635,7 +713,7 @@ function createdadmin(id){
             cssClass: 'btn-danger',
             action: function(dialog) {
                 $.ajax({
-                    url: BASE_URL+'/group/addadmin/'+id,
+                    url: BASE_URL+'/group/addadmin/'+id+'/'+idgrup,
                     type: "POST",
                     timeout: 5000,
                     contentType: false,

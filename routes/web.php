@@ -83,8 +83,10 @@ Route::post('/group/likes', 'GroupController@likes');
 Route::post('/group/comment', 'GroupController@comment');
 Route::post('/group/comments/delete', 'GroupController@deleteComment');
 Route::post('/group/delete/{id}', 'GroupController@deleteGrup');
-Route::post('/group/delete/member/{id}', 'GroupController@deleteMemberGrup');
-Route::post('/group/addadmin/{id}', 'GroupController@addAdmin');
+Route::post('/group/delete/member/{id}/{string}', 'GroupController@deleteMemberGrup');
+Route::post('/group/delete/hapusadmin/{id}/{string}', 'GroupController@deleteAdminGrup');
+Route::post('/group/addadmin/{id}/{string}', 'GroupController@addAdmin');
+Route::post('/group/leavegrup/{id}/{string}', 'GroupController@leaveGrup');
 Route::post('upload/cover_grup/{id}', 'GroupController@uploadCover');
 
 

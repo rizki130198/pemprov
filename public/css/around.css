@@ -10,6 +10,34 @@ body {
  width: 400px;
  height:470px;
 }
+.icon-like{
+  background: #5a90ff;
+  color:#fff;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 50px;
+}
+.icon-comment{
+  background: #fac959;
+  color:#fff;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 50px;
+}
+.icon-group{
+  background: #e17e41;
+  color:#fff;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 50px;
+}
+.icon-event{
+  background: #abc554;
+  color:#fff;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 50px;
+}
 .inner-container::-webkit-scrollbar {
  display: none;
 }
