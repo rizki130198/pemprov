@@ -108,7 +108,10 @@ class sHelper
                 $notifications[] = [
                     'url' => url('/followers/pending'),
                     'icon' => 'fa-user-plus',
-                    'text' => $followers.' follower requests'
+                    'color' => 'icon-like',
+                    'nama' => $followers,
+                    'text' => 'follower requests',
+                    'grup' => ''
                 ];
             }
 
@@ -127,8 +130,11 @@ class sHelper
                 foreach ($comments->get() as $comment){
                     $notifications[] = [
                         'url' => url('/post/'.$comment->post_id),
-                        'icon' => 'fa-commenting',
-                        'text' => $comment->name.' left a comment on your post.'
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $comment->name,
+                        'text' => 'mengomentari kiriman anda',
+                        'grup' => str_limit($comment->comment, 25)
                     ];
                 }
 
@@ -140,8 +146,11 @@ class sHelper
                 foreach ($likes->get() as $likne){
                     $notifications[] = [
                         'url' => url('/post/'.$likne->post_id),
-                        'icon' => 'fa-heart',
-                        'text' => $likne->name.' liked your post.'
+                        'icon' => 'fa-thumbs-up',
+                        'color' => 'icon-like',
+                        'nama' => $likne->name,
+                        'text' => 'menyukai kiriman anda',
+                        'grup' => ''
                     ];
                 }
 
@@ -149,7 +158,7 @@ class sHelper
 
             $User_grup = User_grup::where('id_user',$user->id);
             foreach ($User_grup->get() as $key) {
-                $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->orderBy('posts_grup.id_post_grup', 'DESC');
+                $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->join('grup','grup.id_grup','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->orderBy('posts_grup.id_post_grup', 'DESC');
                 if ($postgrup->count() > 0){
                     foreach ($postgrup->get() as $postsgrup){
                         $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
@@ -158,8 +167,11 @@ class sHelper
                         if ($cekpost->count() < 1) {
                             $notifications[] = [
                                 'url' => url('group/diskusi/postgrup/'.$postsgrup->id_post_grup),
-                                'icon' => 'fa-commenting',
-                                'text' => $ceknama->name.' Membuat Postingan Di Grup '.$cekgrup->nama_grup
+                                'icon' => 'fa-users',
+                                'color' => 'icon-group',
+                                'nama' => $ceknama->name,
+                                'text' => 'mengirimkan sesuatu di grup',
+                                'grup' => $cekgrup->nama_grup
                             ];
                         }
                     }
@@ -171,8 +183,12 @@ class sHelper
                 foreach ($commentsgrup->get() as $commentgrup){
                     $notifications[] = [
                         'url' => url('/postgrup/'.$commentgrup->grup_post_id),
-                        'icon' => 'fa-commenting',
-                        'text' => $commentgrup->name.' left a comment on your post in grup.'
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $commentgrup->name,
+                        'text' => 'mengomentari kiriman anda di grup',
+                        'grup' => ''
+
                     ];
                 }
 
@@ -184,8 +200,11 @@ class sHelper
                 foreach ($likesgrup->get() as $likegrup){
                     $notifications[] = [
                         'url' => url('/postgrup/'.$likegrup->grup_post_id),
-                        'icon' => 'fa-heart',
-                        'text' => $likegrup->name.' liked your post in grup.'
+                        'icon' => 'fa-thumbs-up',
+                        'color' => 'icon-like',
+                        'nama' => $commentgrup->name,
+                        'text' => 'menyukai kiriman anda di grup',
+                        'grup' => $likegrup->nama_grup
                     ];
                 }
 
@@ -196,8 +215,11 @@ class sHelper
                 foreach ($commentsnotif->get() as $commentnotif){
                     $notifications[] = [
                         'url' => url('/events/'.$commentnotif->id_events),
-                        'icon' => 'fa-commenting',
-                        'text' => $commentnotif->name.' Meninggalkan Komentar di Event.'
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $commentnotif->name,
+                        'text' => 'Meninggalkan Komentar di Event',
+                        'grup' => $commentnotif->nama_event
                     ];
                 }
             }
