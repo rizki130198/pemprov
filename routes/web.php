@@ -28,6 +28,8 @@ Route::post('/settings', array(
 ));
 Route::post('/delete/akun/{id}', 'SettingsController@delete');
 
+// News
+Route::get('/news', 'NewsController@index');
 
 // Posts
 Route::get('/posts/list', 'PostsController@fetch');

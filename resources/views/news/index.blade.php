@@ -24,20 +24,19 @@
         </div>
         <div class="col-xs-12 col-md-3 pull-right" style="padding-right: 0;">
             <div class="hidden-sm hidden-xs">
-                @include('news.widgets.news')
                 @include('widgets.suggested_people')
             </div>
         </div>
         <div class="col-md-6 col-md-offset-3 col-xs-12">
-            @include('widgets.wall')
+            @include('news.widgets.wall')
         </div>
     </div>
 </div>    
 @endsection
 
 @section('footer')
-<script type="text/javascript">
-    WALL_ACTIVE = true;
-    fetchPost(0,0,0,10,-1,-1,'initialize');
+<script type="text/javascript" src="//nightly.ckeditor.com/17-08-18-06-04/standard/ckeditor.js"></script>
+<script>
+	CKEDITOR.replace('isi');
 </script>
 @endsection

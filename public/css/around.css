@@ -3,6 +3,57 @@ body {
   background: #f5f5f5;
   overflow-x: hidden;
 }
+.double-line-news {
+    width: 18%;
+    /*margin: 15px auto;*/
+    position: relative;
+    border-bottom: solid 3px #dedfe1;
+    /*margin-bottom: 53px;*/
+}
+.double-line-news:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0px;
+    bottom: -3px;
+    margin-left: 0;
+    margin-top: 0px;
+    width: 25px;
+    background: #fac959;
+    z-index: 0;
+}
+.double-line-populer {
+    width: 15%;
+    /*margin: 15px auto;*/
+    position: relative;
+    margin-top: -5px;
+    border-bottom: solid 3px #dedfe1;
+    margin-bottom: 10px;
+}
+.double-line-populer:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0px;
+    bottom: -3px;
+    margin-left: 0;
+    margin-top: 0px;
+    width: 50px;
+    background: #fac959;
+    z-index: 0;
+}
+span.news-date:before{
+    position: absolute;
+    content: "";
+    font-size: 30px;
+    width: 4px;
+    height: 4px;
+    margin-top: 7px;
+    border-radius: 100%;
+    background-color: #000;
+}
 .inner-container {
  overflow-x: hidden;
  overflow-y: scroll;
