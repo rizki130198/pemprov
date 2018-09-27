@@ -1,6 +1,3 @@
-/**
- * Created by lvntayn on 04/06/2017.
- */
  $(function() {
     if (WALL_ACTIVE) {
         $('.new-postgrup-box textarea, .panel-postgrup .postgrup-write-comment textarea').each(function () {
