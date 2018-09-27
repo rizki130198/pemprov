@@ -849,6 +849,20 @@ span.news-date:before{
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);
   overflow: hidden;
 }   
+.btn-like-komen{
+  background-color: transparent;
+  background:none;
+  border: none;
+  margin-top: 5px;
+  padding: 0;
+}
+.btn-like-komen a:hover{
+  color: #4990E2 !important;
+}
+.btn-like-komen:hover{
+  background-color: transparent !important;
+  background: none !important;
+}
 .btn-follow{
   background-color: transparent;
   border: solid 1px #ddd;
