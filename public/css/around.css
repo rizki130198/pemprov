@@ -1587,6 +1587,14 @@ span.news-date:before{
     width: 25px;
     height: 25px;
   }
+  .new-post-box .loading-news {
+    display: none;
+  }
+
+  .new-post-box .loading-news img {
+    width: 25px;
+    height: 25px;
+  }
 
   .new-post-box .image-area {
     text-align: center;

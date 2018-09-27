@@ -120,7 +120,10 @@ class sHelper
                 $notifications[] = [
                     'url' => url('/relatives/pending'),
                     'icon' => 'fa-user-circle-o',
-                    'text' => $relatives.' relatives requests'
+                    'color' => 'icon-like',
+                    'nama' => '',
+                    'text' => $relatives.' relatives requests',
+                    'grup' => ''
                 ];
             }
 
@@ -231,7 +234,10 @@ class sHelper
                     $notifications[] = [
                         'url' => url('/group/diskusi/'.$invitenotifs->id_groups),
                         'icon' => 'fa-commenting',
-                        'text' => 'Anda Telah Bergabung Kedalam Grup '.$getgrup->nama_grup
+                        'nama' => '',
+                        'color' => 'icon-comment',
+                        'text' => 'Anda Telah Bergabung Kedalam Grup '.$getgrup->nama_grup,
+                        'grup' => ''
                     ];
                 }
             }

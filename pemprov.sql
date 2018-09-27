@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2018 at 06:38 AM
+-- Generation Time: Sep 27, 2018 at 05:52 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -292,6 +292,22 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `news_comment`
+--
+
+CREATE TABLE `news_comment` (
+  `id_comment` int(11) NOT NULL,
+  `id_news` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `comment` text NOT NULL,
+  `seen` tinyint(4) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `notifications`
 --
 
@@ -496,6 +512,33 @@ CREATE TABLE `post_likes` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `post_news`
+--
+
+CREATE TABLE `post_news` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `cover` varchar(250) NOT NULL,
+  `judul` varchar(150) NOT NULL,
+  `isi` text NOT NULL,
+  `seen` varchar(250) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `post_news`
+--
+
+INSERT INTO `post_news` (`id`, `user_id`, `cover`, `judul`, `isi`, `seen`, `tanggal`, `created_at`, `updated_at`) VALUES
+(1, 1, '', 'asasa', '<p>asasaasasa</p>', '0', '2018-09-27 03:36:37', '2018-09-26 20:36:37', '2018-09-26 20:36:37'),
+(2, 1, '', 'asa', '<p><strong>asaasa</strong></p>', '0', '2018-09-27 03:39:13', '2018-09-26 20:39:13', '2018-09-26 20:39:13'),
+(3, 1, 'd8c072b91803001e2d15f36a9abcf0bb.JPG', 'asasaasaasdasd', '<p>aasasa</p>', '0', '2018-09-27 03:39:48', '2018-09-26 20:39:48', '2018-09-26 20:39:48');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `profiles`
 --
 
@@ -602,7 +645,7 @@ CREATE TABLE `user_groups` (
 --
 
 INSERT INTO `user_groups` (`id`, `id_user`, `id_groups`, `jabatan_grup`, `seen`, `allow`) VALUES
-(1, '1', '1', 'admin', 0, 1),
+(1, '1', '1', 'admin', 1, 1),
 (3, '1', '2', 'admin', 1, 1),
 (4, '2', '1', 'admin', 1, 1);
 
@@ -721,6 +764,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `news_comment`
+--
+ALTER TABLE `news_comment`
+  ADD PRIMARY KEY (`id_comment`);
+
+--
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
@@ -788,6 +837,12 @@ ALTER TABLE `post_images`
 ALTER TABLE `post_likes`
   ADD PRIMARY KEY (`post_id`,`like_user_id`),
   ADD KEY `post_likes_like_user_id_foreign` (`like_user_id`);
+
+--
+-- Indexes for table `post_news`
+--
+ALTER TABLE `post_news`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `profiles`
@@ -906,6 +961,11 @@ ALTER TABLE `jobs`
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
+-- AUTO_INCREMENT for table `news_comment`
+--
+ALTER TABLE `news_comment`
+  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `notif_grup`
 --
 ALTER TABLE `notif_grup`
@@ -935,6 +995,11 @@ ALTER TABLE `post_grup_images`
 --
 ALTER TABLE `post_images`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `post_news`
+--
+ALTER TABLE `post_news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `profiles`
 --
