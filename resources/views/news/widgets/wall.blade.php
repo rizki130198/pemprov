@@ -1,5 +1,5 @@
 <div class="clearfix"></div>
-@if($user->id == Auth::user()->id)
+@if($user->id == Auth::user()->id AND $user->role == 'admin')
 <div class="new-post-box">
     <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
         <form action="/news/new" id="form-news" method="post" enctype="multipart/form-data" accept-charset="utf-8">
