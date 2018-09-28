@@ -101,7 +101,7 @@ class NewsController extends Controller
 		if ($getdata != null) {
 			return view('news.single', compact('user','user_list','getdata'));
 		}else{
-			return redirect('news')->with('success','Data Yang anda Cari tidak di temukan')
+			return redirect('news')->with('false','Data Yang anda Cari tidak di temukan');
 		}
 	}
 }	
