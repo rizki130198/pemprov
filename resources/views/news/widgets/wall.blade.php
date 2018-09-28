@@ -6,7 +6,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;"><i class="glyphicon glyphicon-pencil"></i> Buat Postingan Berita</div>
             <div class="panel-body">
-                <input style="min-height: auto;" type="text" name="judul" class="form-control" placeholder="Judul Berita">
+                <input required style="min-height: auto;" type="text" name="judul" class="form-control" placeholder="Judul Berita">
             </div>
             <textarea id="isi" class="form-control text-post" name="content" placeholder="Ada Berita Terbaru Apa, {{ Auth::user()->name }}?" style="resize:none;"></textarea>
             <div class="image-area">
@@ -38,8 +38,10 @@
         @foreach($news->get() as $berita)
         <div class="media" style="border-bottom:solid 1px #ddd">
             <div class="media-left">
-                <?php $ganti = str_replace(' ', '-', $berita->judul) ?>
-                <a href="baca/{{$ganti}}">
+                <?php 
+                    $ganti = str_replace(' ', '-',$berita->judul);
+                ?>
+                <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">
                     @if($berita->cover == NULL)
                     <img class="media-object" src="https://img.jakpost.net/c/2018/09/25/2018_09_25_54629_1537810669._thumbnail.jpg" alt="" width="120" height="120" style="border-radius: 5%;padding: 3px;margin-bottom: 10px;border: 1px solid #ddd;">
                     @else
@@ -48,7 +50,7 @@
                 </a>
             </div>
             <div class="media-body">
-                <a href="baca/{{$ganti}}" style="text-decoration: none;color: #555;"><h4 class="media-heading" style="font-weight: bold;margin-top: 7px;">{{$berita->judul}}</h4></a>
+                <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}" style="text-decoration: none;color: #555;"><h4 class="media-heading" style="font-weight: bold;margin-top: 7px;">{{$berita->judul}}</h4></a>
                 <p style="margin-top: 10px;font-size: 14px;border-left:solid 2px #d5483c;height: 15px;line-height: 15px;padding-left: 5px;">
                     {{$berita->name}} / {{$berita->tanggal}}
                 </p>

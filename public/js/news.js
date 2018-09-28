@@ -170,11 +170,11 @@ function likenews(id){
     });
 }
 
-function submitCommentgrup(id){
+function commentnews(id){
 
     var data = new FormData();
     data.append('id', id);
-    var comment = $('#panel-news-'+id+' #form-new-comment-grup textarea').val();
+    var comment = $('#news_comment textarea').val();
     data.append('comment', comment);
 
     if (comment.trim() == ''){
@@ -192,9 +192,9 @@ function submitCommentgrup(id){
             headers: {'X-CSRF-TOKEN': CSRF},
             success: function (response) {
                 if (response.code == 200) {
-                    $('#panel-news-'+id+' #form-new-comment-grup textarea').val("");
-                    $('#panel-news-'+id+' .comments-title-grup').html(response.comments_title);
-                    $('#panel-news-'+id+' .news-comments-grup').append(response.comment);
+                    $('#panel-news-'+id+' #news_comment textarea').val("");
+                    $('#panel-news-'+id+' .comments-nama-news').html(response.nama);
+                    $('#panel-news-'+id+' .news-comments').append(response.comment);
                 } else {
                     $('#errorMessageModal').modal('show');
                     $('#errorMessageModal #errors').html('Something went wrong!');
