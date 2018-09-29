@@ -160,9 +160,8 @@ class NewsController extends Controller
 
 		return Response::json($response);
 	}
-	public function deletenews(Request $request,$id)
+	public function deletenews($id)
 	{
-
 		$user = Auth::user();
 
 		$response = array();

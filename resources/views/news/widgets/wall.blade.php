@@ -1,3 +1,17 @@
+<style type="text/css">
+.btn-more {
+    width: 33px;
+    height: 30px;
+    background-color: #eee;
+}
+.btn-more > i {
+    font-size: 16px;
+    color: #929292;
+}
+.btn-more:hover {
+    background-color: #F9F9F9;
+}
+</style>
 <div class="clearfix"></div>
 @if($user->id == Auth::user()->id AND $user->role == 'admin')
 <div class="new-post-box">
@@ -37,9 +51,17 @@
     <div class="panel-body">
         @foreach($news->get() as $berita)
         <div class="media" style="border-bottom:solid 1px #ddd">
+            <div class="dropdown">
+                <button class="btn btn-more dropdown-toggle pull-right" id="deleteNews" data-toggle="dropdown" aria-expanded="true">
+                    <i class="fa fa-ellipsis-h"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="deleteNews" style="top: 33px;">
+                    <li role="presentation"><a role="menuitem" href="javascript:;" onclick="deletenews({{ $berita->id }})">Hapus Berita</a></li>
+                </ul>
+            </div>  
             <div class="media-left">
                 <?php 
-                    $ganti = str_replace(' ', '-',$berita->judul);
+                $ganti = str_replace(' ', '-',$berita->judul);
                 ?>
                 <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">
                     @if($berita->cover == NULL)
