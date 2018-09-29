@@ -134,31 +134,66 @@ class NewsController extends Controller
 			return redirect('news')->with('false','Data Yang anda Cari tidak di temukan');
 		}
 	}
-	 public function newscomment(Request $request,$id){
+	public function newscomment(Request $request,$id){
 
-        $user = Auth::user();
+		$user = Auth::user();
 
-        $response = array();
-        $response['code'] = 400;
+		$response = array();
+		$response['code'] = 400;
 
-        $getdata = News::find($id);
-        $text = $request->input('content');
+		$getdata = News::find($id);
+		$text = $request->input('content');
 
-        if ($getdata && !empty($text)){
+		if ($getdata && !empty($text)){
 
-            $getcomment = new News_Comment();
-            $getcomment->id_news = $getdata->id;
-            $getcomment->id_user = $user->id;
-            $getcomment->comment = $text;
-            $getcomment->seen = 0;
-            if ($getcomment->save()){
-                $response['code'] = 200;
-                return Redirect::back();
-            }
+			$getcomment = new News_Comment();
+			$getcomment->id_news = $getdata->id;
+			$getcomment->id_user = $user->id;
+			$getcomment->comment = $text;
+			$getcomment->seen = 0;
+			if ($getcomment->save()){
+				$response['code'] = 200;
+				return Redirect::back();
+			}
 
-        }
+		}
 
-        return Response::json($response);
-    }
+		return Response::json($response);
+	}
+	public function deletenews(Request $request,$id)
+	{
 
+		$user = Auth::user();
+
+		$response = array();
+		$response['code'] = 400;
+
+		$cekdata = News::find($id);
+		if ($cekdata AND Auth::user()->role == 'admin'){
+			$commentdelete = News_Comment::where('id_news',$id);
+			if ($commentdelete->delete()){
+				$deletenews = $cekdata->delete();
+				if ($deletenews) {
+					$response['code'] = 200;
+				}else{
+					$response['code'] = 400;
+				}
+			}
+
+		}
+
+		return Response::json($response);
+	}
+	public function deletecomment(Request $request,$id)
+	{
+		$user = Auth::user();
+
+		$response = array();
+		$response['code'] = 400;
+
+		$cekdata = News_Comment::find($id);
+		if ($cekdata->delete()) {
+			
+		}
+	}
 }	
