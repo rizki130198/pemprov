@@ -181,8 +181,6 @@ return [
          * 3rd Party Service Providers...
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
 
 
     ],
@@ -233,7 +231,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'GoogleMaps' => GoogleMaps\Facade\GoogleMapsFacade::class,
         'sHelper' => App\Library\sHelper::class,
 
     ],

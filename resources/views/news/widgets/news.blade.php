@@ -2,7 +2,7 @@
     <div class="panel-body" style="padding: 10px 20px;">
         <h5 style="color: #90949c;"><strong>Berita Terbaru</strong></h5> 
         <div class="double-line-news"></div>
-        @foreach(Auth::user()->news()->get() as $berita)
+        @foreach(Auth::user()->news()->limit(3)->orderBy('id','Desc')->get() as $berita)
         <div class="media">
             <div class="media-left">
                 <?php 

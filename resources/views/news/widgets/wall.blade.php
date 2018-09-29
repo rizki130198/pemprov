@@ -50,7 +50,8 @@
 <div class="panel panel-default" id="">
     <div class="panel-body">
         @foreach($news->get() as $berita)
-        <div class="media" style="border-bottom:solid 1px #ddd">
+        <div class="media" style="border-bottom:solid 1px #ddd" id="panel-news-gabung-{{$berita->id}}">
+            @if(Auth::user()->role == 'admin')
             <div class="dropdown">
                 <button class="btn btn-more dropdown-toggle pull-right" id="deleteNews" data-toggle="dropdown" aria-expanded="true">
                     <i class="fa fa-ellipsis-h"></i>
@@ -58,7 +59,8 @@
                 <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="deleteNews" style="top: 33px;">
                     <li role="presentation"><a role="menuitem" href="javascript:;" onclick="deletenews({{ $berita->id }})">Hapus Berita</a></li>
                 </ul>
-            </div>  
+            </div> 
+            @endif 
             <div class="media-left">
                 <?php 
                 $ganti = str_replace(' ', '-',$berita->judul);
@@ -74,7 +76,7 @@
             <div class="media-body">
                 <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}" style="text-decoration: none;color: #555;"><h4 class="media-heading" style="font-weight: bold;margin-top: 7px;">{{$berita->judul}}</h4></a>
                 <p style="margin-top: 10px;font-size: 14px;border-left:solid 2px #d5483c;height: 15px;line-height: 15px;padding-left: 5px;">
-                    {{$berita->name}} / {{$berita->tanggal}}
+                    Administrator / {{$berita->tanggal}}
                 </p>
                 <p style="color: #a2a2a2;">{!!substr($berita->isi,0,150)!!}</p>
             </div>

@@ -108,7 +108,7 @@ function deletenews(id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#panel-news-'+id).html("news deleted!");
+                            $('#panel-news-gabung-'+id).html("news deleted!");
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');

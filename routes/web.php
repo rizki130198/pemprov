@@ -32,7 +32,7 @@ Route::post('/delete/akun/{id}', 'SettingsController@delete');
 Route::get('/news', 'NewsController@index');
 Route::post('/news/new', 'NewsController@create');
 Route::get('/baca/{day}/{month}/{years}/{string}', 'NewsController@singlenews');
-Route::post('/news/delete/{id}', 'NewsController@deletenews');
+Route::post('/news/delete/', 'NewsController@deletenews');
 Route::post('/news/edit/{id}', 'NewsController@editnews');
 Route::post('/news/comment/{id}', 'NewsController@newscomment');
 Route::post('/news/deletcomment/{id}', 'NewsController@newscommentdelete');

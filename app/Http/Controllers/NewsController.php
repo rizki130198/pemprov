@@ -48,7 +48,7 @@ class NewsController extends Controller
 			];
 		}
 
-		$news = News::join('users','post_news.user_id','=','users.id')->orderBy('post_news.id','desc');
+		$news = DB::table('post_news')->orderBy('post_news.id','desc');
 		return view('news.index', compact('user','user_list','comment_count','news'));
 	}
 	public function create(Request $request)
@@ -122,32 +122,30 @@ class NewsController extends Controller
 			];
 		}
 		$potong = str_replace('-', ' ', $string);
-		$getdata = News::join('users','post_news.user_id','=','users.id')->where('post_news.judul',$potong);
-		// tadi mau di join eh blm dapet id newsnya jadi gw buat dua ya 
-
+		$getdata = News::where('post_news.judul',$potong)->get()->first();
 		if ($getdata != null) {
 			foreach ($getdata->get() as $key) {
 				$getcomment = News_Comment::join('users','news_comment.id_user','=','users.id')->join('post_news','news_comment.id_news','=','post_news.id')->where('news_comment.id_news',$key->id)->orderBy('id_comment','DESC');
 				return view('news.widgets.single_news', compact('user','user_list','getdata','getcomment'));
 			}
 		}else{
-			return redirect('news')->with('false','Data Yang anda Cari tidak di temukan');
+				return redirect('news')->with('false','Data Yang anda Cari tidak di temukan');
 		}
 	}
-	public function newscomment(Request $request,$id){
+	public function newscomment(Request $request,$idnews){
 
 		$user = Auth::user();
 
 		$response = array();
 		$response['code'] = 400;
 
-		$getdata = News::find($id);
+		$getdata = News::where('id',$idnews)->get()->first();
 		$text = $request->input('content');
 
-		if ($getdata && !empty($text)){
+		if (!empty($text)){
 
 			$getcomment = new News_Comment();
-			$getcomment->id_news = $getdata->id;
+			$getcomment->id_news = $idnews;
 			$getcomment->id_user = $user->id;
 			$getcomment->comment = $text;
 			$getcomment->seen = 0;
@@ -160,29 +158,27 @@ class NewsController extends Controller
 
 		return Response::json($response);
 	}
-	public function deletenews($id)
+	public function deletenews(Request $request)
 	{
 		$user = Auth::user();
 
 		$response = array();
 		$response['code'] = 400;
+		$id = $request->input('id');
 
-		$cekdata = News::find($id);
-		if ($cekdata AND Auth::user()->role == 'admin'){
-			$commentdelete = News_Comment::where('id_news',$id);
-			if ($commentdelete->delete()){
-				$deletenews = $cekdata->delete();
-				if ($deletenews) {
-					$response['code'] = 200;
-				}else{
-					$response['code'] = 400;
-				}
+		if (Auth::user()->role == 'admin'){
+			$commentdelete = News_Comment::where('id_news',$id)->delete();
+			$cekdata = News::where('id',$id)->delete();
+			if ($cekdata) {
+				$response['code'] = 200;
+			}else{
+				$response['code'] = 400;
 			}
-
 		}
 
 		return Response::json($response);
 	}
+
 	public function deletecomment(Request $request,$id)
 	{
 		$user = Auth::user();
@@ -193,6 +189,9 @@ class NewsController extends Controller
 		$cekdata = News_Comment::find($id);
 		if ($cekdata->delete()) {
 			
+			$response['code'] = 200;
+		}else{
+			$response['code'] = 400;
 		}
 	}
 }	
