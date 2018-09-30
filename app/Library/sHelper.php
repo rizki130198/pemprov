@@ -1,13 +1,15 @@
 <?php
 namespace App\Library;
 
-
+use DB;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\GrupComment;
+use App\Models\NewsComment;
 use App\Models\Grup;
+use App\Models\News;
 use App\Models\GrupPost;
 use App\Models\GrupLike;
 use App\Models\User;
@@ -15,6 +17,7 @@ use App\Models\User_grup;
 use App\Models\UserFollowing;
 use App\Models\UserLocation;
 use App\Models\NotifGrup;
+use App\Models\NotifNews;
 use App\Models\Event;
 use App\Models\EventComment;
 use Auth;
@@ -180,6 +183,38 @@ class sHelper
                     }
                 }
             }
+
+            $news = DB::table('post_news')->where('user_id','!=',$user->id);
+            foreach ($news->get() as $ceknews){
+                $newscek = NotifNews::where('notif_news.seen',1)->join('post_news','post_news.id','=','notif_news.id_news')->where('post_news.user_id','!=',$user->id)->where('notif_news.id_news',$ceknews->id);
+                if ($newscek->count() < 1) {
+                    $ganti = str_replace(' ', '-',$ceknews->judul);
+                    $notifications[] = [
+                        'url' => url('baca/'.date('d/m/y', strtotime($ceknews->tanggal)).'/'.$ganti),
+                        'icon' => 'fa-users',
+                        'color' => 'icon-group',
+                        'nama' => '',
+                        'text' => 'Ada Berita Baru Untuk Anda',
+                        'grup' => ''
+                    ];
+                }
+            }
+            $commentnews = NewsComment::where('news_comment.seen', 0)->with('user')->join('post_news', 'post_news.id', '=', 'news_comment.id_news')->join('users','users.id','=','news_comment.id_user')->where('post_news.user_id', $user->id)->where('news_comment.id_user', '!=', $user->id)->orderBy('news_comment.id_comment', 'ASC');
+            if ($commentnews->count() > 0){
+                foreach ($commentnews->get() as $commentsnews){
+                    $ganti = str_replace(' ', '-',$commentsnews->judul);
+                    $notifications[] = [
+                        'url' => url('baca/'.date('d/m/y', strtotime($commentsnews->tanggal)).'/'.$ganti),
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $commentsnews->name,
+                        'text' => 'Mengomentari Berita Anda',
+                        'grup' => ''
+                    ];
+                }
+
+            }
+
             $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->join('users','users.id','=','grup_post_comments.comment_grup_user_id')
             ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
             if ($commentsgrup->count() > 0){

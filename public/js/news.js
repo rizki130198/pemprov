@@ -208,7 +208,7 @@ function commentnews(id){
     }
 }
 
-function removeCommentGrup(id, news_id){
+function removeCommentNews(id,idnews){
 
     BootstrapDialog.show({
         title: 'Comment Delete!',
@@ -220,10 +220,11 @@ function removeCommentGrup(id, news_id){
 
                 var data = new FormData();
                 data.append('id', id);
+                data.append('idnews',idnews)
 
 
                 $.ajax({
-                    url: BASE_URL+'/news/comments/delete',
+                    url: BASE_URL+'/news/deletcomment',
                     type: "POST",
                     timeout: 5000,
                     data: data,
@@ -234,8 +235,8 @@ function removeCommentGrup(id, news_id){
                     success: function(response){
                         dialog.close();
                         if (response.code == 200){
-                            $('#post-comments-grup-'+id+' .commet').html("<p><small>Comment deleted!</small></p>");
-                            $('#panel-news-'+news_id+' .comments-title-grup').html(response.comments_title);
+                            $('#panel-komentar-news-'+id).html("<p><small>Comment deleted!</small></p>");
+                            $('#hitung-komentar').html(response.count+ " Komentar");
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');

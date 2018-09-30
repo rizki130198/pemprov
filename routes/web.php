@@ -35,7 +35,7 @@ Route::get('/baca/{day}/{month}/{years}/{string}', 'NewsController@singlenews');
 Route::post('/news/delete/', 'NewsController@deletenews');
 Route::post('/news/edit/{id}', 'NewsController@editnews');
 Route::post('/news/comment/{id}', 'NewsController@newscomment');
-Route::post('/news/deletcomment/{id}', 'NewsController@newscommentdelete');
+Route::post('/news/deletcomment', 'NewsController@newscommentdelete');
 Route::post('/news/likenews/{id}', 'NewsController@likenews');
 
 // Posts

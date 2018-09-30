@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2018 at 05:52 AM
+-- Generation Time: Sep 30, 2018 at 10:33 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -348,6 +348,27 @@ INSERT INTO `notif_grup` (`id_notif`, `id_grup`, `id_post`, `id_user`, `seen`) V
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notif_news`
+--
+
+CREATE TABLE `notif_news` (
+  `id_notif_news` int(11) NOT NULL,
+  `id_users` int(11) NOT NULL,
+  `id_news` int(11) NOT NULL,
+  `seen` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `notif_news`
+--
+
+INSERT INTO `notif_news` (`id_notif_news`, `id_users`, `id_news`, `seen`) VALUES
+(1, 1, 6, 1),
+(2, 1, 7, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_resets`
 --
 
@@ -532,9 +553,7 @@ CREATE TABLE `post_news` (
 --
 
 INSERT INTO `post_news` (`id`, `user_id`, `cover`, `judul`, `isi`, `seen`, `tanggal`, `created_at`, `updated_at`) VALUES
-(1, 1, '', 'asasa', '<p>asasaasasa</p>', '0', '2018-09-27 03:36:37', '2018-09-26 20:36:37', '2018-09-26 20:36:37'),
-(2, 1, '', 'asa', '<p><strong>asaasa</strong></p>', '0', '2018-09-27 03:39:13', '2018-09-26 20:39:13', '2018-09-26 20:39:13'),
-(3, 1, 'd8c072b91803001e2d15f36a9abcf0bb.JPG', 'asasaasaasdasd', '<p>aasasa</p>', '0', '2018-09-27 03:39:48', '2018-09-26 20:39:48', '2018-09-26 20:39:48');
+(7, 1, '307bf7f9da665f865f2cf738ba9f9451.png', 'Hahaha Ini uji coba', '<p>asasasa</p>', '0', '2018-09-30 20:19:09', '2018-09-30 13:19:09', '2018-09-30 13:19:09');
 
 -- --------------------------------------------------------
 
@@ -783,6 +802,12 @@ ALTER TABLE `notif_grup`
   ADD PRIMARY KEY (`id_notif`);
 
 --
+-- Indexes for table `notif_news`
+--
+ALTER TABLE `notif_news`
+  ADD PRIMARY KEY (`id_notif_news`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -964,12 +989,17 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `news_comment`
 --
 ALTER TABLE `news_comment`
-  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `notif_grup`
 --
 ALTER TABLE `notif_grup`
   MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `notif_news`
+--
+ALTER TABLE `notif_news`
+  MODIFY `id_notif_news` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `posts`
 --
@@ -999,7 +1029,7 @@ ALTER TABLE `post_images`
 -- AUTO_INCREMENT for table `post_news`
 --
 ALTER TABLE `post_news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `profiles`
 --

@@ -54,7 +54,7 @@
                     </div>
                     <hr>
                     <h1 style="font-size: 42px;line-height: 1.2;padding: 0 0 .3em;">{{ $berita->judul }}</h1>
-                    <h5 style="text-transform: uppercase;color: #dc2027;">Oleh {{$berita->name}}</h5>
+                    <h5 style="text-transform: uppercase;color: #dc2027;">Oleh Administrator</h5>
                     <div class="descrip">
                         <span class="day">{{date('D, F, d, y', strtotime($berita->tanggal))}}</span>
                         <span class="time"> | {{date('h:i A', strtotime($berita->tanggal))}}</span>
@@ -81,11 +81,21 @@
                             </div>
                         </form>
                     </div>
-                    <label style="font-size: 16px;color: #6F6F6F;">{{$getcomment->count()}} Komentar</label>
+                    <label style="font-size: 16px;color: #6F6F6F;" id="hitung-komentar">{{$getcomment->count()}} Komentar</label>
                     @foreach($getcomment->get() as $komen)
-                    <div class="panel panel-default" style="background-color: #f8f8f8;border-radius: 2px;box-shadow: 0 2px 2px rgba(0,0,0,0.1);border: 1px solid #e6e6e6;">
+                    <div class="panel panel-default" id="panel-komentar-news-{{$komen->id_comment}}" style="background-color: #f8f8f8;border-radius: 2px;box-shadow: 0 2px 2px rgba(0,0,0,0.1);border: 1px solid #e6e6e6;">
                         <div class="panel-body">
                             <div class="media">
+                                @if(Auth::user()->role == 'admin' OR $komen->id_user == Auth::user()->id)
+                                <div class="dropdown">
+                                    <button class="btn btn-more dropdown-toggle pull-right" id="deleteNews" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-ellipsis-h"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="deleteNews" style="top: 33px;">
+                                        <li role="presentation"><a role="menuitem" href="javascript:;" onclick="removeCommentNews({{ $komen->id_comment }},{{$komen->id}})">Hapus Komentar</a></li>
+                                    </ul>
+                                </div> 
+                                @endif
                                 <div class="media-left">
                                     <a href="">
                                         <img class="media-object img-circle" src="https://img.jakpost.net/c/2018/09/25/2018_09_25_54629_1537810669._thumbnail.jpg" alt="" width="50px" height="50px">
@@ -106,7 +116,7 @@
                     @endforeach
                 </div> 
 
-                    @endforeach   
+                @endforeach   
             </div>
         </div>
     </div>

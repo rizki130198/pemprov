@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use App\Models\News;
 use App\Models\News_Comment;
+use App\Models\NotifNews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -126,10 +127,19 @@ class NewsController extends Controller
 		if ($getdata != null) {
 			foreach ($getdata->get() as $key) {
 				$getcomment = News_Comment::join('users','news_comment.id_user','=','users.id')->join('post_news','news_comment.id_news','=','post_news.id')->where('news_comment.id_news',$key->id)->orderBy('id_comment','DESC');
+				$NotifNews = NotifNews::where('id_users',$user->id)->where('id_news',$key->id)->get()->first();
+				if ($NotifNews == null) {
+					$insert = new NotifNews;
+					$insert->id_users = $user->id;
+					$insert->id_news = $key->id;
+					$insert->seen = 1;
+					$insert->save();
+				}
+				$update_all = News_Comment::where('seen', 0)->where('id_news',$key->id)->update(['seen' => 1]);
 				return view('news.widgets.single_news', compact('user','user_list','getdata','getcomment'));
 			}
 		}else{
-				return redirect('news')->with('false','Data Yang anda Cari tidak di temukan');
+			return redirect('news')->with('false','Data Yang anda Cari tidak di temukan');
 		}
 	}
 	public function newscomment(Request $request,$idnews){
@@ -179,19 +189,23 @@ class NewsController extends Controller
 		return Response::json($response);
 	}
 
-	public function deletecomment(Request $request,$id)
+	public function newscommentdelete(Request $request)
 	{
 		$user = Auth::user();
 
 		$response = array();
 		$response['code'] = 400;
-
-		$cekdata = News_Comment::find($id);
-		if ($cekdata->delete()) {
-			
+		$id = $request->input('id');
+		$id_news = $request->input('idnews');
+		$cekdata = News_Comment::where('id_comment',$id)->delete();
+		if ($cekdata == TRUE) {
+			$count = News_Comment::where('id_news',$id_news)->count();
 			$response['code'] = 200;
+			$response['count'] = $count;
 		}else{
 			$response['code'] = 400;
 		}
+
+		return Response::json($response);
 	}
 }	
