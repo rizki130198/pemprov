@@ -91,7 +91,7 @@
                                     <button class="btn btn-more dropdown-toggle pull-right" id="deleteNews" data-toggle="dropdown" aria-expanded="true">
                                         <i class="fa fa-ellipsis-h"></i>
                                     </button>
-                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="deleteNews" style="top: 33px;">
+                                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="deleteNews" style="top: -2px;margin-right: 42px;">
                                         <li role="presentation"><a role="menuitem" href="javascript:;" onclick="removeCommentNews({{ $komen->id_comment }},{{$komen->id}})">Hapus Komentar</a></li>
                                     </ul>
                                 </div> 
