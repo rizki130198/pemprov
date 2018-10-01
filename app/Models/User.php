@@ -72,7 +72,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\GrupComment', 'comment_grup_user_id', 'id');
     }
     public function news(){
-        return $this->hasMany('App\Models\News', 'user_id', 'id');
+        $query = DB::table('post_news');
+        return $query;
     }
 
     public function has($Model){
@@ -236,5 +237,12 @@ class User extends Authenticatable
         $check = $this->hobbies()->where('hobby_id', $hobby_id)->get()->first();
         if ($check) return true;
         return false;
+    }
+    public function getNameuser($id)
+    {
+        $getname = DB::table('users')->where('id',$id)->get();
+        foreach ($getname as $key ) {
+            return $key->name;
+        }
     }
 }

@@ -123,10 +123,10 @@ class NewsController extends Controller
 			];
 		}
 		$potong = str_replace('-', ' ', $string);
-		$getdata = News::where('post_news.judul',$potong)->get()->first();
+		$getdata = News::where('post_news.judul',$potong);
 		if ($getdata != null) {
 			foreach ($getdata->get() as $key) {
-				$getcomment = News_Comment::join('users','news_comment.id_user','=','users.id')->join('post_news','news_comment.id_news','=','post_news.id')->where('news_comment.id_news',$key->id)->orderBy('id_comment','DESC');
+				$getcomment = News_Comment::join('users','news_comment.id_user','=','users.id')->where('news_comment.id_news',$key->id)->orderBy('id_comment','DESC');
 				$NotifNews = NotifNews::where('id_users',$user->id)->where('id_news',$key->id)->get()->first();
 				if ($NotifNews == null) {
 					$insert = new NotifNews;
@@ -135,7 +135,7 @@ class NewsController extends Controller
 					$insert->seen = 1;
 					$insert->save();
 				}
-				$update_all = News_Comment::where('seen', 0)->where('id_news',$key->id)->update(['seen' => 1]);
+				$update_all = News_Comment::where('seen', 0)->where('id_news',$key->id)->where('id_user','!=',$user->id)->update(['seen' => 1]);
 				return view('news.widgets.single_news', compact('user','user_list','getdata','getcomment'));
 			}
 		}else{

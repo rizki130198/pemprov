@@ -54,7 +54,7 @@
                     </div>
                     <hr>
                     <h1 style="font-size: 42px;line-height: 1.2;padding: 0 0 .3em;">{{ $berita->judul }}</h1>
-                    <h5 style="text-transform: uppercase;color: #dc2027;">Oleh Administrator</h5>
+                    <h5 style="text-transform: uppercase;color: #dc2027;">Oleh  {{ Auth::user()->getNameuser($berita->user_id)}}</h5>
                     <div class="descrip">
                         <span class="day">{{date('D, F, d, y', strtotime($berita->tanggal))}}</span>
                         <span class="time"> | {{date('h:i A', strtotime($berita->tanggal))}}</span>
@@ -97,9 +97,15 @@
                                 </div> 
                                 @endif
                                 <div class="media-left">
+                                    @if ($komen->profile_path == NULL)
                                     <a href="">
-                                        <img class="media-object img-circle" src="https://img.jakpost.net/c/2018/09/25/2018_09_25_54629_1537810669._thumbnail.jpg" alt="" width="50px" height="50px">
+                                        <img class="media-object img-circle" src="{{ url('images/profile-picture.png') }}" alt="" width="50px" height="50px">
                                     </a>
+                                    @else
+                                    <a href="">
+                                        <img class="media-object img-circle" src="{{url('storage/uploads/profile_photos/'.$komen->profile_path)}}" alt="" width="50px" height="50px">
+                                    </a>
+                                    @endif
                                 </div>
                                 <div class="media-body">
                                     <p style="font-size: 14px;border-left:solid 2px #4990E2;height: 15px;text-transform: uppercase;line-height: 15px;padding-left: 5px;">

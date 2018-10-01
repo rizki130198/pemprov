@@ -67,7 +67,7 @@
                 ?>
                 <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">
                     @if($berita->cover == NULL)
-                    <img class="media-object" src="https://img.jakpost.net/c/2018/09/25/2018_09_25_54629_1537810669._thumbnail.jpg" alt="" width="120" height="120" style="border-radius: 5%;padding: 3px;margin-bottom: 10px;border: 1px solid #ddd;">
+                    <img class="media-object" src="https://1.bp.blogspot.com/-lMEVMVBC_ck/VzjxJGNy2CI/AAAAAAAACEo/OGAirHkodsofpONDlzKQvsnEm9Ptj0G8wCLcB/s1600/pemerintahan%2Bjakarta.png" alt="" width="120" height="120" style="border-radius: 5%;padding: 3px;margin-bottom: 10px;border: 1px solid #ddd;">
                     @else
                     <img class="media-object" src=" {{ url('storage/uploads/posts/'.$berita->cover) }}" alt="" width="120" height="120" style="border-radius: 5%;padding: 3px;margin-bottom: 10px;border: 1px solid #ddd;">
                     @endif
@@ -76,7 +76,7 @@
             <div class="media-body">
                 <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}" style="text-decoration: none;color: #555;"><h4 class="media-heading" style="font-weight: bold;margin-top: 7px;">{{$berita->judul}}</h4></a>
                 <p style="margin-top: 10px;font-size: 14px;border-left:solid 2px #d5483c;height: 15px;line-height: 15px;padding-left: 5px;">
-                    Administrator / {{$berita->tanggal}}
+                    {{ Auth::user()->getNameuser($berita->user_id)}}/ {{$berita->tanggal}}
                 </p>
                 <p style="color: #a2a2a2;">{!!substr($berita->isi,0,150)!!}</p>
             </div>

@@ -199,20 +199,21 @@ class sHelper
                     ];
                 }
             }
-            $commentnews = NewsComment::where('news_comment.seen', 0)->with('user')->join('post_news', 'post_news.id', '=', 'news_comment.id_news')->join('users','users.id','=','news_comment.id_user')->where('post_news.user_id', $user->id)->where('news_comment.id_user', '!=', $user->id)->orderBy('news_comment.id_comment', 'ASC');
-            if ($commentnews->count() > 0){
-                foreach ($commentnews->get() as $commentsnews){
-                    $ganti = str_replace(' ', '-',$commentsnews->judul);
-                    $notifications[] = [
-                        'url' => url('baca/'.date('d/m/y', strtotime($commentsnews->tanggal)).'/'.$ganti),
-                        'icon' => 'fa-comments',
-                        'color' => 'icon-comment',
-                        'nama' => $commentsnews->name,
-                        'text' => 'Mengomentari Berita Anda',
-                        'grup' => ''
-                    ];
+            if ($user->role == 'admin') {
+                $commentnews = NewsComment::where('news_comment.seen', 0)->with('user')->join('post_news', 'post_news.id', '=', 'news_comment.id_news')->join('users','users.id','=','news_comment.id_user')->where('post_news.user_id', $user->id)->where('news_comment.id_user', '!=', $user->id)->orderBy('news_comment.id_comment', 'ASC');
+                if ($commentnews->count() > 0){
+                    foreach ($commentnews->get() as $commentsnews){
+                        $ganti = str_replace(' ', '-',$commentsnews->judul);
+                        $notifications[] = [
+                            'url' => url('baca/'.date('d/m/y', strtotime($commentsnews->tanggal)).'/'.$ganti),
+                            'icon' => 'fa-comments',
+                            'color' => 'icon-comment',
+                            'nama' => $commentsnews->name,
+                            'text' => 'Mengomentari Berita Anda',
+                            'grup' => ''
+                        ];
+                    }
                 }
-
             }
 
             $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->join('users','users.id','=','grup_post_comments.comment_grup_user_id')
