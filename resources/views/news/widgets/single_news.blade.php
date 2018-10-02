@@ -43,8 +43,8 @@
         <div class="col-md-6 col-md-offset-3 col-xs-12">
             <div class="clearfix"></div>
             <div class="panel panel-default" id="">
-                <div class="panel-body">
                     @foreach($getdata->get() as $berita)
+                <div class="panel-body">
                     <div id="crumbs">
                         <ul>
                             <li><a href="#1"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
