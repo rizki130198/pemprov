@@ -67,6 +67,7 @@
             <div class="media-left">
                 <?php 
                 $ganti = str_replace(' ', '-',$berita->judul);
+                $getimage = str_replace('src=', ' ', substr($berita->isi,0,100))
                 ?>
                 <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">
                     @if($berita->cover == NULL)
@@ -79,10 +80,9 @@
             <div class="media-body">
                 <a href="baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}" style="text-decoration: none;color: #555;"><h4 class="media-heading" style="font-weight: bold;margin-top: 7px;">{{$berita->judul}}</h4></a>
                 <p style="margin-top: 10px;font-size: 14px;border-left:solid 2px #d5483c;height: 15px;line-height: 15px;padding-left: 5px;">
-                    {{ Auth::user()->getNameuser($berita->user_id)}}/ {{$berita->tanggal}}
+                    <strong>{{ Auth::user()->getNameuser($berita->user_id)}}</strong> / {{ date('d F Y - h:i', strtotime($berita->tanggal))}}
                 </p>
-                <p style="color: #a2a2a2;">{!!substr($berita->isi,0,150)!!}</p>
-                <br>
+                <p style="color: #a2a2a2;">{!! $getimage !!}</p>
             </div>
         </div>
         @endforeach

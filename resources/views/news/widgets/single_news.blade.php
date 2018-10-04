@@ -18,6 +18,10 @@
     font-size: 1.22em;
     font-weight: 100;
 }
+.panel-body p img{
+    width: 100% !important;
+    height: auto !important;
+}
 @media(min-width: 1200px){
     .col-md-6{
         width: 53%;
@@ -47,9 +51,11 @@
                 <div class="panel-body">
                     <div id="crumbs">
                         <ul>
-                            <li><a href="#1"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-                            <li><a href="#2">{{ $berita->judul }}</a></li>
-                            <li><a href="#3">Detail Berita</a></li>
+                            <?php 
+                            $ganti = str_replace(' ', '-',$berita->judul); ?>
+                            <li><a href="/news"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                            <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">{{ $berita->judul }}</a></li>
+                            <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">Detail Berita</a></li>
                         </ul>
                     </div>
                     <hr>
@@ -60,8 +66,9 @@
                         <span class="time"> | {{date('h:i A', strtotime($berita->tanggal))}}</span>
                     </div>
                 </div>    
-                <img class="media-object" src=" {{ url('storage/uploads/posts/'.$berita->cover) }}" alt="" width="100%" style="margin-bottom: 10px;border-bottom: solid 5px #d5483c;">
-                <div class="panel-body" id="panel-news-{{$berita->id}}" style="padding-top: 0;">    
+                <img class="media-object" src=" {{ url('storage/uploads/posts/'.$berita->cover) }}" alt="" width="50%" style="margin-left: 15px;margin-bottom: 10px;">
+                <div class="panel-body" id="panel-news-{{$berita->id}}" style="padding-top: 0;">   
+                    <?php preg_replace('/style=\"*\"/', "", $berita->isi) ?> 
                     <p>{!! $berita->isi !!}</p>
                     <div class="panel panel-default" style="margin:5% auto;background-color: #ddd;border-radius: 0;">
                         <div class="panel-body" style="padding: 8px;">
