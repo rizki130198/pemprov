@@ -43,7 +43,7 @@
         <div class="col-md-6 col-md-offset-3 col-xs-12">
             <div class="clearfix"></div>
             <div class="panel panel-default" id="">
-                    @foreach($getdata->get() as $berita)
+                @foreach($getdata->get() as $berita)
                 <div class="panel-body">
                     <div id="crumbs">
                         <ul>
@@ -60,7 +60,7 @@
                         <span class="time"> | {{date('h:i A', strtotime($berita->tanggal))}}</span>
                     </div>
                 </div>    
-                <img class="media-object" src=" {{ url('storage/uploads/posts/'.$berita->cover) }}" alt="" width="50%" style="margin-left: 15px;margin-bottom: 10px;border-bottom: solid 5px #d5483c;">
+                <img class="media-object" src=" {{ url('storage/uploads/posts/'.$berita->cover) }}" alt="" width="100%" style="margin-bottom: 10px;border-bottom: solid 5px #d5483c;">
                 <div class="panel-body" id="panel-news-{{$berita->id}}" style="padding-top: 0;">    
                     <p>{!! $berita->isi !!}</p>
                     <div class="panel panel-default" style="margin:5% auto;background-color: #ddd;border-radius: 0;">

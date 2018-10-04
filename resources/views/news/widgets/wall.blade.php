@@ -11,6 +11,9 @@
 .btn-more:hover {
     background-color: #F9F9F9;
 }
+.media-body p img{
+    display: none;
+}
 </style>
 <div class="clearfix"></div>
 @if($user->id == Auth::user()->id AND $user->role == 'admin')
@@ -79,6 +82,7 @@
                     {{ Auth::user()->getNameuser($berita->user_id)}}/ {{$berita->tanggal}}
                 </p>
                 <p style="color: #a2a2a2;">{!!substr($berita->isi,0,150)!!}</p>
+                <br>
             </div>
         </div>
         @endforeach
