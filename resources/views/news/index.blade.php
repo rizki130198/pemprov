@@ -35,7 +35,7 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript" src="//nightly.ckeditor.com/17-08-18-06-04/standard/ckeditor.js"></script>
+<script type="text/javascript" src="//nightly.ckeditor.com/17-08-18-06-04/full/ckeditor.js"></script>
 <script>
 	CKEDITOR.replace('isi');
 </script>
