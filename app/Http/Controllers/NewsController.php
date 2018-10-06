@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use App\Models\News;
 use App\Models\News_Comment;
+use App\Models\CekComment;
 use App\Models\NotifNews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -127,7 +128,7 @@ class NewsController extends Controller
 		if ($getdata != null) {
 			foreach ($getdata->get() as $key) {
 				$getcomment = News_Comment::join('users','news_comment.id_user','=','users.id')->where('news_comment.id_news',$key->id)->orderBy('id_comment','DESC');
-				$NotifNews = NotifNews::where('id_users',$user->id)->where('id_news',$key->id)->get()->first();
+				$NotifNews = NotifNews::where('seen',1)->where('id_users',$user->id)->where('id_news',$key->id)->get()->first();
 				if ($NotifNews == null) {
 					$insert = new NotifNews;
 					$insert->id_users = $user->id;
@@ -135,7 +136,17 @@ class NewsController extends Controller
 					$insert->seen = 1;
 					$insert->save();
 				}
-				$update_all = News_Comment::where('seen', 0)->where('id_news',$key->id)->where('id_user','!=',$user->id)->update(['seen' => 1]);
+					foreach ($getcomment->get() as $value) {
+				$CekComment = CekComment::where('id_coment',$value->id_comment)->where('id_users',$user->id)->get()->first();
+				if ($CekComment == null) {
+					$cek = new CekComment;
+					$cek->id_coment = $value->id_comment;
+					$cek->id_users = $user->id;
+					$cek->id_berita = $key->id;
+					$cek->seen = 1;
+					$cek->save();
+					}
+				}
 				return view('news.widgets.single_news', compact('user','user_list','getdata','getcomment'));
 			}
 		}else{

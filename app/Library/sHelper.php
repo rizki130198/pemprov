@@ -8,6 +8,8 @@ use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\GrupComment;
 use App\Models\NewsComment;
+use App\Models\CekComment;
+use App\Models\CekCommentGrup;
 use App\Models\Grup;
 use App\Models\News;
 use App\Models\GrupPost;
@@ -161,16 +163,47 @@ class sHelper
                 }
 
             }
+            $news = DB::table('post_news')->where('user_id','!=',$user->id);
+            foreach ($news->get() as $ceknews){
+                $newscek = NotifNews::where('notif_news.seen',1)->join('post_news','post_news.id','=','notif_news.id_news')->where('post_news.user_id','!=',$user->id)->where('notif_news.id_news',$ceknews->id)->where('notif_news.id_users',$user->id);
+                if ($newscek->count() < 1) {
+                    $ganti = str_replace(' ', '-',$ceknews->judul);
+                    $notifications[] = [
+                        'url' => url('baca/'.date('d/m/y', strtotime($ceknews->tanggal)).'/'.$ganti),
+                        'icon' => 'fa-users',
+                        'color' => 'icon-group',
+                        'nama' => '',
+                        'text' => 'Ada Berita Baru Untuk Anda '.substr($ceknews->judul, 30),
+                        'grup' => ''
+                    ];
+                }
+            }
+            $commentnews = NewsComment::with('user')->join('post_news', 'post_news.id', '=', 'news_comment.id_news')->join('users','users.id','=','news_comment.id_user')->where('news_comment.id_user', '!=', $user->id)->orderBy('news_comment.id_comment', 'ASC');
+            foreach ($commentnews->get() as $commentsnews){
+                $cekcomment = CekComment::where('ceks_notif_news.seen',1)->with('user')->join('news_comment', 'news_comment.id_comment', '=', 'ceks_notif_news.id_coment')->where('news_comment.id_news', $commentsnews->id_news)->where('ceks_notif_news.id_users', $user->id)->where('ceks_notif_news.id_coment', $commentsnews->id_comment)->where('news_comment.id_user', '!=', $user->id);
+                $selectlagi = NewsComment::where('id_user',$user->id)->where('id_news',$commentsnews->id_news);
+                if ($cekcomment->count() < 1 AND $selectlagi->count() != 0) {
+                    $ganti = str_replace(' ', '-',$commentsnews->judul);
+                    $notifications[] = [
+                        'url' => url('baca/'.date('d/m/y', strtotime($commentsnews->tanggal)).'/'.$ganti),
+                        'icon' => 'fa-comments',
+                        'color' => 'icon-comment',
+                        'nama' => $commentsnews->name,
+                        'text' => 'Mengomentari Berita '.substr($commentsnews->judul,0,10),
+                        'grup' => ''
+                    ];
+                }
+            }
 
             $User_grup = User_grup::where('id_user',$user->id);
             foreach ($User_grup->get() as $key) {
-                $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->join('grup','grup.id_grup','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->orderBy('posts_grup.id_post_grup', 'DESC');
+                $postgrup = GrupPost::where('posts_grup.group_post_id','=',$key->id_groups)->join('user_groups','user_groups.id_groups','=','posts_grup.group_post_id')->join('grup','grup.id_grup','=','posts_grup.group_post_id')->where('posts_grup.user_id','!=',$user->id)->where('user_groups.id_groups','=',$key->id_groups)->where('user_groups.id_user','!=',$user->id)->GroupBy('id_post_grup')->orderBy('posts_grup.id_post_grup', 'DESC');
                 if ($postgrup->count() > 0){
                     foreach ($postgrup->get() as $postsgrup){
                         $ceknama = User::where('id',$postsgrup->user_id)->get()->first();
                         $cekpost = NotifGrup::where('seen',1)->join('posts_grup','posts_grup.id_post_grup','=','notif_grup.id_post')->where('posts_grup.user_id','!=',$user->id)->where('notif_grup.id_post',$postsgrup->id_post_grup)->where('notif_grup.id_user',$user->id);
                         $cekgrup = Grup::where('id_grup',$key->id_groups)->get()->first();
-                        if ($cekpost->count() < 1) {
+                        if ($cekpost->count() < 1 AND $postsgrup->tanggal_gabung > $postsgrup->create_at) {
                             $notifications[] = [
                                 'url' => url('group/diskusi/postgrup/'.$postsgrup->id_post_grup),
                                 'icon' => 'fa-users',
@@ -183,54 +216,22 @@ class sHelper
                     }
                 }
             }
-
-            $news = DB::table('post_news')->where('user_id','!=',$user->id);
-            foreach ($news->get() as $ceknews){
-                $newscek = NotifNews::where('notif_news.seen',1)->join('post_news','post_news.id','=','notif_news.id_news')->where('post_news.user_id','!=',$user->id)->where('notif_news.id_news',$ceknews->id);
-                if ($newscek->count() < 1) {
-                    $ganti = str_replace(' ', '-',$ceknews->judul);
-                    $notifications[] = [
-                        'url' => url('baca/'.date('d/m/y', strtotime($ceknews->tanggal)).'/'.$ganti),
-                        'icon' => 'fa-users',
-                        'color' => 'icon-group',
-                        'nama' => '',
-                        'text' => 'Ada Berita Baru Untuk Anda',
-                        'grup' => ''
-                    ];
-                }
-            }
-            if ($user->role == 'admin') {
-                $commentnews = NewsComment::where('news_comment.seen', 0)->with('user')->join('post_news', 'post_news.id', '=', 'news_comment.id_news')->join('users','users.id','=','news_comment.id_user')->where('post_news.user_id', $user->id)->where('news_comment.id_user', '!=', $user->id)->orderBy('news_comment.id_comment', 'ASC');
-                if ($commentnews->count() > 0){
-                    foreach ($commentnews->get() as $commentsnews){
-                        $ganti = str_replace(' ', '-',$commentsnews->judul);
-                        $notifications[] = [
-                            'url' => url('baca/'.date('d/m/y', strtotime($commentsnews->tanggal)).'/'.$ganti),
-                            'icon' => 'fa-comments',
-                            'color' => 'icon-comment',
-                            'nama' => $commentsnews->name,
-                            'text' => 'Mengomentari Berita Anda',
-                            'grup' => ''
-                        ];
-                    }
-                }
-            }
-
-            $commentsgrup = GrupComment::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->join('users','users.id','=','grup_post_comments.comment_grup_user_id')
-            ->where('posts_grup.user_id', $user->id)->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
-            if ($commentsgrup->count() > 0){
+            $commentsgrup = GrupComment::with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
                 foreach ($commentsgrup->get() as $commentgrup){
+                    $cekkomengrup = CekCommentGrup::where('ceks_notif_grup.seen',1)->with('user')->join('grup_post_comments', 'grup_post_comments.id', '=', 'ceks_notif_grup.id_coment')->where('ceks_notif_grup.id_post_grup', $commentgrup->id_post_grup)->where('ceks_notif_grup.id_user', $user->id)->where('ceks_notif_grup.id_coment',$commentgrup->id)->where('grup_post_comments.comment_grup_user_id', '!=', $user->id);
+
+                    $selectgruplagi = GrupComment::where('grup_post_id',$commentgrup->id_post_grup)->where('comment_grup_user_id',$user->id);
+                if ($cekkomengrup->count() < 1 AND $selectgruplagi->count() != 0) {
                     $notifications[] = [
-                        'url' => url('/postgrup/'.$commentgrup->grup_post_id),
+                        'url' => url('/group/diskusi/postgrup/'.$commentgrup->grup_post_id),
                         'icon' => 'fa-comments',
                         'color' => 'icon-comment',
-                        'nama' => $commentgrup->name,
-                        'text' => 'mengomentari kiriman anda di grup',
+                        'nama' => $user->getNameuser($commentgrup->comment_grup_user_id),
+                        'text' => 'mengomentari kiriman di grup',
                         'grup' => ''
 
                     ];
                 }
-
             }
 
             $likesgrup = GrupLike::where('seen', 0)->with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'post_grup_likes.grup_post_id')->join('users','users.id','=','post_grup_likes.like_user')

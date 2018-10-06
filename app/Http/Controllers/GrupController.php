@@ -8,6 +8,7 @@ use App\Models\Grup;
 use App\Models\GrupPost;
 use App\Models\GrupLike;
 use App\Models\GrupComment;
+use App\Models\CekCommentGrup;
 use App\Models\GrupImage;
 use App\Models\User_grup;
 use App\Models\NotifGrup;
@@ -143,7 +144,7 @@ class GrupController extends Controller
         }
 
 
-        $update_all = $post->comments()->where('seen', 0)->update(['seen' => 1]);
+        // $update_all = $post->comments()->where('seen', 0)->update(['seen' => 1]);
         $update_all = $post->likes()->where('seen', 0)->update(['seen' => 1]);
 
 
@@ -175,6 +176,19 @@ class GrupController extends Controller
             $insert->id_user = Auth::user()->id;
             $insert->seen = 1;
             $insert->save();
+        }
+        $comment = GrupComment::where('grup_post_id',$id);
+        foreach ($comment->get() as $key) {
+            $join = CekCommentGrup::where('id_coment',$key->id)->where('id_user',$user->id)->get()->first();
+            if ($join == NULL) {
+                $cekcomment = new CekCommentGrup();
+                $cekcomment->id_coment = $key->id;
+                $cekcomment->id_grup = $post->group_post_id;
+                $cekcomment->id_post_grup = $id;
+                $cekcomment->id_user = Auth::user()->id;
+                $cekcomment->seen = 1;
+                $cekcomment->save();
+            }
         }
         return view('groups.post', compact('post', 'user', 'comment_count', 'can_see','user_list'));
     }
@@ -365,9 +379,9 @@ class GrupController extends Controller
           }
           $process = true;
       }else if($request->hasFile('files')){
-         $post->has_image = 1;
-         $file = $request->file('files');
-         if (count($file) != 14) {
+       $post->has_image = 1;
+       $file = $request->file('files');
+       if (count($file) != 14) {
           for ($i=0; $i < count($file); $i++) {
             $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
             $originalfile = $file[$i]->getClientOriginalName().',';

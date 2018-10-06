@@ -9,5 +9,5 @@
 </p>
 <hr>
 @if($post->getCommentCount() > 2 && (empty($comment_count) || $comment_count < 3))
-    <a class="btn btn-link btn-block btn-xs" href="{{ url('/post/'.$post->id) }}"><i class="fa fa-bars" aria-hidden="true"></i> Lihat semua komentar</a>
+    <a class="btn btn-link btn-block btn-xs" href="{{ url('/group/diskusi/postgrup/'.$post->id_post_grup) }}"><i class="fa fa-bars" aria-hidden="true"></i> Lihat semua komentar</a>
 @endif

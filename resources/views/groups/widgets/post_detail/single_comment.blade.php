@@ -7,7 +7,7 @@
     </div>
     <div class="pull-left comment-info">
         <a href="{{ url('/'.$comment->user->username) }}" class="name">{{ $comment->user->name }}</a>
-        <a href="{{ url('/'.$comment->user->username) }}" class="username">{{ '@'.$comment->user->username }}</a>
+        <!-- <a href="{{ url('/'.$comment->user->username) }}" class="username">{{ '@'.$comment->user->username }}</a> -->
         <span class="date"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ $comment->created_at->diffForHumans() }}</span>
         @if($post->user_id == Auth::id() || $comment->comment_user_id == Auth::id())
         <a href="javascript:;" class="remove pull-right" onclick="removeCommentGrup({{ $comment->id }}, {{ $post->id_post_grup }})" style="margin-left: 5px;color: red;"><i class="fa fa-times"></i></a>

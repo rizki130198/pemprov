@@ -37,6 +37,7 @@ Route::post('/news/edit/{id}', 'NewsController@editnews');
 Route::post('/news/comment/{id}', 'NewsController@newscomment');
 Route::post('/news/deletcomment', 'NewsController@newscommentdelete');
 Route::post('/news/likenews/{id}', 'NewsController@likenews');
+Route::post('/news/komentar/{id}', 'NewsController@komentar');
 
 // Posts
 Route::get('/posts/list', 'PostsController@fetch');
