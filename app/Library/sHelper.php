@@ -170,11 +170,11 @@ class sHelper
                     $ganti = str_replace(' ', '-',$ceknews->judul);
                     $notifications[] = [
                         'url' => url('baca/'.date('d/m/y', strtotime($ceknews->tanggal)).'/'.$ganti),
-                        'icon' => 'fa-users',
-                        'color' => 'icon-group',
+                        'icon' => 'fa fa-th-large',
+                        'color' => 'icon-like',
                         'nama' => '',
-                        'text' => 'Ada Berita Baru Untuk Anda '.substr($ceknews->judul, 30),
-                        'grup' => ''
+                        'text' => 'Ada berita baru untuk Anda pada tanggal '. date('d, F Y', strtotime($ceknews->tanggal)),
+                        'grup' => substr($ceknews->judul,0,25)
                     ];
                 }
             }
