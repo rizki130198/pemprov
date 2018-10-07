@@ -189,8 +189,8 @@ class sHelper
                         'icon' => 'fa-comments',
                         'color' => 'icon-comment',
                         'nama' => $commentsnews->name,
-                        'text' => 'Mengomentari Berita '.substr($commentsnews->judul,0,10),
-                        'grup' => ''
+                        'text' => 'Mengomentari berita ' .substr($commentsnews->judul,0,10),
+                        'grup' => str_limit($commentsnews->comment, 25)
                     ];
                 }
             }
@@ -216,7 +216,7 @@ class sHelper
                     }
                 }
             }
-            $commentsgrup = GrupComment::with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
+            $commentsgrup = GrupComment::with('user')->join('posts_grup', 'posts_grup.id_post_grup', '=', 'grup_post_comments.grup_post_id')->join('users','users.id','=','grup_post_comments.grup_post_id')->where('comment_grup_user_id', '!=', $user->id)->orderBy('grup_post_comments.id', 'DESC');
                 foreach ($commentsgrup->get() as $commentgrup){
                     $cekkomengrup = CekCommentGrup::where('ceks_notif_grup.seen',1)->with('user')->join('grup_post_comments', 'grup_post_comments.id', '=', 'ceks_notif_grup.id_coment')->where('ceks_notif_grup.id_post_grup', $commentgrup->id_post_grup)->where('ceks_notif_grup.id_user', $user->id)->where('ceks_notif_grup.id_coment',$commentgrup->id)->where('grup_post_comments.comment_grup_user_id', '!=', $user->id);
 
@@ -228,7 +228,7 @@ class sHelper
                         'color' => 'icon-comment',
                         'nama' => $user->getNameuser($commentgrup->comment_grup_user_id),
                         'text' => 'mengomentari kiriman di grup',
-                        'grup' => ''
+                        'grup' => $commentgrup->nama_grup
 
                     ];
                 }
