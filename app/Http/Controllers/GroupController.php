@@ -110,16 +110,16 @@ class GroupController extends Controller
         $groups = Grup::join('user_groups', 'user_groups.id_groups', '=', 'grup.id_grup')
         ->join('users','users.id','=','grup.id_user')
         ->where('user_groups.id_user', $user->id);
-        $validasi = User_grup::find($user->id);
+        $validasi = User_grup::where('id_user',$user->id)->where('id_groups',$id);
         $cekanggota = User_grup::where('id_user',$user->id)->get()->first();
         $anggota = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->get();
         $admin = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->where('user_groups.jabatan_grup','admin')->get();
         $myuser = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->where('user_groups.id_user',$user->id)->get();
-        if ($validasi) {
+        if ($validasi->count() != 0) {
             $update = User_grup::where('id_user',Auth::user()->id)->where('id_groups',$id)->where('seen',0)->update(['seen' => 1]); 
                 return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','admin','myuser','images_grup','cekanggota'));    
         }else{
-            return redirect('/404');
+            return redirect('/groups');
         }
 
     }

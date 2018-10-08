@@ -111,8 +111,7 @@
                                     <div class="profile-text" style="left: 0;">
                                         <h4>{{ $group->nama_grup }}</h4>
                                     </div>
-                                    @foreach($groups->get() as $get)
-                                    @if ($get->jabatan_grup == "admin")
+                                    @if ($cekanggota->jabatan_grup == "admin")
                                     <form id="form-upload-covergrup" enctype="multipart/form-data">
                                         <div class="profile-upload-cover">
                                             <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadGroupCover({{$group->id_grup}})"><i class="fa fa-upload"></i> Ganti Sampul</a>
@@ -120,7 +119,6 @@
                                         </div>
                                     </form>
                                     @endif
-                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -131,7 +129,9 @@
                 <li class="{{ Request::segment(2) == 'diskusi' ? 'active' : '' }}"><a href="{{ url('/group/diskusi/'.$group->id_grup) }}">DISKUSI</a></li>
                 <li class="{{ Request::segment(2) == 'anggota' ? 'active' : '' }}"><a href="{{ url('/group/anggota/'.$group->id_grup) }}">ANGGOTA</a></li>
                 <li class="{{ Request::segment(2) == 'foto' ? 'foto' : '' }}"><a href="{{ url('/group/foto/'.$group->id_grup) }}">FOTO GRUP</a></li>
+                @if ($cekanggota->jabatan_grup == "admin")
                 <li class="{{ Request::segment(2) == 'pengaturan_group' ? 'active' : '' }}"><a href="{{ url('/group/pengaturan_group/'.$group->id_grup) }}">PENGATURAN GRUP</a></li>
+                @endif
             </ul>
             @if (Request::segment(2) == 'diskusi')
             @if($user->id == Auth::user()->id)

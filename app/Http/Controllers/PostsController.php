@@ -262,7 +262,7 @@ class PostsController extends Controller
         if ($request->hasFile('image')){
             $validator_data['image.*'] = 'required|mimes:jpeg,jpg,png,gif';
         }else if($request->hasFile('file')){
-            $validator_data['file.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,docx,doc,pdf';
+            $validator_data['file.*'] = 'required|mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,docx,doc,pdf';
         }else{
             $validator_data['content'] = 'required';
         }

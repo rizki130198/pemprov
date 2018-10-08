@@ -340,7 +340,7 @@ class GrupController extends Controller
         if ($request->hasFile('image')){
             $validator_data['image.*'] = 'required|mimes:jpg,png,jpeg';
         }else if($request->hasFile('files')){
-            $validator_data['files.*'] = 'required|mimes:xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
+            $validator_data['files.*'] = 'required|mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
         }else{
             $validator_data['content'] = 'required';
         }

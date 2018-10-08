@@ -136,8 +136,8 @@ class HomeController extends Controller
         $comment_count = 2;
 
         $users = User::where('name', 'like', '%'.$s.'%')->orWhere('username', 'like', '%'.$s.'%')->orderBy('name', 'ASC')->get();
-
-        return view('search', compact('users', 'posts', 'user', 'comment_count','user_list'));
+        $grup = Grup::where('nama_grup', 'like', '%'.$s.'%')->Where('status_grup', '!=', 'rahasia')->orderBy('id_grup', 'DESC')->get();
+        return view('search', compact('users', 'posts', 'user', 'comment_count','user_list','grup'));
 
     }
 
