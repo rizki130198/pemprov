@@ -52,7 +52,7 @@
 @if($news->count() > 0)
 <div class="panel panel-default" id="">
     <div class="panel-body">
-        @foreach($news->get() as $berita)
+        @foreach($news->paginate(20) as $berita)
         <div class="media" style="border-bottom:solid 1px #ddd" id="panel-news-gabung-{{$berita->id}}">
             @if(Auth::user()->role == 'admin')
             <div class="dropdown">
@@ -87,5 +87,7 @@
         </div>
         @endforeach
     </div>    
+
+    {{$news->paginate(20)->links()}}
 </div>
 @endif 
