@@ -23,12 +23,12 @@
 					<input type="text" name="nama_grup" placeholder="Nama Grup" value="{{$group->nama_grup}}" autocomplete="off">
 					<br>
 					<br>
-					<label>Privasi Grup</label>
+<!-- 					<label>Privasi Grup</label>
 					<select name="privasi" class="form-control" style="border: none;background-color: #f1f1f1;height: 45px;box-shadow: none;border-radius: 0;">
 						<option value="public">Public</option>
 						<option value="tertutup">Tertutup</option>
 						<option value="rahasia">Rahasia</option>
-					</select>
+					</select> -->
 					<br>
 					<label>Menghapus grup akan menghilangkan semua data, anda tidak akan bisa melihat grup ini kembali.</label>
 					<a href="javascirpt:;" onclick="hapusgrup('{{$group->id_grup}}')" class="btn btn-danger">Hapus Grup</a>
