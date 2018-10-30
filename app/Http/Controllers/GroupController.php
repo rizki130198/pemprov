@@ -11,6 +11,7 @@ use App\Models\Hobby;
 use App\Models\User;
 use App\Models\UserDirectMessage;
 use DB;
+use View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -117,7 +118,7 @@ class GroupController extends Controller
         $myuser = User_grup::join('users','users.id','=','user_groups.id_user')->where('user_groups.id_groups',$id)->where('user_groups.id_user',$user->id)->get();
         if ($validasi->count() != 0) {
             $update = User_grup::where('id_user',Auth::user()->id)->where('id_groups',$id)->where('seen',0)->update(['seen' => 1]); 
-                return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','admin','myuser','images_grup','cekanggota'));    
+            return view('groups.group', compact('id_link','user' ,'group', 'wall','user_list','groups','anggota','admin','myuser','images_grup','cekanggota'));    
         }else{
             return redirect('/groups');
         }
@@ -295,5 +296,14 @@ class GroupController extends Controller
     }
     return Response::json($response);
 }
+public function editpost(Request $request)
+{
 
+    $user = Auth::user();
+    $user_list = [];
+    $editdata = GrupPost::where('id_post_grup',$request->input('idpostgrup'))->get();
+    $return = view::make('groups.widgets.modalpostgrup',compact('editdata','user_list','user'));
+    $response['html'] = $return->render();
+    return Response::json($response);
+}
 }

@@ -740,3 +740,16 @@ function createdadmin(id,idgrup){
         }]
     });
 }
+function editPostgrup(id) {
+    $.ajax({
+        url: BASE_URL+'/group/editpost/modal',
+        type: 'post',
+        setTimeout: 5000,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        data: {idpostgrup: id},
+        success: function(response) {
+            $(".modalpostgrup").html(response.html);
+            $("#modalpostgrup").modal('show');
+        }
+    });
+}

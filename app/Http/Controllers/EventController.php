@@ -116,7 +116,6 @@ class EventController extends Controller
 				}else{
 					$response['code'] = 400;
 					$response['message'] = "Ada Kesalaham!";
-					$post->delete();
 				}
 			}
 
@@ -141,7 +140,7 @@ class EventController extends Controller
 			if ($event->id_users == Auth::id()) {
 				$event->delete();
 				$response['code'] = 200;
-                $response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
+				$response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
 			}else{
 				$response['code'] = 400;			}
 			}else{
@@ -149,7 +148,7 @@ class EventController extends Controller
 				if ($event->id_users == Auth::id()) {
 					$event->delete();
 					$response['code'] = 200;
-               		$response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
+					$response['countevent'] = Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
 				}else{
 					$response['code'] = 400;
 				}
@@ -205,6 +204,56 @@ class EventController extends Controller
 						$response['comments_title'] = $html->render();
 					}
 				}
+			}
+
+			return Response::json($response);
+		}
+		public function modals(Request $request)
+		{
+			$editdata = Event::where('id_events',$request->input('idevent'))->get();
+			$return = view::make('events.modalevent',compact('editdata'));
+			$response['html'] = $return->render();
+			return Response::json($response);
+		}
+		public function update(Request $request)
+		{
+			if (Auth::user()->role == 'admin') {
+				$data = $request->all();
+
+				$response = array();
+				$response['code'] = 400;
+				$rules = [
+					'nama_events'=>'required',
+					'ket'=>'required',
+					'awal'=>'required',
+					'akhir'=>'required',
+				];
+				$validator = Validator::make($data,$rules);
+
+				if ($validator->fails()) {
+					$response['code'] = 400;
+					$response['message'] = implode(' ', $validator->errors()->all());
+				}else{
+
+					$event = Event::where('id_event',$request->input('id'));
+					$event->nama_event = $request->input('nama_events');
+					$event->keterangan = $request->input('ket');
+					$event->mulai = date('Y-m-d H:i:s', strtotime($request->input('awal')));
+					$event->akhir = date('Y-m-d H:i:s', strtotime($request->input('akhir')));
+					$event->tanggal = date('Y-m-d H:i:s');
+					$event->status = 'Aktif';
+
+					if ($event->save()) {
+						$response['code'] = 200;
+					}else{
+						$response['code'] = 400;
+						$response['message'] = "Ada Kesalaham!";
+					}
+				}
+
+			}else{
+				$response['code'] = 400;
+				$response['message'] = "Anda Bukan Admin";
 			}
 
 			return Response::json($response);

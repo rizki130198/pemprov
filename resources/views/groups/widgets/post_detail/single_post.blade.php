@@ -6,8 +6,10 @@
         </span>
         <ul class="dropdown-menu" aria-labelledby="dd1">
             <li><a href="javascript:;" onclick="deletePostgrup({{ $post->id_post_grup }})"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Hapus</a></li>
+            <!-- <li><a href="javascript:;" onclick="editPostgrup({{ $post->id_post_grup }})"><i class="fa fa-fw fa-pencil" aria-hidden="true"></i> Edit</a></li> -->
         </ul>
     </div>
+    <div class="modalpostgrup"></div>
     @endif
     <div class="panel-heading" style="background:none;">
         <img class="img-circle pull-left" src="{{ $post->user->getPhoto(60,60) }}" alt="{{ $post->user->name }}" />

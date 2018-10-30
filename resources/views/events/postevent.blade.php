@@ -86,7 +86,7 @@ time > .month {
                     <div class="panel-default event-primary panel-google-plus" id="panel-post-event-{{ $dataevent->id_events }}">
                         <div class="panel-heading" style="margin-top:0;background-color: #444753 !important;background:none;color: #fff;">
                             @if ($dataevent->id_users == Auth::user()->id)
-                            <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a>
+                            <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Hapus Event"><i class="glyphicon glyphicon-trash"></i></a><!-- <a href="javascript:void(0);" class="btn btn-success" onclick="editEvent('{{$dataevent->id_events}}')" style="float: right;margin-top: 5px;" data-toggle="tooltip" data-placement="right" title="Edit Event"><i class="glyphicon glyphicon-pencil"></i></a> -->
                             @endif
                             <h2>{{ $dataevent->nama_event }}</h2>
                             <a href="{{ url('/'.$dataevent->username) }}" style="color: #fff;"><span>{{ $dataevent->username }}</span></a>

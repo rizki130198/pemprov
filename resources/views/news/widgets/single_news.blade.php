@@ -54,7 +54,7 @@
                             <?php 
                             $ganti = str_replace(' ', '-',$berita->judul); ?>
                             <li><a href="/news"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-                            <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">{{ $berita->judul }}</a></li>
+                            <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">{{ substr($berita->judul,0,30) }}...</a></li>
                             <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">Detail Berita</a></li>
                         </ul>
                     </div>

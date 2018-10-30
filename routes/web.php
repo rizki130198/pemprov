@@ -31,7 +31,7 @@ Route::post('/delete/akun/{id}', 'SettingsController@delete');
 // News
 Route::get('/news', 'NewsController@index');
 Route::post('/news/new', 'NewsController@create');
-Route::get('/baca/{day}/{month}/{years}/{string}', 'NewsController@singlenews');
+Route::get('/baca/{day}/{month}/{years}/{string?}', 'NewsController@singlenews')->where('string', '(.*)');
 Route::post('/news/delete/', 'NewsController@deletenews');
 Route::post('/news/edit/{id}', 'NewsController@editnews');
 Route::post('/news/comment/{id}', 'NewsController@newscomment');
@@ -71,12 +71,14 @@ Route::get('/group/diskusi/postgrup/{id}', 'GrupController@singlepost');
 //events
 Route::get('/events', 'EventController@index');
 Route::post('/events/create', 'EventController@save');
+Route::post('/events/update', 'EventController@update');
 Route::post('/events/delete', 'EventController@delete');
 Route::post('/events/comment', 'EventController@comment');
 Route::post('/events/comments/delete', 'EventController@deleteComment');
 Route::post('/events/like', 'EventController@like');
 Route::post('/events/likes', 'EventController@likes');
 Route::get('/events/{id}', 'EventController@single');
+Route::post('/events/modal', 'EventController@modals');
 // Groups
 Route::get('/groups', 'GroupController@index');
 Route::get('/group/{id}', 'GroupController@group');
@@ -97,6 +99,7 @@ Route::post('/group/delete/member/{id}/{string}', 'GroupController@deleteMemberG
 Route::post('/group/delete/hapusadmin/{id}/{string}', 'GroupController@deleteAdminGrup');
 Route::post('/group/addadmin/{id}/{string}', 'GroupController@addAdmin');
 Route::post('/group/leavegrup/{id}/{string}', 'GroupController@leaveGrup');
+Route::post('/group/editpost/modal', 'GroupController@editpost');
 Route::post('upload/cover_grup/{id}', 'GroupController@uploadCover');
 
 

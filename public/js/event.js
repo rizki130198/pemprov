@@ -25,6 +25,32 @@ $("#eventscreate").submit(function (event) {
   return false;
 });
 
+$("#eventsupdate").submit(function (event) {
+  var data = new FormData($(this)[0]);
+  $.ajax({
+    url: BASE_URL + '/events/update',
+    type: "POST",
+    data: data,
+    contentType: false,
+    cache: false,
+    processData: false,
+    headers: {'X-CSRF-TOKEN': CSRF},
+    success: function (response) {
+        if (response.code == 200) {
+            $('#modalevent').modal('hide');
+            location.reload();
+        } else {
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Ada Kesalahan!');
+        }
+    },
+    error: function () {
+        $('#errorMessageModal').modal('show');
+        $('#errorMessageModal #errors').html('Ada Kesalahan!');
+    }
+});
+  return false;
+});
 function submitCommentEvents(id){
 
     var data = new FormData();
@@ -138,7 +164,7 @@ function removeCommentevent(id, post_id){
                         dialog.close();
                         if (response.code == 200){
                             $('#post-comment-'+id+'').html("<p><small>Comment deleted!</small></p>");
-                             $('#panel-post-event-'+post_id+' .comments-title-event').html(response.comments_title);
+                            $('#panel-post-event-'+post_id+' .comments-title-event').html(response.comments_title);
                         }else{
                             $('#errorMessageModal').modal('show');
                             $('#errorMessageModal #errors').html('Something went wrong!');
@@ -159,7 +185,19 @@ function removeCommentevent(id, post_id){
         }]
     });
 }
-
+function editEvent(id) {
+    $.ajax({
+        url: BASE_URL+'/events/modal',
+        type: 'post',
+        setTimeout: 5000,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        data: {idevent: id},
+        success: function(response) {
+            $(".modalevent").html(response.html);
+            $("#modalevent").modal('show');
+        }
+    });
+}
 
 $("#awal").datetimepicker({ footer: true, modal: true });
 $("#akhir").datetimepicker({ footer: true, modal: true });
