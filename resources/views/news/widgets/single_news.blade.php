@@ -54,10 +54,17 @@
                             <?php 
                             $ganti = str_replace(' ', '-',$berita->judul); ?>
                             <li><a href="/news"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-                            <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">{{ substr($berita->judul,0,30) }}...</a></li>
+                            <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">{{ substr($berita->judul,0,20) }}...</a></li>
                             <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}">Detail Berita</a></li>
                         </ul>
                     </div>
+                    <ol class="breadcrumb" style="background-color: #fff;padding: 0;display: none;">
+                        <?php 
+                        $ganti = str_replace(' ', '-',$berita->judul); ?>
+                        <li><a href="/news" style="color: #fac959;">Home</a></li>
+                        <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}" style="color: #fac959;">{{ substr($berita->judul,0,15) }}...</a></li>
+                        <li><a href="/baca/{{ date('d/m/y', strtotime($berita->tanggal))}}/{{$ganti}}" style="color: #fac959;">Detail Berita</a></li>
+                    </ol>
                     <hr>
                     <h1 style="font-size: 42px;line-height: 1.2;padding: 0 0 .3em;">{{ $berita->judul }}</h1>
                     <h5 style="text-transform: uppercase;color: #dc2027;">Oleh  {{ Auth::user()->getNameuser($berita->user_id)}}</h5>

@@ -64,7 +64,7 @@ body {
   padding: 4px 5px 0px 28px;
   position: relative;
   margin: 0px 7px 0 0;
-  font-size: 14px;
+  font-size: 13px;
   text-decoration: none;
   color: #8093A7;
 }
@@ -76,7 +76,7 @@ body {
   position: absolute;
   right: -20px;
   top: 0;
-  z-index: 1;
+  z-index:1;
 }
 #crumbs ul li a:before {
   content: "";
@@ -171,7 +171,7 @@ span.news-date:before{
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   right: 0;
   background-color: #fff;
@@ -439,6 +439,12 @@ span.news-date:before{
   padding-left: 10px;
 }
 @media(max-width: 768px){
+  #crumbs{
+    display: none !important;
+  }
+  .breadcrumb{
+    display: block !important;
+  }
   .prof{
     display: none;
   }
