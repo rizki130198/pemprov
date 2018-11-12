@@ -25,32 +25,6 @@ $("#eventscreate").submit(function (event) {
   return false;
 });
 
-$("#eventsupdate").submit(function (event) {
-  var data = new FormData($(this)[0]);
-  $.ajax({
-    url: BASE_URL + '/events/update',
-    type: "POST",
-    data: data,
-    contentType: false,
-    cache: false,
-    processData: false,
-    headers: {'X-CSRF-TOKEN': CSRF},
-    success: function (response) {
-        if (response.code == 200) {
-            $('#modalevent').modal('hide');
-            location.reload();
-        } else {
-            $('#errorMessageModal').modal('show');
-            $('#errorMessageModal #errors').html('Ada Kesalahan!');
-        }
-    },
-    error: function () {
-        $('#errorMessageModal').modal('show');
-        $('#errorMessageModal #errors').html('Ada Kesalahan!');
-    }
-});
-  return false;
-});
 function submitCommentEvents(id){
 
     var data = new FormData();

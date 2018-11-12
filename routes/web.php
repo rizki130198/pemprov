@@ -38,6 +38,7 @@ Route::post('/news/comment/{id}', 'NewsController@newscomment');
 Route::post('/news/deletcomment', 'NewsController@newscommentdelete');
 Route::post('/news/likenews/{id}', 'NewsController@likenews');
 Route::post('/news/komentar/{id}', 'NewsController@komentar');
+Route::post('/news/edit/idmodal','NewsController@modal');
 
 // Posts
 Route::get('/posts/list', 'PostsController@fetch');
@@ -57,6 +58,7 @@ Route::get('/search', 'HomeController@search');
 Route::get('/postgrups/list', 'GrupController@fetch');
 Route::post('/postgrups/create', 'GrupController@save');
 Route::post('/postgrups/new', 'GrupController@create');
+Route::post('/postgrups/update', 'GrupController@updatepost');
 Route::post('/postgrups/delete', 'GrupController@delete');
 Route::post('/postgrups/like', 'GrupController@like');
 Route::post('/postgrups/likes', 'GrupController@likes');

@@ -13,7 +13,7 @@
           <div class="form-group">
             <label for="inputevent">Nama Acara</label>
             <input type="text" name="nama_events" value="{{$editevent->nama_event}}" class="form-control" id="inputevent" placeholder="Nama Acara">
-            <input type="hidden" name="id" value="{{$editevent->id_event}}" class="form-control" id="inputevent" placeholder="Nama Acara">
+            <input type="hidden" name="idevent" value="{{$editevent->id_events}}" class="form-control">
           </div>
           <div class="form-group">
             <label for="keterangan">Keterangan</label>
@@ -21,11 +21,11 @@
           </div>
           <div class="form-group">
             <label for="awal">Waktu Mulai Acara</label>
-            <input type="text" class="form-control" value="{{date('H:i d/m/Y',strtotime($editevent->mulai))}}" name="awal" id="awaltanggal" placeholder="Waktu Mulai Acara">
+            <input type="text" class="form-control" value="{{$editevent->mulai}}" name="awaltanggal" id="awaltanggal" placeholder="Waktu Mulai Acara">
           </div>
           <div class="form-group">
             <label for="akhir">Waktu Akhir Acara</label>
-            <input type="text" class="form-control" name="akhir"  value="{{date('H:i d/m/Y',strtotime($editevent->akhir))}}" id="akhirtanggal" placeholder="Waktu AKhir Acara">
+            <input type="text" class="form-control" name="akhirtanggal" value="{{$editevent->akhir}}" id="akhirtanggal" placeholder="Waktu Akhir Acara">
           </div>
         </div>
         @endforeach
@@ -39,6 +39,45 @@
 </div>
 <script type="text/javascript">
 
-  $("#awaltanggal").datetimepicker({ footer: true, modal: true });
-  $("#akhirtanggal").datetimepicker({ footer: true, modal: true });
+  $("#awaltanggal").datetimepicker({ 
+    footer: true, modal: true 
+  }).on('changeDate', function(selected){
+    FromEndDate = new Date(selected.date.valueOf());
+    FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+    $('#akhirtanggal').datepicker('setEndDate', FromEndDate);
+            });
+  $("#akhirtanggal").datetimepicker({ 
+    footer: true, modal: true 
+  }).on('changeDate', function(selected){
+    FromEndDate = new Date(selected.date.valueOf());
+    FromEndDate.setDate(FromEndDate.getDate(new Date(selected.date.valueOf())));
+    $('#awaltanggal').datepicker('setEndDate', FromEndDate);
+  });
+
+$("#eventsupdate").submit(function (event) {
+  var data = new FormData($(this)[0]);
+  $.ajax({
+    url: BASE_URL + '/events/update',
+    type: "POST",
+    data: data,
+    contentType: false,
+    cache: false,
+    processData: false,
+    headers: {'X-CSRF-TOKEN': CSRF},
+    success: function (response) {
+        if (response.code == 200) {
+            $('#modalevent').modal('hide');
+            location.reload();
+        } else {
+            $('#errorMessageModal').modal('show');
+            $('#errorMessageModal #errors').html('Ada Kesalahan!');
+        }
+    },
+    error: function () {
+        $('#errorMessageModal').modal('show');
+        $('#errorMessageModal #errors').html('Ada Kesalahan!');
+    }
+});
+  return false;
+});
 </script>

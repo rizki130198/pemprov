@@ -61,6 +61,7 @@
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="deleteNews" style="top: 33px;">
                     <li role="presentation"><a role="menuitem" href="javascript:;" onclick="deletenews({{ $berita->id }})">Hapus Berita</a></li>
+                    <li role="presentation"><a role="menuitem" href="javascript:;" onclick="editnews({{ $berita->id }})">Edit Berita</a></li>
                 </ul>
             </div> 
             @endif 

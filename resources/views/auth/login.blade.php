@@ -4,16 +4,16 @@
 
     <h2>Masuk</h2>
     <div class="row">
-        <div class="form-group{{ old('tab') != 'register' && $errors->has('email') ? ' has-error' : '' }} col-md-12 !important" >
-            <label for="email" class="control-label">E-Mail Address</label>
+        <div class="form-group{{ old('tab') != 'register' && $errors->has('username') ? ' has-error' : '' }} col-md-12 !important" >
+            <label for="username" class="control-label">Username</label>
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i> </span>
-                <input id="email" type="email" class="form-control" placeholder="email@example.com" name="email" value="{{ old('email') }}" required>
+                <input id="username" type="text" class="form-control" placeholder="Username" name="username" value="{{ old('username') }}" required>
 
             </div>
-            @if (old('tab') != 'register' && $errors->has('email'))
+            @if (old('tab') != 'register' && $errors->has('username'))
                 <span class="help-block">
-                        <strong>{{ $errors->first('email') }}</strong>
+                        <strong>{{ $errors->first('username') }}</strong>
                     </span>
             @endif
         </div>

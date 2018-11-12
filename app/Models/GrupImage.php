@@ -8,7 +8,7 @@ class GrupImage extends Model
 {
     
     protected $table = 'post_grup_images';
-
+     protected $primaryKey = 'post_grup_id'; 
     public $timestamps = false;
 
 

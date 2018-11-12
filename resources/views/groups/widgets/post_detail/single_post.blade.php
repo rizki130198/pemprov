@@ -6,7 +6,7 @@
         </span>
         <ul class="dropdown-menu" aria-labelledby="dd1">
             <li><a href="javascript:;" onclick="deletePostgrup({{ $post->id_post_grup }})"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Hapus</a></li>
-            <!-- <li><a href="javascript:;" onclick="editPostgrup({{ $post->id_post_grup }})"><i class="fa fa-fw fa-pencil" aria-hidden="true"></i> Edit</a></li> -->
+            <li><a href="javascript:;" onclick="editPostgrup({{ $post->id_post_grup }})"><i class="fa fa-fw fa-pencil" aria-hidden="true"></i> Edit</a></li>
         </ul>
     </div>
     <div class="modalpostgrup"></div>

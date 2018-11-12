@@ -301,7 +301,7 @@ public function editpost(Request $request)
 
     $user = Auth::user();
     $user_list = [];
-    $editdata = GrupPost::where('id_post_grup',$request->input('idpostgrup'))->get();
+    $editdata = GrupPost::where('posts_grup.id_post_grup',$request->input('idpostgrup'))->get();
     $return = view::make('groups.widgets.modalpostgrup',compact('editdata','user_list','user'));
     $response['html'] = $return->render();
     return Response::json($response);

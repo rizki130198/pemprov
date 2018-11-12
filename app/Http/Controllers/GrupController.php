@@ -338,9 +338,9 @@ class GrupController extends Controller
 
 
         if ($request->hasFile('image')){
-            $validator_data['image.*'] = 'required|mimes:jpg,png,jpeg';
+            $validator_data['image.*'] = 'mimes:jpg,png,jpeg';
         }else if($request->hasFile('files')){
-            $validator_data['files.*'] = 'required|mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
+            $validator_data['files.*'] = 'mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
         }else{
             $validator_data['content'] = 'required';
         }
@@ -379,9 +379,9 @@ class GrupController extends Controller
           }
           $process = true;
       }else if($request->hasFile('files')){
-       $post->has_image = 1;
-       $file = $request->file('files');
-       if (count($file) != 14) {
+         $post->has_image = 1;
+         $file = $request->file('files');
+         if (count($file) != 14) {
           for ($i=0; $i < count($file); $i++) {
             $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
             $originalfile = $file[$i]->getClientOriginalName().',';
@@ -403,13 +403,12 @@ class GrupController extends Controller
 
 if ($process){
     if ($post->save()) {
-        if ($post->has_image == 1) {
             $post_image = new GrupImage();
-            if ($request->file('image') != NULL) {
+            if ($request->file('image')) {
                 $post_image->image_path = $image_path;
                 $post_image->original_name = $image_original;
                 $post_image->id_user = Auth::user()->id;
-            }else if($request->file('files') !=NULL){
+            }else if($request->file('files')){
                 $post_image->file_path = $file_path;
                 $post_image->original_name = $originalcontent;
                 $post_image->id_user = Auth::user()->id;
@@ -428,7 +427,6 @@ if ($process){
             sHelper::notifications($data['group_id']);
 
         }
-    }
 }else{ 
     $response['code'] = 400;
     $response['message'] = "Something went wrong!";
@@ -507,4 +505,141 @@ public function gabung(Request $request){
 }
 
 
+public function updatepost(Request $request){
+
+    $data = $request->all();
+    $input = json_decode($data['data'], true);
+    unset($data['data']);
+    foreach ($input as $key => $value) $data[$key] = $value;
+
+    $response = array();
+    $response['code'] = 400;
+
+
+    if ($request->hasFile('image')){
+        $validator_data['image.*'] = 'mimes:jpg,png,jpeg';
+    }else if($request->hasFile('files')){
+        $validator_data['files.*'] = 'mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
+    }else{
+        $validator_data['content'] = 'required';
+    }
+
+    $validator = Validator::make($data, $validator_data);
+    if ($validator->fails()) {
+        $response['code'] = 400;
+        $response['message'] = implode(' ', $validator->errors()->all());
+    }else{
+
+        $post = GrupPost::find($data['id']);
+        $post->content = !empty($data['content'])?$data['content']:'';
+        $post->group_post_id = $data['id'];
+        $post->user_id = Auth::user()->id;
+
+        $imageupload = '';
+        $fileupload = '';
+        $originaupload = '';
+
+        if ($request->hasFile('image')) {
+            $post->has_image = 1;
+            $image = $request->file('image');
+            if (count($image) != 14) {
+              for ($i=0; $i < count($image); $i++) {
+                $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+                $originalimage = $image[$i]->getClientOriginalName().',';
+                $imagestore = str_replace(',', '', $dataimage);
+                $image[$i]->storeAs('public/uploads/posts', $imagestore);
+                $imageupload .= $dataimage;
+                $originaupload .= $originalimage;
+            }
+            $image_path = substr($imageupload, 0, -1);
+            $image_original = substr($originaupload, 0, -1);
+            if ($image_path==NULL) {
+                $updategambar = $data['imageold'];
+                $originalname = $data['nameold'];
+
+            }else if($image_path!= NULL AND $data['imageold']!= NULL){
+                $updategambar = $image_path.','.$data['imageold'];
+                $originalname = $originaupload.','.$data['nameold'];
+            }else if($data['imageold']== NULL){
+                $updategambar = $image_path;
+                $originalname = $originaupload;
+            }else{
+                $updategambar = NULL;
+                $originalname = NULL;
+            }
+        }else{
+          $image_path = $image->getClientOriginalName();
+      }
+      $process = true;
+  }else if($request->hasFile('files')){
+     $post->has_image = 1;
+     $file = $request->file('files');
+     if (count($file) != 14) {
+      for ($i=0; $i < count($file); $i++) {
+        $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
+        $originalfile = $file[$i]->getClientOriginalName().',';
+        $filestore = str_replace(',', '', $datafile);
+        $fileupload .= $datafile;
+        $originaupload .= $originalfile;
+
+        $file[$i]->storeAs('public/uploads/posts', $filestore);
+    }
+    $file_path = substr($fileupload, 0, -1);
+    $originalcontent = substr($originaupload, 0, -1);
+    if ($file_path==NULL) {
+                $updatefile = $data['fileold'];
+                $namefile = $data['oldfile'];
+
+            }else if($file_path!= NULL AND $data['oldfile']!= NULL){
+                $updatefile = $file_path.','.$data['fileold'];
+                $namefile = $originalcontent.','.$data['oldfile'];
+            }else if($data['oldfile']== NULL){
+                $updatefile = $file_path;
+                $namefile = $originalcontent;
+            }else{
+                $updatefile = NULL;
+                $namefile = NULL;
+            }
+}else{
+    $file_path = $file->getClientOriginalName();
+}
+$process = true;
+}else{
+    $process = true;
+}
+
+// if ($process){
+//     if ($post->save()) {
+//             $post_image = GrupImage::find();
+//             if ($request->file('image') != NULL) {
+//                 $post_image->image_path = $updategambar;
+//                 $post_image->original_name = $originalname;
+//                 $post_image->id_user = Auth::user()->id;
+//             }else if($request->file('files') !=NULL){
+//                 $post_image->file_path = $updatefile;
+//                 $post_image->original_name = $namefile;
+//                 $post_image->id_user = Auth::user()->id;
+//             }
+//             $post_image->post_grup_id = $post->id_post_grup;
+//             if ($post_image->save()){
+//                 $response['code'] = 200;
+//                     // $response['message'] = dd($request->file);
+//             }else{
+//                 $response['code'] = 400;
+//                 $response['message'] = "Something went wrong!";
+//                 $post->delete();
+//             }
+//         }else{
+//             $response['code'] = 200;
+//             sHelper::notifications($data['id']);
+
+//     }
+// }else{ 
+//     $response['code'] = 400;
+//     $response['message'] = "Something went wrong!";
+// }
+}
+return Response::json($response);
+
+}
 }

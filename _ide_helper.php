@@ -1630,7 +1630,7 @@ namespace Illuminate\Support\Facades {
          * @return \Symfony\Component\HttpFoundation\Response|null 
          * @static 
          */
-        public static function basic($field = 'email', $extraConditions = array())
+        public static function basic($field = 'username', $extraConditions = array())
         {
             return \Illuminate\Auth\SessionGuard::basic($field, $extraConditions);
         }
@@ -1643,7 +1643,7 @@ namespace Illuminate\Support\Facades {
          * @return \Symfony\Component\HttpFoundation\Response|null 
          * @static 
          */
-        public static function onceBasic($field = 'email', $extraConditions = array())
+        public static function onceBasic($field = 'username', $extraConditions = array())
         {
             return \Illuminate\Auth\SessionGuard::onceBasic($field, $extraConditions);
         }

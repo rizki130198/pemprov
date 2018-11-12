@@ -223,10 +223,11 @@ class EventController extends Controller
 				$response = array();
 				$response['code'] = 400;
 				$rules = [
+					'idevent'=> 'required',
 					'nama_events'=>'required',
 					'ket'=>'required',
-					'awal'=>'required',
-					'akhir'=>'required',
+					'awaltanggal'=>'required',
+					'akhirtanggal'=>'required',
 				];
 				$validator = Validator::make($data,$rules);
 
@@ -235,11 +236,11 @@ class EventController extends Controller
 					$response['message'] = implode(' ', $validator->errors()->all());
 				}else{
 
-					$event = Event::where('id_event',$request->input('id'));
+					$event = Event::find($request->input('idevent'));
 					$event->nama_event = $request->input('nama_events');
 					$event->keterangan = $request->input('ket');
-					$event->mulai = date('Y-m-d H:i:s', strtotime($request->input('awal')));
-					$event->akhir = date('Y-m-d H:i:s', strtotime($request->input('akhir')));
+					$event->mulai = date('Y-m-d H:i:s', strtotime($request->input('awaltanggal')));
+					$event->akhir = date('Y-m-d H:i:s', strtotime($request->input('akhirtanggal')));
 					$event->tanggal = date('Y-m-d H:i:s');
 					$event->status = 'Aktif';
 
