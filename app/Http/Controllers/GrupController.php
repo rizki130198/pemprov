@@ -403,6 +403,7 @@ class GrupController extends Controller
 
 if ($process){
     if ($post->save()) {
+        if ($post->has_image == 1) {
             $post_image = new GrupImage();
             if ($request->file('image')) {
                 $post_image->image_path = $image_path;
@@ -427,6 +428,7 @@ if ($process){
             sHelper::notifications($data['group_id']);
 
         }
+    }
 }else{ 
     $response['code'] = 400;
     $response['message'] = "Something went wrong!";
@@ -518,8 +520,8 @@ public function updatepost(Request $request){
 
     if ($request->hasFile('image')){
         $validator_data['image.*'] = 'mimes:jpg,png,jpeg';
-    }else if($request->hasFile('files')){
-        $validator_data['files.*'] = 'mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
+    }else if($request->hasFile('filemodal')){
+        $validator_data['filemodal.*'] = 'mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
     }else{
         $validator_data['content'] = 'required';
     }
@@ -530,116 +532,94 @@ public function updatepost(Request $request){
         $response['message'] = implode(' ', $validator->errors()->all());
     }else{
 
-        $post = GrupPost::find($data['id']);
+        $post = GrupPost::find($data['idgroup']);
         $post->content = !empty($data['content'])?$data['content']:'';
-        $post->group_post_id = $data['id'];
         $post->user_id = Auth::user()->id;
-
-        $imageupload = '';
-        $fileupload = '';
-        $originaupload = '';
-
-        if ($request->hasFile('image')) {
-            $post->has_image = 1;
-            $image = $request->file('image');
-            if (count($image) != 14) {
-              for ($i=0; $i < count($image); $i++) {
-                $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
-                $originalimage = $image[$i]->getClientOriginalName().',';
-                $imagestore = str_replace(',', '', $dataimage);
-                $image[$i]->storeAs('public/uploads/posts', $imagestore);
-                $imageupload .= $dataimage;
-                $originaupload .= $originalimage;
-            }
-            $image_path = substr($imageupload, 0, -1);
-            $image_original = substr($originaupload, 0, -1);
-            if ($image_path==NULL) {
-                $updategambar = $data['imageold'];
-                $originalname = $data['nameold'];
-
-            }else if($image_path!= NULL AND $data['imageold']!= NULL){
-                $updategambar = $image_path.','.$data['imageold'];
-                $originalname = $originaupload.','.$data['nameold'];
-            }else if($data['imageold']== NULL){
-                $updategambar = $image_path;
-                $originalname = $originaupload;
-            }else{
-                $updategambar = NULL;
-                $originalname = NULL;
-            }
+        if ($request->input('fileold')[0]=='null') {
+            $fileold =  '';
+            $post->has_image = 0;
         }else{
-          $image_path = $image->getClientOriginalName();
-      }
-      $process = true;
-  }else if($request->hasFile('files')){
-     $post->has_image = 1;
-     $file = $request->file('files');
-     if (count($file) != 14) {
-      for ($i=0; $i < count($file); $i++) {
-        $datafile = md5(uniqid() . time()) . '.' . $file[$i]->getClientOriginalExtension().',';
-        $originalfile = $file[$i]->getClientOriginalName().',';
-        $filestore = str_replace(',', '', $datafile);
-        $fileupload .= $datafile;
-        $originaupload .= $originalfile;
+            $post->has_image = 1;
+            $fileold =  $this->validasidata($data['fileold']);
+        }
+            $getfiles = $this->getimage($request->file('filemodal'));
+            $validasifile = $this->cekdata($fileold,$getfiles);
 
-        $file[$i]->storeAs('public/uploads/posts', $filestore);
+        if ($request->input('imageold')[0]=='null') {
+            $imageold =  '';
+            $post->has_image = 0;
+        }else{
+            $post->has_image = 1;
+            $imageold =  $this->validasidata($data['imageold']);
+        }
+            $getimage = $this->getimage($request->file('image'));
+            $validasiimage = $this->cekdata($imageold,$getimage);
+
+        if ($post->save()) {
+                $get = GrupImage::where('post_grup_id',$data['idgroup'])->get()->first();
+                if ($get==NULL) {
+                    $post_image = new GrupImage();
+                    $post_image->image_path = $validasiimage;
+                    $post_image->file_path = $validasifile;
+                    $post_image->id_user = Auth::user()->id;
+                    $post_image->post_grup_id = $post->id_post_grup;
+                    $post_image->save();
+                }else{
+                    $updateimage = GrupImage::where('post_grup_id',$data['idgroup'])->update(['image_path'=>$validasiimage,'file_path'=>$validasifile,'id_user'=>Auth::user()->id,'post_grup_id'=>$data['idgroup']]);
+                }
+                $response['code'] = 200;
+                sHelper::notifications($data['idgroup']);
+        }else{ 
+            $response['code'] = 400;
+            $response['message'] = "Something went wrong!";
+        }
     }
-    $file_path = substr($fileupload, 0, -1);
-    $originalcontent = substr($originaupload, 0, -1);
-    if ($file_path==NULL) {
-                $updatefile = $data['fileold'];
-                $namefile = $data['oldfile'];
+    return Response::json($response);
 
-            }else if($file_path!= NULL AND $data['oldfile']!= NULL){
-                $updatefile = $file_path.','.$data['fileold'];
-                $namefile = $originalcontent.','.$data['oldfile'];
-            }else if($data['oldfile']== NULL){
-                $updatefile = $file_path;
-                $namefile = $originalcontent;
-            }else{
-                $updatefile = NULL;
-                $namefile = NULL;
-            }
+}
+public function validasidata($data)
+{
+    if (count($data)!=0) {
+        $datanya = "";
+        for ($i=0; $i <count($data) ; $i++) { 
+            $datanya .= $data[$i].',';
+        }
+        $namafile = substr($datanya,0,-1);
+    }else{
+        $namafile =null;
+    }
+    return $namafile;
+}
+public function cekdata($data,$data1)
+{
+    if ($data == "") {
+        $updategambar = $data1;
+    }else if($data1 == ""){
+        $updategambar = $data;
+    }else{
+        $updategambar = $data1.','.$data;
+    } 
+    return $updategambar;
+}
+public function getimage($image)
+{
+
+    $imageupload = '';
+    if (count($image) != 14) {
+      for ($i=0; $i < count($image); $i++) {
+        $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+        $originalimage = $image[$i]->getClientOriginalName().',';
+        $imagestore = str_replace(',', '', $dataimage);
+        $image[$i]->storeAs('public/uploads/posts', $imagestore);
+        $imageupload .= $dataimage;
+        // $originaupload .= $originalimage;
+    }
+    $image_path = substr($imageupload, 0, -1);
+    // $image_original = substr($originaupload, 0, -1);
+
 }else{
-    $file_path = $file->getClientOriginalName();
+  $image_path = "";
 }
-$process = true;
-}else{
-    $process = true;
-}
-
-// if ($process){
-//     if ($post->save()) {
-//             $post_image = GrupImage::find();
-//             if ($request->file('image') != NULL) {
-//                 $post_image->image_path = $updategambar;
-//                 $post_image->original_name = $originalname;
-//                 $post_image->id_user = Auth::user()->id;
-//             }else if($request->file('files') !=NULL){
-//                 $post_image->file_path = $updatefile;
-//                 $post_image->original_name = $namefile;
-//                 $post_image->id_user = Auth::user()->id;
-//             }
-//             $post_image->post_grup_id = $post->id_post_grup;
-//             if ($post_image->save()){
-//                 $response['code'] = 200;
-//                     // $response['message'] = dd($request->file);
-//             }else{
-//                 $response['code'] = 400;
-//                 $response['message'] = "Something went wrong!";
-//                 $post->delete();
-//             }
-//         }else{
-//             $response['code'] = 200;
-//             sHelper::notifications($data['id']);
-
-//     }
-// }else{ 
-//     $response['code'] = 400;
-//     $response['message'] = "Something went wrong!";
-// }
-}
-return Response::json($response);
-
+return $image_path;
 }
 }

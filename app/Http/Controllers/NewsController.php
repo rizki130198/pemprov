@@ -136,15 +136,15 @@ class NewsController extends Controller
 					$insert->seen = 1;
 					$insert->save();
 				}
-					foreach ($getcomment->get() as $value) {
-				$CekComment = CekComment::where('id_coment',$value->id_comment)->where('id_users',$user->id)->get()->first();
-				if ($CekComment == null) {
-					$cek = new CekComment;
-					$cek->id_coment = $value->id_comment;
-					$cek->id_users = $user->id;
-					$cek->id_berita = $key->id;
-					$cek->seen = 1;
-					$cek->save();
+				foreach ($getcomment->get() as $value) {
+					$CekComment = CekComment::where('id_coment',$value->id_comment)->where('id_users',$user->id)->get()->first();
+					if ($CekComment == null) {
+						$cek = new CekComment;
+						$cek->id_coment = $value->id_comment;
+						$cek->id_users = $user->id;
+						$cek->id_berita = $key->id;
+						$cek->seen = 1;
+						$cek->save();
 					}
 				}
 				return view('news.widgets.single_news', compact('user','user_list','getdata','getcomment'));
@@ -218,5 +218,58 @@ class NewsController extends Controller
 		}
 
 		return Response::json($response);
+	}
+	public function modal(Request $request)
+	{
+		$user = Auth::user();
+		$user_list = [];
+		$editdata = News::where('id',$request->input('idnews'))->get();
+		$return = view::make('news.modalnews',compact('editdata','user_list','user'));
+		$response['html'] = $return->render();
+		return Response::json($response);
+	}
+	public function update(Request $request)
+	{
+		$data = $request->all();
+		if ($request->hasFile('image')){
+			$validator_data['image'] = 'mimes:jpg,png,jpeg';
+		}else{
+			$validator_data['content'] = 'required';
+			$validator_data['judul'] = 'required';
+		}
+
+		$validator = Validator::make($data, $validator_data);
+		if ($validator->fails()) {
+			$response['code'] = 400;
+			$response['message'] = implode(' ', $validator->errors()->all());
+		}else{
+			$news = News::find($data['idnews']);
+			if ($request->hasFile('image') != NULL) {
+				$file_name = '';
+				$file = $request->file('image');
+				$file_name = md5(uniqid() . time()) . '.' . $file->getClientOriginalExtension();
+				if ($file->storeAs('public/uploads/posts', $file_name)) {
+					$news->cover = $file_name;
+				} else {
+					$news->cover = '';
+				}
+			}else{
+				$news->cover = '';
+			}
+			$news->user_id = Auth::user()->id;
+			$news->judul = $data['judul'];
+			$news->isi = $data['content'];
+			$news->seen = 0;
+
+			if ($news->save()) {
+				return redirect('news');
+			}else{				
+				$response['code'] = 400;
+				$response['message'] = "Something went wrong!";
+			}
+			
+			
+		}
+
 	}
 }	

@@ -297,14 +297,14 @@ function hapusgrup(id){
 }
 function editnews(id) {
     $.ajax({
-        url: BASE_URL+'/group/editpost/modal',
+        url: BASE_URL+'/news/modal',
         type: 'post',
         setTimeout: 5000,
         headers: {'X-CSRF-TOKEN': CSRF},
-        data: {idpostgrup: id},
+        data: {idnews: id},
         success: function(response) {
-            $(".modalpostgrup").html(response.html);
-            $("#modalpostgrup").modal('show');
+            $(".modalpostnews").html(response.html);
+            $("#modalpostnews").modal('show');
         }
     });
 }

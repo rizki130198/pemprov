@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Group;
 use App\Models\Grup;
+use App\Models\GrupImage;
 use App\Models\GrupPost;
 use App\Models\User_grup;
 use App\Models\Hobby;
@@ -301,8 +302,9 @@ public function editpost(Request $request)
 
     $user = Auth::user();
     $user_list = [];
-    $editdata = GrupPost::where('posts_grup.id_post_grup',$request->input('idpostgrup'))->get();
-    $return = view::make('groups.widgets.modalpostgrup',compact('editdata','user_list','user'));
+    $editdata = GrupPost::where('id_post_grup',$request->input('idpostgrup'))->get();
+    $imagedata = GrupImage::where('post_grup_id',$request->input('idpostgrup'))->get();
+    $return = view::make('groups.widgets.modalpostgrup',compact('editdata','user_list','user','imagedata'));
     $response['html'] = $return->render();
     return Response::json($response);
 }

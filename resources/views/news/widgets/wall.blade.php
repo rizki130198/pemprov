@@ -14,7 +14,7 @@
 .media-body p img{
     display: none;
 }
-</style>
+</style> 
 <div class="clearfix"></div>
 @if($user->id == Auth::user()->id AND $user->role == 'admin')
 <div class="new-post-box">
@@ -48,6 +48,7 @@
         </form>
     </div>
 </div>
+<div class="modalpostnews"></div>
 @endif
 @if($news->count() > 0)
 <div class="panel panel-default" id="">

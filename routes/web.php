@@ -38,7 +38,8 @@ Route::post('/news/comment/{id}', 'NewsController@newscomment');
 Route::post('/news/deletcomment', 'NewsController@newscommentdelete');
 Route::post('/news/likenews/{id}', 'NewsController@likenews');
 Route::post('/news/komentar/{id}', 'NewsController@komentar');
-Route::post('/news/edit/idmodal','NewsController@modal');
+Route::post('/news/modal','NewsController@modal');
+Route::post('/news/update','NewsController@update');
 
 // Posts
 Route::get('/posts/list', 'PostsController@fetch');
@@ -49,6 +50,8 @@ Route::post('/posts/likes', 'PostsController@likes');
 Route::post('/posts/comment', 'PostsController@comment');
 Route::post('/posts/comments/delete', 'PostsController@deleteComment');
 Route::get('/post/{id}', 'PostsController@single');
+Route::Post('/post/modal', 'PostsController@modal');
+Route::Post('/post/update', 'PostsController@updatepost');
 
 // Search
 Route::get('/search', 'HomeController@search');

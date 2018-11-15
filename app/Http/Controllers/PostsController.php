@@ -359,6 +359,128 @@ if ($process){
 return Response::json($response);
 
 }
+public function modal(Request $request)
+{
+    $user = Auth::user();
+    $user_list = [];
+    $editdata = Post::where('id',$request->input('idpost'))->get();
+    $imagedata = PostImage::where('post_id',$request->input('idpost'))->get();
+    $return = view::make('widgets.post_detail.modalpost',compact('editdata','user_list','user','imagedata'));
+    $response['html'] = $return->render();
+    return Response::json($response);
+}
+public function updatepost(Request $request){
+
+    $data = $request->all();
+
+    $input = json_decode($data['data'], true);
+    unset($data['data']);
+    foreach ($input as $key => $value) $data[$key] = $value;
+    $response = array();
+    $response['code'] = 400;
 
 
+    if ($request->hasFile('image')){
+        $validator_data['image.*'] = 'mimes:jpg,png,jpeg';
+    }else if($request->hasFile('filemodal')){
+        $validator_data['filemodal.*'] = 'mimes:pdf,xls,xlsx,ppt,pptx,zip,rar,txt,docx,doc';
+    }else{
+        $validator_data['content'] = 'required';
+    }
+
+    $validator = Validator::make($data, $validator_data);
+    if ($validator->fails()) {
+        $response['code'] = 400;
+        $response['message'] = implode(' ', $validator->errors()->all());
+    }else{
+
+        $post = Post::find($data['idpost']);
+        $post->content = !empty($data['content'])?$data['content']:'';
+        $post->user_id = Auth::user()->id;
+        if ($request->input('fileold')[0]=='null') {
+            $fileold =  '';
+            $post->has_image = 0;
+        }else{
+            $post->has_image = 1;
+            $fileold =  $this->validasidata($data['fileold']);
+        }
+            $getfiles = $this->getimage($request->file('filemodal'));
+            $validasifile = $this->cekdata($fileold,$getfiles);
+
+        if ($request->input('imageold')[0]=='null') {
+            $imageold =  '';
+            $post->has_image = 0;
+        }else{
+            $post->has_image = 1;
+            $imageold =  $this->validasidata($data['imageold']);
+        }
+            $getimage = $this->getimage($request->file('image'));
+            $validasiimage = $this->cekdata($imageold,$getimage);
+
+     // return dd($imageold);
+        if ($post->save()) {
+            $get = PostImage::where('post_id',$data['idpost'])->get()->first();
+            if ($get==NULL) {
+                $post_image = new PostImage();
+                $post_image->image_path = $validasiimage;
+                $post_image->file_path = $validasifile;
+                $post_image->post_id = $post->id;
+                $post_image->save();
+            }else{
+                $updateimage = PostImage::where('post_id',$data['idpost'])->update(['image_path'=>$validasiimage,'file_path'=>$validasifile]);
+            }
+            $response['code'] = 200;
+        }else{ 
+            $response['code'] = 400;
+            $response['message'] = "Something went wrong!";
+        }
+    }
+    return Response::json($response);
+
+}
+public function validasidata($data)
+{
+    if (count($data)!=0) {
+        $datanya = "";
+        for ($i=0; $i < count($data) ; $i++) { 
+            $datanya .= $data[$i].',';
+        }
+        $namafile = substr($datanya,0,-1);
+    }else{
+        $namafile = null;
+    }
+    return $namafile;
+}
+public function cekdata($data,$data1)
+{
+    if ($data==NULL) {
+        $updategambar = $data1;
+    }else if($data1 == NULL){
+        $updategambar = $data;
+    }else{
+        $updategambar = $data1.','.$data;
+    } 
+    return $updategambar;
+}
+public function getimage($image)
+{
+
+    $imageupload = '';
+    if (count($image) != 14) {
+      for ($i=0; $i < count($image); $i++) {
+        $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+        $originalimage = $image[$i]->getClientOriginalName().',';
+        $imagestore = str_replace(',', '', $dataimage);
+        $image[$i]->storeAs('public/uploads/posts', $imagestore);
+        $imageupload .= $dataimage;
+        // $originaupload .= $originalimage;
+    }
+    $image_path = substr($imageupload, 0, -1);
+    // $image_original = substr($originaupload, 0, -1);
+
+}else{
+  $image_path = "";
+}
+return $image_path;
+}
 }

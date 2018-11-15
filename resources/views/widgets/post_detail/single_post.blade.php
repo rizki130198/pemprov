@@ -7,9 +7,12 @@
         </span>
         <ul class="dropdown-menu" aria-labelledby="dd1">
             <li><a href="javascript:;" onclick="deletePost({{ $post->id }})"><i class="fa fa-fw fa-trash" aria-hidden="true"></i> Hapus</a></li>
+            <li><a href="javascript:;" onclick="editPost({{ $post->id }})"><i class="fa fa-fw fa-pencil" aria-hidden="true"></i> Edit
+            </a></li>
         </ul>
     </div>
-    @endif
+    <div class="modalpost"></div> 
+    @endif  
     <div class="panel-heading" style="background:none;">
         <img class="img-circle pull-left" src="{{ $post->user->getPhoto(60,60) }}" alt="{{ $post->user->name }}" />
         <a href="{{ url('/'.$post->user->username) }}"><h3 style="margin-top: 3px !important;color: #222;">{{ $post->user->name }}</h3></a>
@@ -17,21 +20,19 @@
     </div>
     <div class="panel-body" style="padding-bottom: 0;">
         <p>{{ $post->content }}</p>
-        @if($post->hasImage())
         @foreach($post->images()->get() as $image)
-        @if($image->image_path == NULL)
+        @if($image->file_path != 0 AND $image->file_path != NULL)
         <?php $file = explode(',',$image->file_path); ?>
         @for($i = 0; $i < count($file); $i++)
         <p><a href="{{url('storage/uploads/posts/'.$file[$i])}}">Download File</a></p>
         @endfor
-        @else
-        <?php $image = explode(',',$image->image_path); ?>
-        @for($i = 0; $i < count($image); $i++)
-        <a data-fancybox="gallery" href="{{ url('storage/uploads/posts/'.$image[$i]) }}" data-caption="{{ $post->content }}"><img class="img-responsive post-image" src="{{ url('storage/uploads/posts/'.$image[$i]) }}" style="width: 320px;height: 320px;display: inline-block;padding: 0 5px 10px 0;"></a>
+        @elseif($image->image_path != 0 AND $image->image_path != NULL)
+        <?php $apa = explode(',',$image->image_path); ?>
+        @for($i = 0; $i < count($apa); $i++)
+        <a data-fancybox="gallery" href="{{ url('storage/uploads/posts/'.$apa[$i]) }}" data-caption="{{ $post->content }}"><img class="img-responsive post-image" src="{{ url('storage/uploads/posts/'.$apa[$i]) }}" style="width: 320px;height: 320px;display: inline-block;padding: 0 5px 10px 0;"></a>
         @endfor
         @endif
         @endforeach
-        @endif
         <hr class="fix-hr">
         <div class="comments-title">
             @include('widgets.post_detail.comments_title')

@@ -407,3 +407,16 @@ function showLikes(id){
         }
     });
 }
+function editPost(id) {
+    $.ajax({
+        url: BASE_URL+'/post/modal',
+        type: 'post',
+        setTimeout: 5000,
+        headers: {'X-CSRF-TOKEN': CSRF},
+        data: {idpost: id},
+        success: function(response) {
+            $(".modalpost").html(response.html);
+            $("#modalpost").modal('show');
+        }
+    });
+}
