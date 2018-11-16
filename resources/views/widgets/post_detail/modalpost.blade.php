@@ -70,6 +70,7 @@
   }
   function uploadPostImagemodal(){
     var form_name = '#form-update-post';
+    $('#listimagemodal').removeAttr('disabled');
     $('#modalimage').click();
   }
   function previewPostImagemodal(input){
@@ -85,12 +86,14 @@
 
   function removePostFile(){
     var form_name = '#form-update-post';
-    $('#listfilemodal').hide();
+    $('#listfilemodal').html('');
+    $('#listfilemodal').attr('disabled','disabled');
     resetFile($(form_name + ' .typefile'));
     resetFile($('#listfilemodal'));
   }
   function uploadPostFilemodal(){
     var form_name = '#form-update-post';
+    $('#listfilemodal').removeAttr('disabled');
     $('#filemodal').click();
   }
 
@@ -107,7 +110,8 @@
 
   function removeupdateImage(){
     var form_name = '#form-update-post';
-    $('#listimagemodal').hide();
+    $('#listimagemodal').html('');
+    $('#listimagemodal').attr('disabled','disabled');
     resetFile($(form_name + ' .image-input'));
     resetFile($('#listimagemodal'));
   }

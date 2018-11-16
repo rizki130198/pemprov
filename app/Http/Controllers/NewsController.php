@@ -124,7 +124,7 @@ class NewsController extends Controller
 			];
 		}
 		$potong = str_replace('-', ' ', $string);
-		$getdata = News::where('post_news.judul',$potong);
+		$getdata = News::where('judul',$potong);
 		if ($getdata != null) {
 			foreach ($getdata->get() as $key) {
 				$getcomment = News_Comment::join('users','news_comment.id_user','=','users.id')->where('news_comment.id_news',$key->id)->orderBy('id_comment','DESC');

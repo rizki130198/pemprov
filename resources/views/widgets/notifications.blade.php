@@ -27,7 +27,7 @@
                     </div> -->
                     <div class="media-body">
                         <h5 class="media-heading" style="font-weight: bold;">{{ $notification['nama'] }} <span style="font-weight: 100;">{{ $notification['text'] }} </span><span>{{ $notification['grup'] }} </span></h5>
-                        <span><i class="fa {{ $notification['icon'] }} {{ $notification['color'] }}"></i> 2h</span>
+                        <span><i class="fa {{ $notification['icon'] }} {{ $notification['color'] }}"></i> {{ $notification['jam'] }}</span>
                     </div>
                 </div>
             </li>
