@@ -535,26 +535,26 @@ public function updatepost(Request $request){
         $post = GrupPost::find($data['idgroup']);
         $post->content = !empty($data['content'])?$data['content']:'';
         $post->user_id = Auth::user()->id;
-        if ($request->input('fileold')[0]=='null') {
+        if ($request->input('fileold')[0]==NULL OR $request->input('fileold')[0]=='null') {
             $fileold =  '';
             $post->has_image = 0;
         }else{
             $post->has_image = 1;
-            $fileold =  $this->validasidata($data['fileold']);
+            $fileold =  ($this->validasidata($data['fileold'])=="")?NULL:$this->validasidata($data['fileold']);
         }
             $getfiles = $this->getimage($request->file('filemodal'));
             $validasifile = $this->cekdata($fileold,$getfiles);
 
-        if ($request->input('imageold')[0]=='null') {
+        if ($request->input('imageold')[0]==NULL OR $request->input('imageold')[0]=='null') {
             $imageold =  '';
             $post->has_image = 0;
         }else{
             $post->has_image = 1;
-            $imageold =  $this->validasidata($data['imageold']);
+            $imageold =  ($this->validasidata($data['imageold'])=="")?NULL:$this->validasidata($data['imageold']);
         }
             $getimage = $this->getimage($request->file('image'));
             $validasiimage = $this->cekdata($imageold,$getimage);
-
+ 
         if ($post->save()) {
                 $get = GrupImage::where('post_grup_id',$data['idgroup'])->get()->first();
                 if ($get==NULL) {
