@@ -145,12 +145,10 @@
       $apa = explode(',',$dataimage->image_path); ?>
       for (var x = 0; x < <?= count($file) ?>; x++) {
         data.append("fileold[]", document.getElementById('inputfile'+[x]));
-        console.log('inputfile'+[x]);
       }
 
       for (var x = 0; x < <?= count($apa) ?>; x++) {
         data.append("imageold[]", document.getElementById('inputimage'+[x]));
-        console.log('inputimage'+[x]);
       }
     <?php }?>
 
