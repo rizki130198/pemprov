@@ -56,7 +56,7 @@ class PostsController extends Controller
                 $query->whereIn('user_id', function ($q) use ($user) {
                     $q->select('following_user_id')->from('user_following')->where('follower_user_id', $user->id)->where('allow', 1);
                 });
-                $query->orWhere('user_id', $user->id);
+                $query->orWhere('user_id', $user->id); 
             })->where('group_id', 0);
         }
 
@@ -109,7 +109,6 @@ class PostsController extends Controller
 
         $update_all = $post->comments()->where('seen', 0)->update(['seen' => 1]);
         $update_all = $post->likes()->where('seen', 0)->update(['seen' => 1]);
-
 
 
         return view('post', compact('post', 'user', 'comment_count', 'can_see','user_list'));
@@ -441,7 +440,7 @@ public function updatepost(Request $request){
 }
 public function validasidata($data)
 {
-    if (count($data)!=0) {
+    if ($data && count($data)!=0) {
         $datanya = "";
         for ($i=0; $i < count($data) ; $i++) { 
             $datanya .= $data[$i].',';
@@ -467,7 +466,7 @@ public function getimage($image)
 {
 
     $imageupload = '';
-    if (count($image) != 14) {
+    if ($image && count($image) != 14) {
       for ($i=0; $i < count($image); $i++) {
         $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
         $originalimage = $image[$i]->getClientOriginalName().',';

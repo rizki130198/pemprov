@@ -21,16 +21,18 @@
     <div class="panel-body" style="padding-bottom: 0;">
         <p>{{ $post->content }}</p>
         @foreach($post->images()->get() as $image)
-        @if($image->file_path != 0 AND $image->file_path != NULL)
+        @if($image->file_path != 0 OR $image->file_path != NULL )
         <?php $file = explode(',',$image->file_path); ?>
         @for($i = 0; $i < count($file); $i++)
         <p><a href="{{url('storage/uploads/posts/'.$file[$i])}}">Download File</a></p>
         @endfor
-        @elseif($image->image_path != 0 AND $image->image_path != NULL)
+        @elseif($image->image_path != 0 OR $image->image_path != NULL)
         <?php $apa = explode(',',$image->image_path); ?>
         @for($i = 0; $i < count($apa); $i++)
         <a data-fancybox="gallery" href="{{ url('storage/uploads/posts/'.$apa[$i]) }}" data-caption="{{ $post->content }}"><img class="img-responsive post-image" src="{{ url('storage/uploads/posts/'.$apa[$i]) }}" style="width: 320px;height: 320px;display: inline-block;padding: 0 5px 10px 0;"></a>
         @endfor
+        @else
+        kosong
         @endif
         @endforeach
         <hr class="fix-hr">
