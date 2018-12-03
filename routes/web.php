@@ -21,6 +21,7 @@ Route::group(['middleware' => 'guest'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/userguide', 'HomeController@userguide');
 Route::get('/settings', 'SettingsController@index');
 Route::post('/settings', array(
     'as' => 'settings',
