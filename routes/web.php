@@ -152,3 +152,7 @@ Route::get('/{username}/followers', 'ProfileController@followers');
 Route::post('/{username}/save/hobbies', 'ProfileController@saveHobbies');
 Route::post('/{username}/save/relationship', 'ProfileController@saveRelationship');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
