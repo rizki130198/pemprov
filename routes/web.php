@@ -58,7 +58,6 @@ Route::Post('/post/update', 'PostsController@updatepost');
 Route::get('/search', 'HomeController@search');
 
 //Grup
-
 Route::get('/postgrups/list', 'GrupController@fetch');
 Route::post('/postgrups/create', 'GrupController@save');
 Route::post('/postgrups/new', 'GrupController@create');
@@ -73,6 +72,8 @@ Route::post('/postgrups/tambah/{id}', 'GrupController@tambah');
 Route::get('/postgrup/{id}', 'GrupController@single');
 Route::get('/group/diskusi/postgrup/{id}', 'GrupController@singlepost');
 
+//pengguna
+Route::get('/pengguna', 'PenggunaController@index');
 
 //events
 Route::get('/events', 'EventController@index');
@@ -85,6 +86,7 @@ Route::post('/events/like', 'EventController@like');
 Route::post('/events/likes', 'EventController@likes');
 Route::get('/events/{id}', 'EventController@single');
 Route::post('/events/modal', 'EventController@modals');
+
 // Groups
 Route::get('/groups', 'GroupController@index');
 Route::get('/group/{id}', 'GroupController@group');
