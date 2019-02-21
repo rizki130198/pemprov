@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by lvntayn
- * Date: 03/06/2017
- * Time: 22:45
- */
-
 namespace App\Models;
 
 
@@ -28,8 +22,6 @@ class UserDirectMessage extends Model
         }
 
     }
-
-
     public function sender(){
         return $this->belongsTo('App\Models\User', 'sender_user_id');
     }
