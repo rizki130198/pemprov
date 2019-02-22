@@ -245,4 +245,8 @@ class User extends Authenticatable
             return $key->name;
         }
     }
+    public function getRole()
+    {
+       return $this->role;
+    }
 }

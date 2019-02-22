@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by lvntayn
- * Date: 09/06/2017
- * Time: 03:09
- */
-
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;

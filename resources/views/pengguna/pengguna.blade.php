@@ -37,37 +37,25 @@
                                 <th>Nama</th>
                                 <th>Username</th>
                                 <th>Email</th>
-                                <th>Password</th>
+                                <th>level</th>
                                 <th>Created Date</th>
-                                <th>Status</th>
                                 <th class="disabled-sorting">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($data as $user)
                             <tr>
-                                <td>rizki</td>
-                                <td>admin</td>
-                                <td>rizkiaja@gmail.com</td>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>test</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->username}}</td>
+                                <td>{{$user->email}}</td>
+                                <td>{{$user->role}}</td>
+                                <td>{{$user->created_at}}</td>
                                 <td>
                                     <button type="button" class="btn btn-success"><i class="fa fa-pencil"></i></button>
                                     <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>jamet</td>
-                                <td>admin</td>
-                                <td>rizkiaja@gmail.com</td>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>        
                 </div>
