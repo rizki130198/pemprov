@@ -75,6 +75,9 @@ Route::get('/group/diskusi/postgrup/{id}', 'GrupController@singlepost');
 //pengguna
 Route::get('/pengguna', 'PenggunaController@index');
 
+//spj
+Route::get('/spj', 'SpjController@index');
+
 //events
 Route::get('/events', 'EventController@index');
 Route::post('/events/create', 'EventController@save');
