@@ -341,7 +341,7 @@ span.news-date:before{
   /*max-width: 100%;*/
   vertical-align: top;
   opacity: 0.85;
-  height: 170px;
+  height: 165px;
   width: 100%;
 }
 .prof figcaption {
@@ -374,7 +374,7 @@ span.news-date:before{
   max-width: 100px;
   opacity: 1;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  padding: 7px;
+  padding: 5px;
   border: 2px solid #e8b563;
 }
 .prof .follow {
@@ -830,7 +830,7 @@ span.news-date:before{
   list-style: none;
   letter-spacing: 2px;
   /*margin-left: 18px;*/
-  margin-top: 3px;
+  margin-top: 0px;
   padding: 5px;
   width: 263px;
 }
@@ -845,6 +845,16 @@ span.news-date:before{
   cursor: pointer;
   color: #1d2129;
   background-color: #fff !important;
+}
+.menu-explore li:hover{
+  /*background-color: #fff !important;*/
+  /*width: 263px;*/
+  border-right:solid 4px #fac959;
+  transition:all 0.2s;
+    -webkit-transition:all 0.2s;
+    -moz-transition:all 0.2s;
+    -ms-transition:all 0.2s;
+  /*padding: 5px;*/
 }
 .menu-explore li i{
   margin-right: 10px;

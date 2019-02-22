@@ -31,8 +31,6 @@ class PenggunaController extends Controller
 
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
 
-        $data = DB::table('events')->where('akhir','>', date('Y-m-d H:i:s'))->orderby('id_events','DESC')->get();
-
         $new_list = [];
         foreach(array_reverse($message_list) as $list){
             $msg = new UserDirectMessage();
@@ -48,9 +46,6 @@ class PenggunaController extends Controller
             ];
         }
 
-        $wall = [
-            'new_post_group_id' => 0
-        ];
-        return view('pengguna.pengguna', compact('user','data','user_list'));
+        return view('pengguna.pengguna', compact('user','user_list'));
     }
 }

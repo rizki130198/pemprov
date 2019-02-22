@@ -65,8 +65,8 @@
     <img class="cover" src="{{ $user->getCover() }}"/>
     @endif
     <figcaption>
-        <a href="{{ url('/'.$user->username) }}"><img src="{{ $user->getPhoto(70, 70) }}" alt="profile-sample4" class="profile" /></a>
-        <h2>{{ $user->name }}<span style="color:#e44d3a;">{{ '@'.$user->username }}</span></h2>
+        <a href="{{ url('/'.$user->username) }}"><img src="{{ $user->getPhoto(70, 70) }}" alt="profile-sample4" class="profile" style="width: 75px;" /></a>
+        <h3 style="margin-top: 0;">{{ $user->name }}<p style="color:#e44d3a;font-size: 15px;margin-top: 0;">{{ '@'.$user->username }}</p></h3>
         <!-- <a href="{{ url('/'.$user->username) }}" class="info">View Profile</a> -->
     </figcaption>
 </div>
