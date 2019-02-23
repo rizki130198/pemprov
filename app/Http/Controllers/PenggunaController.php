@@ -45,4 +45,51 @@ class PenggunaController extends Controller
         return view('pengguna.pengguna', compact('user','data','user_list'));
 
     }
+    public function InputForm(Request $request, $id)
+    {
+     $response = array();
+     $response['code'] = 400;
+     if (!$this->secure($id, true)) return Response::json($response);
+     $data = $request->all();
+     $messages = [
+        'snack' => 'required',
+        'makan' => 'required',
+        'nama_rapat' => 'required',
+        'tgl_rapat' => 'required',
+    ];
+    $validator = Validator::make($data, $messages);
+
+    if ($validator->fails()) {
+        $response['code'] = 400;
+        $response['message'] = implode(' ', $validator->errors()->all());
+    }else{
+        $snack = $data['snack'] * 19800; 
+        $makan = $data['makan'] * 51700;
+        $total = array_sum(array($snack,$makan)); 
+        if ($saldo < $total) {
+            $response['code'] = 400;
+            $response['message'] = 'Pagu Tidak Mencukupi';
+        }else{
+          $pengajuan = Pengajuan::find($id);
+          $pengajuan->snack = $data['snack'];
+          $pengajuan->makan = $data['makan'];
+          $pengajuan->nama_rapat = $data['nama_rapat'];
+          $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+          if ($data['status']=='booking') {
+              $pengajuan->status = 'booking';
+          }else{
+              $pengajuan->status = 'pending';
+          }
+          $pengajuan->total = $total;
+          if($pengajuan->save()){
+            $response['code'] = 200;
+            $response['message'] = 'Data sudah di simpan';
+        }else{
+            $response['code'] = 400;
+            $response['message'] = 'Data error silakan hubungi tim terkait';
+        }  
+    }
+
+}
+}
 }
