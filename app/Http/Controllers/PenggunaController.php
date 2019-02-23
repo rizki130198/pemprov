@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Library\IPAPI;
-use App\Library\sHelper;
 use App\Models\User;
-use App\Models\UserDirectMessage;
 use DB;
 use View;
 use Response;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +25,7 @@ class PenggunaController extends Controller
 
         $user_list = [];
 
+        $data = User::all();
         $message_list = DB::select( DB::raw("select * from (select * from `user_direct_messages` where `receiver_user_id` = '".$user->id."' and `receiver_delete` = '0'  and `seen` = '0' order by `id` desc limit 200000) as group_table group by sender_user_id order by id desc") );
 
         $new_list = [];
@@ -45,7 +42,7 @@ class PenggunaController extends Controller
                 'user' => $message->sender
             ];
         }
+        return view('pengguna.pengguna', compact('user','data','user_list'));
 
-        return view('pengguna.pengguna', compact('user','user_list'));
     }
 }

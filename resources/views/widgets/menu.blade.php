@@ -8,7 +8,9 @@
         </a>
         <a href="{{ url('/groups') }}"><li class="{{ Request::segment(1) == 'group' || Request::segment(1) == 'groups' ? 'active' : '' }}"><i class="fa fa-users" style="color:#e17e41;"></i>Grup</li></a>
         <a href="{{ url('/direct-messages') }}"><li class="{{ request()->is('direct-messages') ? 'active' : '' }}"><i class="fa fa-commenting" style="color: #e74c3c;"></i>Pesan</li></a>
+        @if($user->role == 'admin')
         <a href="{{ url('/pengguna') }}"><li class="{{ request()->is('pengguna') ? 'active' : '' }}"><i class="fa fa-user" style="color: #7f8c8d;"></i>Pengguna</li></a>
+        @endif
         <a href="{{ url('/spj') }}"><li class="{{ request()->is('spj') ? 'active' : '' }}"><i class="fa fa-money" style="color: #2ecc71;"></i>SPJ</li></a>
     </ul>
 </div>

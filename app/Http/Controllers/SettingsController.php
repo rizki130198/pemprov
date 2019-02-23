@@ -92,7 +92,7 @@ class SettingsController extends Controller
                     $save = Auth::user()->save();
                 }else{
                     $save = false;
-                    $additional_msg = "Username can't contain special character and space";
+                    $additional_msg = "Username tidak bisa memakai spasi dan karakter unik";
                 }
             }
         }else {
@@ -117,9 +117,9 @@ class SettingsController extends Controller
             }
         }
         if ($save){
-            $request->session()->flash('alert-success', 'Your settings have been successfully updated!');
+            $request->session()->flash('alert-success', 'Data berhasil di ubah!');
         }else{
-            $request->session()->flash('alert-danger', ($additional_msg)?$additional_msg:'There was a problem saving your settings!');
+            $request->session()->flash('alert-danger', ($additional_msg)?$additional_msg:'Ada masalah saat mengubah data!');
         }
 
         if ($request->input("type") == "password") {
