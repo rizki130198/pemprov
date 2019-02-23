@@ -5,7 +5,7 @@
         <div class="media">
             <div class="media-left">
                 <a href="{{ url('/'.$user->username) }}">
-                    <img class="media-object" src="{{ $user->getPhoto(50, 50) }}" alt="{{ url('/'.$user->username) }}" width="50px" height="50px" style="border-radius: 50%;padding: 3px;border: 2px solid #e8b563;">
+                    <img class="media-object" src="{{ $user->getPhoto(50, 50) }}" alt="{{ url('/'.$user->username) }}" width="50px" height="50px" style="border-radius: 50%;padding: 3px;border: 2px solid #42a5f5;">
                 </a>
             </div>
             <div class="media-body">

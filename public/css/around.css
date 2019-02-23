@@ -20,7 +20,7 @@ body {
   margin-left: 0;
   margin-top: 0px;
   width: 25px;
-  background: #fac959;
+  background: #42a5f5;
   z-index: 0;
 }
 .double-line-populer {
@@ -41,7 +41,7 @@ body {
   margin-left: 0;
   margin-top: 0px;
   width: 50px;
-  background: #fac959;
+  background: #42a5f5;
   z-index: 0;
 }
 #crumbs {
@@ -141,7 +141,7 @@ span.news-date:before{
   border-radius: 50px;
 }
 .icon-comment{
-  background: #fac959;
+  background: #42a5f5;
   color:#fff;
   padding: 4px;
   font-size: 12px;
@@ -375,7 +375,7 @@ span.news-date:before{
   opacity: 1;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   padding: 5px;
-  border: 2px solid #e8b563;
+  border: 2px solid #42a5f5;
 }
 .prof .follow {
   margin-right: 4%;
@@ -421,7 +421,7 @@ span.news-date:before{
 }
 
 .active {
-  /*color: #fac959 !important;*/
+  /*color: #42a5f5 !important;*/
 }
 .navbar-fixed-bottom{
   display: none;
@@ -833,6 +833,7 @@ span.news-date:before{
   margin-top: 0px;
   padding: 5px;
   width: 263px;
+  border:solid 1px transparent;
 }
 .menu-explore li.active{
   background-color: #fff !important;
@@ -847,14 +848,14 @@ span.news-date:before{
   background-color: #fff !important;
 }
 .menu-explore li:hover{
-  /*background-color: #fff !important;*/
-  /*width: 263px;*/
-  border-right:solid 4px #fac959;
-  transition:all 0.2s;
-    -webkit-transition:all 0.2s;
-    -moz-transition:all 0.2s;
-    -ms-transition:all 0.2s;
-  /*padding: 5px;*/
+  background-color: #fff !important;
+  width: 263px;
+  border:solid 1px #ddd;
+  padding: 5px;
+  transition:all 0.5s;
+  -webkit-transition:all 0.5s;
+  -moz-transition:all 0.5s;
+  -ms-transition:all 0.5s;
 }
 .menu-explore li i{
   margin-right: 10px;
@@ -862,7 +863,7 @@ span.news-date:before{
 /*suggest user */
 .panel-follow{
   background-color: #fff;
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
   overflow: hidden;
 }   
 .btn-like-komen{
@@ -1089,7 +1090,7 @@ span.news-date:before{
 
   /* Header */
   .navbar-around {
-    background: #fac959;
+    background: #42a5f5;
     min-height: 61px;
     margin-bottom: 0;
     border-bottom: 0;
@@ -1163,7 +1164,7 @@ span.news-date:before{
     color: #fff;
     padding: 5px 10px;
     box-sizing: border-box;
-    border-left: 1px solid #cda159;
+    border-left: 1px solid #1e88e5;
   }
 
   .navbar-around .navbar-nav li a.parent img{
@@ -1668,17 +1669,28 @@ span.news-date:before{
   }
 
   .new-post-box .btn-submit {
-    background: #e8b563;
-    border-color: #e8b563;
+    background: #42a5f5;
+    border-color: #42a5f5;
     padding-left: 20px;
     padding-right: 20px;
     color: #fff
   }
-
+  .btn-primary {
+    background: #42a5f5;
+    border-color: #42a5f5;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff
+  }
+  .btn-primary:hover {
+    background: transparent;
+    border-color: #42a5f5;
+    color: #42a5f5;
+  }
   .new-post-box .btn-submit:hover {
     background: transparent;
-    border-color: #e8b563;
-    color: #e8b563;
+    border-color: #42a5f5;
+    color: #42a5f5;
   }
 
   .new-post-box .loading-post {
@@ -2404,7 +2416,7 @@ span.news-date:before{
 }
 
 .dm .friends-list .friend.active {
-  background: #fac959;
+  background: #42a5f5;
 }
 
 .dm .friends-list .friend.active strong, .dm .friends-list .friend.active span, .dm .friends-list .friend.active small {

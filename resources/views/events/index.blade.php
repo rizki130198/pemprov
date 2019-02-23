@@ -9,10 +9,10 @@
         </div>
         <div class="col-md-8 col-md-offset-3 col-xs-12">
             <div class="content-page-title">
-                <i class="fa fa-users"></i> Acara
+                <i class="fa fa-calendar" style="color: #ffc107"></i> Acara
                 @if(Auth::user()->role=='admin')
                 <div class="pull-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Buat Acara</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Buat Acara</button>
                 </div>
                 @endif
             </div>

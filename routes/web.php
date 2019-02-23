@@ -77,6 +77,7 @@ Route::get('/pengguna', 'PenggunaController@index');
 
 //spj
 Route::get('/spj', 'SpjController@index');
+Route::get('/spj/formSpj', 'SpjController@formSpj');
 
 //events
 Route::get('/events', 'EventController@index');

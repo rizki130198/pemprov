@@ -114,7 +114,7 @@
                                     @if ($cekanggota->jabatan_grup == "admin")
                                     <form id="form-upload-covergrup" enctype="multipart/form-data">
                                         <div class="profile-upload-cover">
-                                            <a href="javascript:;" class="btn btn-info upload-button" onclick="uploadGroupCover({{$group->id_grup}})"><i class="fa fa-upload"></i> Ganti Sampul</a>
+                                            <a href="javascript:;" class="btn btn-primary upload-button" onclick="uploadGroupCover({{$group->id_grup}})"><i class="fa fa-upload"></i> Ganti Sampul</a>
                                             <input type="file" accept="image/*" name="cover_grup" class="covergrup_input">
                                         </div>
                                     </form>
@@ -136,7 +136,7 @@
             @if (Request::segment(2) == 'diskusi')
             @if($user->id == Auth::user()->id)
             <div class="new-postgrup-box">
-                <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
+                <div class="well well-sm well-social-post" style="border-top:solid 4px #42a5f5;">
                     <form method="post" id="form-new-postgrup" enctype="multipart/form-data" accept-charset="utf-8">
                         <input type="hidden" name="group_id" value="{{ $id_link }}">
                         <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;"><i class="glyphicon glyphicon-pencil"></i> Buat Postingan</div>
@@ -161,7 +161,7 @@
                             <div class="loading-postgrup">
                                 <img src="{{ asset('images/rolling.gif') }}" alt="">
                             </div>
-                            <button type="button" class="btn btn-warning btn-submit pull-right" onclick="newPostgrup()" style="margin-right: 15px;">
+                            <button type="button" class="btn btn-primary pull-right" onclick="newPostgrup()" style="margin-right: 15px;">
                                 Bagikan
                             </button>
                         </div>

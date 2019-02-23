@@ -18,7 +18,7 @@
 <div class="clearfix"></div>
 @if($user->id == Auth::user()->id AND $user->role == 'admin')
 <div class="new-post-box">
-    <div class="well well-sm well-social-post" style="border-top:solid 4px #e8b563;">
+    <div class="well well-sm well-social-post" style="border-top:solid 4px #42a5f5;">
         <form action="/news/new" id="form-news" method="post" enctype="multipart/form-data" accept-charset="utf-8">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="panel-heading" style="border-bottom: solid 1px #ddd;border-radius: 0;background-color: #fff;"><i class="glyphicon glyphicon-pencil"></i> Buat Postingan Berita</div>

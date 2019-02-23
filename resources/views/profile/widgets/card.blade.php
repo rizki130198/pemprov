@@ -6,10 +6,10 @@
         padding: 10px 15px;
     }
     .nav-pills li.active a{
-        background-color: #fac959;
+        background-color: #42a5f5;
     }
     .nav-pills li.active a:hover{
-        background-color: #fac959 !important;
+        background-color: #42a5f5 !important;
     }
     .nav-pills li a{
         color: #1d2129;
@@ -44,7 +44,7 @@
     @endforeach
 </ul>
 @else
-<div class="panel prof" style="box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.16);border-radius: 0;border-top-right-radius: 8px;border-bottom-right-radius: 8px;width: 290px;margin-bottom: 35px;border: none;">
+<div class="panel prof" style="box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16);border-radius: 0;border-top-right-radius: 8px;border-bottom-right-radius: 8px;width: 290px;margin-bottom: 25px;border: none;">
     @if(!$user->getCover())
     <img class="cover" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample87.jpg"/>
     @else
