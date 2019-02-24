@@ -1,6 +1,3 @@
-/**
- * Created by lvntayn on 03/06/2017.
- */
 
 $(function() {
     $('.datepicker').datepicker();
