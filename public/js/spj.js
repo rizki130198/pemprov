@@ -25,8 +25,12 @@ $("#formspj").submit(function (event) {
 	return false;
 });
 function booking() {
-	$("#booking").fadeToggle('fast',function() {
-		$("#booking").removeAttr('disabled','disabled');
+	$("#booking").change(function() {
+		if (this.checked) {
+			$("#booking").removeAttr('disabled','disabled');
+		}else{
+			$("#booking").attr('disabled','disabled');
+		}
 	})
 }
 function accForm(id) {

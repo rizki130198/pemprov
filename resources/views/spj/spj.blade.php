@@ -61,7 +61,8 @@
 		                <div class="panel-body">
 		                	<br>
 		                	<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
-		                	<h5 style="color: #fff;">{{ "Rp " . number_format($saldo,2,',','.') }}</h5>
+                            <?php $biaya = array_sum(array($saldo[0]->saldo,$saldo[1]->saldo)); ?>
+		                	<h5 style="color: #fff;">{{ "Rp " . number_format($biaya,2,',','.') }}</h5>
 		                </div>
             		</a>
 	            </div>          
@@ -90,17 +91,17 @@
 	                            <tr>
 	                            	<td>Pagu Snack </td> 
 	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>{{"Rp " . number_format($saldo,2,',','.')}}</td>
+	                            	<td>{{"Rp " . number_format($saldo[0]->saldo,2,',','.')}}</td>
 	                            </tr>
 	                            <tr>
 	                            	<td>Pagu Makan Siang </td> 
 	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>{{"Rp " . number_format($saldo,2,',','.')}}</td>
+	                            	<td>{{"Rp " . number_format($saldo[1]->saldo,2,',','.')}}</td>
 	                            </tr>
 	                            <tr>
 	                            	<td><label>Pagu Total </label></td>
 	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>{{"Rp " . number_format($saldo,2,',','.')}}</td>
+	                            	<td>{{"Rp " . number_format($biaya,2,',','.')}}</td>
 	                            </tr>
                             </table>
                       	</div>

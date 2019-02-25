@@ -50,7 +50,7 @@ class SpjController extends Controller
         $wall = [
             'new_post_group_id' => 0
         ];
-        $saldo = Saldo::sum('saldo');
+        $saldo = Saldo::all();
         if (Auth::user()->role == 'admin') {
             $riwayat = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','booking')->get();
         }else{
@@ -109,10 +109,41 @@ class SpjController extends Controller
             $snack = $data['snack'] * 19800; 
             $makan = $data['makan'] * 51700;
             $total = array_sum(array($snack,$makan)); 
-            $saldo = Saldo::all()->first();
-            if ($saldo->saldo < $total) {
-                $response['code'] = 400;
-                $response['message'] = 'Pagu Tidak Mencukupi';
+            $saldo = Saldo::all();
+            if ($data['snack'] == NULL) {
+                if ($saldo[1]->saldo < $snack) {
+                    $response['code'] = 400;
+                    $response['message'] = 'Pagu Tidak Mencukupi';
+                }else{
+                    $pengajuan = new FormPengajuan();
+                    $pengajuan->id_user = Auth::user()->id;
+                    $pengajuan->makan = $data['makan'];
+                    $pengajuan->nama_rapat = $data['nama_rapat'];
+                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+                    if ($data['status']=='booking') {
+                        $pengajuan->status = 'booking';
+                    }else{
+                        $pengajuan->status = 'pending';
+                    }
+                    $pengajuan->total = $total;
+                }
+            }elseif($data['makan'] == NULL){
+                if ($saldo[0]->saldo < $makan) {
+                    $response['code'] = 400;
+                    $response['message'] = 'Pagu Tidak Mencukupi';
+                }else{
+                    $pengajuan = new FormPengajuan();
+                    $pengajuan->id_user = Auth::user()->id;
+                    $pengajuan->snack = $data['snack'];
+                    $pengajuan->nama_rapat = $data['nama_rapat'];
+                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+                    if ($data['status']=='booking') {
+                        $pengajuan->status = 'booking';
+                    }else{
+                        $pengajuan->status = 'pending';
+                    }
+                    $pengajuan->total = $total;
+                }
             }else{
                 //$pengajuan = Pengajuan::find($id);
                 $pengajuan = new FormPengajuan();
@@ -122,22 +153,22 @@ class SpjController extends Controller
                 $pengajuan->nama_rapat = $data['nama_rapat'];
                 $pengajuan->tanggal_rapat = $data['tgl_rapat'];
                 if ($data['status']=='booking') {
-                  $pengajuan->status = 'booking';
-              }else{
-                  $pengajuan->status = 'pending';
-              }
-              $pengajuan->total = $total;
-              if($pengajuan->save()){
+                    $pengajuan->status = 'booking';
+                }else{
+                    $pengajuan->status = 'pending';
+                }
+                $pengajuan->total = $total;
+            }
+            if($pengajuan->save()){
                 $response['code'] = 200;
                 $response['message'] = 'Data sudah di simpan';
             }else{
                 $response['code'] = 400;
                 $response['message'] = 'Data error silakan hubungi tim terkait';
             }  
+            return Response::json($response);
         }
-        return Response::json($response);
     }
-}
     public function AccData(Request $request)
     {
         $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
