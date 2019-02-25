@@ -25,6 +25,16 @@
   width:25%;
   height:35%;
 }
+.modal-dialog-ubah {
+  position:absolute;
+  top:50% !important;
+  transform: translate(0, -50%) !important;
+  -ms-transform: translate(0, -50%) !important;
+  -webkit-transform: translate(0, -50%) !important;
+  margin:auto 35%;
+  width:35%;
+  height:55%;
+}
 .modal-content {
   min-height:100%;
   position:absolute;
@@ -53,20 +63,26 @@
             </div>
         </div>
         <div class="col-md-3 col-md-offset-3 col-xs-12">
-	            <div class="panel panel-default" style="border-radius: 10px;background: #42a5f5;background: -webkit-linear-gradient(45deg, #42a5f5, #00B4DB);background: linear-gradient(45deg, #42a5f5, #00B4DB);">
-	                <a data-toggle="modal" data-target="#info">
-	                	<button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px;">Info</button>
-	                </a>
-        			<a href="{{url('/spj/formSpj')}}">
-		                <div class="panel-body">
-		                	<br>
-		                	<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
-                            <?php $biaya = array_sum(array($saldo[0]->saldo,$saldo[1]->saldo)); ?>
-		                	<h5 style="color: #fff;">{{ "Rp " . number_format($biaya,2,',','.') }}</h5>
-		                </div>
-            		</a>
-	            </div>          
-        </div>
+        	<div class="panel panel-default" style="border-radius: 10px;background: #42a5f5;background: -webkit-linear-gradient(45deg, #42a5f5, #00B4DB);background: linear-gradient(45deg, #42a5f5, #00B4DB);">
+
+                @if(Auth::user()->role == 'admin')
+                <a data-toggle="modal" data-target="#info">
+                   <button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px 15px 0 5px;">Info</button>
+               </a>
+               <a data-toggle="modal" data-target="#ubah">
+                   <button class="btn btn-warning pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 45px;font-weight: bold;border:none;margin: 15px 0;">Ubah</button>
+               </a>
+               @endif
+               <a href="{{url('/spj/formSpj')}}">
+                   <div class="panel-body">
+                    <br>
+                    <h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
+                    <?php $biaya = array_sum(array($saldo[0]->saldo,$saldo[1]->saldo)); ?>
+                    <h5 style="color: #fff;">{{ "Rp " . number_format($biaya,2,',','.') }}</h5>
+                </div>
+            </a>
+        </div>          
+    </div>
 
         <!-- <div class="col-md-3 col-xs-12 col-md-offset-3">
         	<a href="{{url('/formSpj')}}">
@@ -88,69 +104,92 @@
         					<h4>Info Biaya Anggaran</h4>
         					<hr>
         					<table>
-	                            <tr>
-	                            	<td>Pagu Snack </td> 
-	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>{{"Rp " . number_format($saldo[0]->saldo,2,',','.')}}</td>
-	                            </tr>
-	                            <tr>
-	                            	<td>Pagu Makan Siang </td> 
-	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>{{"Rp " . number_format($saldo[1]->saldo,2,',','.')}}</td>
-	                            </tr>
-	                            <tr>
-	                            	<td><label>Pagu Total </label></td>
-	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>{{"Rp " . number_format($biaya,2,',','.')}}</td>
-	                            </tr>
-                            </table>
-                      	</div>
-                        <div class="modal-footer">
-                          	<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-md-offset-3 col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                	<h3 style="margin:0;">List Permintaan SPJ</h3>
-                	<hr>
-                    <table id="table_pengguna" class="table table-striped table-no-bordered table-hover" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th style="width: 100px;">Biaya</th>
-                                <th>Nama Rapat</th>
-                                <th>Tanggal Rapat</th>
-                                <th>Status</th>
-                                @if(Auth::user()->role == 'admin')
-                                <th class="disabled-sorting">Actions</th>
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($riwayat as $data)
-                            <tr>
-                                <td>{{$data->name}}</td>
-                                <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
-                                <td>{{$data->nama_rapat}}</td>
-                                <td>{{$data->tanggal_rapat}}</td>
-                                <td>{{$data->status}}</td>
-                                @if(Auth::user()->role == 'admin')
-                                <td>
-                                    <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
-                                </td>
-                                @endif
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>        
-                </div>
-            </div>          
-        </div>
+                             <tr>
+                              <td>Pagu Snack </td> 
+                              <td style="padding: 3px;"> :</td>
+                              <td>{{"Rp " . number_format($saldo[0]->saldo,2,',','.')}}</td>
+                          </tr>
+                          <tr>
+                              <td>Pagu Makan Siang </td> 
+                              <td style="padding: 3px;"> :</td>
+                              <td>{{"Rp " . number_format($saldo[1]->saldo,2,',','.')}}</td>
+                          </tr>
+                          <tr>
+                              <td><label>Pagu Total </label></td>
+                              <td style="padding: 3px;"> :</td>
+                              <td>{{"Rp " . number_format($biaya,2,',','.')}}</td>
+                          </tr>
+                      </table>
+                  </div>
+                  <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+               </div>
+           </form>
+       </div>
+   </div>
+</div>
+<div class="modal fade" id="ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog-ubah" role="document">
+  <div class="modal-content">
+   <div class="modal-body">
+    <h4>Info Biaya Anggaran</h4>
+    <hr>
+    <table class="table table-striped">
+     <tr>
+        <td>Snack</td>
+        <td class="table_data" data-row_id="{{$saldo[0]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[0]->saldo}}</td>
+    </tr>
+    <tr>
+        <td>Makan Siang</td>
+        <td class="table_data" data-row_id="{{$saldo[1]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[1]->saldo}}</td>
+    </tr>
+</table>
+</div>
+<div class="modal-footer">
+ <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-md-offset-3 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+         <h3 style="margin:0;">List Permintaan SPJ</h3>
+         <hr>
+         <table id="table_pengguna" class="table table-striped table-no-bordered table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th style="width: 100px;">Biaya</th>
+                    <th>Nama Rapat</th>
+                    <th>Tanggal Rapat</th>
+                    <th>Status</th>
+                    @if(Auth::user()->role == 'admin')
+                    <th class="disabled-sorting">Actions</th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($riwayat as $data)
+                <tr>
+                    <td>{{$data->name}}</td>
+                    <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
+                    <td>{{$data->nama_rapat}}</td>
+                    <td>{{$data->tanggal_rapat}}</td>
+                    <td>{{$data->status}}</td>
+                    @if(Auth::user()->role == 'admin')
+                    <td>
+                        <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
+                    </td>
+                    @endif
+                </tr>
+                @endforeach
+            </tbody>
+        </table>        
     </div>
+</div>          
+</div>
+</div>
 </div>    
 @endsection
 
@@ -162,9 +201,22 @@
 <script type="text/javascript">
     $(document).ready( function () {
         $('#table_pengguna').DataTable();
-    } );
+        
+    });
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+</script>
+<script type="text/javascript">
+	$('.saldo').on('input','.input-saldo',function(){
+		var totalSum = 0;
+		$('.saldo .input-saldo').each(function(){
+			var inputVal = this.value.replace(',','');
+			if($.isNumeric(inputVal)){
+				totalSum+=parseFloat(inputVal);
+			}
+		});
+		$('#sum_saldo').val(totalSum);
+	});
 </script>
 @endsection

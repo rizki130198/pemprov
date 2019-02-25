@@ -87,7 +87,11 @@ class SpjController extends Controller
         $wall = [
             'new_post_group_id' => 0
         ];
-        return view('spj.formSpj', compact('user','data','user_list'));
+        if ($user->role == 'member') {
+            return view('spj.formSpj', compact('user','data','user_list'));
+        }else{
+            return redirect('/spj');
+        }
     }
     public function InputForm(Request $request)
     {
@@ -181,5 +185,25 @@ class SpjController extends Controller
             $response['message'] = 'Data error silakan hubungi tim terkait';
         } 
         return Response::json($response);
+    }
+    public function UbahSaldo(Request $request)
+    {
+        $cek = Saldo::find($request->input('id_saldo'));
+        if ($cek->saldo == $request->input('value')) {
+
+            // Mau di isi apa ? 
+        }else{
+            $pengajuan = Saldo::find($request->input('id_saldo'));
+            $pengajuan->saldo = $request->input('value');
+            if($pengajuan->save()){
+                $response['code'] = 200;
+                $response['message'] = 'Saldo Sudah Di ubah';
+            }else{
+                $response['code'] = 400;
+                $response['message'] = 'Data error silakan hubungi tim terkait';
+            } 
+            return Response::json($response);
+        }
+
     }
 }

@@ -80,6 +80,7 @@ Route::get('/spj', 'SpjController@index');
 Route::get('/spj/formSpj', 'SpjController@formSpj');
 Route::post('/spj/action', 'SpjController@InputForm');
 Route::post('/spj/ubah', 'SpjController@AccData');
+Route::post('/spj/editsaldo', 'SpjController@UbahSaldo');
 
 //events
 Route::get('/events', 'EventController@index');

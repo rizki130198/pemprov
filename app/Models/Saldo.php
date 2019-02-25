@@ -12,7 +12,7 @@ class Saldo extends Model
 
     public $incrementing = false;
 
-    protected $primaryKey = ['id_pengajuan'];
+    protected $primaryKey = 'id_saldo';
 
     protected $dates = [
         'updated_at'
