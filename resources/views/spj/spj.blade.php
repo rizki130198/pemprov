@@ -25,6 +25,16 @@
   width:25%;
   height:35%;
 }
+.modal-dialog-ubah {
+  position:absolute;
+  top:50% !important;
+  transform: translate(0, -50%) !important;
+  -ms-transform: translate(0, -50%) !important;
+  -webkit-transform: translate(0, -50%) !important;
+  margin:auto 35%;
+  width:35%;
+  height:55%;
+}
 .modal-content {
   min-height:100%;
   position:absolute;
@@ -53,18 +63,21 @@
             </div>
         </div>
         <div class="col-md-3 col-md-offset-3 col-xs-12">
-	            <div class="panel panel-default" style="border-radius: 10px;background: #42a5f5;background: -webkit-linear-gradient(45deg, #42a5f5, #00B4DB);background: linear-gradient(45deg, #42a5f5, #00B4DB);">
-	                <a data-toggle="modal" data-target="#info">
-	                	<button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px;">Info</button>
-	                </a>
-        			<a href="{{url('/spj/formSpj')}}">
-		                <div class="panel-body">
-		                	<br>
-		                	<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
-		                	<h5 style="color: #fff;">{{ "Rp " . number_format($saldo,2,',','.') }}</h5>
-		                </div>
-            		</a>
-	            </div>          
+        	<div class="panel panel-default" style="border-radius: 10px;background: #42a5f5;background: -webkit-linear-gradient(45deg, #42a5f5, #00B4DB);background: linear-gradient(45deg, #42a5f5, #00B4DB);">
+        		<a data-toggle="modal" data-target="#info">
+        			<button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px 15px 0 5px;">Info</button>
+        		</a>
+        		<a data-toggle="modal" data-target="#ubah">
+        			<button class="btn btn-warning pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 45px;font-weight: bold;border:none;margin: 15px 0;">Ubah</button>
+        		</a>
+        		<a href="{{url('/spj/formSpj')}}">
+        			<div class="panel-body">
+        				<br>
+        				<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
+        				<h5 style="color: #fff;">{{ "Rp " . number_format($saldo,2,',','.') }}</h5>
+        			</div>
+        		</a>
+        	</div>          
         </div>
 
         <!-- <div class="col-md-3 col-xs-12 col-md-offset-3">
@@ -105,11 +118,39 @@
                             </table>
                       	</div>
                         <div class="modal-footer">
-                          	<button type="button" class="btn btn-primary">Ubah</button>
                           	<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        	<div class="modal-dialog-ubah" role="document">
+        		<div class="modal-content">
+        			<div class="modal-body">
+        				<form action="javascript:void(0);" id="formspj" method="post" accept-charset="utf-8">
+	        				<h4>Ubah Biaya Anggaran</h4>
+        					<hr>
+	                        <label for="keterangan">Snack</label>
+	                        <div class="form-group input-group saldo">
+	                            <input type="number" class="form-control input-saldo" name="snack" value="">
+	                            <span class="input-group-addon">BOX</span>
+	                        </div>
+	                        <label for="keterangan">Makan Siang</label>
+	                        <div class="form-group input-group saldo">
+	                            <input type="number" class="form-control input-saldo" name="makan" value="">
+	                            <span class="input-group-addon">BOX</span>
+	                        </div>
+	                        <div class="form-group jum">
+	                            <label for="keterangan">Total</label>
+	                            <input type="number" class="form-control" name="total" id="sum_saldo">
+	                        </div>
+	                    </form>
+                	</div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+	                </div>
+            	</div>
             </div>
         </div>
         <div class="col-md-6 col-md-offset-3 col-xs-12">
@@ -166,5 +207,17 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+</script>
+<script type="text/javascript">
+	$('.saldo').on('input','.input-saldo',function(){
+		var totalSum = 0;
+		$('.saldo .input-saldo').each(function(){
+			var inputVal = this.value.replace(',','');
+			if($.isNumeric(inputVal)){
+				totalSum+=parseFloat(inputVal);
+			}
+		});
+		$('#sum_saldo').val(totalSum);
+	});
 </script>
 @endsection
