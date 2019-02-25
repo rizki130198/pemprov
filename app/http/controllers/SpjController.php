@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Library\IPAPI;
-use App\Library\sHelper;
 use App\Models\User;
 use App\Models\UserDirectMessage;
+use App\Models\FormPengajuan;
+use App\Models\Saldo;
 use DB;
 use View;
 use Response;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class SpjController extends Controller
@@ -49,7 +50,13 @@ class SpjController extends Controller
         $wall = [
             'new_post_group_id' => 0
         ];
-        return view('spj.spj', compact('user','data','user_list'));
+        $saldo = Saldo::sum('saldo');
+        if (Auth::user()->role == 'admin') {
+            $riwayat = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','booking')->get();
+        }else{
+            $riwayat = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('id_user','=',Auth::user()->id)->get();
+        }
+        return view('spj.spj', compact('user','data','user_list','riwayat','saldo'));
     }
     public function formSpj(Request $request)
     {
@@ -81,5 +88,67 @@ class SpjController extends Controller
             'new_post_group_id' => 0
         ];
         return view('spj.formSpj', compact('user','data','user_list'));
+    }
+    public function InputForm(Request $request)
+    {
+        $response = array();
+        $response['code'] = 400;
+        $data = $request->all();
+        $messages = [
+            'snack' => 'required',
+            'makan' => 'required',
+            'nama_rapat' => 'required',
+            'tgl_rapat' => 'required',
+        ];
+        $validator = Validator::make($data, $messages);
+
+        if ($validator->fails()) {
+            $response['code'] = 400;
+            $response['message'] = implode(' ', $validator->errors()->all());
+        }else{
+            $snack = $data['snack'] * 19800; 
+            $makan = $data['makan'] * 51700;
+            $total = array_sum(array($snack,$makan)); 
+            $saldo = Saldo::all()->first();
+            if ($saldo->saldo < $total) {
+                $response['code'] = 400;
+                $response['message'] = 'Pagu Tidak Mencukupi';
+            }else{
+                //$pengajuan = Pengajuan::find($id);
+                $pengajuan = new FormPengajuan();
+                $pengajuan->id_user = Auth::user()->id;
+                $pengajuan->snack = $data['snack'];
+                $pengajuan->makan = $data['makan'];
+                $pengajuan->nama_rapat = $data['nama_rapat'];
+                $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+                if ($data['status']=='booking') {
+                  $pengajuan->status = 'booking';
+              }else{
+                  $pengajuan->status = 'pending';
+              }
+              $pengajuan->total = $total;
+              if($pengajuan->save()){
+                $response['code'] = 200;
+                $response['message'] = 'Data sudah di simpan';
+            }else{
+                $response['code'] = 400;
+                $response['message'] = 'Data error silakan hubungi tim terkait';
+            }  
+        }
+        return Response::json($response);
+    }
+}
+    public function AccData(Request $request)
+    {
+        $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
+        $pengajuan->status = 'verifikasi';
+        if($pengajuan->save()){
+            $response['code'] = 200;
+            $response['message'] = 'Data Sedang di Verifikasi';
+        }else{
+            $response['code'] = 400;
+            $response['message'] = 'Data error silakan hubungi tim terkait';
+        } 
+        return Response::json($response);
     }
 }

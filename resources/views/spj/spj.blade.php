@@ -61,7 +61,7 @@
 		                <div class="panel-body">
 		                	<br>
 		                	<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
-		                	<h5 style="color: #fff;">Rp 500.000.000,-</h5>
+		                	<h5 style="color: #fff;">{{ "Rp " . number_format($saldo,2,',','.') }}</h5>
 		                </div>
             		</a>
 	            </div>          
@@ -90,17 +90,17 @@
 	                            <tr>
 	                            	<td>Pagu Snack </td> 
 	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>Rp 118.000.000</td>
+	                            	<td>{{"Rp " . number_format($saldo,2,',','.')}}</td>
 	                            </tr>
 	                            <tr>
 	                            	<td>Pagu Makan Siang </td> 
 	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>Rp 310.200.000</td>
+	                            	<td>{{"Rp " . number_format($saldo,2,',','.')}}</td>
 	                            </tr>
 	                            <tr>
 	                            	<td><label>Pagu Total </label></td>
 	                            	<td style="padding: 3px;"> :</td>
-	                            	<td>Rp 429.000.000</td>
+	                            	<td>{{"Rp " . number_format($saldo,2,',','.')}}</td>
 	                            </tr>
                             </table>
                       	</div>
@@ -122,32 +122,29 @@
                             <tr>
                                 <th>Nama</th>
                                 <th style="width: 100px;">Biaya</th>
-                                <th>Deskripsi</th>
+                                <th>Nama Rapat</th>
+                                <th>Tanggal Rapat</th>
                                 <th>Status</th>
+                                @if(Auth::user()->role == 'admin')
                                 <th class="disabled-sorting">Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($riwayat as $data)
                             <tr>
-                                <td>rizki</td>
-                                <td>Rp 200.000</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua...</td>
-                                <td>Pending</td>
+                                <td>{{$data->name}}</td>
+                                <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
+                                <td>{{$data->nama_rapat}}</td>
+                                <td>{{$data->tanggal_rapat}}</td>
+                                <td>{{$data->status}}</td>
+                                @if(Auth::user()->role == 'admin')
                                 <td>
-                                    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
+                                    <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
                                 </td>
+                                @endif
                             </tr>
-                            <tr>
-                                <td>Fahmi</td>
-                                <td>Rp 200.000.000</td>
-                                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua...</td>
-                                <td>Diterima</td>
-                                <td>
-                                    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>        
                 </div>
