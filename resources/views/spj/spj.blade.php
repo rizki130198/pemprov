@@ -49,6 +49,45 @@
   left:0;
   right:0;
 }
+input[type="checkbox"].switch_1{
+    font-size: 18px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 2.7em;
+    height: 1.5em;
+    background: #ddd;
+    border-radius: 3em;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+input[type="checkbox"].switch_1:checked{
+    background: #42a5f5;
+}
+
+input[type="checkbox"].switch_1:after{
+    position: absolute;
+    content: "";
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    background: #fff;
+    -webkit-box-shadow: 0 0 .25em rgba(0,0,0,.3);
+    box-shadow: 0 0 .25em rgba(0,0,0,.3);
+    -webkit-transform: scale(.7);
+    transform: scale(.7);
+    left: 0;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+input[type="checkbox"].switch_1:checked:after{
+    left: calc(100% - 1.5em);
+}
 </style>
 <div class="h-20 res-post"></div>
 <div class="col-md-12 res-home">
@@ -164,9 +203,7 @@
                     <th>Nama Rapat</th>
                     <th>Tanggal Rapat</th>
                     <th>Status</th>
-                    @if(Auth::user()->role == 'admin')
                     <th class="disabled-sorting">Actions</th>
-                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -181,14 +218,70 @@
                     <td>
                         <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
                     </td>
+                    @else
+                    <td>
+                        <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
+                    </td>
                     @endif
                 </tr>
+
                 @endforeach
             </tbody>
         </table>        
     </div>
 </div>          
 </div>
+@foreach($riwayat as $modal)
+<div class="modal fade" id="editForm{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+         <form action="javascript:void(0);" id="formubahspj" method="post" accept-charset="utf-8">
+            <div class="form-group">
+                <label class="custom-control-label" for="customSwitch1">Booking</label>
+                <div class="switch_box box_1">
+                    <input  @if($modal->status=='booking')checked ;@endif type="checkbox" onclick="Booking()" id="switch" class="switch_1">
+                </div>
+            </div>
+            <!-- tolong tambahin button switch -->
+            <div class="form-group">
+                <label for="inputevent">Nama Rapat</label>
+                <input type="text" name="nama_rapat" class="form-control" value="{{$modal->nama_rapat}}" placeholder="Nama Rapat" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="keterangan">Tanggal Rapat</label>
+                <input type="date" class="form-control" name="tgl_rapat" value="{{date('hh/bb/tttt',strtotime($modal->tanggal_rapat))}}">
+            </div>
+            <label for="keterangan">Snack</label>
+            <div class="form-group input-group">
+                <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" value="{{$modal->snack}}" name="snack" autocomplete="off">
+                <span class="input-group-addon">BOX</span>
+            </div>
+            <label for="keterangan">Makan Siang</label>
+            <div class="form-group input-group">
+                <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" value="{{$modal->makan}}" autocomplete="off">
+                <span class="input-group-addon">BOX</span>
+            </div>
+            <div class="form-group">
+                <label for="keterangan">Total</label>
+                <input type="number" class="form-control" name="total" id="total" value="{{$modal->total}}" autocomplete="off">
+                <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
+                <input type="hidden" value="{{$modal->id_pengajuan}}" class="form-control" name="id_form" >
+            </div>
+            <button type="submit" class="btn btn-primary pull-right">Ubah</button>
+        </form>
+    </div>
+</div>
+
+</div>
+</div>
+@endforeach
 </div>
 </div>    
 @endsection

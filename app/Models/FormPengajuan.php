@@ -13,7 +13,8 @@ class FormPengajuan extends Model
     protected $primaryKey = 'id_pengajuan';
 
     protected $dates = [
-        'created_at'
+        'created_at',
+        'updated_at',
     ];
 
     public function user(){

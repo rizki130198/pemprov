@@ -130,7 +130,7 @@ input[type="checkbox"].switch_1:checked:after{
                         <div class="form-group">
                             <label for="keterangan">Total</label>
                             <input type="number" class="form-control" name="total" id="total" autocomplete="off">
-                            <input type="hidden" value="booking" id="booking" disabled class="form-control" name="status" >
+                            <input type="hidden" value="" id="booking" readonly class="form-control" name="status" >
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Kirim</button>
                     </form>

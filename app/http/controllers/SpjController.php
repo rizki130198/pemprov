@@ -156,12 +156,98 @@ class SpjController extends Controller
                 $pengajuan->makan = $data['makan'];
                 $pengajuan->nama_rapat = $data['nama_rapat'];
                 $pengajuan->tanggal_rapat = $data['tgl_rapat'];
-                if ($data['status']=='booking') {
-                    $pengajuan->status = 'booking';
-                }else{
+                if ($data['status']==NULL) {
                     $pengajuan->status = 'pending';
+                }else{
+                    $pengajuan->status = 'booking';
                 }
                 $pengajuan->total = $total;
+            }
+            if($pengajuan->save()){
+                $response['code'] = 200;
+                $response['message'] = 'Data sudah di simpan';
+            }else{
+                $response['code'] = 400;
+                $response['message'] = 'Data error silakan hubungi tim terkait';
+            }  
+            return Response::json($response);
+        }
+    }
+    public function UbahFormPengajuan(Request $request)
+    {
+        $response = array();
+        $response['code'] = 400;
+        $data = $request->all();
+        $messages = [
+            'snack' => 'required',
+            'makan' => 'required',
+            'nama_rapat' => 'required',
+            'tgl_rapat' => 'required',
+        ];
+        $validator = Validator::make($data, $messages);
+
+        if ($validator->fails()) {
+            $response['code'] = 400;
+            $response['message'] = implode(' ', $validator->errors()->all());
+        }else{
+            $snack = $data['snack'] * 19800; 
+            $makan = $data['makan'] * 51700;
+            $total = array_sum(array($snack,$makan)); 
+            $saldo = Saldo::all();
+            $cek = FormPengajuan::find($data['id_form']);
+            $pengajuan = FormPengajuan::find($data['id_form']);
+            if ($data['snack'] == NULL) {
+                if ($saldo[1]->saldo < $snack) {
+                    $response['code'] = 400;
+                    $response['message'] = 'Pagu Tidak Mencukupi';
+                }else if($cek->status == 'verifikasi'){
+                    $response['code'] = 400;
+                    $response['message'] = 'Sedang di verifikasi';
+                }else{
+                    $pengajuan->makan = $data['makan'];
+                    $pengajuan->nama_rapat = $data['nama_rapat'];
+                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+                    if ($data['status']=='booking') {
+                        $pengajuan->status = 'booking';
+                    }else{
+                        $pengajuan->status = 'pending';
+                    }
+                    $pengajuan->total = $total;
+                }
+            }elseif($data['makan'] == NULL){
+                if ($saldo[0]->saldo < $makan) {
+                    $response['code'] = 400;
+                    $response['message'] = 'Pagu Tidak Mencukupi';
+                }else if($cek->status == 'verifikasi'){
+                    $response['code'] = 400;
+                    $response['message'] = 'Sedang di verifikasi';
+                }else{
+                    $pengajuan->snack = $data['snack'];
+                    $pengajuan->nama_rapat = $data['nama_rapat'];
+                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+                    if ($data['status']=='booking') {
+                        $pengajuan->status = 'booking';
+                    }else{
+                        $pengajuan->status = 'pending';
+                    }
+                    $pengajuan->total = $total;
+                }
+            }else{
+                if($cek->status == 'verifikasi'){
+                    $response['code'] = 400;
+                    $response['message'] = 'Sedang di verifikasi';
+                }else{
+                    $pengajuan->snack = $data['snack'];
+                    $pengajuan->makan = $data['makan'];
+                    $pengajuan->nama_rapat = $data['nama_rapat'];
+                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+                    if ($data['status']==NULL) {
+                        $pengajuan->status = 'pending';
+                    }else{
+                        $pengajuan->status = 'booking';
+                    }
+                    $pengajuan->total = $total;
+                }
             }
             if($pengajuan->save()){
                 $response['code'] = 200;
