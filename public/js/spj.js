@@ -56,7 +56,7 @@ function Booking() {
 		if (this.checked) {
 			$("#booking").val('booking');
 		}else{
-			$("#booking").val('');
+			$("#booking").val('pending');
 		}
 	})
 }
@@ -93,3 +93,30 @@ function jumlahharga() {
 		$('#total').val(jwb);
 	}
 }
+// Pengguna 
+$("#ubahjabatan").submit(function (event) {
+	var data = new FormData($(this)[0]); 
+	$.ajax({
+		url: BASE_URL + '/pengguna/ubahjabatan',
+		type: "POST",
+		data: data,
+		contentType: false,
+		cache: false,
+		processData: false,
+		headers: {'X-CSRF-TOKEN': CSRF},
+		success: function (response) {
+			if (response.code == 200) {
+				$('#exampleModal2').modal('hide');
+				location.reload();
+			} else {
+				$('#errorMessageModal').modal('show');
+				$('#errorMessageModal #errors').html(''+response.message);
+			}
+		},
+		error: function () {
+			$('#errorMessageModal').modal('show');
+			$('#errorMessageModal #errors').html(''+response.message);
+		}
+	});
+	return false;
+});

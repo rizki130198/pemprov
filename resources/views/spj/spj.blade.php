@@ -106,14 +106,14 @@ input[type="checkbox"].switch_1:checked:after{
 
                 @if(Auth::user()->role == 'admin')
                 <a data-toggle="modal" data-target="#info">
-                   <button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px 15px 0 5px;">Info</button>
-               </a>
-               <a data-toggle="modal" data-target="#ubah">
-                   <button class="btn btn-warning pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 45px;font-weight: bold;border:none;margin: 15px 0;">Ubah</button>
-               </a>
-               @endif
-               <a href="{{url('/spj/formSpj')}}">
-                   <div class="panel-body">
+                 <button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px 15px 0 5px;">Info</button>
+             </a>
+             <a data-toggle="modal" data-target="#ubah">
+                 <button class="btn btn-warning pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 45px;font-weight: bold;border:none;margin: 15px 0;">Ubah</button>
+             </a>
+             @endif
+             <a href="{{url('/spj/formSpj')}}">
+                 <div class="panel-body">
                     <br>
                     <h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
                     <?php $biaya = array_sum(array($saldo[0]->saldo,$saldo[1]->saldo)); ?>
@@ -143,59 +143,59 @@ input[type="checkbox"].switch_1:checked:after{
         					<h4>Info Biaya Anggaran</h4>
         					<hr>
         					<table>
-                             <tr>
-                              <td>Pagu Snack </td> 
-                              <td style="padding: 3px;"> :</td>
-                              <td>{{"Rp " . number_format($saldo[0]->saldo,2,',','.')}}</td>
-                          </tr>
-                          <tr>
-                              <td>Pagu Makan Siang </td> 
-                              <td style="padding: 3px;"> :</td>
-                              <td>{{"Rp " . number_format($saldo[1]->saldo,2,',','.')}}</td>
-                          </tr>
-                          <tr>
-                              <td><label>Pagu Total </label></td>
-                              <td style="padding: 3px;"> :</td>
-                              <td>{{"Rp " . number_format($biaya,2,',','.')}}</td>
-                          </tr>
-                      </table>
-                  </div>
-                  <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-               </div>
-           </form>
+                               <tr>
+                                  <td>Pagu Snack </td> 
+                                  <td style="padding: 3px;"> :</td>
+                                  <td>{{"Rp " . number_format($saldo[0]->saldo,2,',','.')}}</td>
+                              </tr>
+                              <tr>
+                                  <td>Pagu Makan Siang </td> 
+                                  <td style="padding: 3px;"> :</td>
+                                  <td>{{"Rp " . number_format($saldo[1]->saldo,2,',','.')}}</td>
+                              </tr>
+                              <tr>
+                                  <td><label>Pagu Total </label></td>
+                                  <td style="padding: 3px;"> :</td>
+                                  <td>{{"Rp " . number_format($biaya,2,',','.')}}</td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+     <div class="modal fade" id="ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog-ubah" role="document">
+          <div class="modal-content">
+             <div class="modal-body">
+                <h4>Info Biaya Anggaran</h4>
+                <hr>
+                <table class="table table-striped">
+                   <tr>
+                    <td>Snack</td>
+                    <td class="table_data" data-row_id="{{$saldo[0]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[0]->saldo}}</td>
+                </tr>
+                <tr>
+                    <td>Makan Siang</td>
+                    <td class="table_data" data-row_id="{{$saldo[1]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[1]->saldo}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
        </div>
    </div>
-</div>
-<div class="modal fade" id="ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
- <div class="modal-dialog-ubah" role="document">
-  <div class="modal-content">
-   <div class="modal-body">
-    <h4>Info Biaya Anggaran</h4>
-    <hr>
-    <table class="table table-striped">
-     <tr>
-        <td>Snack</td>
-        <td class="table_data" data-row_id="{{$saldo[0]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[0]->saldo}}</td>
-    </tr>
-    <tr>
-        <td>Makan Siang</td>
-        <td class="table_data" data-row_id="{{$saldo[1]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[1]->saldo}}</td>
-    </tr>
-</table>
-</div>
-<div class="modal-footer">
- <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-</div>
-</div>
 </div>
 </div>
 <div class="col-md-6 col-md-offset-3 col-xs-12">
     <div class="panel panel-default">
         <div class="panel-body">
-         <h3 style="margin:0;">List Permintaan SPJ</h3>
-         <hr>
-         <table id="table_pengguna" class="table table-striped table-no-bordered table-hover" style="width:100%">
+           <h3 style="margin:0;">List Permintaan SPJ</h3>
+           <hr>
+           <table id="table_pengguna" class="table table-striped table-no-bordered table-hover" style="width:100%">
             <thead>
                 <tr>
                     <th>Nama</th>
@@ -217,6 +217,10 @@ input[type="checkbox"].switch_1:checked:after{
                     @if(Auth::user()->role == 'admin')
                     <td>
                         <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
+                    </td>
+                    @elseif(Auth::user()->role != 'admin' AND $data->status=='verifikasi')
+                    <td>
+                        <a data-toggle="modal" data-target="#formlanjutan{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
                     </td>
                     @else
                     <td>
@@ -242,43 +246,42 @@ input[type="checkbox"].switch_1:checked:after{
           <h4 class="modal-title">Modal Header</h4>
       </div>
       <div class="modal-body">
-         <form action="javascript:void(0);" id="formubahspj" method="post" accept-charset="utf-8">
-            <div class="form-group">
-                <label class="custom-control-label" for="customSwitch1">Booking</label>
-                <div class="switch_box box_1">
-                    <input  @if($modal->status=='booking')checked ;@endif type="checkbox" onclick="Booking()" id="switch" class="switch_1">
-                </div>
+       <form action="javascript:void(0);" id="formubahspj" method="post" accept-charset="utf-8">
+        <div class="form-group">
+            <label class="custom-control-label" for="customSwitch1">Booking</label>
+            <div class="switch_box box_1">
+                <input  @if($modal->status=='booking')checked ;@endif type="checkbox" onclick="Booking()" id="switch" class="switch_1">
             </div>
-            <!-- tolong tambahin button switch -->
-            <div class="form-group">
-                <label for="inputevent">Nama Rapat</label>
-                <input type="text" name="nama_rapat" class="form-control" value="{{$modal->nama_rapat}}" placeholder="Nama Rapat" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="keterangan">Tanggal Rapat</label>
-                <input type="date" class="form-control" name="tgl_rapat" value="{{date('hh/bb/tttt',strtotime($modal->tanggal_rapat))}}">
-            </div>
-            <label for="keterangan">Snack</label>
-            <div class="form-group input-group">
-                <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" value="{{$modal->snack}}" name="snack" autocomplete="off">
-                <span class="input-group-addon">BOX</span>
-            </div>
-            <label for="keterangan">Makan Siang</label>
-            <div class="form-group input-group">
-                <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" value="{{$modal->makan}}" autocomplete="off">
-                <span class="input-group-addon">BOX</span>
-            </div>
-            <div class="form-group">
-                <label for="keterangan">Total</label>
-                <input type="number" class="form-control" name="total" id="total" value="{{$modal->total}}" autocomplete="off">
-                <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
-                <input type="hidden" value="{{$modal->id_pengajuan}}" class="form-control" name="id_form" >
-            </div>
-            <button type="submit" class="btn btn-primary pull-right">Ubah</button>
-        </form>
-    </div>
+        </div>
+        <!-- tolong tambahin button switch -->
+        <div class="form-group">
+            <label for="inputevent">Nama Rapat</label>
+            <input type="text" name="nama_rapat" class="form-control" value="{{$modal->nama_rapat}}" placeholder="Nama Rapat" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label for="keterangan">Tanggal Rapat</label>
+            <input type="text" class="form-control" name="tgl_rapat" id="tanggal" value="{{date('m/d/Y',strtotime($modal->tanggal_rapat))}}" autocomplete="off">
+        </div>
+        <label for="keterangan">Snack</label>
+        <div class="form-group input-group">
+            <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" value="{{$modal->snack}}" name="snack" autocomplete="off">
+            <span class="input-group-addon">BOX</span>
+        </div>
+        <label for="keterangan">Makan Siang</label>
+        <div class="form-group input-group">
+            <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" value="{{$modal->makan}}" autocomplete="off">
+            <span class="input-group-addon">BOX</span>
+        </div>
+        <div class="form-group">
+            <label for="keterangan">Total</label>
+            <input type="number" class="form-control" name="total" id="total" value="{{$modal->total}}" autocomplete="off">
+            <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
+            <input type="hidden" value="{{$modal->id_pengajuan}}" class="form-control" name="id_form" >
+        </div>
+        <button type="submit" class="btn btn-primary pull-right">Ubah</button>
+    </form>
 </div>
-
+</div>
 </div>
 </div>
 @endforeach
@@ -294,6 +297,7 @@ input[type="checkbox"].switch_1:checked:after{
 <script type="text/javascript">
     $(document).ready( function () {
         $('#table_pengguna').DataTable();
+        $("#tanggal").datepicker();
         
     });
     $(function () {

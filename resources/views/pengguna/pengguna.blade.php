@@ -44,6 +44,7 @@
                         </thead>
                         <tbody>
                             @foreach($data as $user)
+                            @if ($user->id != Auth::user()->id)
                             <tr>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->username}}</td>
@@ -51,17 +52,74 @@
                                 <td>{{$user->role}}</td>
                                 <td>{{$user->created_at}}</td>
                                 <td>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                    <a data-toggle="modal" data-target="#ubah{{$user->id}}" class="btn btn-success"><i class="fa fa-pencil"></i></a>
+                                    <a onclick="deleteuser('{{$user->id}}')" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>        
                 </div>
             </div>          
         </div>
-    </div>
+        @foreach($data as $modal)
+        <div class="modal fade" id="ubah{{$modal->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Ubah Jabatan</h4>
+              </div>
+              <div class="modal-body">
+                 <form action="javascript:void(0);" id="ubahjabatan" method="post" accept-charset="utf-8">
+                    <div class="form-group">
+                        <label for="inputevent">Nama</label>
+                        <input type="text" name="nama_rapat" class="form-control" disabled value="{{$modal->name}}" placeholder="Nama Rapat" autocomplete="off">
+                        <input type="hidden" name="id" class="form-control" value="{{$modal->id}}"autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan">Username</label>
+                        <input type="text" class="form-control" disabled name="tgl_rapat" id="tanggal" value="{{$modal->username}}" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan">Email</label>
+                        <input type="text" class="form-control" disabled id="snack" value="{{$modal->email}}" name="snack" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan">Jabatan</label>
+                        <select class="form-control" name="role">
+                            <option value="{{$modal->role}}" selected>{{$modal->role}}</option>
+                            @if ($modal->role=='admin')
+                            <option value="subbag">Subbag Keuangan</option>
+                            <option value="pptk">PPTK</option>
+                            <option value="member">Member</option>
+                            @elseif ($modal->role=='subbag')
+                            <option value="admin">Admin</option>
+                            <option value="pptk">PPTK</option>
+                            <option value="member">Member</option>
+                            @elseif ($modal->role=='subbag')
+                            <option value="admin">Admin</option>
+                            <option value="subbag">Subbag Keuangan</option>
+                            <option value="member">Member</option>
+                            @elseif ($modal->role=='member')
+                            <option value="admin">Admin</option>
+                            <option value="subbag">Subbag Keuangan</option>
+                            <option value="pptk">PPTK</option>
+                            @endif
+                        </select>
+                    </div>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                     <button type="submit" class="btn btn-primary">Ganti</button>
+             </form>
+         </div>
+     </div>
+ </div>
+</div>
+@endforeach
+</div>
 </div>    
 @endsection
 
@@ -77,5 +135,27 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+
+    function deleteuser(id) {
+        $.ajax({
+            url: BASE_URL + '/pengguna/delete',
+            type: "POST",
+            data: {id_usernya : id},
+            headers: {'X-CSRF-TOKEN': CSRF},
+            success: function (response) {
+                if (response.code == 200) {
+                    $('#exampleModal2').modal('hide');
+                    location.reload();
+                } else {
+                    $('#errorMessageModal').modal('show');
+                    $('#errorMessageModal #errors').html(''+response.message);
+                }
+            },
+            error: function () {
+                $('#errorMessageModal').modal('show');
+                $('#errorMessageModal #errors').html(''+response.message);
+            }
+        });
+    }
 </script>
 @endsection

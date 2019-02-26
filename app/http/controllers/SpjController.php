@@ -194,58 +194,45 @@ class SpjController extends Controller
             $makan = $data['makan'] * 51700;
             $total = array_sum(array($snack,$makan)); 
             $saldo = Saldo::all();
-            $cek = FormPengajuan::find($data['id_form']);
             $pengajuan = FormPengajuan::find($data['id_form']);
             if ($data['snack'] == NULL) {
                 if ($saldo[1]->saldo < $snack) {
                     $response['code'] = 400;
                     $response['message'] = 'Pagu Tidak Mencukupi';
-                }else if($cek->status == 'verifikasi'){
+                }else if($pengajuan->status == 'verifikasi'){
                     $response['code'] = 400;
                     $response['message'] = 'Sedang di verifikasi';
                 }else{
                     $pengajuan->makan = $data['makan'];
                     $pengajuan->nama_rapat = $data['nama_rapat'];
-                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
-                    if ($data['status']=='booking') {
-                        $pengajuan->status = 'booking';
-                    }else{
-                        $pengajuan->status = 'pending';
-                    }
+                    $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
+                    $pengajuan->status = $data['status'];
                     $pengajuan->total = $total;
                 }
             }elseif($data['makan'] == NULL){
                 if ($saldo[0]->saldo < $makan) {
                     $response['code'] = 400;
                     $response['message'] = 'Pagu Tidak Mencukupi';
-                }else if($cek->status == 'verifikasi'){
+                }else if($pengajuan->status == 'verifikasi'){
                     $response['code'] = 400;
                     $response['message'] = 'Sedang di verifikasi';
                 }else{
                     $pengajuan->snack = $data['snack'];
                     $pengajuan->nama_rapat = $data['nama_rapat'];
-                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
-                    if ($data['status']=='booking') {
-                        $pengajuan->status = 'booking';
-                    }else{
-                        $pengajuan->status = 'pending';
-                    }
+                    $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
+                    $pengajuan->status = $data['status'];
                     $pengajuan->total = $total;
                 }
             }else{
-                if($cek->status == 'verifikasi'){
+                if($pengajuan->status == 'verifikasi'){
                     $response['code'] = 400;
                     $response['message'] = 'Sedang di verifikasi';
                 }else{
                     $pengajuan->snack = $data['snack'];
                     $pengajuan->makan = $data['makan'];
                     $pengajuan->nama_rapat = $data['nama_rapat'];
-                    $pengajuan->tanggal_rapat = $data['tgl_rapat'];
-                    if ($data['status']==NULL) {
-                        $pengajuan->status = 'pending';
-                    }else{
-                        $pengajuan->status = 'booking';
-                    }
+                    $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
+                    $pengajuan->status = $data['status'];
                     $pengajuan->total = $total;
                 }
             }
