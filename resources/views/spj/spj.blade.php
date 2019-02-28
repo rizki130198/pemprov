@@ -104,10 +104,10 @@ input[type="checkbox"].switch_1:checked:after{
         <div class="col-md-3 col-md-offset-3 col-xs-12">
         	<div class="panel panel-default" style="border-radius: 10px;background: #42a5f5;background: -webkit-linear-gradient(45deg, #42a5f5, #00B4DB);background: linear-gradient(45deg, #42a5f5, #00B4DB);">
 
-                @if(Auth::user()->role == 'admin')
                 <a data-toggle="modal" data-target="#info">
                  <button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px 15px 0 5px;">Info</button>
              </a>
+                @if(Auth::user()->role == 'admin')
              <a data-toggle="modal" data-target="#ubah">
                  <button class="btn btn-warning pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 45px;font-weight: bold;border:none;margin: 15px 0;">Ubah</button>
              </a>
