@@ -80,6 +80,7 @@ Route::post('/pengguna/delete', 'PenggunaController@Deleteaccount');
 //SPJ
 Route::get('/spj', 'SpjController@index');
 Route::get('/spj/formSpj', 'SpjController@formSpj');
+Route::get('/spj/formVerifikasi', 'SpjController@formVerifikasi');
 Route::post('/spj/action', 'SpjController@InputForm');
 Route::post('/spj/ubah', 'SpjController@AccData');
 Route::post('/spj/editsaldo', 'SpjController@UbahSaldo');
