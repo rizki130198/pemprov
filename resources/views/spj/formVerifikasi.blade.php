@@ -79,6 +79,7 @@ input[type="checkbox"].switch_1:checked:after{
     left: calc(100% - 1.5em);
 }
 </style>
+<link href="https://rawgithub.com/hayageek/jquery-upload-file/master/css/uploadfile.css" rel="stylesheet">
 <div class="h-20 res-post"></div>
 <div class="col-md-12 res-home">
     <div class="row">
@@ -94,33 +95,41 @@ input[type="checkbox"].switch_1:checked:after{
         <div class="col-md-6 col-md-offset-3 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                   <h3 style="margin:0;">Form Permintaan SPJ</h3>
+                   <h3 style="margin:0;">Form Verifikasi SPJ</h3>
                    <hr>
                    <form action="javascript:void(0);" id="formspj" method="post" accept-charset="utf-8">
-                        <!-- <div class="form-group">
-                            <label class="custom-control-label" for="customSwitch1">Booking</label>
-                            <div class="switch_box box_1">
-                                <input type="checkbox" onclick="Booking()" id="switch" class="switch_1">
-                            </div>
-                        </div> -->
                         <div class="form-group">
-                            <label for="inputevent">Nama Rapat</label>
-                            <input type="text" name="nama_rapat" class="form-control" placeholder="Nama Rapat" autocomplete="off">
+                            <label for="inputevent">Input Data Pemesanan</label>
+                            <input type="text" name="data_pesanan" class="form-control" placeholder="Input data pemesanan" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="keterangan">Tanggal Rapat</label>
-                            <input type="date" class="form-control" name="tgl_rapat">
-                        </div>
-                        <label for="keterangan">Snack</label>
-                        <div class="form-group input-group">
+                            <label for="keterangan">Snack</label>
                             <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" name="snack" autocomplete="off">
-                            <span class="input-group-addon">BOX</span>
                         </div>
-                        <label for="keterangan">Makan Siang</label>
-                        <div class="form-group input-group">
+                        <div class="form-group">
+                            <label for="inputevent">Penyedia</label>
+                            <input type="text" name="penyedia_snack" class="form-control" placeholder="Penyedia Snack" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan">Tanggal Kwintansi</label>
+                            <input type="date" class="form-control" name="tgl_kw_snack">
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="keterangan">Makan Siang</label>
                             <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" autocomplete="off">
-                            <span class="input-group-addon">BOX</span>
                         </div>
+                        <div class="form-group">
+                            <label for="inputevent">Penyedia</label>
+                            <input type="text" name="penyedia_makan" class="form-control" placeholder="Penyedia Makan" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan">Tanggal Kwintansi</label>
+                            <input type="date" class="form-control" name="tgl_kw_makan">
+                        </div>
+                        <div id="mulitplefileuploader">Upload</div>
+                        <div id="status"></div>
+                        <hr>
                         <div class="form-group">
                             <label for="keterangan">Total</label>
                             <input type="number" class="form-control" name="total" id="total" autocomplete="off">
@@ -136,6 +145,7 @@ input[type="checkbox"].switch_1:checked:after{
 @endsection
 
 @section('footer')
+<script src="https://rawgithub.com/hayageek/jquery-upload-file/master/js/jquery.uploadfile.min.js"></script>
 <script type="text/javascript">
   WALL_ACTIVE = true;
   fetchPost(0,0,0,10,-1,-1,'initialize');
@@ -147,5 +157,25 @@ input[type="checkbox"].switch_1:checked:after{
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+</script>
+<script>
+  var extraObj = $("#mulitplefileuploader").uploadFile(
+  {
+    url: "upload.php",
+  method: "POST",
+  allowedTypes:"jpg,png,gif,doc,pdf,zip",
+  fileName: "myfile",
+  multiple: true,
+  dragdropWidth:600,
+    autoSubmit:false
+    
+  });
+  
+  $("#startbutton").click(function()
+  {
+    extraObj.startUpload();
+    
+  });
+
 </script>
 @endsection
