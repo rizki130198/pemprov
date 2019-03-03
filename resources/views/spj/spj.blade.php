@@ -220,24 +220,28 @@ input[type="checkbox"].switch_1:checked:after{
         						<td>{{$data->nama_rapat}}</td>
         						<td>{{$data->tanggal_rapat}}</td>
         						<td>{{$data->status}}</td>
-        						@if(Auth::user()->role == 'admin' AND $data->status=='pending')
+        						@if(Auth::user()->role == 'admin' AND $data->status=='Pending')
         						<td>
         							<a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
-        							<a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+        							<a onclick="tolakForm('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
         						</td>
-        						@elseif(Auth::user()->role == 'admin' AND $data->status=='verifikasi')
+        						@elseif(Auth::user()->role == 'admin' AND $data->status=='Verifikasi')
         						<td>
-        							<a data-toggle="modal" data-target="#formlanjutan{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
-        						</td>	
-        						@elseif(Auth::user()->role == 'member' AND $data->status=='pending')
+        							<a data-toggle="modal" data-target="#formlanjutan{{$data->id_pengajuan}}" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
+        						</td>
+        						@elseif(Auth::user()->role == 'member' AND $data->status=='Pending')
         						<td>
         							<a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
         						</td>
-        						@elseif(Auth::user()->role == 'member' AND $data->status=='verifikasi')
+        						@elseif(Auth::user()->role == 'member' AND $data->status=='Verifikasi')
         						<td>
-        							<a href="{{url('/spj/formVerifikasi')}}" class="btn btn-success"><i class="glyphicon glyphicon-duplicate"></i></a>
+        							<a href="spj/formVerifikasi/{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-new-window"></i></a>
         						</td>
-        						@endif
+        						@elseif($data->status=='Tolak')
+                                <td>
+                                    <a href="#" class="btn btn-danger" disabled><i class="glyphicon glyphicon-remove "></i></a>
+                                </td>
+                                @endif
         					</tr>
 
         					@endforeach

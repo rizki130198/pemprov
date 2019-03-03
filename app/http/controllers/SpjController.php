@@ -93,7 +93,7 @@ class SpjController extends Controller
             return redirect('/spj');
         }
     }
-    public function formVerifikasi(Request $request)
+    public function formVerifikasi(Request $request,$id)
     {
         $response = array();
         $response['code'] = 200;
@@ -122,7 +122,8 @@ class SpjController extends Controller
         $wall = [
             'new_post_group_id' => 0
         ];
-        return view('spj.formVerifikasi', compact('user','data','user_list'));
+        $verif = Formpengajuan::find($id);
+        return view('spj.formVerifikasi', compact('user','data','user_list','verif'));
     }
     public function InputForm(Request $request)
     {
@@ -290,6 +291,19 @@ class SpjController extends Controller
         } 
         return Response::json($response);
     }
+    public function TolakData(Request $request)
+    {
+        $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
+        $pengajuan->status = 'Tolak';
+        if($pengajuan->save()){
+            $response['code'] = 200;
+            $response['message'] = 'Data Sedang di Verifikasi';
+        }else{
+            $response['code'] = 400;
+            $response['message'] = 'Data error silakan hubungi tim terkait';
+        } 
+        return Response::json($response);
+    }
     public function UbahSaldo(Request $request)
     {
         $cek = Saldo::find($request->input('id_saldo'));
@@ -310,4 +324,92 @@ class SpjController extends Controller
         }
 
     }
+    public function ActionVerif(Request $request)
+    {
+        $response = array();
+        $response['code'] = 400;
+        $data = $request->all();
+        $messages = [
+            'snack' => 'required',
+            'makan' => 'required',
+            'penyedia_snack' => 'required',
+            'penyedia_makan' => 'required',
+            'penyedia_makan' => 'required',
+            'tgl_kw_snack' => 'required',
+            'tgl_kw_makan' => 'required',
+        ];
+        $validator = Validator::make($data, $messages);
+
+        if ($validator->fails()) {
+            $response['code'] = 400;
+            $response['message'] = implode(' ', $validator->errors()->all());
+        }else{
+            $saldo = Saldo::all();
+            $jumsaldo = array_sum(array($saldo[0]->saldo,$saldo[1]->saldo));
+            if ($jumsaldo < $data['total']) {
+                $response['code'] = 400;
+                $response['message'] = 'Saldo Pagu Tidak Mencukupi';
+            }else{
+              $pengajuan = FormPengajuan::find($data['id_form']);
+              $pengajuan->harga_snack = $data['snack'];
+              $pengajuan->harga_makan = $data['makan'];
+              $pengajuan->penyedia_snack = $data['penyedia_snack'];
+              $pengajuan->penyedia_makan = $data['penyedia_makan'];
+              $pengajuan->tgl_snack = date('Y-m-d',strtotime($data['tgl_kw_snack']));
+              $pengajuan->tgl_makan = date('Y-m-d',strtotime($data['tgl_kw_makan']));
+              $pengajuan->status = 'Terima';
+              $pengajuan->total_fix = $data['total'];
+          }
+          if($pengajuan->save()){
+            $updatesaldo = Saldo::find(1);
+            $updatesaldo->saldo = $updatesaldo->saldo - $data['total']/2;
+            if($updatesaldo->save()){
+                $response['code'] = 200;
+                $response['message'] = 'saldo sudah di simpan'; 
+            }else{
+                $response['code'] = 400;
+                $response['message'] = 'Gagal Update saldo';
+            }
+            $response['code'] = 200;
+            $response['message'] = 'Data sudah di simpan'; 
+        }else{
+            $response['code'] = 400;
+            $response['message'] = 'Data error silakan hubungi tim terkait';
+        }  
+        return Response::json($response);
+    }
+}
+public function uploadimage(Request $request)
+{
+    $imageupload = '';
+    $image_original = '';
+    if ($request->hasFile('myfile')) {
+        $image = $request->file('myfile');
+        if (count($image) != 14) {
+          for ($i=0; $i < count($image); $i++) {
+            $dataimage = md5(uniqid() . time()) . '.' . $image[$i]->getClientOriginalExtension().',';
+            $originalimage = $image[$i]->getClientOriginalName().',';
+            $imagestore = str_replace(',', '', $dataimage);
+            $image[$i]->storeAs('public/uploads/spj', $imagestore);
+            $imageupload .= $dataimage;
+            $originaupload .= $originalimage;
+
+        }
+        $image_path = substr($imageupload, 0, -1);
+        $image_original = substr($originaupload, 0, -1);
+    }else{
+      $image_path = '';
+  }
+}
+$pengajuan = FormPengajuan::find($data['id_form']);
+$pengajuan->file_kwutansi = $image_path;
+if($pengajuan->save()){
+    $response['code'] = 200;
+    $response['message'] = 'Bisa';
+}else{
+    $response['code'] = 400;
+    $response['message'] = 'Data error silakan hubungi tim terkait';
+}  
+return Response::json($response);
+}
 }

@@ -24,6 +24,32 @@ $("#formspj").submit(function (event) {
 	});
 	return false;
 });
+$("#formverif").submit(function (event) {
+	var data = new FormData($(this)[0]);
+	$.ajax({
+		url: BASE_URL + '/spj/updateform',
+		type: "POST",
+		data: data,
+		contentType: false,
+		cache: false,
+		processData: false,
+		headers: {'X-CSRF-TOKEN': CSRF},
+		success: function (response) {
+			if (response.code == 200) {
+				$('#exampleModal2').modal('hide');
+				extraObj.startUpload();
+			} else {
+				$('#errorMessageModal').modal('show');
+				$('#errorMessageModal #errors').html(''+response.message);
+			}
+		},
+		error: function () {
+			$('#errorMessageModal').modal('show');
+			$('#errorMessageModal #errors').html(''+response.message);
+		}
+	});
+	return false;
+});
 $("#formubahspj").submit(function (event) {
 	var data = new FormData($(this)[0]); 
 	$.ajax({
@@ -68,7 +94,26 @@ function accForm(id) {
 		headers: {'X-CSRF-TOKEN': CSRF},
 		success: function (response) {
 			if (response.code == 200) {
-				$('#exampleModal2').modal('hide');
+				location.reload();
+			} else {
+				$('#errorMessageModal').modal('show');
+				$('#errorMessageModal #errors').html(''+response.message);
+			}
+		},
+		error: function () {
+			$('#errorMessageModal').modal('show');
+			$('#errorMessageModal #errors').html(''+response.message);
+		}
+	});
+}
+function tolakForm(id) {
+	$.ajax({
+		url: BASE_URL + '/spj/tolak',
+		type: "POST",
+		data: {idpengajuan : id},
+		headers: {'X-CSRF-TOKEN': CSRF},
+		success: function (response) {
+			if (response.code == 200) {
 				location.reload();
 			} else {
 				$('#errorMessageModal').modal('show');
@@ -94,29 +139,3 @@ function jumlahharga() {
 	}
 }
 // Pengguna 
-$("#ubahjabatan").submit(function (event) {
-	var data = new FormData($(this)[0]); 
-	$.ajax({
-		url: BASE_URL + '/pengguna/ubahjabatan',
-		type: "POST",
-		data: data,
-		contentType: false,
-		cache: false,
-		processData: false,
-		headers: {'X-CSRF-TOKEN': CSRF},
-		success: function (response) {
-			if (response.code == 200) {
-				$('#exampleModal2').modal('hide');
-				location.reload();
-			} else {
-				$('#errorMessageModal').modal('show');
-				$('#errorMessageModal #errors').html(''+response.message);
-			}
-		},
-		error: function () {
-			$('#errorMessageModal').modal('show');
-			$('#errorMessageModal #errors').html(''+response.message);
-		}
-	});
-	return false;
-});

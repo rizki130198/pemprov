@@ -80,11 +80,14 @@ Route::post('/pengguna/delete', 'PenggunaController@Deleteaccount');
 //SPJ
 Route::get('/spj', 'SpjController@index');
 Route::get('/spj/formSpj', 'SpjController@formSpj');
-Route::get('/spj/formVerifikasi', 'SpjController@formVerifikasi');
+Route::get('/spj/formVerifikasi/{id}', 'SpjController@formVerifikasi');
 Route::post('/spj/action', 'SpjController@InputForm');
 Route::post('/spj/ubah', 'SpjController@AccData');
 Route::post('/spj/editsaldo', 'SpjController@UbahSaldo');
 Route::post('/spj/ubahform', 'SpjController@UbahFormPengajuan');
+Route::post('/spj/tolak', 'SpjController@TolakData');
+Route::post('/spj/updateform', 'SpjController@ActionVerif');
+Route::post('/spj/Uploadimage', 'SpjController@uploadimage');
 
 //events
 Route::get('/events', 'EventController@index');

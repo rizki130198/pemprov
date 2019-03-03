@@ -74,11 +74,12 @@
                   <h4 class="modal-title">Ubah Jabatan</h4>
               </div>
               <div class="modal-body">
-                 <form action="javascript:void(0);" id="ubahjabatan" method="post" accept-charset="utf-8">
+                <form action="pengguna/ubahjabatan" id="formubahspj" method="post" accept-charset="utf-8">
+                     {{ csrf_field() }}
                     <div class="form-group">
                         <label for="inputevent">Nama</label>
                         <input type="text" name="nama_rapat" class="form-control" disabled value="{{$modal->name}}" placeholder="Nama Rapat" autocomplete="off">
-                        <input type="hidden" name="id" class="form-control" value="{{$modal->id}}"autocomplete="off">
+                        <input type="hidden" name="id_user" class="form-control" value="{{$modal->id}}" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="keterangan">Username</label>
@@ -108,15 +109,20 @@
                             <option value="admin">Admin</option>
                             <option value="subbag">Subbag Keuangan</option>
                             <option value="pptk">PPTK</option>
+                            @else
+                            <option value="admin">Admin</option>
+                            <option value="subbag">Subbag Keuangan</option>
+                            <option value="pptk">PPTK</option>
+                            <option value="member">Member</option>
                             @endif
                         </select>
                     </div>
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                     <button type="submit" class="btn btn-primary">Ganti</button>
-             </form>
-         </div>
-     </div>
- </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary pull-right">Ubah</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 @endforeach
 </div>
@@ -127,35 +133,5 @@
 <script type="text/javascript">
     WALL_ACTIVE = true;
     fetchPost(0,0,0,10,-1,-1,'initialize');
-</script>
-<script type="text/javascript">
-    $(document).ready( function () {
-        $('#table_pengguna').DataTable();
-    } );
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-
-    function deleteuser(id) {
-        $.ajax({
-            url: BASE_URL + '/pengguna/delete',
-            type: "POST",
-            data: {id_usernya : id},
-            headers: {'X-CSRF-TOKEN': CSRF},
-            success: function (response) {
-                if (response.code == 200) {
-                    $('#exampleModal2').modal('hide');
-                    location.reload();
-                } else {
-                    $('#errorMessageModal').modal('show');
-                    $('#errorMessageModal #errors').html(''+response.message);
-                }
-            },
-            error: function () {
-                $('#errorMessageModal').modal('show');
-                $('#errorMessageModal #errors').html(''+response.message);
-            }
-        });
-    }
 </script>
 @endsection
