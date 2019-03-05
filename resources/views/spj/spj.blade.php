@@ -220,12 +220,12 @@ input[type="checkbox"].switch_1:checked:after{
         						<td>{{$data->nama_rapat}}</td>
         						<td>{{$data->tanggal_rapat}}</td>
         						<td>{{$data->status}}</td>
-        						@if(Auth::user()->role == 'admin' AND $data->status=='Pending')
+        						@if(Auth::user()->role == 'admin' OR Auth::user()->role == 'Auth::user()->role == 'pptk' AND $data->status=='Pending')
         						<td>
         							<a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
         							<a onclick="tolakForm('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
         						</td>
-        						@elseif(Auth::user()->role == 'admin' AND $data->status=='Verifikasi')
+        						@elseif(Auth::user()->role == 'admin' OR Auth::user()->role == 'Auth::user()->role == 'pptk' AND $data->status=='Verifikasi')
         						<td>
         							<a data-toggle="modal" data-target="#formlanjutan{{$data->id_pengajuan}}" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
         						</td>
@@ -240,6 +240,10 @@ input[type="checkbox"].switch_1:checked:after{
         						@elseif($data->status=='Tolak')
                                 <td>
                                     <a href="#" class="btn btn-danger" disabled><i class="glyphicon glyphicon-remove "></i></a>
+                                </td>
+                                @elseif(Auth::user()->role == 'admin' OR Auth::user()->role == 'Auth::user()->role == 'subbag' AND $data->status=='Terima')
+                                <td>
+                                    <a onclick="kurangiSaldo()" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok "></i></a>
                                 </td>
                                 @endif
         					</tr>
