@@ -37,7 +37,7 @@ $("#formverif").submit(function (event) {
 		success: function (response) {
 			if (response.code == 200) {
 				$('#exampleModal2').modal('hide');
-				extraObj.startUpload();
+				location.reload();
 			} else {
 				$('#errorMessageModal').modal('show');
 				$('#errorMessageModal #errors').html(''+response.message);

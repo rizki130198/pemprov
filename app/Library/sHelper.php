@@ -22,6 +22,7 @@ use App\Models\NotifGrup;
 use App\Models\NotifNews;
 use App\Models\Event;
 use App\Models\EventComment;
+use App\Models\FormPengajuan;
 use Auth;
 use Carbon\Carbon;
 
@@ -34,6 +35,17 @@ class sHelper
     public static function countevent()
     {
         $data =  Event::join('users', 'users.id', '=', 'events.id_users')->where('akhir','>', date('Y-m-d H:i:s'))->count();
+        return $data;
+    }
+    public static function countSpj()
+    {
+        if (Auth::user()->role == 'pptk') {
+            $data =  FormPengajuan::where('baca_pptk','=','1')->count();
+        }else if(Auth::user()->role == 'subbag'){
+           $data =  FormPengajuan::where('baca_subbag','=','1')->count();
+        }else if(Auth::user()->role == 'admin'){
+             $data =  FormPengajuan::where('baca_pptk','=','1')->orWhere('baca_subbag','=','1')->count();
+        }
         return $data;
     }
     public static function followButton($following, $follower, $element, $size = ''){
@@ -284,7 +296,7 @@ class sHelper
                     ];
                 }
             }
-
+ 
             $invitenotif = User_grup::where('seen', 0)->where('user_groups.id_user', '=', Auth::user()->id)->orderBy('user_groups.id', 'DESC');
             if ($invitenotif->count() > 0){
                 foreach ($invitenotif->get() as $invitenotifs){
