@@ -51,8 +51,10 @@ class SpjController extends Controller
             'new_post_group_id' => 0
         ];
         $saldo = Saldo::all();
-        if (Auth::user()->role == 'admin') {
-            $riwayat = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','booking')->get();
+        if (Auth::user()->role == 'pptk') {
+            $riwayat = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','Terima')->get();
+        }else if (Auth::user()->role == 'subbag') {
+            $riwayat = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','Pending')->where('status','!=','Verifikasi')->get();
         }else{
             $riwayat = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('id_user','=',Auth::user()->id)->get();
         }
@@ -156,10 +158,10 @@ class SpjController extends Controller
                     $pengajuan->makan = $data['makan'];
                     $pengajuan->nama_rapat = $data['nama_rapat'];
                     $pengajuan->tanggal_rapat = $data['tgl_rapat'];
-                    if ($data['status']=='booking') {
-                        $pengajuan->status = 'booking';
+                    if ($data['status']=='Booking') {
+                        $pengajuan->status = 'Booking';
                     }else{
-                        $pengajuan->status = 'pending';
+                        $pengajuan->status = 'Pending';
                     }
                     $pengajuan->total = $total;
                 }
@@ -173,10 +175,10 @@ class SpjController extends Controller
                     $pengajuan->snack = $data['snack'];
                     $pengajuan->nama_rapat = $data['nama_rapat'];
                     $pengajuan->tanggal_rapat = $data['tgl_rapat'];
-                    if ($data['status']=='booking') {
-                        $pengajuan->status = 'booking';
+                    if ($data['status']=='Booking') {
+                        $pengajuan->status = 'Booking';
                     }else{
-                        $pengajuan->status = 'pending';
+                        $pengajuan->status = 'Pending';
                     }
                     $pengajuan->total = $total;
                 }
@@ -188,10 +190,11 @@ class SpjController extends Controller
                 $pengajuan->makan = $data['makan'];
                 $pengajuan->nama_rapat = $data['nama_rapat'];
                 $pengajuan->tanggal_rapat = $data['tgl_rapat'];
+                $pengajuan->baca_pptk = '1';
                 if ($data['status']==NULL) {
-                    $pengajuan->status = 'pending';
+                    $pengajuan->status = 'Pending';
                 }else{
-                    $pengajuan->status = 'booking';
+                    $pengajuan->status = 'Booking';
                 }
                 $pengajuan->total = $total;
             }
@@ -231,7 +234,7 @@ class SpjController extends Controller
                 if ($saldo[1]->saldo < $snack) {
                     $response['code'] = 400;
                     $response['message'] = 'Pagu Tidak Mencukupi';
-                }else if($pengajuan->status == 'verifikasi'){
+                }else if($pengajuan->status == 'Verifikasi'){
                     $response['code'] = 400;
                     $response['message'] = 'Sedang di verifikasi';
                 }else{
@@ -256,9 +259,9 @@ class SpjController extends Controller
                     $pengajuan->total = $total;
                 }
             }else{
-                if($pengajuan->status == 'verifikasi'){
+                if($pengajuan->status == 'Verifikasi'){
                     $response['code'] = 400;
-                    $response['message'] = 'Sedang di verifikasi';
+                    $response['message'] = 'Sedang di Verifikasi';
                 }else{
                     $pengajuan->snack = $data['snack'];
                     $pengajuan->makan = $data['makan'];
@@ -281,7 +284,8 @@ class SpjController extends Controller
     public function AccData(Request $request)
     {
         $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
-        $pengajuan->status = 'verifikasi';
+        $pengajuan->status = 'Verifikasi';
+        $pengajuan->baca_pptk = '0';
         if($pengajuan->save()){
             $response['code'] = 200;
             $response['message'] = 'Data Sedang di Verifikasi';
@@ -359,23 +363,24 @@ class SpjController extends Controller
               $pengajuan->tgl_makan = date('Y-m-d',strtotime($data['tgl_kw_makan']));
               $pengajuan->status = 'Terima';
               $pengajuan->total_fix = $data['total'];
-          }
-          if($pengajuan->save()){
-            $updatesaldo = Saldo::find(1);
-            $updatesaldo->saldo = $updatesaldo->saldo - $data['total']/2;
-            if($updatesaldo->save()){
+              if($pengajuan->save()){
+                $updatesaldo = Saldo::find(1);
+                $updatesaldo->saldo = $updatesaldo->saldo - $data['total']/2;
+                if($updatesaldo->save()){
+                    $response['code'] = 200;
+                    $response['message'] = 'saldo sudah di simpan'; 
+                }else{
+                    $response['code'] = 400;
+                    $response['message'] = 'Gagal Update saldo';
+                }
                 $response['code'] = 200;
-                $response['message'] = 'saldo sudah di simpan'; 
+                $response['message'] = 'Data sudah di simpan'; 
             }else{
                 $response['code'] = 400;
-                $response['message'] = 'Gagal Update saldo';
-            }
-            $response['code'] = 200;
-            $response['message'] = 'Data sudah di simpan'; 
-        }else{
-            $response['code'] = 400;
-            $response['message'] = 'Data error silakan hubungi tim terkait';
-        }  
+                $response['message'] = 'Data error silakan hubungi tim terkait';
+            } 
+            
+        } 
         return Response::json($response);
     }
 }
