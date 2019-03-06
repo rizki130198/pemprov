@@ -95,13 +95,13 @@ input[type="checkbox"].switch_1:checked:after{
 		<div class="col-md-3" style="padding-left: 0;position: fixed;width: 20%;">
 			@include('widgets.sidebar')
 		</div>
-		<div class="col-xs-12 col-md-3 pull-right" style="padding-right: 0;">
+		<!-- <div class="col-xs-12 col-md-3 pull-right" style="padding-right: 0;">
 			<div class="hidden-sm hidden-xs">
 				@include('news.widgets.news')
 				@include('widgets.suggested_people')
 			</div>
-		</div>
-		<div class="col-md-3 col-md-offset-3 col-xs-12">
+		</div> -->
+		<div class="col-md-6 col-md-offset-3 col-xs-12">
 			<div class="panel panel-default" style="border-radius: 10px;background: #42a5f5;background: -webkit-linear-gradient(45deg, #42a5f5, #00B4DB);background: linear-gradient(45deg, #42a5f5, #00B4DB);">
 				<a data-toggle="modal" data-target="#info">
 					<button class="btn btn-default pull-right btn-xs" type="button" style="display: inline-block;float: right;border-radius: 20px;width: 40px;font-weight: bold;border:none;margin: 15px 15px 0 5px;">Info</button>

@@ -100,7 +100,7 @@ input[type="checkbox"].switch_1:checked:after{
          <form action="javascript:void(0);" id="formverif" method="post" accept-charset="utf-8" >
           <div class="form-group">
             <input type="hidden" name="id_form" value="{{$verif->id_pengajuan}}">
-            <label for="keterangan">Snack</label>
+            <label for="keterangan">Harga Total Snack</label>
             <input type="number" class="form-control" id="snack" name="snack" autocomplete="off">
           </div>
           <div class="form-group">
@@ -113,7 +113,7 @@ input[type="checkbox"].switch_1:checked:after{
           </div>
           <hr>
           <div class="form-group">
-            <label for="keterangan">Makan Siang</label>
+            <label for="keterangan">Harga Total Makan Siang</label>
             <input type="number" class="form-control" id="makan" name="makan" autocomplete="off">
           </div>
           <div class="form-group">
