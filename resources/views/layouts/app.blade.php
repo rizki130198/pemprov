@@ -103,7 +103,7 @@
                     <i class="fa fa-commenting"></i>
                 </button>
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />
+                    <img src="{{ asset('images/logo-white.png') }}" alt="" style="width: 210px;height: 40px;margin-top: 12px;" />
                 </a>
 
             </div>

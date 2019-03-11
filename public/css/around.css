@@ -3,6 +3,49 @@ body {
   background: #f5f5f5;
   overflow-x: hidden;
 }
+.nav-tabs { 
+  border-bottom: 2px solid #DDD; 
+  margin-bottom: 5px;
+}
+.nav-tabs > li.active > a:focus{
+
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { 
+  border-width: 0;
+}
+.nav-tabs > li > a { 
+  border: none; 
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.75;
+  letter-spacing: normal;
+  float: left !important;
+  color: #3d464d; 
+  text-transform: uppercase;
+  padding: 18px 0px;
+  margin-right: 27px;
+}
+.nav-tabs > li.active > a, .nav-tabs > li:hover { 
+  border: none; background: transparent !important; 
+}
+.nav-tabs > li.active > a, .nav-tabs > li a:hover { 
+  border: none; background: transparent !important; 
+}
+.nav-tabs > li > a::after { 
+  content: ""; 
+  background: #e74c3c; 
+  height: 3px; 
+  position: absolute; 
+  width: 80%; 
+  left: 7px; 
+  bottom: -1px; 
+  transition: all 250ms ease 0s; 
+  transform: scale(0); 
+}
+.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #ddd; }
 .double-line-news {
   width: 18%;
   /*margin: 15px auto;*/
@@ -20,7 +63,7 @@ body {
   margin-left: 0;
   margin-top: 0px;
   width: 25px;
-  background: #42a5f5;
+  background: #e74c3c;
   z-index: 0;
 }
 .double-line-populer {
@@ -41,7 +84,7 @@ body {
   margin-left: 0;
   margin-top: 0px;
   width: 50px;
-  background: #42a5f5;
+  background: #e74c3c;
   z-index: 0;
 }
 #crumbs {
@@ -141,7 +184,7 @@ span.news-date:before{
   border-radius: 50px;
 }
 .icon-comment{
-  background: #42a5f5;
+  background: #e74c3c;
   color:#fff;
   padding: 4px;
   font-size: 12px;
@@ -375,7 +418,7 @@ span.news-date:before{
   opacity: 1;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   padding: 5px;
-  border: 2px solid #42a5f5;
+  border: 2px solid #e74c3c;
 }
 .prof .follow {
   margin-right: 4%;
@@ -421,7 +464,7 @@ span.news-date:before{
 }
 
 .active {
-  /*color: #42a5f5 !important;*/
+  /*color: #e74c3c !important;*/
 }
 .navbar-fixed-bottom{
   display: none;
@@ -438,7 +481,45 @@ span.news-date:before{
 #listimage ul{
   padding-left: 10px;
 }
+.panel-saldo{
+  border-radius: 10px;background: #42a5f5;
+  background: -webkit-linear-gradient(45deg, #42a5f5, #00B4DB);
+  background: linear-gradient(45deg, #42a5f5, #00B4DB);
+}
 @media(max-width: 768px){
+  .col-spj{
+    padding-right: 0;
+  }
+  .panel-spj{
+    border-radius: 0;
+  }
+  .panel-saldo{
+    margin-left: 15px;
+    margin-top: 15px;
+  }
+  .nav-tabs {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 66px;
+    margin-bottom: 10px;
+    background-color: #fff;
+  }
+  .nav-tabs > li {
+    float: none;
+    display: inline-block;
+    left: 17px;
+  }
+  .nav-tabs > li a{
+    padding: 26px 0px !important;
+  } 
+  .nav-tabs > li > a::after {
+    width: 100% !important;
+    left: 0px !important;
+  } 
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { 
+    font-weight: bold;
+  }
   #crumbs{
     display: none !important;
   }
@@ -1090,7 +1171,7 @@ span.news-date:before{
 
   /* Header */
   .navbar-around {
-    background: #42a5f5;
+    background: #e74c3c;
     min-height: 61px;
     margin-bottom: 0;
     border-bottom: 0;
@@ -1164,7 +1245,7 @@ span.news-date:before{
     color: #fff;
     padding: 5px 10px;
     box-sizing: border-box;
-    border-left: 1px solid #1e88e5;
+    border-left: 1px solid #be3a2c;
   }
 
   .navbar-around .navbar-nav li a.parent img{
@@ -1669,28 +1750,28 @@ span.news-date:before{
   }
 
   .new-post-box .btn-submit {
-    background: #42a5f5;
-    border-color: #42a5f5;
+    background: #e74c3c;
+    border-color: #e74c3c;
     padding-left: 20px;
     padding-right: 20px;
     color: #fff
   }
   .btn-primary {
-    background: #42a5f5;
-    border-color: #42a5f5;
+    background: #e74c3c;
+    border-color: #e74c3c;
     padding-left: 20px;
     padding-right: 20px;
     color: #fff
   }
   .btn-primary:hover {
     background: transparent;
-    border-color: #42a5f5;
-    color: #42a5f5;
+    border-color: #e74c3c;
+    color: #e74c3c;
   }
   .new-post-box .btn-submit:hover {
     background: transparent;
-    border-color: #42a5f5;
-    color: #42a5f5;
+    border-color: #e74c3c;
+    color: #e74c3c;
   }
 
   .new-post-box .loading-post {
@@ -2416,7 +2497,7 @@ span.news-date:before{
 }
 
 .dm .friends-list .friend.active {
-  background: #42a5f5;
+  background: #e74c3c;
 }
 
 .dm .friends-list .friend.active strong, .dm .friends-list .friend.active span, .dm .friends-list .friend.active small {

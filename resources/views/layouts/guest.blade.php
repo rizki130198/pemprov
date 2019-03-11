@@ -20,10 +20,10 @@
     <!-- <div class="col-md-5"> -->
         <div class="tab_container">
             <input id="tab1" type="radio" name="tabs" {{ old('tab') != 'register' ? 'checked' : '' }} class="radio_hidden">
-            <label for="tab1" class="head"><i class="fa fa-user"></i><span>LOGIN</span></label>
+            <label for="tab1" class="head" style="width: 100%;"><span>Selamat Datang!</span></label>
 
             <input id="tab2" type="radio" name="tabs" {{ old('tab') == 'register' ? 'checked' : '' }} class="radio_hidden">
-            <label for="tab2" class="head"><i class="fa fa-user-plus"></i><span>SIGN UP</span></label>
+            <!-- <label for="tab2" class="head"><i class="fa fa-user-plus"></i><span>SIGN UP</span></label> -->
 
             <div class="contents">
                 <section id="content1" class="tab-content">
@@ -39,7 +39,7 @@
         </div>
         <div class="footer-bg"></div>
         <center>
-            <label style="margin-top: 10px;color: #555;margin-bottom: 20px;">Dinas Cipta Tata Karya, Tata Ruang dan Pertanahan Jakarta<br>© 2017 ......</label>
+            <label style="margin-top: 10px;color: #555;margin-bottom: 20px;">Dinas Cipta Tata Karya, Tata Ruang dan Pertanahan Jakarta<br>© 2017 - <?php echo date("Y");?></label>
         </center>
         @include('widgets.footer')
     </div>
