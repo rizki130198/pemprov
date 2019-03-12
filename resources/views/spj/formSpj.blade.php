@@ -97,96 +97,49 @@ input[type="checkbox"].switch_1:checked:after{
          <h3 style="margin:0;">Form Permintaan SPJ</h3>
          <hr>
          <form action="javascript:void(0);" id="formspj" method="post" accept-charset="utf-8">
-                        <!-- <div class="form-group">
-                            <label class="custom-control-label" for="customSwitch1">Booking</label>
-                            <div class="switch_box box_1">
-                                <input type="checkbox" onclick="Booking()" id="switch" class="switch_1">
-                            </div>
-                          </div> -->
-                          <div class="form-group">
-                            <label for="inputevent">Nama Rapat</label>
-                            <input type="text" name="nama_rapat" class="form-control" placeholder="Nama Rapat" autocomplete="off">
-                          </div>
-                          <div class="form-group">
-                            <label for="keterangan">Tanggal Rapat</label>
-                            <input type="date" class="form-control" name="tgl_rapat">
-                          </div>
-                          <label for="keterangan">Snack</label>
-                          <div class="form-group input-group">
-                            <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" name="snack" autocomplete="off">
-                            <span class="input-group-addon">BOX</span>
-                          </div>
-                          <label for="keterangan">Makan Siang</label>
-                          <div class="form-group input-group">
-                            <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" autocomplete="off">
-                            <span class="input-group-addon">BOX</span>
-                          </div>
-                          <label>Foto Kwitansi</label>
-                          <div class="controls-kwitansi">
-                            <div class="forms-kwitansi row">
-                              <div class="entry-kwitansi">
-                                <div class="row">
-                                  <div class="col-md-12">
-                                    <div class="col-md-5">
-                                      <div class="well" style="padding: 5px;">
-                                        <input type="file" name="" multiple>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                      <span class="input-group-btn">
-                                        <button type="button" class="btn btn-info add-more-kwitansi">Tambah</button>
-                                      </span>
-                                    </div>  
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="keterangan">Total</label>
-                            <input type="number" class="form-control" name="total" id="total" autocomplete="off">
-                            <input type="hidden" value="" id="booking" readonly class="form-control" name="status" >
-                          </div>
-                          <button type="submit" class="btn btn-primary pull-right">Kirim</button>
-                        </form>
-                      </div>
-                    </div>          
-                  </div>
-                </div>
-              </div>    
-              @endsection
+          <div class="form-group">
+            <label for="inputevent">Nama Rapat</label>
+            <input type="text" name="nama_rapat" class="form-control" placeholder="Nama Rapat" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="keterangan">Tanggal Rapat</label>
+            <input type="date" class="form-control" name="tgl_rapat">
+          </div>
+          <label for="keterangan">Snack</label>
+          <div class="form-group input-group">
+            <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" name="snack" autocomplete="off">
+            <span class="input-group-addon">BOX</span>
+          </div>
+          <label for="keterangan">Makan Siang</label>
+          <div class="form-group input-group">
+            <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" autocomplete="off">
+            <span class="input-group-addon">BOX</span>
+          </div>
+          <div class="form-group">
+            <label for="keterangan">Total</label>
+            <input type="number" class="form-control" name="total" id="total" autocomplete="off" readonly>
+            <input type="hidden" value="" id="booking" readonly class="form-control" name="status" >
+          </div>
+          <button type="submit" class="btn btn-primary pull-right">Kirim</button>
+        </form>
+      </div>
+    </div>          
+  </div>
+</div>
+</div>    
+@endsection
 
-              @section('footer')
-              <script type="text/javascript">
-                WALL_ACTIVE = true;
-                fetchPost(0,0,0,10,-1,-1,'initialize');
-              </script>
-              <script type="text/javascript">
-                $(document).ready( function () {
-                  $('#table_pengguna').DataTable();
-                } );
-                $(function () {
-                  $('[data-toggle="tooltip"]').tooltip()
-                })
-              </script>
-              <script type="text/javascript">
-                $(document).on('click', '.add-more-kwitansi', function(e){
-                  e.preventDefault();
-
-                  var controlForm = $('.controls-kwitansi .forms-kwitansi:first'),
-                  currentEntry = $(this).parents('.entry-kwitansi:first'),
-                  newEntry = $(currentEntry.clone()).appendTo(controlForm);
-
-                  newEntry.find('input').val('');
-                  controlForm.find('.entry-kwitansi:not(:last) .add-more-kwitansi')
-                  .removeClass('add-more-kwitansi').addClass('btn-remove')
-                  .removeClass('btn-info').addClass('btn-danger')
-                  .html('Hapus');
-                }).on('click', '.btn-remove', function(e){
-                  $(this).parents('.entry-kwitansi:first').remove();
-
-                  e.preventDefault();
-                  return false;
-                });
-              </script>
-              @endsection
+@section('footer')
+<script type="text/javascript">
+  WALL_ACTIVE = true;
+  fetchPost(0,0,0,10,-1,-1,'initialize');
+</script>
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('#table_pengguna').DataTable();
+  } );
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+@endsection

@@ -11,7 +11,7 @@ $("#formspj").submit(function (event) {
 		success: function (response) {
 			if (response.code == 200) {
 				$('#exampleModal2').modal('hide');
-				location.reload();
+				location.href = BASE_URL + '/spj';
 			} else {
 				$('#errorMessageModal').modal('show');
 				$('#errorMessageModal #errors').html(''+response.message);
@@ -37,7 +37,7 @@ $("#formverif").submit(function (event) {
 		success: function (response) {
 			if (response.code == 200) {
 				$('#exampleModal2').modal('hide');
-				location.reload();
+				location.href = BASE_URL + '/spj';
 			} else {
 				$('#errorMessageModal').modal('show');
 				$('#errorMessageModal #errors').html(''+response.message);
@@ -63,7 +63,7 @@ $("#formubahspj").submit(function (event) {
 		success: function (response) {
 			if (response.code == 200) {
 				$('#exampleModal2').modal('hide');
-				location.reload();
+				location.href = BASE_URL + '/spj';
 			} else {
 				$('#errorMessageModal').modal('show');
 				$('#errorMessageModal #errors').html(''+response.message);
@@ -94,7 +94,7 @@ function accForm(id) {
 		headers: {'X-CSRF-TOKEN': CSRF},
 		success: function (response) {
 			if (response.code == 200) {
-				location.reload();
+				location.href = BASE_URL + '/spj';
 			} else {
 				$('#errorMessageModal').modal('show');
 				$('#errorMessageModal #errors').html(''+response.message);
@@ -114,6 +114,46 @@ function tolakForm(id) {
 		headers: {'X-CSRF-TOKEN': CSRF},
 		success: function (response) {
 			if (response.code == 200) {
+				location.href = BASE_URL + '/spj';
+			} else {
+				$('#errorMessageModal').modal('show');
+				$('#errorMessageModal #errors').html(''+response.message);
+			}
+		},
+		error: function () {
+			$('#errorMessageModal').modal('show');
+			$('#errorMessageModal #errors').html(''+response.message);
+		}
+	});
+}
+function Tolakverif(id) {
+	$.ajax({
+		url: BASE_URL + '/spj/tolakverif',
+		type: "POST",
+		data: {idpengajuan : id},
+		headers: {'X-CSRF-TOKEN': CSRF},
+		success: function (response) {
+			if (response.code == 200) {
+				location.href = BASE_URL + '/spj';
+			} else {
+				$('#errorMessageModal').modal('show');
+				$('#errorMessageModal #errors').html(''+response.message);
+			}
+		},
+		error: function () {
+			$('#errorMessageModal').modal('show');
+			$('#errorMessageModal #errors').html(''+response.message);
+		}
+	});
+}
+function kurangiSaldo(id) {
+	$.ajax({
+		url: BASE_URL + '/spj/kurangisaldo',
+		type: "POST",
+		data: {idpengajuan : id},
+		headers: {'X-CSRF-TOKEN': CSRF},
+		success: function (response) {
+			if (response.code == 200) {
 				location.reload();
 			} else {
 				$('#errorMessageModal').modal('show');
@@ -128,7 +168,19 @@ function tolakForm(id) {
 }
 function jumlahharga() {
 	var snack = parseFloat($("#snack").val()) * 19800;
-	var makan = parseFloat($("#makan").val()) * 51700;
+	var makan = parseFloat($("#makan").val()) * 47000;
+	var jwb = snack + makan;
+	if (isNaN(snack)) {
+		$('#total').val(makan);
+	}else if(isNaN(makan)){
+		$('#total').val(snack);
+	}else{
+		$('#total').val(jwb);
+	}
+}
+function hargastock() {
+	var snack = parseFloat($("#snack").val());
+	var makan = parseFloat($("#makan").val());
 	var jwb = snack + makan;
 	if (isNaN(snack)) {
 		$('#total').val(makan);

@@ -79,7 +79,6 @@ input[type="checkbox"].switch_1:checked:after{
   left: calc(100% - 1.5em);
 }
 </style>
-<link href="{{ asset('css/hayageek.css') }}" rel="stylesheet">
 <div class="h-20 res-post"></div>
 <div class="col-md-12 res-home">
   <div class="row">
@@ -97,11 +96,11 @@ input[type="checkbox"].switch_1:checked:after{
         <div class="panel-body">
          <h3 style="margin:0;">Form Verifikasi SPJ</h3>
          <hr>
-         <form action="javascript:void(0);" id="formverif" method="post" accept-charset="utf-8" >
+         <form action="javascript:void(0);" id="formverif" method="post" accept-charset="utf-8" enctype="multipart/form-data" >
           <div class="form-group">
             <input type="hidden" name="id_form" value="{{$verif->id_pengajuan}}">
             <label for="keterangan">Harga Total Snack</label>
-            <input type="number" class="form-control" id="snack" name="snack" autocomplete="off">
+            <input type="number" class="form-control" id="snack" onkeyup="hargastock()" name="snack" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="inputevent">Penyedia</label>
@@ -114,7 +113,7 @@ input[type="checkbox"].switch_1:checked:after{
           <hr>
           <div class="form-group">
             <label for="keterangan">Harga Total Makan Siang</label>
-            <input type="number" class="form-control" id="makan" name="makan" autocomplete="off">
+            <input type="number" class="form-control" id="makan" name="makan" onkeyup="hargastock()" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="inputevent">Penyedia</label>
@@ -124,12 +123,31 @@ input[type="checkbox"].switch_1:checked:after{
             <label for="keterangan">Tanggal Kwintansi</label>
             <input type="date" class="form-control" name="tgl_kw_makan">
           </div>
-          <div id="mulitplefileuploader">Upload</div>
-          <div id="status"></div>
+          <label>Foto Kwitansi</label>
+          <div class="controls-kwitansi">
+            <div class="forms-kwitansi row">
+              <div class="entry-kwitansi">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-md-5">
+                      <div class="well" style="padding: 5px;">
+                        <input type="file" name="myfile[]" multiple>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-info add-more-kwitansi">Tambah</button>
+                      </span>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <hr>
           <div class="form-group">
             <label for="keterangan">Total</label>
-            <input type="number" class="form-control" name="total" id="total" autocomplete="off">
+            <input type="number" class="form-control" name="total" id="total" autocomplete="off" readonly>
           </div>
           <button type="submit" class="btn btn-primary pull-right">Kirim</button>
         </form>
@@ -141,29 +159,31 @@ input[type="checkbox"].switch_1:checked:after{
 @endsection
 
 @section('footer')
-<script src="{{ asset('js/hayageek.min.js') }}"></script>
 <script type="text/javascript">
   WALL_ACTIVE = true;
   fetchPost(0,0,0,10,-1,-1,'initialize');
 </script>
 <script type="text/javascript">
-  $(document).ready( function () {
-    $('#table_pengguna').DataTable();
-    var extraObj = $("#mulitplefileuploader").uploadFile(
-    {
-      url : BASE_URL + '/spj/Uploadimage',
-      allowedTypes:"jpg,png,gif,doc,pdf",
-      fileName: "myfile[]",
-      multiple: true,
-      dragdropWidth:600,
-      formData : {id_form:{{$verif->id_pengajuan}}},
-      headers: {'X-CSRF-TOKEN': CSRF},
+ $(document).on('click', '.add-more-kwitansi', function(e){
+  e.preventDefault();
 
+  var controlForm = $('.controls-kwitansi .forms-kwitansi:first'),
+  currentEntry = $(this).parents('.entry-kwitansi:first'),
+  newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-    });
-  });
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
+  newEntry.find('input').val('');
+  controlForm.find('.entry-kwitansi:not(:last) .add-more-kwitansi')
+  .removeClass('add-more-kwitansi').addClass('btn-remove')
+  .removeClass('btn-info').addClass('btn-danger')
+  .html('Hapus');
+}).on('click', '.btn-remove', function(e){
+  $(this).parents('.entry-kwitansi:first').remove();
+
+  e.preventDefault();
+  return false;
+});
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
 @endsection

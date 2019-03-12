@@ -86,8 +86,10 @@ Route::post('/spj/ubah', 'SpjController@AccData');
 Route::post('/spj/editsaldo', 'SpjController@UbahSaldo');
 Route::post('/spj/ubahform', 'SpjController@UbahFormPengajuan');
 Route::post('/spj/tolak', 'SpjController@TolakData');
+Route::post('/spj/tolakverif', 'SpjController@Tolakverif');
 Route::post('/spj/updateform', 'SpjController@ActionVerif');
 Route::post('/spj/Uploadimage', 'SpjController@uploadimage');
+Route::post('/spj/kurangisaldo', 'SpjController@Accselesai');
 
 //events
 Route::get('/events', 'EventController@index');
