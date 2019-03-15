@@ -2,13 +2,13 @@
 
 @section('content')
 <style type="text/css">
-.col-md-offset-3{
-	margin-left: 21%;
-}
-@media(min-width: 1200px){
-	.col-md-6{
-		width: 53%;
-	}
+  .col-md-offset-3{
+   margin-left: 21%;
+ }
+ @media(min-width: 1200px){
+   .col-md-6{
+    width: 53%;
+  }
 }
 @media(max-width: 768px){
 	.col-md-offset-3{
@@ -304,9 +304,14 @@ input[type="checkbox"].switch_1:checked:after{
               <td>{{$data->nama_rapat}}</td>
               <td>{{$data->tanggal_rapat}}</td>
               <td>{{$data->status}}</td>
+              @if(Auth::user()->role == 'admin' OR Auth::user()->role == 'pptk' AND $data->status=='Pending')
+              <td>
+                <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
+                @else
               <td>
                 <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok "></i></a>
               </td>
+              @endif
             </tr>
             @endforeach
           </tbody>
@@ -358,7 +363,6 @@ input[type="checkbox"].switch_1:checked:after{
               </td>
               @endif
             </tr>
-            
             @endforeach
           </tbody>
         </table>  
@@ -371,7 +375,7 @@ input[type="checkbox"].switch_1:checked:after{
 @foreach($tolak as $modal)
 <div class="modal fade" id="editForm{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
  <div class="modal-dialog">
-  
+
   <!-- Modal content-->
   <div class="modal-content">
    <div class="modal-header">
@@ -421,7 +425,7 @@ input[type="checkbox"].switch_1:checked:after{
         @foreach($pending as $modal)
         <div class="modal fade" id="editForm{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog">
-          
+
           <!-- Modal content-->
           <div class="modal-content">
            <div class="modal-header">
