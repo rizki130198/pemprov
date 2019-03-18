@@ -81,6 +81,7 @@ Route::post('/pengguna/delete', 'PenggunaController@Deleteaccount');
 Route::get('/spj', 'SpjController@index');
 Route::get('/spj/formSpj', 'SpjController@formSpj');
 Route::get('/spj/formVerifikasi/{id}', 'SpjController@formVerifikasi');
+Route::get('/spj/print/{id}', 'SpjController@printSpj');
 Route::post('/spj/action', 'SpjController@InputForm');
 Route::post('/spj/ubah', 'SpjController@AccData');
 Route::post('/spj/editsaldo', 'SpjController@UbahSaldo');

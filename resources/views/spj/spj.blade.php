@@ -306,9 +306,9 @@ input[type="checkbox"].switch_1:checked:after{
               <td>{{$data->status}}</td>
               @if(Auth::user()->role == 'admin' OR Auth::user()->role == 'pptk' AND $data->status=='Pending')
               <td>
-                <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
+                <a href="spj/print/{{$data->id_pengajuan}}" target="_blank" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
                 @else
-              <td>
+                <td>
                 <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok "></i></a>
               </td>
               @endif
