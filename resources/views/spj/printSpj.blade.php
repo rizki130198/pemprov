@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 <style type="text/css">
 .col-md-offset-3{
   margin-left: 21%;
@@ -96,7 +93,7 @@ input[type="checkbox"].switch_1:checked:after{
         <tr>
           <td>No. Pengajuan </td> 
           <td style="padding: 20px;"> :</td>
-          <td>1-2019</td>
+          <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
         </tr>
         <tr>
           <td>Nama </td> 
@@ -111,17 +108,17 @@ input[type="checkbox"].switch_1:checked:after{
         <tr>
           <td>Total Pengajuan </td>
           <td style="padding: 20px;"> :</td>
-          <td>Rp1.000.000</td>
+          <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
         </tr>
         <tr>
           <td>Nama Rapat </td>
           <td style="padding: 20px;"> :</td>
-          <td>Rapat PUBG</td>
+          <td>{{$data->nama_rapat}}</td>
         </tr>
         <tr>
           <td>Rapat Tanggal </td>
           <td style="padding: 20px;"> :</td>
-          <td>12-05-2019</td>
+          <td>{{$data->tanggal_rapat}}</td>
         </tr>
         @endforeach
       </table>
@@ -130,9 +127,7 @@ input[type="checkbox"].switch_1:checked:after{
     </div>
   </div>          
 </div>  
-@endsection
 
-@section('footer')
 <script type="text/javascript">
   WALL_ACTIVE = true;
   fetchPost(0,0,0,10,-1,-1,'initialize');
@@ -163,4 +158,3 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 </script>
-@endsection

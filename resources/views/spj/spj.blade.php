@@ -212,6 +212,7 @@ input[type="checkbox"].switch_1:checked:after{
          <table id="table_pengguna" class="table table-striped table-no-bordered table-hover" style="width:100%">
           <thead>
            <tr>
+            <th>No</th>
             <th>Nama</th>
             <th style="width: 100px;">Biaya</th>
             <th>Nama Rapat</th>
@@ -223,6 +224,7 @@ input[type="checkbox"].switch_1:checked:after{
         <tbody>
          @foreach($pending as $data)
          <tr>
+          <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
           <td>{{$data->name}}</td>
           <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
           <td>{{$data->nama_rapat}}</td>
@@ -288,6 +290,7 @@ input[type="checkbox"].switch_1:checked:after{
         <table id="table_selesai" class="table table-striped table-no-bordered table-hover" style="width:100%">
           <thead>
             <tr>
+              <th>No</th>
               <th>Nama</th>
               <th style="width: 100px;">Biaya</th>
               <th>Nama Rapat</th>
@@ -299,12 +302,13 @@ input[type="checkbox"].switch_1:checked:after{
           <tbody>
             @foreach($selesai as $data)
             <tr>
+              <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
               <td>{{$data->name}}</td>
               <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
               <td>{{$data->nama_rapat}}</td>
               <td>{{$data->tanggal_rapat}}</td>
               <td>{{$data->status}}</td>
-              @if(Auth::user()->role == 'admin' OR Auth::user()->role == 'pptk' AND $data->status=='Pending')
+              @if(Auth::user()->role == 'member')
               <td>
                 <a href="spj/print/{{$data->id_pengajuan}}" target="_blank" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
                 @else
@@ -329,6 +333,7 @@ input[type="checkbox"].switch_1:checked:after{
         <table id="table_tolak" class="table table-striped table-no-bordered table-hover" style="width:100%">
           <thead>
             <tr>
+              <th>No</th>
               <th>Nama</th>
               <th style="width: 100px;">Biaya</th>
               <th>Nama Rapat</th>
@@ -340,6 +345,7 @@ input[type="checkbox"].switch_1:checked:after{
           <tbody>
             @foreach($tolak as $data)
             <tr>
+              <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
               <td>{{$data->name}}</td>
               <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
               <td>{{$data->nama_rapat}}</td>
