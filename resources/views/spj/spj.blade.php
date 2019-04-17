@@ -226,15 +226,19 @@ input[type="checkbox"].switch_1:checked:after{
          <tr>
           <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
           <td>{{$data->name}}</td>
+          @if($data->total_fix == NULL)
+          <td>{{"Rp " . number_format($data->total_fix,2,',','.')}}</td>
+          @else
           <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
+          @endif
           <td>{{$data->nama_rapat}}</td>
           <td>{{$data->tanggal_rapat}}</td>
           @if($data->status == 'Terima' AND Auth::user()->role == 'member')
           <td>Data Sedang di Verifikasi Subbag Keuangan</td>
           @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'member')
-          <td>Data Sedang di Verifikasi PPTK</td>
-          @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'pptk')
           <td>Data Sudah di Verifikasi PPTK</td>
+          @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'pptk')
+          <td>Data Harus di Verifikasi PPTK</td>
           @elseif($data->status == 'Terima' AND Auth::user()->role == 'subbag')
           <td>Data Harus di Verifikasi</td>
           @else
@@ -247,7 +251,9 @@ input[type="checkbox"].switch_1:checked:after{
           </td>
           @elseif(Auth::user()->role == 'member' AND $data->status=='Terima')
           <td>
+            <a href="spj/print/{{$data->id_pengajuan}}" target="_blank" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
             <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
+
           </td>
           @elseif(Auth::user()->role == 'subbag' AND $data->status=='Pending')
           <td>

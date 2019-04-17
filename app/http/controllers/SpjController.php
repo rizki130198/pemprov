@@ -378,7 +378,6 @@ class SpjController extends Controller
         $pengajuan->status = 'Selesai';
         $pengajuan->baca_subbag = '0';
         if($pengajuan->save()){
-            if($pengajuan->)
             $saldo = Saldo::find(3);
             $saldo->saldo =  $saldo->saldo - $pengajuan->total_fix;
             if($saldo->save()){
