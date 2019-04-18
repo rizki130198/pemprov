@@ -159,12 +159,12 @@ class SpjController extends Controller
             $pendingnya = Formpengajuan::Where('status','!=','Tolak')->Where('status','!=','Tolak1')->Where('status','!=','Selesai')->sum('total');
             if ($pendingnya > $saldo[2]->saldo) {
                 $response['code'] = 400;
-                $response['message'] = 'Saldo Pagu Tidak Cukup Karena Banyak Booking';
+                $response['message'] = 'Saldo Pagu Tidak Cukup, Karena Banyak Booking';
             }else{
                 if ($data['snack'] == NULL) {
                     if ($saldo[1]->saldo < $snack) {
                         $response['code'] = 400;
-                        $response['message'] = 'Pagu Tidak Mencukupi';
+                        $response['message'] = 'Pagu Snack Tidak Mencukupi';
                     }else{
                         $pengajuan = new FormPengajuan();
                         $pengajuan->id_user = Auth::user()->id;
@@ -177,7 +177,7 @@ class SpjController extends Controller
                 }elseif($data['makan'] == NULL){
                     if ($saldo[0]->saldo < $makan) {
                         $response['code'] = 400;
-                        $response['message'] = 'Pagu Tidak Mencukupi';
+                        $response['message'] = 'Pagu Makan Tidak Mencukupi';
                     }else{
                         $pengajuan = new FormPengajuan();
                         $pengajuan->id_user = Auth::user()->id;
@@ -256,11 +256,46 @@ class SpjController extends Controller
             return Response::json($response);
         }
     }
+    // public function UbahFormPengajuanpptk(Request $request)
+    // {
+    //     $response = array();
+    //     $response['code'] = 400;
+    //     $data = $request->all();
+    //     $messages = [
+    //         'snack' => 'required',
+    //         'makan' => 'required',
+    //         'nama_rapat' => 'required',
+    //         'tgl_rapat' => 'required',
+    //     ];
+    //     $validator = Validator::make($data, $messages);
+
+    //     if ($validator->fails()) {
+    //         $response['code'] = 400;
+    //         $response['message'] = implode(' ', $validator->errors()->all());
+    //     }else{
+    //         $pengajuan = FormPengajuan::find($data['id_form']);
+    //         $pengajuan->snack = $data['snack'];
+    //         $pengajuan->makan = $data['makan'];
+    //         $pengajuan->nama_rapat = $data['nama_rapat'];
+    //         $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
+    //         $pengajuan->status = 'Pending';
+    //         $pengajuan->total = $total;
+    //         if($pengajuan->save()){
+    //             $response['code'] = 200;
+    //             $response['message'] = 'Data sudah di simpan';
+    //         }else{
+    //             $response['code'] = 400;
+    //             $response['message'] = 'Data error silakan hubungi petugas terkait';
+    //         }  
+    //         return Response::json($response);
+    //     }
+    // }
     public function AccData(Request $request)
     {
         $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
         $pengajuan->status = 'Verifikasi';
         $pengajuan->baca_pptk = '0';
+        $pengajuan->tgl_verif = Carbon::now();
         if($pengajuan->save()){
             $response['code'] = 200;
             $response['message'] = 'Data Sedang di Verifikasi';
@@ -274,6 +309,8 @@ class SpjController extends Controller
     {
         $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
         $pengajuan->status = 'Tolak';
+        $pengajuan->alasan = $request->input('alasan');
+        $pengajuan->tgl_tolak_pptk = Carbon::now();
         if($pengajuan->save()){
             $response['code'] = 200;
             $response['message'] = 'Data Sedang di Verifikasi';
@@ -358,9 +395,10 @@ class SpjController extends Controller
                     $pengajuan->tgl_snack = date('Y-m-d',strtotime($data['tgl_kw_snack']));
                     $pengajuan->tgl_makan = date('Y-m-d',strtotime($data['tgl_kw_makan']));
                     $pengajuan->status = 'Terima';
-                    $pengajuan->file_kwutansi = $image_path;
+                    $pengajuan->file_kwutansi = $image_path;    
                     $pengajuan->baca_subbag = '1';
                     $pengajuan->total_fix = $data['total'];
+                    $pengajuan->tgl_form = Carbon::now();
                   if($pengajuan->save()){
                     $response['code'] = 200;
                     $response['message'] = 'Data sudah di simpan'; 
@@ -377,6 +415,7 @@ class SpjController extends Controller
         $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
         $pengajuan->status = 'Selesai';
         $pengajuan->baca_subbag = '0';
+        $pengajuan->tgl_selesai = Cache::now();
         if($pengajuan->save()){
             $saldo = Saldo::find(3);
             $saldo->saldo =  $saldo->saldo - $pengajuan->total_fix;
@@ -394,11 +433,13 @@ class SpjController extends Controller
                     $response['message'] = 'Data error silakan hubungi tim terkait';
                 }
                 $response['code'] = 200;
-                $response['message'] = 'Data error silakan hubungi tim terkait';
+                $response['message'] = 'Data Total Sudah di Ubah';
             }else{
                 $response['code'] = 400;
                 $response['message'] = 'Data error silakan hubungi tim terkait';
             }
+                $response['code'] = 200;
+                $response['message'] = 'Saldo tidak di update';
         }else{
             $response['code'] = 400;
             $response['message'] = 'Data error silakan hubungi tim terkait';
@@ -409,6 +450,8 @@ class SpjController extends Controller
     {
         $pengajuan = FormPengajuan::find($request->input('idpengajuan'));
         $pengajuan->status = 'Tolak1';
+        $pengajuan->alasan = 'alasan';
+        $pengajuan->tgl_tolak_subbag = Carbon::now();
         if($pengajuan->save()){
             $response['code'] = 200;
             $response['message'] = 'Data Sudah di Tolak';

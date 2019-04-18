@@ -108,7 +108,7 @@ input[type="checkbox"].switch_1:checked:after{
         <tr>
           <td>Total Pengajuan </td>
           <td style="padding: 20px;"> :</td>
-          <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
+          <td>{{"Rp " . number_format($data->total_fix,2,',','.')}}</td>
         </tr>
         <tr>
           <td>Nama Rapat </td>
