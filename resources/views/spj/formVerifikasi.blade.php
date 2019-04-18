@@ -85,13 +85,13 @@ input[type="checkbox"].switch_1:checked:after{
     <div class="col-md-3" style="padding-left: 0;position: fixed;width: 20%;">
       @include('widgets.sidebar')
     </div>
-    <div class="col-xs-12 col-md-3 pull-right" style="padding-right: 0;">
+    <!-- <div class="col-xs-12 col-md-3 pull-right" style="padding-right: 0;">
       <div class="hidden-sm hidden-xs">
         @include('news.widgets.news')
         @include('widgets.suggested_people')
       </div>
-    </div>
-    <div class="col-md-6 col-md-offset-3 col-xs-12">
+    </div> -->
+    <div class="col-md-8 col-md-offset-3 col-xs-12">
       <div class="panel panel-default">
         <div class="panel-body">
          <h3 style="margin:0;">Form Verifikasi SPJ</h3>
