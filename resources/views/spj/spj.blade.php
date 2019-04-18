@@ -203,79 +203,87 @@ input[type="checkbox"].switch_1:checked:after{
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="pending">
-       <div class="panel panel-default panel-spj">
-          <div class="panel-body">
-             <h3 style="margin:0;">List Permintaan SPJ <small>(Pending)</small></h3>
-             <hr>
-             <div class="table-responsive">
-               <table id="table_pengguna" class="table table-striped table-no-bordered table-hover" style="width:100%">
-                  <thead>
-                     <tr>
-                        <th>Nama</th>
-                        <th style="width: 100px;">Biaya</th>
-                        <th>Nama Rapat</th>
-                        <th>Tanggal Rapat</th>
-                        <th>Status</th>
-                        <th class="disabled-sorting">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   @foreach($pending as $data)
-                   <tr>
-                      <td>{{$data->name}}</td>
-                      <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
-                      <td>{{$data->nama_rapat}}</td>
-                      <td>{{$data->tanggal_rapat}}</td>
-                      @if($data->status == 'Terima' AND Auth::user()->role == 'member')
-                      <td>Data Sedang di Verifikasi Subbag Keuangan</td>
-                      @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'member')
-                      <td>Data Sedang di Verifikasi PPTK</td>
-                      @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'pptk')
-                      <td>Data Sudah di Verifikasi PPTK</td>
-                      @elseif($data->status == 'Terima' AND Auth::user()->role == 'subbag')
-                      <td>Data Harus di Verifikasi</td>
-                      @else
-                      <td>{{$data->status}}</td>
-                      @endif
-                      @if(Auth::user()->role == 'admin' OR Auth::user()->role == 'pptk' AND $data->status=='Pending')
-                      <td>
-                        <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
-                        <a onclick="tolakForm('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-                    </td>
-                    @elseif(Auth::user()->role == 'member' AND $data->status=='Terima')
-                    <td>
-                        <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
-                    </td>
-                    @elseif(Auth::user()->role == 'subbag' AND $data->status=='Pending')
-                    <td>
-                        <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
-                    </td>
-                    @elseif(Auth::user()->role == 'pptk' AND $data->status=='Verifikasi')
-                    <td>
-                        <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
-                    </td>@elseif(Auth::user()->role == 'pptk' AND $data->status=='Terima')
-                    <td>
-                        <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
-                    </td>
-                    @elseif(Auth::user()->role == 'member' AND $data->status=='Pending')
-                    <td>
-                        <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
-                    </td>
-                    @elseif(Auth::user()->role == 'member' AND $data->status=='Verifikasi')
-                    <td>
-                        <a href="spj/formVerifikasi/{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-new-window"></i></a>
-                    </td>
-                    @elseif(Auth::user()->role == 'admin' OR Auth::user()->role == 'subbag' AND $data->status=='Terima')
-                    <td>
-                        <a onclick="kurangiSaldo('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok "></i></a>
-                        <a onclick="Tolakverif('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-remove "></i></a>
-                    </td>
-                    @endif
-                </tr>
-                @endforeach
-            </tbody>
-        </table>  
-    </div>      
+     <div class="panel panel-default panel-spj">
+      <div class="panel-body">
+       <h3 style="margin:0;">List Permintaan SPJ <small>(Pending)</small></h3>
+       <hr>
+       <div class="table-responsive">
+         <table id="table_pengguna" class="table table-striped table-no-bordered table-hover" style="width:100%">
+          <thead>
+           <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th style="width: 100px;">Biaya</th>
+            <th>Nama Rapat</th>
+            <th>Tanggal Rapat</th>
+            <th>Status</th>
+            <th class="disabled-sorting">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+         @foreach($pending as $data)
+         <tr>
+          <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
+          <td>{{$data->name}}</td>
+          @if($data->total_fix == NULL)
+          <td>{{"Rp " . number_format($data->total_fix,2,',','.')}}</td>
+          @else
+          <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
+          @endif
+          <td>{{$data->nama_rapat}}</td>
+          <td>{{$data->tanggal_rapat}}</td>
+          @if($data->status == 'Terima' AND Auth::user()->role == 'member')
+          <td>Data Sedang di Verifikasi Subbag Keuangan</td>
+          @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'member')
+          <td>Data Sudah di Verifikasi PPTK</td>
+          @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'pptk')
+          <td>Data Harus di Verifikasi PPTK</td>
+          @elseif($data->status == 'Terima' AND Auth::user()->role == 'subbag')
+          <td>Data Harus di Verifikasi</td>
+          @else
+          <td>{{$data->status}}</td>
+          @endif
+          @if(Auth::user()->role == 'admin' OR Auth::user()->role == 'pptk' AND $data->status=='Pending')
+          <td>
+            <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
+            <a onclick="tolakForm('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+          </td>
+          @elseif(Auth::user()->role == 'member' AND $data->status=='Terima')
+          <td>
+            <a href="spj/print/{{$data->id_pengajuan}}" target="_blank" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
+            <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
+
+          </td>
+          @elseif(Auth::user()->role == 'subbag' AND $data->status=='Pending')
+          <td>
+            <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
+          </td>
+          @elseif(Auth::user()->role == 'pptk' AND $data->status=='Verifikasi')
+          <td>
+            <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
+          </td>@elseif(Auth::user()->role == 'pptk' AND $data->status=='Terima')
+          <td>
+            <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
+          </td>
+          @elseif(Auth::user()->role == 'member' AND $data->status=='Pending')
+          <td>
+            <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
+          </td>
+          @elseif(Auth::user()->role == 'member' AND $data->status=='Verifikasi')
+          <td>
+            <a href="spj/formVerifikasi/{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-new-window"></i></a>
+          </td>
+          @elseif(Auth::user()->role == 'admin' OR Auth::user()->role == 'subbag' AND $data->status=='Terima')
+          <td>
+            <a onclick="kurangiSaldo('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok "></i></a>
+            <a onclick="Tolakverif('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-remove "></i></a>
+          </td>
+          @endif
+        </tr>
+        @endforeach
+      </tbody>
+    </table>  
+  </div>
 </div>
 </div>  
 </div>
@@ -287,27 +295,29 @@ input[type="checkbox"].switch_1:checked:after{
         <table id="table_selesai" class="table table-striped table-no-bordered table-hover" style="width:100%">
           <thead>
             <tr>
+              <th>No</th>
               <th>Nama</th>
               <th style="width: 100px;">Biaya</th>
               <th>Nama Rapat</th>
               <th>Tanggal Rapat</th>
               <th>Status</th>
               <th class="disabled-sorting">Actions</th>
-          </tr>
-      </thead>
-      <tbody>
-        @foreach($selesai as $data)
-        <tr>
-          <td>{{$data->name}}</td>
-          <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
-          <td>{{$data->nama_rapat}}</td>
-          <td>{{$data->tanggal_rapat}}</td>
-          <td>{{$data->status}}</td>
-          @if(Auth::user()->role == 'admin' OR Auth::user()->role == 'pptk' AND $data->status=='Pending')
-          <td>
-            <a href="spj/print/{{$data->id_pengajuan}}" target="_blank" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
-            @else
-            <td>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($selesai as $data)
+            <tr>
+              <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
+              <td>{{$data->name}}</td>
+              <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
+              <td>{{$data->nama_rapat}}</td>
+              <td>{{$data->tanggal_rapat}}</td>
+              <td>{{$data->status}}</td>
+              @if(Auth::user()->role == 'member')
+              <td>
+                <a href="spj/print/{{$data->id_pengajuan}}" target="_blank" class="btn btn-success"><i class="glyphicon glyphicon-print"></i></a>
+                @else
+                <td>
                 <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok "></i></a>
             </td>
             @endif
@@ -328,46 +338,48 @@ input[type="checkbox"].switch_1:checked:after{
         <table id="table_tolak" class="table table-striped table-no-bordered table-hover" style="width:100%">
           <thead>
             <tr>
+              <th>No</th>
               <th>Nama</th>
               <th style="width: 100px;">Biaya</th>
               <th>Nama Rapat</th>
               <th>Tanggal Rapat</th>
               <th>Status</th>
               <th class="disabled-sorting">Actions</th>
-          </tr>
-      </thead>
-      <tbody>
-        @foreach($tolak as $data)
-        <tr>
-          <td>{{$data->name}}</td>
-          <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
-          <td>{{$data->nama_rapat}}</td>
-          <td>{{$data->tanggal_rapat}}</td>
-          @if($data->status == 'Tolak')
-          <td>Data di Tolak PPTK</td>
-          @elseif($data->status == 'Tolak1')
-          <td>Data di Tolak Subbag Keuangan</td>
-          @endif
-          @if(Auth::user()->role == 'member' AND $data->status=='Tolak')
-          <td>
-            <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
-        </td>
-        @elseif($data->status=='Tolak' OR $data->status=='Tolak1')
-        <td>
-            <a href="#" class="btn btn-danger" disabled><i class="glyphicon glyphicon-remove "></i></a>
-        </td>
-        @elseif(Auth::user()->role == 'member' AND $data->status=='Tolak1')
-        <td>
-            <a href="spj/formVerifikasi/{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-new-window"></i></a>
-        </td>
-        @endif
-    </tr>
-    @endforeach
-</tbody>
-</table>  
-</div> 
-</div>
-</div>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($tolak as $data)
+            <tr>
+              <td>{{$data->id_pengajuan}}-{{date('Y')}}</td>
+              <td>{{$data->name}}</td>
+              <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
+              <td>{{$data->nama_rapat}}</td>
+              <td>{{$data->tanggal_rapat}}</td>
+              @if($data->status == 'Tolak')
+              <td>Data di Tolak PPTK</td>
+              @elseif($data->status == 'Tolak1')
+              <td>Data di Tolak Subbag Keuangan</td>
+              @endif
+              @if(Auth::user()->role == 'member' AND $data->status=='Tolak')
+              <td>
+                <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
+              </td>
+              @elseif($data->status=='Tolak' OR $data->status=='Tolak1')
+              <td>
+                <a href="#" class="btn btn-danger" disabled><i class="glyphicon glyphicon-remove "></i></a>
+              </td>
+              @elseif(Auth::user()->role == 'member' AND $data->status=='Tolak1')
+              <td>
+                <a href="spj/formVerifikasi/{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-new-window"></i></a>
+              </td>
+              @endif
+            </tr>
+            @endforeach
+          </tbody>
+        </table>  
+      </div> 
+    </div>
+  </div>
 </div>
 </div>    
 </div>
