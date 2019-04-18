@@ -196,9 +196,9 @@ input[type="checkbox"].switch_1:checked:after{
 </div>
 <div class="col-md-9 col-md-offset-3 col-xs-12 col-spj">
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">PENDING</a></li>
-    <li role="presentation"><a href="#tolak" aria-controls="tolak" role="tab" data-toggle="tab">Tolak</a></li>
-    <li role="presentation"><a href="#terima" aria-controls="terima" role="tab" data-toggle="tab">Selesai</a></li>
+    <li role="presentation" class="active"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">PENDING <span class="badge" style="background-color:#e74c3c;">2</span></a></li>
+    <li role="presentation"><a href="#tolak" aria-controls="tolak" role="tab" data-toggle="tab">Tolak <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
+    <li role="presentation"><a href="#terima" aria-controls="terima" role="tab" data-toggle="tab">Selesai <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
     <li style="display:none;float: right;font-size: 28px;padding-right: 10px;padding-top: 6px;color: #dedfe1;"><i class="fa fa-th-large"></i></li>
 </ul>
 <div class="tab-content">

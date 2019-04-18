@@ -6,6 +6,7 @@
         <a href="{{ url('/events') }}">
         	<li class="{{ request()->is('events') ? 'active' : '' }}"><i class="fa fa-calendar" style="color: #f1c40f"></i>Acara <span class="hitung_event badge" style="float: right;background-color: #f1c40f;">{{sHelper::countevent()}}</span></li>
         </a>
+        <a href="{{ url('/files') }}"><li class="{{ request()->is('files') ? 'active' : '' }}"><i class="fa fa-folder" style="color: #e74c3c;"></i>Sharing Upload File</li></a>
         <!-- <a href="{{ url('/groups') }}"><li class="{{ Request::segment(1) == 'group' || Request::segment(1) == 'groups' ? 'active' : '' }}"><i class="fa fa-users" style="color:#e17e41;"></i>Grup</li></a> -->
         <!-- <a href="{{ url('/direct-messages') }}"><li class="{{ request()->is('direct-messages') ? 'active' : '' }}"><i class="fa fa-commenting" style="color: #e74c3c;"></i>Pesan</li></a> -->
         @if($user->role == 'admin')

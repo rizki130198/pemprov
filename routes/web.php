@@ -77,6 +77,9 @@ Route::get('/pengguna', 'PenggunaController@index');
 Route::post('/pengguna/ubahjabatan', 'PenggunaController@Ubahjabatan');
 Route::post('/pengguna/delete', 'PenggunaController@Deleteaccount');
 
+//File
+Route::get('/files', 'FilesController@index');
+
 //SPJ
 Route::get('/spj', 'SpjController@index');
 Route::get('/spj/formSpj', 'SpjController@formSpj');
