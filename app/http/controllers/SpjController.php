@@ -264,7 +264,11 @@ class SpjController extends Controller
               $pengajuan->nama_rapat = $data['nama_rapat'];
               $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
               $pengajuan->status = 'Pending';
-              $pengajuan->total = $total;
+              if (Auth::user()->role == 'pptk') {
+                $pengajuan->total_fix = $data['total'];
+              }else{
+                $pengajuan->total = $total;
+              }
                 if($pengajuan->save()){
                     $histori = new History_spj;
                     $histori->id_user = $pengajuan->id_user;
