@@ -3,12 +3,12 @@
 @section('content')
 <style type="text/css">
   .col-md-offset-3{
-     margin-left: 21%;
+   margin-left: 21%;
  }
  @media(min-width: 1200px){
-     .col-md-6{
-        width: 53%;
-    }
+   .col-md-6{
+    width: 53%;
+  }
 }
 @media(max-width: 768px){
 	.col-md-offset-3{
@@ -120,77 +120,77 @@ input[type="checkbox"].switch_1:checked:after{
 				</a>
 			</div>               
 		</div>
-        <div class="col-md-3 col-xs-12">
-            <div class="panel panel-default panel-saldo" style="background: #FDC830;background: -webkit-linear-gradient(45deg, #F37335, #FDC830);background: linear-gradient(45deg, #F37335, #FDC830);">
-                <a href="{{url('/spj/formSpj')}}">
-                    <div class="panel-body">
-                        <br>
-                        <h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Booking</h4>
-                        <h5 style="color: #fff;">{{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-               <form action="javascript:void(0);" id="grupcreate" method="post" accept-charset="utf-8">
-                  <div class="modal-body">
-                     <h4>Info Biaya Booking</h4>
-                     <hr>
-                     <table>
-                        <tr>
-                           <td>Pagu Snack </td> 
-                           <td style="padding: 3px;"> :</td>
-                           <td>{{"Rp " . number_format($saldo[0]->saldo,2,',','.')}}</td>
-                       </tr>
-                       <tr>
-                           <td>Pagu Makan Siang </td> 
-                           <td style="padding: 3px;"> :</td>
-                           <td>{{"Rp " . number_format($saldo[1]->saldo,2,',','.')}}</td>
-                       </tr>
-                       <tr>
-                           <td><label>Pagu Total </label></td>
-                           <td style="padding: 3px;"> :</td>
-                           <td>{{"Rp " . number_format($total->saldo,2,',','.')}}</td>
-                       </tr>
-                   </table>
-               </div>
-               <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-               </div>
-           </form>
-       </div>
-   </div>
+    <div class="col-md-3 col-xs-12">
+      <div class="panel panel-default panel-saldo" style="background: #FDC830;background: -webkit-linear-gradient(45deg, #F37335, #FDC830);background: linear-gradient(45deg, #F37335, #FDC830);">
+        <a href="{{url('/spj/formSpj')}}">
+          <div class="panel-body">
+            <br>
+            <h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Booking</h4>
+            <h5 style="color: #fff;">{{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+      <div class="modal-content">
+       <form action="javascript:void(0);" id="grupcreate" method="post" accept-charset="utf-8">
+        <div class="modal-body">
+         <h4>Info Biaya Booking</h4>
+         <hr>
+         <table>
+          <tr>
+           <td>Pagu Snack </td> 
+           <td style="padding: 3px;"> :</td>
+           <td>{{"Rp " . number_format($saldo[0]->saldo,2,',','.')}}</td>
+         </tr>
+         <tr>
+           <td>Pagu Makan Siang </td> 
+           <td style="padding: 3px;"> :</td>
+           <td>{{"Rp " . number_format($saldo[1]->saldo,2,',','.')}}</td>
+         </tr>
+         <tr>
+           <td><label>Pagu Total </label></td>
+           <td style="padding: 3px;"> :</td>
+           <td>{{"Rp " . number_format($total->saldo,2,',','.')}}</td>
+         </tr>
+       </table>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+     </div>
+   </form>
+ </div>
+</div>
 </div>
 <div class="modal fade" id="ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog-ubah" role="document">
-      <div class="modal-content">
-         <div class="modal-body">
-            <h4>Info Biaya Anggaran</h4>
-            <hr>
-            <table class="table table-striped">
-               <thead>
-                  <tr>
-                     <th>Pagu</th>
-                     <th>Saldo</th>
-                 </tr>
-             </thead>
-             <tbody>
-                <tr>
-                   <td>Snack</td>
-                   <td class="table_data" data-row_id="{{$saldo[0]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[0]->saldo}}</td>
-               </tr>
-               <tr>
-                   <td>Makan Siang</td>
-                   <td class="table_data" data-row_id="{{$saldo[1]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[1]->saldo}}</td>
-               </tr>
-           </tbody>
-       </table>
-   </div>
-   <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-  </div>
+ <div class="modal-dialog-ubah" role="document">
+  <div class="modal-content">
+   <div class="modal-body">
+    <h4>Info Biaya Anggaran</h4>
+    <hr>
+    <table class="table table-striped">
+     <thead>
+      <tr>
+       <th>Pagu</th>
+       <th>Saldo</th>
+     </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>Snack</td>
+     <td class="table_data" data-row_id="{{$saldo[0]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[0]->saldo}}</td>
+   </tr>
+   <tr>
+     <td>Makan Siang</td>
+     <td class="table_data" data-row_id="{{$saldo[1]->id_saldo}}" data-column_name="saldo" contenteditable>{{$saldo[1]->saldo}}</td>
+   </tr>
+ </tbody>
+</table>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+</div>
 </div>
 </div>
 </div>
@@ -200,8 +200,8 @@ input[type="checkbox"].switch_1:checked:after{
     <li role="presentation"><a href="#tolak" aria-controls="tolak" role="tab" data-toggle="tab">Tolak <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
     <li role="presentation"><a href="#terima" aria-controls="terima" role="tab" data-toggle="tab">Selesai <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
     <li style="display:none;float: right;font-size: 28px;padding-right: 10px;padding-top: 6px;color: #dedfe1;"><i class="fa fa-th-large"></i></li>
-</ul>
-<div class="tab-content">
+  </ul>
+  <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="pending">
      <div class="panel panel-default panel-spj">
       <div class="panel-body">
@@ -246,7 +246,7 @@ input[type="checkbox"].switch_1:checked:after{
           @if(Auth::user()->role == 'admin' OR Auth::user()->role == 'pptk' AND $data->status=='Pending')
           <td>
             <a onclick="accForm('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></a>
-            <a onclick="tolakForm('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+            <a data-toggle="modal" data-target="#tolakForm{{$data->id_pengajuan}}" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
           </td>
           @elseif(Auth::user()->role == 'member' AND $data->status=='Terima')
           <td>
@@ -384,103 +384,68 @@ input[type="checkbox"].switch_1:checked:after{
   </div>
 </div>    
 </div>
-@foreach($tolak as $modal)
-<div class="modal fade" id="editForm{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Edit Data</h4>
-        </div>
-        <div class="modal-body">
-            <form action="javascript:void(0);" id="formubahspj" method="post" accept-charset="utf-8">
-<!--                    <div class="form-group">
-                      <label class="custom-control-label" for="customSwitch1">Booking</label>
-                      <div class="switch_box box_1">
-                         <input  @if($modal->status=='booking')checked ;@endif type="checkbox" onclick="Booking()" id="switch" class="switch_1">
-                     </div>
-                 </div> -->
-                 <!-- tolong tambahin button switch -->
-                 <div class="form-group">
-                    <label for="inputevent">Nama Rapat</label>
-                    <input type="text" name="nama_rapat" class="form-control" value="{{$modal->nama_rapat}}" placeholder="Nama Rapat" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="keterangan">Tanggal Rapat</label>
-                    <input type="text" class="form-control" name="tgl_rapat" id="tanggal" value="{{date('m/d/Y',strtotime($modal->tanggal_rapat))}}" autocomplete="off">
-                </div>
-                <label for="keterangan">Snack</label>
-                <div class="form-group input-group">
-                    <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" value="{{$modal->snack}}" name="snack" autocomplete="off">
-                    <span class="input-group-addon">BOX</span>
-                </div>
-                <label for="keterangan">Makan Siang</label>
-                <div class="form-group input-group">
-                    <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" value="{{$modal->makan}}" autocomplete="off">
-                    <span class="input-group-addon">BOX</span>
-                </div>
-                <div class="form-group">
-                    <label for="keterangan">Total</label>
-                    <input type="number" readonly class="form-control" name="total" id="total" value="{{$modal->total}}" autocomplete="off">
-                    <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
-                    <input type="hidden" value="{{$modal->id_pengajuan}}" class="form-control" name="id_form" >
-                </div>
-                <button type="submit" class="btn btn-primary pull-right">Ubah</button>
-            </form>
-        </div>
+@foreach($pending as $modalTolak)
+<div class="modal fade" id="tolakForm{{$modalTolak->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="height: 37%;">
+    <!-- Modal content-->
+    <div class="modal-content">
+     <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Tolak Permohonan</h4>
     </div>
+    <div class="modal-body">
+      <form action="javascript:void(0);" id="tolakForm{{$modalTolak->id_pengajuan}}" method="post" accept-charset="utf-8">
+       <div class="form-group">
+        <label for="inputevent">Keterangan Tolak</label>
+        <textarea name="alasan" class="form-control" placeholder="Masukan alasan ditolak" style="height: 100px;"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary pull-right">Kirim</button>
+    </form>
+  </div>
+</div>
 </div>
 </div>
 @endforeach
 @foreach($pending as $modal)
-<div class="modal fade" id="editForm{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
+<div class="modal fade" id="editForm{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
+ <div class="modal-dialog" style="height: 68%;">
 
-      <!-- Modal content-->
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Edit Data</h4>
-        </div>
-        <div class="modal-body">
-            <form action="javascript:void(0);" id="formubahspj" method="post" accept-charset="utf-8">
-<!--                    <div class="form-group">
-                      <label class="custom-control-label" for="customSwitch1">Booking</label>
-                      <div class="switch_box box_1">
-                         <input  @if($modal->status=='booking')checked ;@endif type="checkbox" onclick="Booking()" id="switch" class="switch_1">
-                     </div>
-                 </div> -->
-                 <!-- tolong tambahin button switch -->
-                 <div class="form-group">
-                    <label for="inputevent">Nama Rapat</label>
-                    <input type="text" name="nama_rapat" class="form-control" value="{{$modal->nama_rapat}}" placeholder="Nama Rapat" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="keterangan">Tanggal Rapat</label>
-                    <input type="text" class="form-control" name="tgl_rapat" id="tanggal" value="{{date('m/d/Y',strtotime($modal->tanggal_rapat))}}" autocomplete="off">
-                </div>
-                <label for="keterangan">Snack</label>
-                <div class="form-group input-group">
-                    <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" value="{{$modal->snack}}" name="snack" autocomplete="off">
-                    <span class="input-group-addon">BOX</span>
-                </div>
-                <label for="keterangan">Makan Siang</label>
-                <div class="form-group input-group">
-                    <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" value="{{$modal->makan}}" autocomplete="off">
-                    <span class="input-group-addon">BOX</span>
-                </div>
-                <div class="form-group">
-                    <label for="keterangan">Total</label>
-                    <input type="number" readonly class="form-control" name="total" id="total" value="{{$modal->total}}" autocomplete="off">
-                    <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
-                    <input type="hidden" value="{{$modal->id_pengajuan}}" class="form-control" name="id_form" >
-                </div>
-                <button type="submit" class="btn btn-primary pull-right">Ubah</button>
-            </form>
-        </div>
+  <!-- Modal content-->
+  <div class="modal-content">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Edit Data Permohonan</h4>
+  </div>
+  <div class="modal-body">
+    <form action="javascript:void(0);" id="formubahspj" method="post" accept-charset="utf-8">
+     <div class="form-group">
+      <label for="inputevent">Nama Rapat</label>
+      <input type="text" name="nama_rapat" class="form-control" value="{{$modal->nama_rapat}}" placeholder="Nama Rapat" autocomplete="off">
     </div>
+    <div class="form-group">
+      <label for="keterangan">Tanggal Rapat</label>
+      <input class="form-control" name="tgl_rapat" id="tanggal" value="{{date('m/d/Y',strtotime($modal->tanggal_rapat))}}" autocomplete="off">
+    </div>
+    <label for="keterangan">Snack</label>
+    <div class="form-group input-group">
+      <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" value="{{$modal->snack}}" name="snack" autocomplete="off">
+      <span class="input-group-addon">BOX</span>
+    </div>
+    <label for="keterangan">Makan Siang</label>
+    <div class="form-group input-group">
+      <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" value="{{$modal->makan}}" autocomplete="off">
+      <span class="input-group-addon">BOX</span>
+    </div>
+    <div class="form-group">
+      <label for="keterangan">Total</label>
+      <input type="number" readonly class="form-control" name="total" id="total" value="{{$modal->total}}" autocomplete="off">
+      <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
+      <input type="hidden" value="{{$modal->id_pengajuan}}" class="form-control" name="id_form" >
+    </div>
+    <button type="submit" class="btn btn-primary pull-right">Ubah</button>
+  </form>
+</div>
+</div>
 </div>
 </div>
 @endforeach
@@ -490,45 +455,51 @@ input[type="checkbox"].switch_1:checked:after{
 
 @section('footer')
 <script type="text/javascript">
-   WALL_ACTIVE = true;
-   fetchPost(0,0,0,10,-1,-1,'initialize');
+ WALL_ACTIVE = true;
+ fetchPost(0,0,0,10,-1,-1,'initialize');
 </script>
 <script type="text/javascript">
-   $(document).ready( function () {
-      $('#table_pengguna').DataTable();
-      $('#table_selesai').DataTable();
-      $('#table_tolak').DataTable();
-      $("#tanggal").datepicker();
-      $(document).on('blur', '.table_data', function(){
-        var id_saldo = $(this).data('row_id');
-        var value = $(this).text();
-        $.ajax({
-          url:BASE_URL + '/spj/editsaldo',
-          method:"POST",
-          data:{id_saldo:id_saldo, value:value},
-          headers: {'X-CSRF-TOKEN': CSRF},
-          success:function(data)
-          {
-            console.log('Berhasil');
-        }
+ $(document).ready( function () {
+  $('#table_pengguna').DataTable();
+  $('#table_selesai').DataTable();
+  $('#table_tolak').DataTable();
+  $(document).on('blur', '.table_data', function(){
+    var id_saldo = $(this).data('row_id');
+    var value = $(this).text();
+    $.ajax({
+      url:BASE_URL + '/spj/editsaldo',
+      method:"POST",
+      data:{id_saldo:id_saldo, value:value},
+      headers: {'X-CSRF-TOKEN': CSRF},
+      success:function(data)
+      {
+        console.log('Berhasil');
+      }
     })
-    });
   });
-   $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-  })
+});
+ $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
 <script type="text/javascript">
  $('.saldo').on('input','.input-saldo',function(){
-    var totalSum = 0;
-    $('.saldo .input-saldo').each(function(){
-       var inputVal = this.value.replace(',','');
-       if($.isNumeric(inputVal)){
-          totalSum+=parseFloat(inputVal);
-      }
-  });
-    $('#sum_saldo').val(totalSum);
+  var totalSum = 0;
+  $('.saldo .input-saldo').each(function(){
+   var inputVal = this.value.replace(',','');
+   if($.isNumeric(inputVal)){
+    totalSum+=parseFloat(inputVal);
+  }
 });
- 
+  $('#sum_saldo').val(totalSum);
+});
+
+</script>
+<script>
+  $(document).ready(function () {
+    $('#tanggal').datepicker({
+      uiLibrary: 'bootstrap'
+    });
+  });
 </script>
 @endsection

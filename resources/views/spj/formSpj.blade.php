@@ -103,7 +103,7 @@ input[type="checkbox"].switch_1:checked:after{
           </div>
           <div class="form-group">
             <label for="keterangan">Tanggal Rapat</label>
-            <input type="date" class="form-control" name="tgl_rapat">
+            <input class="form-control" name="tgl_rapat" id="tglrapat">
           </div>
           <label for="keterangan">Snack</label>
           <div class="form-group input-group">
@@ -141,5 +141,12 @@ input[type="checkbox"].switch_1:checked:after{
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
+</script>
+<script>
+  $(document).ready(function () {
+    $('#tglrapat').datepicker({
+      uiLibrary: 'bootstrap'
+    });
+});
 </script>
 @endsection
