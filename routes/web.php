@@ -79,6 +79,7 @@ Route::post('/pengguna/delete', 'PenggunaController@Deleteaccount');
 
 //File
 Route::get('/files', 'FilesController@index');
+Route::post('/files/uploadfile', 'FilesController@Uploadfile');
 
 //SPJ
 Route::get('/spj', 'SpjController@index');

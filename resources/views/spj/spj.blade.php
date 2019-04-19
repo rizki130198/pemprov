@@ -115,7 +115,8 @@ input[type="checkbox"].switch_1:checked:after{
 					<div class="panel-body">
 						<br>
 						<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
-						<h5 style="color: #fff;">{{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
+						<h5 style="color: #fff;">Total biaya anggaran{{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
+            <h5 style="color: #fff;">Biaya angaran yang terpakai {{ "Rp " . number_format($anggaran,2,',','.') }}</h5>
 					</div>
 				</a>
 			</div>               
@@ -125,8 +126,9 @@ input[type="checkbox"].switch_1:checked:after{
         <a href="{{url('/spj/formSpj')}}">
           <div class="panel-body">
             <br>
-            <h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Booking</h4>
-            <h5 style="color: #fff;">{{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
+            <h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;"></h4>
+            <h5 style="color: #fff;">Total Booking {{ "Rp " . number_format($total_booking,2,',','.') }}</h5>
+            <h5 style="color: #fff;">Sisa saldo Booking {{ "Rp " . number_format($total->saldo - $total_booking,2,',','.') }}</h5>
           </div>
         </a>
       </div>
@@ -196,9 +198,9 @@ input[type="checkbox"].switch_1:checked:after{
 </div>
 <div class="col-md-9 col-md-offset-3 col-xs-12 col-spj">
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">PENDING <span class="badge" style="background-color:#e74c3c;">2</span></a></li>
-    <li role="presentation"><a href="#tolak" aria-controls="tolak" role="tab" data-toggle="tab">Tolak <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
-    <li role="presentation"><a href="#terima" aria-controls="terima" role="tab" data-toggle="tab">Selesai <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
+    <li role="presentation" class="active"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">PENDING <span class="badge" style="background-color:#e74c3c;">{{$count1}}</span></a></li>
+    <li role="presentation"><a href="#tolak" aria-controls="tolak" role="tab" data-toggle="tab">Tolak <span class="badge" style="background-color:#e74c3c;">{{$tolak->count()}}</span></a></a></li>
+    <li role="presentation"><a href="#terima" aria-controls="terima" role="tab" data-toggle="tab">Selesai <span class="badge" style="background-color:#e74c3c;">{{$selesai->count()}}</span></a></a></li>
     <li style="display:none;float: right;font-size: 28px;padding-right: 10px;padding-top: 6px;color: #dedfe1;"><i class="fa fa-th-large"></i></li>
   </ul>
   <div class="tab-content">
@@ -237,7 +239,7 @@ input[type="checkbox"].switch_1:checked:after{
           @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'member')
           <td>Data Sudah di Verifikasi PPTK</td>
           @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'pptk')
-          <td>Data Harus di Verifikasi PPTK</td>
+          <td>Data Sudah di Verifikasi PPTK</td>
           @elseif($data->status == 'Terima' AND Auth::user()->role == 'subbag')
           <td>Data Harus di Verifikasi</td>
           @else
@@ -343,6 +345,7 @@ input[type="checkbox"].switch_1:checked:after{
                 <th>Nama</th>
                 <th style="width: 100px;">Biaya</th>
                 <th>Nama Rapat</th>
+                <th>Alasan</th>
                 <th>Tanggal Rapat</th>
                 <th>Status</th>
                 <th class="disabled-sorting">Actions</th>
@@ -355,6 +358,7 @@ input[type="checkbox"].switch_1:checked:after{
                 <td>{{$data->name}}</td>
                 <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
                 <td>{{$data->nama_rapat}}</td>
+                <td>{{$data->alasan}}</td>
                 <td>{{$data->tanggal_rapat}}</td>
                 @if($data->status == 'Tolak')
                 <td>Data di Tolak PPTK</td>
@@ -365,7 +369,7 @@ input[type="checkbox"].switch_1:checked:after{
                 <td>
                   <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
                 </td>
-                @elseif($data->status=='Tolak' OR $data->status=='Tolak1')
+                @elseif($data->status=='Tolak' OR $data->status=='Tolak1' AND Auth::user()->role != 'member')
                 <td>
                   <a href="#" class="btn btn-danger" disabled><i class="glyphicon glyphicon-remove "></i></a>
                 </td>
@@ -394,8 +398,9 @@ input[type="checkbox"].switch_1:checked:after{
       <h4 class="modal-title">Tolak Permohonan</h4>
     </div>
     <div class="modal-body">
-      <form action="javascript:void(0);" id="tolakForm{{$modalTolak->id_pengajuan}}" method="post" accept-charset="utf-8">
+      <form action="javascript:void(0);" id="tolakForm" method="post" accept-charset="utf-8">
        <div class="form-group">
+        <input type="hidden" name="idpengajuan" value="{{$modalTolak->id_pengajuan}}">
         <label for="inputevent">Keterangan Tolak</label>
         <textarea name="alasan" class="form-control" placeholder="Masukan alasan ditolak" style="height: 100px;"></textarea>
       </div>

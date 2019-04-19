@@ -106,11 +106,15 @@ function accForm(id) {
 		}
 	});
 }
-function tolakForm(id) {
+$("#tolakForm").submit(function (event) {
+	var data = new FormData($(this)[0]); 
 	$.ajax({
 		url: BASE_URL + '/spj/tolak',
 		type: "POST",
-		data: {idpengajuan : id},
+		data: data,
+		contentType: false,
+		cache: false,
+		processData: false,
 		headers: {'X-CSRF-TOKEN': CSRF},
 		success: function (response) {
 			if (response.code == 200) {
@@ -125,7 +129,7 @@ function tolakForm(id) {
 			$('#errorMessageModal #errors').html(''+response.message);
 		}
 	});
-}
+})
 function Tolakverif(id) {
 	$.ajax({
 		url: BASE_URL + '/spj/tolakverif',
