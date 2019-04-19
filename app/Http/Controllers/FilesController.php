@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use Response;
 use View;
+use Illuminate\Support\Facades\Storage;
 
 class FilesController extends Controller
 {
@@ -106,6 +107,7 @@ class FilesController extends Controller
             }
             $uploadfile = new FileUpload;
             $uploadfile->id_user = $user->id;
+            $uploadfile->encrypt = $image_path;
             $uploadfile->filenya = $image_original;
             $uploadfile->jenis_file = $path_extensi;
             if($uploadfile->save()){
@@ -119,5 +121,9 @@ class FilesController extends Controller
             }
         }
         return Response::json($response);
+    }
+    public function Download($string)
+    {
+      return response()->download(storage_path("app/public/uploads/fileupload/".$string));
     }
 }
