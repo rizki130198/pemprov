@@ -89,24 +89,24 @@ input[type="checkbox"].switch_1:checked:after{
 	left: calc(100% - 1.5em);
 }
 .scrollbar::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .scrollbar.thin::-webkit-scrollbar {
-    width: 4px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: #eee;
+  border-radius: 10px;
+  background: #eee;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #888;
+  border-radius: 10px;
+  background: #888;
 }
 ::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(100,100,100,0.4); 
+  background: rgba(100,100,100,0.4); 
 }
 </style>
 <div class="h-20 res-post"></div>
@@ -137,10 +137,10 @@ input[type="checkbox"].switch_1:checked:after{
 						<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
 						<h5 style="color: #fff;">Total anggaran {{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
             <h5 style="color: #fff;">Anggaran yang terpakai {{ "Rp " . number_format($anggaran,2,',','.') }}</h5>
-					</div>
-				</a>
-			</div>               
-		</div>
+          </div>
+        </a>
+      </div>               
+    </div>
     <div class="col-md-3 col-xs-12">
       <div class="panel panel-default panel-saldo" style="background: #FDC830;background: -webkit-linear-gradient(45deg, #F37335, #FDC830);background: linear-gradient(45deg, #F37335, #FDC830);">
         <a href="{{url('/spj/formSpj')}}">
@@ -260,6 +260,8 @@ input[type="checkbox"].switch_1:checked:after{
           <td>Data Sudah di Verifikasi PPTK</td>
           @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'pptk')
           <td>Data Sudah di Verifikasi PPTK</td>
+          @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'subbag')
+          <td>Data Sedang di Verifikasi PPTK</td>
           @elseif($data->status == 'Terima' AND Auth::user()->role == 'subbag')
           <td>Data Harus di Verifikasi</td>
           @else
@@ -277,6 +279,10 @@ input[type="checkbox"].switch_1:checked:after{
 
           </td>
           @elseif(Auth::user()->role == 'subbag' AND $data->status=='Pending')
+          <td>
+            <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
+          </td>
+           @elseif(Auth::user()->role == 'subbag' AND $data->status=='Verifikasi')
           <td>
             <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
           </td>
@@ -408,197 +414,7 @@ input[type="checkbox"].switch_1:checked:after{
   </div>
 </div>    
 </div>
-@foreach($pending as $modalTerima)
-<div class="modal fade" id="detailSpj{{$modalTerima->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" style="height: 80%;width: 70%;margin: auto 15%;">
-    <!-- Modal content-->
-    <div class="modal-content scrollbar" style="overflow-y: scroll;">
-      <div>
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Detail Data Fix SPJ</h4>
-        </div>
-        <div class="modal-body">
-          <div class="table-responsive" style="overflow: hidden;">
-            <table class="table table-striped table-no-bordered table-hover" style="width:100%;">
-              <thead>
-                <tr>
-                  <th>Harga Total Snack</th>
-                  <th>Penyedia</th>
-                  <th>Tanggal Kwitansi</th>
-                  <th>Harga Total Makan Siang</th>
-                  <th>Penyedia</th>
-                  <th>Tanggal Kwitansi</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>100000</td>
-                  <td>holand</td>
-                  <td>1/1/1</td>
-                  <td>100000</td>
-                  <td>holand</td>
-                  <td>1/1/1</td>
-                  <td style="font-weight: bold;">Rp.200000</td>
-                </tr>
-              </tbody>
-            </table>  
-            <div class="row">
-              <div class="col-md-6">
-                <label>Foto Kwitansi</label>
-                <div class='gallery'>
-                  <div class="row">
-                    <div class='col-md-4'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-                        <img style="width: 150px;height: 150px;" class="img-responsive" alt="" src="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
-                        <div class='text-right'>
-                          <small class='text-muted'>Kwitansi</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                    <div class='col-md-4'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
-                        <img style="width: 150px;height: 150px;" class="img-responsive" alt="" src="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Kwitansi</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <label>Foto Kwitansi Dinas</label>
-                <div class='gallery'>
-                  <div class="row">
-                    <div class='col-md-5'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Kwitansi Dinas</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                    <div class='col-md-5'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Kwitansi Dinas</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                  </div>
-                </div>
-              </div>
-            </div> 
-            <div class="row">
-              <div class="col-md-6">
-                <label>Foto Absensi</label>
-                <div class='gallery'>
-                  <div class="row">
-                    <div class='col-md-4'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Absensi</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                    <div class='col-md-4'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Absensi</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <label>Foto Notulen</label>
-                <div class='gallery'>
-                  <div class="row">
-                    <div class='col-md-5'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Notulen</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                    <div class='col-md-5'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Notulen</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                  </div>
-                </div>
-              </div>
-            </div> 
-            <div class="row">
-              <div class="col-md-6">
-                <label>Foto Undangan</label>
-                <div class='gallery'>
-                  <div class="row">
-                    <div class='col-md-4'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Undangan</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                    <div class='col-md-4'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Undangan</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <label>Foto Nota</label>
-                <div class='gallery'>
-                  <div class="row">
-                    <div class='col-md-5'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Nota</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                    <div class='col-md-5'>
-                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
-                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
-                        <div class='text-right'>
-                          <small class='text-muted'>Nota</small>
-                        </div> <!-- text-right / end -->
-                      </a>
-                    </div> <!-- col-6 / end -->
-                  </div>
-                </div>
-              </div>
-            </div> 
-          </div>
-          <div class="modal-footer" style="position: relative;">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success pull-right">Terima</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-@endforeach
+
 @foreach($pending as $modalTolak)
 <div class="modal fade" id="tolakForm{{$modalTolak->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" style="height: 37%;">
@@ -615,8 +431,10 @@ input[type="checkbox"].switch_1:checked:after{
         <label for="inputevent">Keterangan Tolak</label>
         <textarea name="alasan" class="form-control" placeholder="Masukan alasan ditolak" style="height: 100px;"></textarea>
       </div>
+    </form>
     </div>
   </div>
+</div>
 </div>
 @endforeach
 @foreach($pending as $modal)
@@ -665,7 +483,6 @@ input[type="checkbox"].switch_1:checked:after{
 @foreach($pending as $modal)
 <div class="modal fade" id="editFormpptk{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
  <div class="modal-dialog" style="height: 68%;">
-
   <!-- Modal content-->
   <div class="modal-content">
    <div class="modal-header">
@@ -693,6 +510,14 @@ input[type="checkbox"].switch_1:checked:after{
       <span class="input-group-addon">BOX</span>
     </div>
     <div class="form-group">
+      <label for="inputevent">Harga Total Snack</label>
+      <input type="text" name="total_snack" class="form-control" value="{{$modal->harga_snack}}" placeholder="Nama Rapat" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label for="inputevent">Harga Total Makan Siang</label>
+      <input type="text" name="total_makan" class="form-control" value="{{$modal->harga_makan}}" placeholder="Nama Rapat" autocomplete="off">
+    </div>
+    <div class="form-group">
       <label for="keterangan">Total</label>
       <input type="number" readonly class="form-control" name="total" id="total" value="{{$modal->total_fix}}" autocomplete="off">
       <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
@@ -703,6 +528,182 @@ input[type="checkbox"].switch_1:checked:after{
 </div>
 </div>
 </div>
+</div>
+@endforeach
+@foreach($pending as $modalTerima)
+<div class="modal fade" id="detailSpj{{$modalTerima->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="height: 80%;width: 70%;margin: auto 15%;">
+    <!-- Modal content-->
+    <div class="modal-content scrollbar" style="overflow-y: scroll;">
+      <div>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Detail Data Fix SPJ</h4>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive" style="overflow: hidden;">
+            <table class="table table-striped table-no-bordered table-hover" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>Harga Total Snack</th>
+                  <th>Penyedia</th>
+                  <th>Tanggal Kwitansi Snack</th>
+                  <th>Harga Total Makan Siang</th>
+                  <th>Penyedia</th>
+                  <th>Tanggal Kwitansi Makan Siang</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{$modalTerima->harga_snack}}</td>
+                  <td>{{$modalTerima->penyedia_snack}}</td>
+                  <td>{{date('Y-m-d',strtotime($modalTerima->tgl_snack))}}</td>
+                  <td>{{$modalTerima->harga_makan}}</td>
+                  <td>{{$modalTerima->penyedia_makan}}</td>
+                  <td>{{date('Y-m-d',strtotime($modalTerima->tgl_makan))}}</td>
+                  <td style="font-weight: bold;">{{"Rp " . number_format($modalTerima->total_fix,2,',','.')}}</td>
+                </tr>
+              </tbody>
+            </table>  
+            <div class="row">
+              <div class="col-md-6">
+                <label>Foto Kwitansi</label>
+                <div class='gallery'>
+                  <div class="row">
+                <?php 
+                  $hasil = explode(',', $modalTerima->file_kwutansi);
+                  for ($i=0; $i < count($hasil) ; $i++) {  ?>
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="{{ url('storage/uploads/spj/'.$hasil[$i]) }}">
+                        <img style="width: 150px;height: 150px;" class="img-responsive" alt="" src="{{ url('storage/uploads/spj/'.$hasil[$i]) }}"/>
+                        <div class='text-right'>
+                          <small class='text-muted'>Kwitansi</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+
+                <?php } ?>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label>Foto Kwitansi Dinas</label>
+                <div class='gallery'>
+                  <div class="row">
+                <?php 
+                  $hasil = explode(',', $modalTerima->file_kwd);
+                  for ($i=0; $i < count($hasil) ; $i++) {  ?>
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="{{ url('storage/uploads/kwd_dinas/'.$hasil[$i]) }}">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="{{ url('storage/uploads/kwd_dinas/'.$hasil[$i]) }}" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Kwitansi Dinas</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+
+                <?php } ?>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <div class="row">
+              <div class="col-md-6">
+                <label>Foto Absensi</label>
+                <div class='gallery'>
+                  <div class="row">
+
+                <?php 
+                  $hasil = explode(',', $modalTerima->file_absen);
+                  for ($i=0; $i < count($hasil) ; $i++) {  ?>
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="{{ url('storage/uploads/absen/'.$hasil[$i]) }}">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="{{ url('storage/uploads/absen/'.$hasil[$i]) }}" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Absensi</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                <?php } ?>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label>Foto Notulen</label>
+                <div class='gallery'>
+                  <div class="row">
+
+                <?php 
+                  $hasil = explode(',', $modalTerima->file_notulen);
+                  for ($i=0; $i < count($hasil) ; $i++) {  ?>
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="{{ url('storage/uploads/notulen/'.$hasil[$i]) }}">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="{{ url('storage/uploads/notulen/'.$hasil[$i]) }}" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Notulen</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+
+                <?php } ?>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <div class="row">
+              <div class="col-md-6">
+                <label>Foto Undangan</label>
+                <div class='gallery'>
+                  <div class="row">
+
+                <?php 
+                  $hasil = explode(',', $modalTerima->file_undangan);
+                  for ($i=0; $i < count($hasil) ; $i++) {  ?>
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="{{ url('storage/uploads/undang/'.$hasil[$i]) }}">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="{{ url('storage/uploads/undang/'.$hasil[$i]) }}" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Undangan</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+
+                <?php } ?>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label>Foto Nota</label>
+                <div class='gallery'>
+                  <div class="row">
+
+                <?php 
+                  $hasil = explode(',', $modalTerima->file_nota);
+                  for ($i=0; $i < count($hasil) ; $i++) {  ?>
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="{{ url('storage/uploads/nota/'.$hasil[$i]) }}">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="{{ url('storage/uploads/nota/'.$hasil[$i]) }}" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Nota</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+
+                <?php } ?>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="modal-footer" style="position: relative;">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a onclick="kurangiSaldo('{{$data->id_pengajuan}}')" class="btn btn-success pull-right">Terima</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 @endforeach
 </div>
@@ -758,10 +759,10 @@ input[type="checkbox"].switch_1:checked:after{
 <script type="text/javascript">
   $(document).ready(function(){
     $(".fancybox").fancybox({
-        openEffect: "none",
-        closeEffect: "none"
+      openEffect: "none",
+      closeEffect: "none"
     });
-});
+  });
 </script>
 <script type="text/javascript">
   $(".scrollbar").addClass("thin");

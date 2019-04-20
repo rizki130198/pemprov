@@ -57,13 +57,13 @@ class SpjController extends Controller
         $total_booking = Formpengajuan::where('status','=','Pending')->orwhere('status','=','Verifikasi')->orwhere('status','=','Terima')->sum('total');
         $saldo = Saldo::all();
         if (Auth::user()->role != 'member') {
-            $pending = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','Selesai')->where('status','!=','Tolak')->where('status','!=','Tolak1')->orderBy('pengajuan_spj.created_at','DESC')->get();
-            $selesai = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Selesai')->orderBy('pengajuan_spj.created_at','DESC')->get();
-            $tolak = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Tolak')->Orwhere('status','=','Tolak1')->orderBy('pengajuan_spj.created_at','DESC')->get();
+            $pending = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','Selesai')->where('status','!=','Tolak')->where('status','!=','Tolak1')->orderBy('pengajuan_spj.updated_at','DESC')->get();
+            $selesai = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Selesai')->orderBy('pengajuan_spj.updated_at','DESC')->get();
+            $tolak = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Tolak')->Orwhere('status','=','Tolak1')->orderBy('pengajuan_spj.updated_at','DESC')->get();
         }else{
-            $pending = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','Selesai')->where('status','!=','Tolak')->where('status','!=','Tolak1')->where('id_user','=',Auth::user()->id)->orderBy('pengajuan_spj.created_at','DESC')->get();
-            $selesai = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Selesai')->where('id_user','=',Auth::user()->id)->orderBy('pengajuan_spj.created_at','DESC')->get();
-            $tolak = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Tolak')->where('id_user','=',Auth::user()->id)->Orwhere('status','=','Tolak1')->orderBy('pengajuan_spj.created_at','DESC')->get();
+            $pending = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','Selesai')->where('status','!=','Tolak')->where('status','!=','Tolak1')->where('id_user','=',Auth::user()->id)->orderBy('pengajuan_spj.updated_at','DESC')->get();
+            $selesai = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Selesai')->where('id_user','=',Auth::user()->id)->orderBy('pengajuan_spj.updated_at','DESC')->get();
+            $tolak = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Tolak')->where('id_user','=',Auth::user()->id)->Orwhere('status','=','Tolak1')->orderBy('pengajuan_spj.updated_at','DESC')->get();
         }
 
         if (Auth::user()->role == 'pptk') {
@@ -255,37 +255,70 @@ class SpjController extends Controller
             $total = array_sum(array($snack,$makan)); 
             $saldo = Saldo::all();
             $pengajuan = FormPengajuan::find($data['id_form']);
-            if ($total >= $pengajuan->total) {
-                $response['code'] = 400;
-                $response['message'] = 'Total Tidak Boleh lebih Besar Dari Sebelumnya';
+            if ($pengajuan->status != 'Pending' AND $pengajuan->status != 'Tolak' AND $pengajuan->status != 'Tolak1') {
+                if($total >= $pengajuan->total){
+                    $response['code'] = 400;
+                    $response['message'] = 'Total Tidak Boleh lebih Besar Dari Sebelumnya';
+                }else{
+                    $pengajuan->snack = $data['snack'];
+                    $pengajuan->makan = $data['makan'];
+                    $pengajuan->nama_rapat = $data['nama_rapat'];
+                    $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
+                    if (Auth::user()->role == 'pptk') {
+                        $pengajuan->harga_snack = $data['total_snack'];
+                        $pengajuan->harga_makan = $data['total_makan'];
+                        $pengajuan->total_fix = $data['total'];
+                        $pengajuan->status = 'Terima';
+                    }else{
+                        $pengajuan->total = $total;
+                        $pengajuan->status = 'Pending';
+                    }
+                    if($pengajuan->save()){
+                        $histori = new History_spj;
+                        $histori->id_user = $pengajuan->id_user;
+                        $histori->id_spj = $pengajuan->id_pengajuan;
+                        $histori->comment = "Mengubah Form Booking";
+                        if ($histori->save()) {   
+                            $response['code'] = 200;
+                            $response['message'] = 'Data History sudah di simpan';
+                        }
+                        $response['code'] = 200;
+                        $response['message'] = 'Data sudah di simpan';
+                    }else{
+                        $response['code'] = 400;
+                        $response['message'] = 'Data error silakan hubungi petugas terkait';
+                    }  
+                }
             }else{
               $pengajuan->snack = $data['snack'];
               $pengajuan->makan = $data['makan'];
               $pengajuan->nama_rapat = $data['nama_rapat'];
               $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
-              if (Auth::user()->role == 'pptk') {
-                $pengajuan->total_fix = $data['total'];
-                $pengajuan->status = 'Terima';
-              }else{
-                $pengajuan->total = $total;
-                $pengajuan->status = 'Pending';
-              }
-                if($pengajuan->save()){
-                    $histori = new History_spj;
-                    $histori->id_user = $pengajuan->id_user;
-                    $histori->id_spj = $pengajuan->id_pengajuan;
-                    $histori->comment = "Mengubah Form Booking";
+                if (Auth::user()->role == 'pptk') {
+                    $pengajuan->harga_snack = $data['total_snack'];
+                    $pengajuan->harga_makan = $data['total_makan'];
+                    $pengajuan->total_fix = $data['total'];
+                    $pengajuan->status = 'Terima';
+                }else{
+                    $pengajuan->total = $total;
+                    $pengajuan->status = 'Pending';
+                }
+                    if($pengajuan->save()){
+                        $histori = new History_spj;
+                        $histori->id_user = $pengajuan->id_user;
+                        $histori->id_spj = $pengajuan->id_pengajuan;
+                        $histori->comment = "Mengubah Form Booking";
                     if ($histori->save()) {   
                         $response['code'] = 200;
                         $response['message'] = 'Data History sudah di simpan';
                     }
-                    $response['code'] = 200;
-                    $response['message'] = 'Data sudah di simpan';
-                }else{
-                    $response['code'] = 400;
-                    $response['message'] = 'Data error silakan hubungi petugas terkait';
-                }  
-            }
+                        $response['code'] = 200;
+                        $response['message'] = 'Data sudah di simpan';
+                    }else{
+                        $response['code'] = 400;
+                        $response['message'] = 'Data error silakan hubungi petugas terkait';
+                    }  
+                }
             return Response::json($response);
         }
     }
@@ -595,17 +628,37 @@ class SpjController extends Controller
             $saldo = Saldo::find(3);
             $saldo->saldo =  $saldo->saldo - $pengajuan->total_fix;
             if($saldo->save()){
-                $updatesaldo = Saldo::find(1);
-                $updatesaldo->saldo = $saldo->saldo/2;
-                if($updatesaldo->save()){
+                if ($pengajuan->harga_snack == NULL) {
+                    $updatesaldo = Saldo::find(1);
+                    $updatesaldo->saldo = $saldo->saldo - $pengajuan->total_fix;
+                    if ($updatesaldo->save()) {
+                        $response['code'] = 200;
+                        $response['message'] = 'Data Sudah Selesai'; 
+                    }else{ 
+                        $response['code'] = 400;
+                        $response['message'] = 'Data Error'; 
+                    }
+                }elseif($pengajuan->harga_makan == NULL){
                     $updatesaldo2 = Saldo::find(2);
-                    $updatesaldo2->saldo = $saldo->saldo/2;
-                    $updatesaldo2->save();
-                    $response['code'] = 200;
-                    $response['message'] = 'Data Sudah Selesai'; 
+                    $updatesaldo2->saldo = $saldo->saldo - $pengajuan->total_fix;
+                    if ($updatesaldo2->save()) {
+                        $response['code'] = 200;
+                        $response['message'] = 'Data Sudah Selesai'; 
+                    }else{ 
+                        $response['code'] = 400;
+                        $response['message'] = 'Data Error'; 
+                    }
                 }else{
-                    $response['code'] = 400;
-                    $response['message'] = 'Data error silakan hubungi tim terkait';
+                    $updatesaldo = Saldo::find(1);
+                    $updatesaldo->saldo = $saldo->saldo/2;
+                    if ($updatesaldo->save()) { 
+                        $updatesaldo2 = Saldo::find(2);
+                        $updatesaldo2->saldo = $saldo->saldo/2;
+                        if ($updatesaldo2->save()) {
+                            $response['code'] = 200;
+                            $response['message'] = 'Data Selesai';
+                        }
+                    }
                 }
                 $response['code'] = 200;
                 $response['message'] = 'Data Total Sudah di Ubah';

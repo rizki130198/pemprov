@@ -246,7 +246,7 @@
                 <?php 
                 $hasil = explode(',', $data->jenis_file);
                 $filenya = explode(',', $data->filenya);
-  $encrypt = explode(',', $data->encrypt);
+                $encrypt = explode(',', $data->encrypt);
                 for ($i=0; $i < count($hasil) ; $i++) {  ?>
                   <a href="{{url('/downloads/files/'.$encrypt[$i])}}">
                     <div class="col-md-2 col-xs-4"> 
