@@ -258,10 +258,7 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript">
-  WALL_ACTIVE = true;
-  fetchPost(0,0,0,10,-1,-1,'initialize');
-</script>
+<script src="{{ asset('js/spj.js') }}"></script>
 <script type="text/javascript">
 $(document).on('click', '.add-more-kwitansi', function(e){
   e.preventDefault();

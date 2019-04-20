@@ -264,11 +264,9 @@
       @endsection
 
       @section('footer')
+      <script src="{{ asset('js/file.js') }}"></script>
       <script type="text/javascript">
-        WALL_ACTIVE = true;
-        fetchPost(0,0,0,10,-1,-1,'initialize');
-      </script>
-      <script type="text/javascript">
+       showFile();
        $(document).on('click', '.add-more-kwitansi', function(e){
         e.preventDefault();
 

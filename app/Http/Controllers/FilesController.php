@@ -122,6 +122,15 @@ class FilesController extends Controller
         }
         return Response::json($response);
     }
+    public function GetFile()
+    {
+        $response = array();
+        $response['code'] = 200;
+        $file = FileUpload::all();
+        $html = View::make('file.newfile', compact('file'));
+        $response['html'] = $html->render();
+        return Response::json($response);
+    }
     public function Download($string)
     {
       return response()->download(storage_path("app/public/uploads/fileupload/".$string));
