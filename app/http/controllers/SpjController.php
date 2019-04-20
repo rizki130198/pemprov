@@ -290,28 +290,34 @@ class SpjController extends Controller
                     }  
                 }
             }else{
-              $pengajuan->snack = $data['snack'];
-              $pengajuan->makan = $data['makan'];
-              $pengajuan->nama_rapat = $data['nama_rapat'];
-              $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
-                if (Auth::user()->role == 'pptk') {
-                    $pengajuan->harga_snack = $data['total_snack'];
-                    $pengajuan->harga_makan = $data['total_makan'];
-                    $pengajuan->total_fix = $data['total'];
-                    $pengajuan->status = 'Terima';
-                }else{
-                    $pengajuan->total = $total;
-                    $pengajuan->status = 'Pending';
-                }
+                    $saldo = Saldo::all();
+                    $pendingnya = Formpengajuan::Where('status','!=','Tolak')->Where('status','!=','Tolak1')->Where('status','!=','Selesai')->sum('total');
+                    if ($pendingnya > $saldo[2]->saldo) {
+                        $response['code'] = 400;
+                        $response['message'] = 'Saldo Pagu Tidak Cukup, Karena Banyak Booking';
+                    }else{
+                      $pengajuan->snack = $data['snack'];
+                      $pengajuan->makan = $data['makan'];
+                      $pengajuan->nama_rapat = $data['nama_rapat'];
+                      $pengajuan->tanggal_rapat = date('Y-m-d',strtotime($data['tgl_rapat']));
+                      if (Auth::user()->role == 'pptk') {
+                        $pengajuan->harga_snack = $data['total_snack'];
+                        $pengajuan->harga_makan = $data['total_makan'];
+                        $pengajuan->total_fix = $data['total'];
+                        $pengajuan->status = 'Terima';
+                    }else{
+                        $pengajuan->total = $total;
+                        $pengajuan->status = 'Pending';
+                    }
                     if($pengajuan->save()){
                         $histori = new History_spj;
                         $histori->id_user = $pengajuan->id_user;
                         $histori->id_spj = $pengajuan->id_pengajuan;
                         $histori->comment = "Mengubah Form Booking";
-                    if ($histori->save()) {   
-                        $response['code'] = 200;
-                        $response['message'] = 'Data History sudah di simpan';
-                    }
+                        if ($histori->save()) {   
+                            $response['code'] = 200;
+                            $response['message'] = 'Data History sudah di simpan';
+                        }
                         $response['code'] = 200;
                         $response['message'] = 'Data sudah di simpan';
                     }else{
@@ -319,6 +325,7 @@ class SpjController extends Controller
                         $response['message'] = 'Data error silakan hubungi petugas terkait';
                     }  
                 }
+            }
             return Response::json($response);
         }
     }
