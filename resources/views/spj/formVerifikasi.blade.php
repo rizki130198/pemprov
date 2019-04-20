@@ -171,7 +171,7 @@
                   <div class="entry-absensi">
                     <div class="col-md-10">
                       <div class="well" style="padding: 5px;">
-                        <input type="file" name="myfile[]" multiple>
+                        <input type="file" name="ft_absen[]" multiple>
                       </div>
                     </div>
                     <div class="col-md-2">
@@ -190,7 +190,7 @@
                   <div class="entry-notulen">
                     <div class="col-md-10">
                       <div class="well" style="padding: 5px;">
-                        <input type="file" name="myfile[]" multiple>
+                        <input type="file" name="ft_notulen[]" multiple>
                       </div>
                     </div>
                     <div class="col-md-2">
@@ -211,7 +211,7 @@
                   <div class="entry-undangan">
                     <div class="col-md-10">
                       <div class="well" style="padding: 5px;">
-                        <input type="file" name="myfile[]" multiple>
+                        <input type="file" name="ft_undangan[]" multiple>
                       </div>
                     </div>
                     <div class="col-md-2">
@@ -230,7 +230,7 @@
                   <div class="entry-nota">
                     <div class="col-md-10">
                       <div class="well" style="padding: 5px;">
-                        <input type="file" name="myfile[]" multiple>
+                        <input type="file" name="ft_nota[]" multiple>
                       </div>
                     </div>
                     <div class="col-md-2">
@@ -258,10 +258,7 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript">
-  WALL_ACTIVE = true;
-  fetchPost(0,0,0,10,-1,-1,'initialize');
-</script>
+<script src="{{ asset('js/spj.js') }}"></script>
 <script type="text/javascript">
 $(document).on('click', '.add-more-kwitansi', function(e){
   e.preventDefault();

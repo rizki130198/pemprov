@@ -324,8 +324,6 @@
 <script src="{{ asset('js/notifications.js') }}"></script>
 <script src="{{ asset('js/grup.js') }}"></script> 
 <script src="{{ asset('js/event.js') }}"></script>
-<script src="{{ asset('js/spj.js') }}"></script>
-<script src="{{ asset('js/pengguna.js') }}"></script>
 @yield('footer')
 <script type="text/javascript">
     $(function () {

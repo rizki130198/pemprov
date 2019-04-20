@@ -88,6 +88,26 @@ input[type="checkbox"].switch_1:after{
 input[type="checkbox"].switch_1:checked:after{
 	left: calc(100% - 1.5em);
 }
+.scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollbar.thin::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #888;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(100,100,100,0.4); 
+}
 </style>
 <div class="h-20 res-post"></div>
 <div class="col-md-12 res-home">
@@ -115,7 +135,8 @@ input[type="checkbox"].switch_1:checked:after{
 					<div class="panel-body">
 						<br>
 						<h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Anggaran</h4>
-						<h5 style="color: #fff;">{{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
+						<h5 style="color: #fff;">Total anggaran {{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
+            <h5 style="color: #fff;">Anggaran yang terpakai {{ "Rp " . number_format($anggaran,2,',','.') }}</h5>
 					</div>
 				</a>
 			</div>               
@@ -126,7 +147,8 @@ input[type="checkbox"].switch_1:checked:after{
           <div class="panel-body">
             <br>
             <h4 style="color: #fff;letter-spacing: 3px;font-weight: bold;">Biaya Booking</h4>
-            <h5 style="color: #fff;">{{ "Rp " . number_format($total->saldo,2,',','.') }}</h5>
+            <h5 style="color: #fff;">Total Booking {{ "Rp " . number_format($total_booking,2,',','.') }}</h5>
+            <h5 style="color: #fff;">Sisa saldo Booking {{ "Rp " . number_format($total->saldo - $total_booking,2,',','.') }}</h5>
           </div>
         </a>
       </div>
@@ -196,9 +218,9 @@ input[type="checkbox"].switch_1:checked:after{
 </div>
 <div class="col-md-9 col-md-offset-3 col-xs-12 col-spj">
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">PENDING <span class="badge" style="background-color:#e74c3c;">2</span></a></li>
-    <li role="presentation"><a href="#tolak" aria-controls="tolak" role="tab" data-toggle="tab">Tolak <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
-    <li role="presentation"><a href="#terima" aria-controls="terima" role="tab" data-toggle="tab">Selesai <span class="badge" style="background-color:#e74c3c;">2</span></a></a></li>
+    <li role="presentation" class="active"><a href="#pending" aria-controls="pending" role="tab" data-toggle="tab">PENDING <span class="badge" style="background-color:#e74c3c;">{{$count1}}</span></a></li>
+    <li role="presentation"><a href="#tolak" aria-controls="tolak" role="tab" data-toggle="tab">Tolak <span class="badge" style="background-color:#e74c3c;">{{$tolak->count()}}</span></a></a></li>
+    <li role="presentation"><a href="#terima" aria-controls="terima" role="tab" data-toggle="tab">Selesai <span class="badge" style="background-color:#e74c3c;">{{$selesai->count()}}</span></a></a></li>
     <li style="display:none;float: right;font-size: 28px;padding-right: 10px;padding-top: 6px;color: #dedfe1;"><i class="fa fa-th-large"></i></li>
   </ul>
   <div class="tab-content">
@@ -237,7 +259,7 @@ input[type="checkbox"].switch_1:checked:after{
           @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'member')
           <td>Data Sudah di Verifikasi PPTK</td>
           @elseif($data->status == 'Verifikasi' AND Auth::user()->role == 'pptk')
-          <td>Data Harus di Verifikasi PPTK</td>
+          <td>Data Sudah di Verifikasi PPTK</td>
           @elseif($data->status == 'Terima' AND Auth::user()->role == 'subbag')
           <td>Data Harus di Verifikasi</td>
           @else
@@ -261,7 +283,7 @@ input[type="checkbox"].switch_1:checked:after{
           @elseif(Auth::user()->role == 'pptk' AND $data->status=='Verifikasi')
           <td>
             <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
-            <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
+            <a data-toggle="modal" data-target="#editFormpptk{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
           </td>@elseif(Auth::user()->role == 'pptk' AND $data->status=='Terima')
           <td>
             <a href="#" class="btn btn-success" disabled><i class="glyphicon glyphicon-ok"></i></a>
@@ -343,6 +365,7 @@ input[type="checkbox"].switch_1:checked:after{
                 <th>Nama</th>
                 <th style="width: 100px;">Biaya</th>
                 <th>Nama Rapat</th>
+                <th>Alasan</th>
                 <th>Tanggal Rapat</th>
                 <th>Status</th>
                 <th class="disabled-sorting">Actions</th>
@@ -355,6 +378,7 @@ input[type="checkbox"].switch_1:checked:after{
                 <td>{{$data->name}}</td>
                 <td>{{"Rp " . number_format($data->total,2,',','.')}}</td>
                 <td>{{$data->nama_rapat}}</td>
+                <td>{{$data->alasan}}</td>
                 <td>{{$data->tanggal_rapat}}</td>
                 @if($data->status == 'Tolak')
                 <td>Data di Tolak PPTK</td>
@@ -365,7 +389,7 @@ input[type="checkbox"].switch_1:checked:after{
                 <td>
                   <a data-toggle="modal" data-target="#editForm{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
                 </td>
-                @elseif($data->status=='Tolak' OR $data->status=='Tolak1')
+                @elseif($data->status=='Tolak' OR $data->status=='Tolak1' AND Auth::user()->role != 'member')
                 <td>
                   <a href="#" class="btn btn-danger" disabled><i class="glyphicon glyphicon-remove "></i></a>
                 </td>
@@ -388,39 +412,188 @@ input[type="checkbox"].switch_1:checked:after{
 <div class="modal fade" id="detailSpj{{$modalTerima->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" style="height: 80%;width: 70%;margin: auto 15%;">
     <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Detail Data Fix SPJ</h4>
-      </div>
-      <div class="modal-body">
-        <div class="table-responsive">
-          <table class="table table-striped table-no-bordered table-hover" style="width:100%">
-            <thead>
-              <tr>
-                <th>Harga Total Snack</th>
-                <th>Penyedia</th>
-                <th>Tanggal Kwitansi</th>
-                <th>Harga Total Makan Siang</th>
-                <th>Penyedia</th>
-                <th>Tanggal Kwitansi</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>100000</td>
-                <td>holand</td>
-                <td>1/1/1</td>
-                <td>100000</td>
-                <td>holand</td>
-                <td>1/1/1</td>
-                <td style="font-weight: bold;">Rp.200000</td>
-              </tr>
-            </tbody>
-          </table>  
+    <div class="modal-content scrollbar" style="overflow-y: scroll;">
+      <div>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Detail Data Fix SPJ</h4>
         </div>
-        <button type="submit" class="btn btn-primary pull-right">Terima</button>
+        <div class="modal-body">
+          <div class="table-responsive" style="overflow: hidden;">
+            <table class="table table-striped table-no-bordered table-hover" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>Harga Total Snack</th>
+                  <th>Penyedia</th>
+                  <th>Tanggal Kwitansi</th>
+                  <th>Harga Total Makan Siang</th>
+                  <th>Penyedia</th>
+                  <th>Tanggal Kwitansi</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>100000</td>
+                  <td>holand</td>
+                  <td>1/1/1</td>
+                  <td>100000</td>
+                  <td>holand</td>
+                  <td>1/1/1</td>
+                  <td style="font-weight: bold;">Rp.200000</td>
+                </tr>
+              </tbody>
+            </table>  
+            <div class="row">
+              <div class="col-md-6">
+                <label>Foto Kwitansi</label>
+                <div class='gallery'>
+                  <div class="row">
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
+                        <img style="width: 150px;height: 150px;" class="img-responsive" alt="" src="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
+                        <div class='text-right'>
+                          <small class='text-muted'>Kwitansi</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
+                        <img style="width: 150px;height: 150px;" class="img-responsive" alt="" src="https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Kwitansi</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label>Foto Kwitansi Dinas</label>
+                <div class='gallery'>
+                  <div class="row">
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Kwitansi Dinas</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Kwitansi Dinas</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <div class="row">
+              <div class="col-md-6">
+                <label>Foto Absensi</label>
+                <div class='gallery'>
+                  <div class="row">
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Absensi</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Absensi</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label>Foto Notulen</label>
+                <div class='gallery'>
+                  <div class="row">
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Notulen</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Notulen</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <div class="row">
+              <div class="col-md-6">
+                <label>Foto Undangan</label>
+                <div class='gallery'>
+                  <div class="row">
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Undangan</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                    <div class='col-md-4'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Undangan</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <label>Foto Nota</label>
+                <div class='gallery'>
+                  <div class="row">
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Nota</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                    <div class='col-md-5'>
+                      <a class="thumbnail fancybox" rel="ligthbox" href="http://placehold.it/300x320.png">
+                        <img style="width:150px;height:150px;" class="img-responsive" alt="" src="http://placehold.it/320x320" />
+                        <div class='text-right'>
+                          <small class='text-muted'>Nota</small>
+                        </div> <!-- text-right / end -->
+                      </a>
+                    </div> <!-- col-6 / end -->
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </div>
+          <div class="modal-footer" style="position: relative;">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success pull-right">Terima</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -431,18 +604,16 @@ input[type="checkbox"].switch_1:checked:after{
   <div class="modal-dialog" style="height: 37%;">
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Tolak Data Permohonan</h4>
-      </div>
-      <div class="modal-body">
-        <form action="javascript:void(0);" id="tolakForm{{$modalTolak->id_pengajuan}}" method="post" accept-charset="utf-8">
-          <div class="form-group">
-            <label for="inputevent">Keterangan Tolak</label>
-            <textarea name="alasan" class="form-control" placeholder="Masukan alasan ditolak" style="height: 100px;"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary pull-right">Kirim</button>
-        </form>
+     <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Tolak Permohonan</h4>
+    </div>
+    <div class="modal-body">
+      <form action="javascript:void(0);" id="tolakForm" method="post" accept-charset="utf-8">
+       <div class="form-group">
+        <input type="hidden" name="idpengajuan" value="{{$modalTolak->id_pengajuan}}">
+        <label for="inputevent">Keterangan Tolak</label>
+        <textarea name="alasan" class="form-control" placeholder="Masukan alasan ditolak" style="height: 100px;"></textarea>
       </div>
     </div>
   </div>
@@ -491,15 +662,55 @@ input[type="checkbox"].switch_1:checked:after{
 </div>
 </div>
 @endforeach
+@foreach($pending as $modal)
+<div class="modal fade" id="editFormpptk{{$modal->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
+ <div class="modal-dialog" style="height: 68%;">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Edit Data Permohonan oleh PPTK</h4>
+  </div>
+  <div class="modal-body">
+    <form action="javascript:void(0);" id="formubahspj" method="post" accept-charset="utf-8">
+     <div class="form-group">
+      <label for="inputevent">Nama Rapat</label>
+      <input type="text" name="nama_rapat" class="form-control" value="{{$modal->nama_rapat}}" placeholder="Nama Rapat" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label for="keterangan">Tanggal Rapat</label>
+      <input class="form-control" name="tgl_rapat" id="tanggal" value="{{date('m/d/Y',strtotime($modal->tanggal_rapat))}}" autocomplete="off">
+    </div>
+    <label for="keterangan">Snack</label>
+    <div class="form-group input-group">
+      <input type="number" class="form-control" id="snack" onkeyup="jumlahharga()" value="{{$modal->snack}}" name="snack" autocomplete="off">
+      <span class="input-group-addon">BOX</span>
+    </div>
+    <label for="keterangan">Makan Siang</label>
+    <div class="form-group input-group">
+      <input type="number" class="form-control" id="makan" onkeyup="jumlahharga()" name="makan" value="{{$modal->makan}}" autocomplete="off">
+      <span class="input-group-addon">BOX</span>
+    </div>
+    <div class="form-group">
+      <label for="keterangan">Total</label>
+      <input type="number" readonly class="form-control" name="total" id="total" value="{{$modal->total_fix}}" autocomplete="off">
+      <input type="hidden" value="{{$modal->status}}" id="booking" readonly class="form-control" name="status" >
+      <input type="hidden" value="{{$modal->id_pengajuan}}" class="form-control" name="id_form" >
+    </div>
+    <button type="submit" class="btn btn-primary pull-right">Ubah</button>
+  </form>
+</div>
+</div>
+</div>
+</div>
+@endforeach
 </div>
 </div>    
 @endsection
 
 @section('footer')
-<script type="text/javascript">
- WALL_ACTIVE = true;
- fetchPost(0,0,0,10,-1,-1,'initialize');
-</script>
+<script src="{{ asset('js/spj.js') }}"></script>
 <script type="text/javascript">
  $(document).ready( function () {
   $('#table_pengguna').DataTable();
@@ -543,5 +754,26 @@ input[type="checkbox"].switch_1:checked:after{
       uiLibrary: 'bootstrap'
     });
   });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".fancybox").fancybox({
+        openEffect: "none",
+        closeEffect: "none"
+    });
+});
+</script>
+<script type="text/javascript">
+  $(".scrollbar").addClass("thin");
+// If user has Javascript disabled, the thick scrollbar is shown
+$(".scrollbar").mouseover(function(){
+  $(this).removeClass("thin");
+});
+$(".scrollbar").mouseout(function(){
+  $(this).addClass("thin");
+});
+$(".scrollbar").scroll(function () {
+  $(".scrollbar").addClass("thin");
+});
 </script>
 @endsection
