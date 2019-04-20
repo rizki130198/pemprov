@@ -276,7 +276,7 @@ input[type="checkbox"].switch_1:checked:after{
           </td>
           @elseif(Auth::user()->role == 'admin' OR Auth::user()->role == 'subbag' AND $data->status=='Terima')
           <td>
-            <a onclick="kurangiSaldo('{{$data->id_pengajuan}}')" class="btn btn-success"><i class="glyphicon glyphicon-ok "></i></a>
+            <a data-toggle="modal" data-target="#detailSpj{{$data->id_pengajuan}}" class="btn btn-success"><i class="glyphicon glyphicon-ok "></i></a>
             <a onclick="Tolakverif('{{$data->id_pengajuan}}')" class="btn btn-danger"><i class="glyphicon glyphicon-remove "></i></a>
           </td>
           @endif
@@ -384,26 +384,68 @@ input[type="checkbox"].switch_1:checked:after{
   </div>
 </div>    
 </div>
+@foreach($pending as $modalTerima)
+<div class="modal fade" id="detailSpj{{$modalTerima->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" style="height: 80%;width: 70%;margin: auto 15%;">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Detail Data Fix SPJ</h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-no-bordered table-hover" style="width:100%">
+            <thead>
+              <tr>
+                <th>Harga Total Snack</th>
+                <th>Penyedia</th>
+                <th>Tanggal Kwitansi</th>
+                <th>Harga Total Makan Siang</th>
+                <th>Penyedia</th>
+                <th>Tanggal Kwitansi</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>100000</td>
+                <td>holand</td>
+                <td>1/1/1</td>
+                <td>100000</td>
+                <td>holand</td>
+                <td>1/1/1</td>
+                <td style="font-weight: bold;">Rp.200000</td>
+              </tr>
+            </tbody>
+          </table>  
+        </div>
+        <button type="submit" class="btn btn-primary pull-right">Terima</button>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
 @foreach($pending as $modalTolak)
 <div class="modal fade" id="tolakForm{{$modalTolak->id_pengajuan}}" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" style="height: 37%;">
     <!-- Modal content-->
     <div class="modal-content">
-     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
-      <h4 class="modal-title">Tolak Permohonan</h4>
-    </div>
-    <div class="modal-body">
-      <form action="javascript:void(0);" id="tolakForm{{$modalTolak->id_pengajuan}}" method="post" accept-charset="utf-8">
-       <div class="form-group">
-        <label for="inputevent">Keterangan Tolak</label>
-        <textarea name="alasan" class="form-control" placeholder="Masukan alasan ditolak" style="height: 100px;"></textarea>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Tolak Data Permohonan</h4>
       </div>
-      <button type="submit" class="btn btn-primary pull-right">Kirim</button>
-    </form>
+      <div class="modal-body">
+        <form action="javascript:void(0);" id="tolakForm{{$modalTolak->id_pengajuan}}" method="post" accept-charset="utf-8">
+          <div class="form-group">
+            <label for="inputevent">Keterangan Tolak</label>
+            <textarea name="alasan" class="form-control" placeholder="Masukan alasan ditolak" style="height: 100px;"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary pull-right">Kirim</button>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 </div>
 @endforeach
 @foreach($pending as $modal)
