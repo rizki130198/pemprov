@@ -55,6 +55,7 @@ class SpjController extends Controller
         $total = Saldo::Where('nama','=','total')->get()->first();
         $anggaran = Formpengajuan::where('status','=','Selesai')->sum('total_fix');
         $total_booking = Formpengajuan::where('status','=','Pending')->orwhere('status','=','Verifikasi')->orwhere('status','=','Terima')->sum('total');
+        $orang = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','=','Verifikasi')->orderBy('pengajuan_spj.updated_at','DESC')->get();
         $saldo = Saldo::all();
         if (Auth::user()->role != 'member') {
             $pending = FormPengajuan::join('users','users.id','=','pengajuan_spj.id_user')->where('status','!=','Selesai')->where('status','!=','Tolak')->where('status','!=','Tolak1')->orderBy('pengajuan_spj.updated_at','DESC')->get();
@@ -140,7 +141,8 @@ class SpjController extends Controller
             'new_post_group_id' => 0
         ];
         $verif = Formpengajuan::find($id);
-        if ($verif->status != 'Verifikasi' AND $verif->status != 'Tolak1') {
+        // AND $verif->tgl_expired > Carbon::now()
+        if ($verif->status != 'Verifikasi' AND $verif->status != 'Tolak1' ) {
            return redirect('/spj')->with('error','Data Anda Sedang Di Proses Mohon di Tunggu');
         }else{
             return view('spj.formVerifikasi', compact('user','data','user_list','verif'));
@@ -369,6 +371,7 @@ class SpjController extends Controller
         $pengajuan->status = 'Verifikasi';
         $pengajuan->baca_pptk = '0';
         $pengajuan->tgl_verif = Carbon::now();
+        // $pengajuan->tgl_expired = new Carbon($pengajuan->tgl_rapat)->addDay(5);
         if($pengajuan->save()){
             $histori = new History_spj;
             $histori->id_user = $pengajuan->id_user;

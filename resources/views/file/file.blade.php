@@ -251,7 +251,7 @@
                   <a href="{{url('/downloads/files/'.$encrypt[$i])}}">
                     <div class="col-md-2 col-xs-4"> 
                       <center><div class="icon icon_type_file icon_ext_{{$hasil[$i]}}">{{$hasil[$i]}}</div></center>
-                      <p align="center" style="color: #555;">{{$filenya[$i]}}</p>
+                      <p align="center" style="color: #555;">{{substr($filenya[$i],0,10)}}</p>
                     </div>
                   </a>
                 <?php } ?>
